@@ -1,0 +1,9 @@
+/alire/
+/config/
+/tmp/
+/**/.vscode/
+/**/bin/
+/**/obj/
+/**/shared/
+.gitmodules
+project_euler/usr/
