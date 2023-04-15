@@ -6,4 +6,6 @@
 /**/obj/
 /**/shared/
 .gitmodules
+.setup
+
 project_euler/
