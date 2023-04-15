@@ -10,6 +10,8 @@ with GNAT.Directory_Operations;
 with GNAT.OS_Lib;
 with Simple_Logging;
 
+use all type GNAT.OS_Lib.String_Access;
+
 package body Alice_Command.Setup is
 
    package Log renames Simple_Logging;
@@ -19,15 +21,24 @@ package body Alice_Command.Setup is
    -----------------
 
    procedure Setup_Alice is
-      FD     : GNAT.OS_Lib.File_Descriptor;
-      Status : Integer;
+      FD : GNAT.OS_Lib.File_Descriptor;
+
+      Git_Cmd : GNAT.OS_Lib.String_Access;
 
       Str_Restore  : aliased String := "restore";
       Str_CWD      : aliased String := ".";
       Str_Checkout : aliased String := "checkout";
       Str_Main     : aliased String := "main";
+
+      Status  : Integer;
    begin
       pragma Unreferenced (FD);
+
+      Git_Cmd := GNAT.OS_Lib.Locate_Exec_On_Path ("git");
+      if Git_Cmd = null then
+         Log.Error ("git cannot be found in PATH");
+         return;
+      end if;
 
       Log.Info ("Setup Alice: first time execution");
       FD := GNAT.OS_Lib.Create_File (".setup", GNAT.OS_Lib.Text);
@@ -36,14 +47,16 @@ package body Alice_Command.Setup is
       Log.Detail ("restoring files modified by alr");
       Status :=
         GNAT.OS_Lib.Spawn
-          ("git", [Str_Restore'Unchecked_Access, Str_CWD'Unchecked_Access]);
+          (Git_Cmd.all,
+           [Str_Restore'Unchecked_Access, Str_CWD'Unchecked_Access]);
       Log.Debug ("git restore returns" & Status'Image);
 
       --  switch to branch 'main'
       Log.Detail ("checkout branch main");
       Status :=
         GNAT.OS_Lib.Spawn
-          ("git", [Str_Checkout'Unchecked_Access, Str_Main'Unchecked_Access]);
+          (Git_Cmd.all,
+           [Str_Checkout'Unchecked_Access, Str_Main'Unchecked_Access]);
       Log.Debug ("git checkout main returns" & Status'Image);
    end Setup_Alice;
 
@@ -59,6 +72,8 @@ package body Alice_Command.Setup is
    begin
       if not Exists_Setup_File then
          Setup_Alice;
+      else
+         Log.Debug ("Alice already setup");
       end if;
 
    end Execute;
