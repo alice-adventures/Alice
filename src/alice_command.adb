@@ -8,6 +8,7 @@
 
 with Alice_Config;
 
+with Alice_Command.Setup;
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
 with GNAT.OS_Lib;
@@ -84,6 +85,10 @@ package body Alice_Command is
                      Global_Switch.Verbose'Access,
                      "-v", "--verbose",
                      Help => "Show command activity");
+      Define_Switch (Config,
+                     Global_Switch.Verbose'Access,
+                     "-d", "--detail",
+                     Help => "Show detailed information");
 
       pragma Warnings (Off);
       if Global_Switch.Profile = Alice_Config.development then
@@ -124,5 +129,10 @@ package body Alice_Command is
       Command.Execute;
       Log.Debug ("Command.Execute end");
    end Execute;
+
+begin
+
+   Command.Register (new Command.Builtin_Help);
+   Command.Register (new Alice_Command.Setup.Cmd_Type);
 
 end Alice_Command;
