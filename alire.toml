@@ -1,32 +1,18 @@
-authors = [
-"Francesc Rocher",
-]
-description = "Adventures for Learning and Inspiring Coding Excellence"
-licenses = "MIT"
-maintainers = [
-"Francesc Rocher <francesc.rocher@gmail.com>",
-]
-maintainers-logins = [
-"rocher",
-]
 name = "alice"
-tags = [
-"alice",
-"adventures",
-"learning",
-"mathematics",
-"problems",
-"challenges",
-]
-version = "0.1.2-dev"
+description = "Adventures for Learning and Inspiring Coding Excellence"
+tags = [ "alice", "adventures", "learning", "mathematics", "problems", "challenges" ]
+version = "0.1.3-dev"
 website = "https://github.com/rocher/Alice/wiki"
+licenses = "MIT"
+
+authors = [ "Francesc Rocher" ]
+maintainers = [ "Francesc Rocher <francesc.rocher@gmail.com>" ]
+maintainers-logins = [ "rocher" ]
+
 [build-switches]
 [build-switches."*"]
-ada_version = [
-"-gnat2022",
-"-gnatX",
-]
+ada_version = [ "-gnat2022", "-gnatX" ]
+
 [[depends-on]]
 clic = "~0.2.1"
 simple_logging = "^1.2.0"
-
