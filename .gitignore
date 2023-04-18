@@ -1,11 +1,12 @@
 /alire/
 /config/
+/.setup/
 /tmp/
+.gitmodules
+
 /**/.vscode/
 /**/bin/
 /**/obj/
 /**/shared/
-.gitmodules
-.setup
 
 project_euler/

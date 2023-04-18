@@ -27,9 +27,9 @@ package body Alice_Command is
       Help    : aliased Boolean := False;
       Color   : aliased Boolean := True;
       TTY     : aliased Boolean := True;
-      Verbose : aliased Boolean := True;
-      Detail  : aliased Boolean := False;
-      Debug   : aliased Boolean := False;
+      Verbose : aliased Boolean := False; --  describe command activity
+      Detail  : aliased Boolean := False; --  show command details
+      Debug   : aliased Boolean := False; --  show program details
    end record;
 
    Global_Switch : Global_Switches_Type (Alice_Config.Build_Profile);
@@ -86,9 +86,9 @@ package body Alice_Command is
                      "-v", "--verbose",
                      Help => "Show command activity");
       Define_Switch (Config,
-                     Global_Switch.Verbose'Access,
+                     Global_Switch.Detail'Access,
                      "-d", "--detail",
-                     Help => "Show detailed information");
+                     Help => "Show command details");
 
       pragma Warnings (Off);
       if Global_Switch.Profile = Alice_Config.development then
@@ -110,19 +110,32 @@ package body Alice_Command is
    begin
       Command.Parse_Global_Switches;
 
+      Log.Level := Log.Warning;
+
+      if Global_Switch.Verbose then
+         Log.Level := Log.Info;
+         Log.Info ("describe command activity");
+      end if;
+
+      if Global_Switch.Detail then
+         Log.Level := Log.Detail;
+         Log.Detail ("show command details");
+      end if;
+
       if Global_Switch.Debug then
          Log.Level := Log.Debug;
+         Log.Debug ("show program details");
          Log.Debug ("Global_Switch" & Global_Switch'Image);
       end if;
 
       if not Global_Switch.TTY then
          CLIC.TTY.Force_Disable_TTY;
-         Log.Debug ("Disable TTY");
+         Log.Detail ("disable TTY");
       end if;
 
       if Global_Switch.Color and then Global_Switch.TTY then
          CLIC.TTY.Enable_Color (Force => False);
-         Log.Debug ("Enable Color");
+         Log.Detail ("enable Color");
       end if;
 
       Log.Debug ("Command.Execute begin");
