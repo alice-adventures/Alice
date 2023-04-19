@@ -1,1 +1,1 @@
-Feel dree to use these setting in your .vscode folder.
+Feel free to use these setting in your .vscode folder
