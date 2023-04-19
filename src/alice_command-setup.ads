@@ -24,9 +24,18 @@ package Alice_Command.Setup is
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector);
 
+   --!pp off
+   pragma Style_Checks (off);
    overriding function Long_Description
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
-     (AAA.Strings.Empty_Vector.Append ("blah"));
+     (AAA.Strings.Empty_Vector
+         .Append ("Creates a new Problem Source directory, populating it with all required")
+         .Append ("files and libraries. It can retrieve the necessary resources form another")
+         .Append ("repository.")
+         .Append ("Available Problem Sources: project-euler")
+     );
+   pragma Style_Checks (on);
+   --!pp on
 
    overriding procedure Setup_Switches
      (Cmd    : in out Cmd_Type;
@@ -37,6 +46,12 @@ package Alice_Command.Setup is
 
    overriding function Usage_Custom_Parameters
      (Cmd : Cmd_Type) return String is
-     ("");
+     ("[Problem Source]");
+
+private
+
+   function Is_Alice_Root_Dir return Boolean;
+   function Alice return Boolean;
+   function Project_Euler return Boolean;
 
 end Alice_Command.Setup;
