@@ -1,7 +1,12 @@
 name = "alice"
-version = "0.1.5-dev"
+version = "0.1.6-dev"
 description = "Adventures for Learning and Inspiring Coding Excellence"
-website = "https://github.com/rocher/Alice/wiki"
+website = "https://github.com/alice-adventures/Alice/wiki"
+
+authors = ["Francesc Rocher"]
+maintainers = ["Francesc Rocher <francesc.rocher@gmail.com>"]
+maintainers-logins = ["rocher"]
+
 licenses = "MIT"
 tags = [
    "alice",
@@ -12,16 +17,13 @@ tags = [
    "challenges",
 ]
 
-authors = ["Francesc Rocher"]
-maintainers = ["Francesc Rocher <francesc.rocher@gmail.com>"]
-maintainers-logins = ["rocher"]
-
 [build-profiles]
-"alice" = "release"
+"alice" = "development"
 
 [build-switches."*"]
 ada_version = ["-gnat2022", "-gnatX"]
 
 [[depends-on]]
 clic = "~0.2.1"
+json = "^5.0.3"
 simple_logging = "^1.2.0"
