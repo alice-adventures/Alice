@@ -1,10 +1,3 @@
-<!--
-[![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/alice.json)](https://alire.ada.dev/crates/alice.html)
-[![Alire CI/CD](https://img.shields.io/endpoint?url=https://alire-crate-ci.ada.dev/badges/alice.json)](https://alire-crate-ci.ada.dev/crates/alice.html)
-[![GitHub release](https://img.shields.io/github/release/rocher/alice.svg)](https://github.com/rocher/alice/releases/latest)
-[![License](https://img.shields.io/github/license/rocher/alice.svg?color=blue)](https://github.com/rocher/alice/blob/master/LICENSE)
--->
-
 <img src="https://raw.githubusercontent.com/wiki/alice-adventures/Alice/Alice_Adventures.png" width="250" />
 
 # Alice
