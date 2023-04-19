@@ -7,21 +7,21 @@
 ## Presentation
 
 Alice is an open source Ada programming language framework designed to help
-programmers implement and explore different solutions to problems from
-various sources, including Project Euler, Codingame and Advent of Code
-(currently, Alice only support for Project Euler). With Alice, you can flex
-your coding muscles and work on problems that challenge your creativity,
-logic, and problem-solving skills.
+programmers implement and explore different solutions to problems from various
+sources, including Project Euler, Codingame and Advent of Code (currently, Alice
+only supports Project Euler). With Alice, you can flex your coding muscles and
+work on problems that challenge your creativity, logic, and problem-solving
+skills.
 
 At the heart of Alice is a commitment to coding excellence, and Ada and SPARK
 are the perfect languages to bring this vision to life. As a high-level
 programming language designed for safety, reliability, and efficiency, Ada
 provides a powerful and flexible toolset for programmers to create robust and
-scalable software solutions. With Ada, you can write clean, concise, and
-elegant code that is easy to read and maintain, helping to ensure that your
-programs are error-free and performant. So whether you're a seasoned Ada
-programmer or new to the language, Alice is the perfect platform to hone your
-skills and push your limits.
+scalable software solutions. With Ada, you can write clean, concise, and elegant
+code that is easy to read and maintain, helping to ensure that your programs are
+error-free and performant. So whether you're a seasoned Ada programmer or new to
+the language, Alice is the perfect platform to hone your skills and push your
+limits.
 
 > ### See [Alice wiki](https://github.com/rocher/Alice/wiki) for more information.
 
