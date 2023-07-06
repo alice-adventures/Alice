@@ -11,14 +11,27 @@ use all type GNAT.OS_Lib.String_Access;
 
 package OS_Cmd is
 
-   type OS_Cmd_Type is abstract tagged record
-      OS_Path : GNAT.OS_Lib.String_Access;
+   type OS_Cmd_Type is abstract tagged limited private;
+
+   type Run_Output_Type is record
+      Return_Code : Integer;
+      Temp_FD     : GNAT.OS_Lib.File_Descriptor;
+      Temp_File   : GNAT.OS_Lib.String_Access;
    end record;
 
    procedure Init (Cmd : in out OS_Cmd_Type) is abstract;
-   function Path (Cmd : OS_Cmd_Type) return String is (Cmd.OS_Path.all);
+
+   function Path (Cmd : OS_Cmd_Type) return String;
+
+   procedure Run
+     (Cmd : OS_Cmd_Type; Args : String; Run_Output : out Run_Output_Type);
+   procedure Clean (Cmd : OS_Cmd_Type; Run_Output : out Run_Output_Type);
 
 private
+
+   type OS_Cmd_Type is abstract tagged limited record
+      OS_Path : GNAT.OS_Lib.String_Access;
+   end record;
 
    procedure Init (Cmd : in out OS_Cmd_Type; Cmd_Name : String);
 
