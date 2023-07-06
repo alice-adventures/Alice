@@ -6,12 +6,15 @@
 --
 -------------------------------------------------------------------------------
 
-with AAA.Strings;
 with AAA.Table_IO;
 with AAA.Text_IO;
 with Text_IO;
 
 package body Alice_Cmd.PSource.List is
+
+   -------------
+   -- Execute --
+   -------------
 
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector)
@@ -32,8 +35,13 @@ package body Alice_Cmd.PSource.List is
       Table.Print ("    ");
 
       Text_IO.Put_Line ("");
+
+      pragma Style_Checks (off);
+
       AAA.Text_IO.Put_Paragraph
         ("Note: when required, use the 'tag' in alice commands to refer to a specific Problem Source");
+
+      pragma Style_Checks (on);
    end Execute;
 
 end Alice_Cmd.PSource.List;

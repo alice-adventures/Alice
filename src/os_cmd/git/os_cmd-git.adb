@@ -6,17 +6,15 @@
 --
 -------------------------------------------------------------------------------
 
-package body Alice_Cmd.PSource is
+package body OS_Cmd.Git is
 
-   function Is_Valid_Tag (Tag : Unbounded_String) return Boolean is
+   ----------
+   -- Init --
+   ----------
+
+   overriding procedure Init (OS_Cmd : in out OS_Cmd_Git_Type) is
    begin
-      for PSource of Available_PSources loop
-         if PSource.Tag = Tag then
-            return True;
-         end if;
-      end loop;
+      OS_Cmd.Init ("git");
+   end Init;
 
-      return False;
-   end Is_Valid_Tag;
-
-end Alice_Cmd.PSource;
+end OS_Cmd.Git;

@@ -30,7 +30,8 @@ package Alice_Cmd.Setup.Check is
    overriding function Long_Description
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
      (AAA.Strings.Empty_Vector
-         .Append ("Check that your system is ready to work with Alice.")
+         .Append ("Check that your system is ready to work with Alice and that it has all required dependencies.")
+         .Append ("It also checks that 'alice' can create repositories in your GitHub account. This is used to setup new Problem Sources for you to store and share your work.")
      );
 
    pragma Style_Checks (on);
