@@ -13,7 +13,7 @@ with Simple_Logging;
 
 use all type GNAT.OS_Lib.String_Access;
 
-package body Alice_Command.PSource is
+package body Alice_Cmd.PSource.Init is
 
    package Log renames Simple_Logging;
 
@@ -42,7 +42,7 @@ package body Alice_Command.PSource is
       end if;
 
       if Args_Length = 0 then
-         Log.Error ("Too few arguments: Problem Source required");
+         Log.Error ("Too few arguments: Problem Source Tag required");
          return;
       end if;
 
@@ -57,7 +57,7 @@ package body Alice_Command.PSource is
       begin
          pragma Unreferenced (Success);
          if Problem_Source = "project_euler" then
-            Success := PSource.Project_Euler;
+            Success := PSource.Init.Project_Euler;
             Log.Always ("Project Euler successfully setup");
          else
             Log.Error ("Unknown Problem Source '" & Problem_Source & "'");
@@ -65,4 +65,4 @@ package body Alice_Command.PSource is
       end;
    end Execute;
 
-end Alice_Command.PSource;
+end Alice_Cmd.PSource.Init;

@@ -6,8 +6,17 @@
 --
 -------------------------------------------------------------------------------
 
-package Alice_Command is
+package body Alice_Cmd.PSource is
 
-   procedure Execute;
+   function Is_Valid_Tag (Tag : Unbounded_String) return Boolean is
+   begin
+      for PSource of Available_PSources loop
+         if PSource.Tag = Tag then
+            return True;
+         end if;
+      end loop;
 
-end Alice_Command;
+      return False;
+   end Is_Valid_Tag;
+
+end Alice_Cmd.PSource;

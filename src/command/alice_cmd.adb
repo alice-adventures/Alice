@@ -8,7 +8,9 @@
 
 with Alice_Config;
 
-with Alice_Command.PSource;
+with Alice_Cmd.PSource.List;
+with Alice_Cmd.PSource.Init;
+
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
 with GNAT.OS_Lib;
@@ -16,7 +18,7 @@ with Simple_Logging;
 
 with Text_IO;
 
-package body Alice_Command is
+package body Alice_Cmd is
 
    package Log renames Simple_Logging;
 
@@ -38,7 +40,7 @@ package body Alice_Command is
      (Config : in out CLIC.Subcommand.Switches_Configuration);
 
    --!pp OFF
-   package Command is new CLIC.Subcommand.Instance
+   package CLI_Command is new CLIC.Subcommand.Instance
      (Main_Command_Name   => Alice_Config.Crate_Name,
       Version             =>
         (if Alice_Config.Build_Profile /= Alice_Config.release then
@@ -108,7 +110,7 @@ package body Alice_Command is
 
    procedure Execute is
    begin
-      Command.Parse_Global_Switches;
+      CLI_Command.Parse_Global_Switches;
 
       Log.Level := Log.Warning;
 
@@ -139,13 +141,16 @@ package body Alice_Command is
       end if;
 
       Log.Debug ("Command.Execute begin");
-      Command.Execute;
+      CLI_Command.Execute;
       Log.Debug ("Command.Execute end");
    end Execute;
 
 begin
 
-   Command.Register (new Command.Builtin_Help);
-   Command.Register (new Alice_Command.PSource.Cmd_Type);
+   CLI_Command.Register ("General", new CLI_Command.Builtin_Help);
+   CLI_Command.Register
+     ("Problem Sources", new Alice_Cmd.PSource.List.Cmd_Type);
+   CLI_Command.Register
+     ("Problem Sources", new Alice_Cmd.PSource.Init.Cmd_Type);
 
-end Alice_Command;
+end Alice_Cmd;

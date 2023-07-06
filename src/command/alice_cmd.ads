@@ -6,11 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Cmd;
+package Alice_Cmd is
 
-procedure Alice is
-begin
+   procedure Execute;
 
-   Alice_Cmd.Execute;
-
-end Alice;
+end Alice_Cmd;

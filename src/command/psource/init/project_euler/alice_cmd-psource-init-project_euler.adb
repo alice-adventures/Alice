@@ -7,7 +7,7 @@
 -------------------------------------------------------------------------------
 
 with Ada.Text_IO;
-separate (Alice_Command.PSource)
+separate (Alice_Cmd.PSource.Init)
 
 -------------------
 -- Project_Euler --
@@ -30,7 +30,7 @@ begin
         Image);
 
    if Exists_Project_Euler_Repository then
-      Log.Warning ("Project Euler already setup");
+      Log.Warning ("Project Euler already exists");
       return False;
    end if;
 
