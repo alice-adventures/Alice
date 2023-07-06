@@ -17,32 +17,34 @@ package Alice_Cmd.PSource.List is
      (Cmd : Cmd_Type) return CLIC.Subcommand.Identifier is
      ("list");
 
-   overriding function Switch_Parsing
-     (Cmd : Cmd_Type) return CLIC.Subcommand.Switch_Parsing_Kind is
-     (CLIC.Subcommand.Parse_All);
+   overriding function Usage_Custom_Parameters
+     (Cmd : Cmd_Type) return String is
+     ("");
 
-   overriding procedure Execute
-     (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector);
+   overriding function Short_Description (Cmd : Cmd_Type) return String is
+     ("List available Problem Sources");
 
    --!pp off
    pragma Style_Checks (off);
+
    overriding function Long_Description
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
      (AAA.Strings.Empty_Vector
          .Append ("List all available Problem Sources in Alice.")
      );
+
    pragma Style_Checks (on);
    --!pp on
+
+   overriding function Switch_Parsing
+     (Cmd : Cmd_Type) return CLIC.Subcommand.Switch_Parsing_Kind is
+     (CLIC.Subcommand.Parse_All);
 
    overriding procedure Setup_Switches
      (Cmd    : in out Cmd_Type;
       Config : in out CLIC.Subcommand.Switches_Configuration) is null;
 
-   overriding function Short_Description (Cmd : Cmd_Type) return String is
-     ("List available Problem Sources");
-
-   overriding function Usage_Custom_Parameters
-     (Cmd : Cmd_Type) return String is
-     ("");
+   overriding procedure Execute
+     (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector);
 
 end Alice_Cmd.PSource.List;

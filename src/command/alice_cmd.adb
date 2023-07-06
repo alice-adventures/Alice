@@ -8,6 +8,7 @@
 
 with Alice_Config;
 
+with Alice_Cmd.Setup.Check;
 with Alice_Cmd.PSource.List;
 with Alice_Cmd.PSource.Init;
 
@@ -148,6 +149,10 @@ package body Alice_Cmd is
 begin
 
    CLI_Command.Register ("General", new CLI_Command.Builtin_Help);
+
+   CLI_Command.Register
+     ("Setup", new Alice_Cmd.Setup.Check.Cmd_Type);
+
    CLI_Command.Register
      ("Problem Sources", new Alice_Cmd.PSource.List.Cmd_Type);
    CLI_Command.Register
