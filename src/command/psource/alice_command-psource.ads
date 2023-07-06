@@ -9,7 +9,7 @@
 with AAA.Strings;
 with CLIC.Subcommand;
 
-package Alice_Command.Setup is
+package Alice_Command.PSource is
 
    type Cmd_Type is new CLIC.Subcommand.Command with null record;
 
@@ -50,8 +50,6 @@ package Alice_Command.Setup is
 
 private
 
-   function Is_Alice_Root_Dir return Boolean;
-   function Alice return Boolean;
    function Project_Euler return Boolean;
 
-end Alice_Command.Setup;
+end Alice_Command.PSource;

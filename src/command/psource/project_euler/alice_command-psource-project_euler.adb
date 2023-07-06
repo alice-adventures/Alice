@@ -6,7 +6,13 @@
 --
 -------------------------------------------------------------------------------
 
-separate (Alice_Command.Setup)
+with Ada.Text_IO;
+separate (Alice_Command.PSource)
+
+-------------------
+-- Project_Euler --
+-------------------
+
 function Project_Euler return Boolean is
    Alr_Cmd : GNAT.OS_Lib.String_Access;
    Git_Cmd : GNAT.OS_Lib.String_Access;
@@ -18,8 +24,13 @@ function Project_Euler return Boolean is
 begin
    Log.Info ("setup project_euler");
 
+   Ada.Text_IO.Put_Line
+     (GNAT.OS_Lib.Argument_String_To_List
+        ("git pull --all --tags --force").all'
+        Image);
+
    if Exists_Project_Euler_Repository then
-      Log.Error ("Project Euler already setup");
+      Log.Warning ("Project Euler already setup");
       return False;
    end if;
 

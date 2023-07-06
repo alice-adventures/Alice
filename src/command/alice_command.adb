@@ -8,7 +8,7 @@
 
 with Alice_Config;
 
-with Alice_Command.Setup;
+with Alice_Command.PSource;
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
 with GNAT.OS_Lib;
@@ -146,6 +146,6 @@ package body Alice_Command is
 begin
 
    Command.Register (new Command.Builtin_Help);
-   Command.Register (new Alice_Command.Setup.Cmd_Type);
+   Command.Register (new Alice_Command.PSource.Cmd_Type);
 
 end Alice_Command;

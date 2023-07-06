@@ -6,23 +6,18 @@
 --
 -------------------------------------------------------------------------------
 
-with GNAT.Directory_Operations;
+with Alice_Setup;
+
 with GNAT.OS_Lib;
 with Simple_Logging;
 
 use all type GNAT.OS_Lib.String_Access;
 
-package body Alice_Command.Setup is
+package body Alice_Command.PSource is
 
    package Log renames Simple_Logging;
 
-   function Alice return Boolean is separate;
    function Project_Euler return Boolean is separate;
-
-   function Is_Alice_Root_Dir return Boolean is
-   begin
-      return True;
-   end Is_Alice_Root_Dir;
 
    -------------
    -- Execute --
@@ -38,7 +33,7 @@ package body Alice_Command.Setup is
    begin
       if not Exists_Setup_Directory then
          Log.Detail ("setup directory not found");
-         if not Setup.Alice then
+         if not Alice_Setup.Initialize then
             Log.Always ("Alice could not be configured, aborting");
             return;
          end if;
@@ -47,11 +42,13 @@ package body Alice_Command.Setup is
       end if;
 
       if Args_Length = 0 then
-         Log.Error ("Too few arguments: problem source required");
+         Log.Error ("Too few arguments: Problem Source required");
+         return;
       end if;
 
       if Args_Length > 1 then
          Log.Error ("Too many arguments");
+         return;
       end if;
 
       declare
@@ -59,14 +56,13 @@ package body Alice_Command.Setup is
          Success        : Boolean;
       begin
          pragma Unreferenced (Success);
-
          if Problem_Source = "project_euler" then
-            Success := Setup.Project_Euler;
-            Log.Always ("project_euler successfully setup");
+            Success := PSource.Project_Euler;
+            Log.Always ("Project Euler successfully setup");
          else
-            Log.Error ("Unknown problem source " & Problem_Source);
+            Log.Error ("Unknown Problem Source '" & Problem_Source & "'");
          end if;
       end;
    end Execute;
 
-end Alice_Command.Setup;
+end Alice_Command.PSource;
