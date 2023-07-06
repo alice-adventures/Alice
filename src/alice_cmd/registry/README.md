@@ -1,3 +1,3 @@
 # Command Group `registry`
 
-  1. `sign` : Register the user as new Alice Participant.
+  1. `enroll` : Add the user as a new Alice Participant.

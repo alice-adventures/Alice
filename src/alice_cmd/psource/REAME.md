@@ -13,9 +13,13 @@
      * main repository
      * template repository
      * shared resources
-     * problems solved by other participants
 
-  1. `publish PSOURCE` : push new problems solved into user repository
+  1. `push PSOURCE` : push new problems solved into user repository
+
+  1. `log PSOURCE` : check if there are new problems solved y other
+     Participants.
+
+   1. `pull PSOURCE` : get latest problems solved by other Participants.
 
   1. `share PSOURCE` : push new stuff added into the shared repository
 

@@ -8,7 +8,7 @@
 
 package Alice_Cmd.Setup is
 
-   Setup_Directory  : constant String := ".setup";
+   Setup_Directory  : constant String := "config";
    User_Config_File : constant String := "user.toml";
 
 end Alice_Cmd.Setup;

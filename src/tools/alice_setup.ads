@@ -5,6 +5,7 @@ package Alice_Setup is
 
 private
 
+   function Is_Alice_Repository return Boolean is (True);
    function Is_Alice_Root_Dir return Boolean is (True);
 
 end Alice_Setup;
