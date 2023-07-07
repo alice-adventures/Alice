@@ -19,10 +19,10 @@ package Alice_Cmd.Setup.Config is
 
    overriding function Usage_Custom_Parameters
      (Cmd : Cmd_Type) return String is
-     ("");
+     ("TOKEN");
 
    overriding function Short_Description (Cmd : Cmd_Type) return String is
-     ("Config Participant profile");
+     ("Configure Participant profile");
 
    --!pp off
    pragma Style_Checks (off);
@@ -30,8 +30,13 @@ package Alice_Cmd.Setup.Config is
    overriding function Long_Description
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
      (AAA.Strings.Empty_Vector
-         .Append ("Config Participant profile. This include GitHub username, email address and GitHub personal access token to enable interaction through the GitHub REST API.")
-         .Append ("Visit https://github.com/settings/tokens to create your own token to work with Alice. It must have the 'repo' scope. Select the expiration date of your choice. Once expired, generate a new one and use this command to update it.")
+         .Append ("Configure Participant profile. This includes the name, then GitHub login and the email address. This information is taken from GitHub (or 'git config') using a personal access token associated to a valid GitHub personal account (of a user, not an organization).")
+         .New_Line
+         .Append ("The GitHub token enables interaction through the GitHub REST API. It is necessary to clone Problem Sources repositories in your GitHub account. All repositories created to work with Alice share the prefix 'alice-', e.g. 'alice-project_euler'.")
+         .New_Line
+         .Append ("Your GitHub token exclusively created to work with Alice must be kept in secret. Do not shared it with other users and do not use it for other applications. It is stored in the user configuration file, which is ignored by git to not to push it accidentally.")
+         .New_Line
+         .Append ("Visit https://github.com/settings/tokens to create your GitHub token. It must have the 'repo' scope. Select the expiration date of your choice. Once expired, generate a new one and use this command to update it. We strongly recommend to create a 'classic' token named 'Alice Adventures'.")
      );
 
    pragma Style_Checks (on);

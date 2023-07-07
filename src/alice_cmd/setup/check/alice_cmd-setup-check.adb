@@ -6,9 +6,13 @@
 --
 -------------------------------------------------------------------------------
 
-with OS_Cmd.Alr; use OS_Cmd.Alr;
+with Alice_User_Config; use Alice_User_Config;
+
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
+with OS_Cmd.Alr;  use OS_Cmd.Alr;
 with OS_Cmd.Curl; use OS_Cmd.Curl;
-with OS_Cmd.Git; use OS_Cmd.Git;
+with OS_Cmd.Git;  use OS_Cmd.Git;
 
 with GNAT.AWK;
 with GNAT.OS_Lib;
@@ -81,6 +85,31 @@ package body Alice_Cmd.Setup.Check is
       end;
 
       OS_Cmd_Git.Clean (Run_Output);
+
+      declare
+         Success     : Boolean          := False;
+         User_Config : User_Config_Type;
+         My_Token    : Unbounded_String :=
+           To_Unbounded_String ("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");
+      begin
+         User_Config.Token (My_Token);
+         Success := User_Config.Get_Info_From_Github;
+         if Success then
+            Text_IO.Put_Line (User_Config'Image);
+         else
+            Text_IO.Put_Line ("Could not get info from github");
+         end if;
+
+         Success := User_Config.Get_Info_From_Git_Config;
+         if Success then
+            Text_IO.Put_Line (User_Config'Image);
+         else
+            Text_IO.Put_Line ("Could not get info from git");
+         end if;
+
+         Success := Alice_User_Config.Write_User_Config_File (User_Config);
+      end;
+
    end Execute;
 
 end Alice_Cmd.Setup.Check;

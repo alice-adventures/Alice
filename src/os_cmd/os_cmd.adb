@@ -23,7 +23,7 @@ package body OS_Cmd is
          Log.Error ("'" & Cmd_Name & "' cannot be found in PATH");
          GNAT.OS_Lib.OS_Exit (1);
       else
-         Log.Debug ("found '" & Cmd_Name & "'' at '" & Cmd.OS_Path.all & "'");
+         Log.Debug ("found '" & Cmd_Name & "' at '" & Cmd.OS_Path.all & "'");
       end if;
    end Init;
 

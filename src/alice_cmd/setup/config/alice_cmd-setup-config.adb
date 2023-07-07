@@ -8,6 +8,11 @@
 
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
+with CLIC.User_Input;
+with CLIC.Config;
+
+with TOML;
+
 with OS_Cmd.Curl; use OS_Cmd.Curl;
 with OS_Cmd.Git;  use OS_Cmd.Git;
 
@@ -81,6 +86,65 @@ package body Alice_Cmd.Setup.Config is
       Text_IO.Put_Line ("email:    " & To_String (User_Email));
 
       OS_Cmd_Git.Clean (Run_Output);
+
+      --  declare
+      --     function Foo (User_Input : String) return CLIC.User_Input.Answer_Kind
+      --     is
+      --     begin
+      --        return CLIC.User_Input.Yes;
+      --     end Foo;
+
+      --     function Bar (User_Input : String) return Boolean is
+      --     begin
+      --        return True;
+      --     end Bar;
+      --  begin
+      --     declare
+      --        Answer : constant CLIC.User_Input.Answer_With_Input :=
+      --          CLIC.User_Input.Validated_Input
+      --            ("Enter your name", "(Default '" & To_String (Author) & "'): ",
+      --             [True, True, False], Foo'Access, Is_Valid => Bar'Access);
+      --     begin
+      --        if Answer.Length > 0 then
+      --           Author := To_Unbounded_String (AAA.Strings.Trim (Answer.Input));
+      --        end if;
+      --     end;
+
+      --     Text_IO.Put_Line ("Author=""" & To_String (Author) & """");
+      --     Text_IO.New_Line;
+
+      --     declare
+      --        Answer : constant CLIC.User_Input.Answer_With_Input :=
+      --          CLIC.User_Input.Validated_Input
+      --            ("Enter your Github username",
+      --             "(Default '" & To_String (User_Name) & "'): ",
+      --             [True, True, False], Foo'Access, Is_Valid => Bar'Access);
+      --     begin
+      --        User_Name := To_Unbounded_String (AAA.Strings.Trim (Answer.Input));
+      --     end;
+
+      --     Text_IO.Put_Line ("User_Name=""" & To_String (User_Name) & """");
+      --     Text_IO.New_Line;
+
+      --     User_Email :=
+      --       To_Unbounded_String
+      --         (CLIC.User_Input.Query_String
+      --            ("Enter your email> ", To_String (User_Email),
+      --             Bar'Unrestricted_Access));
+      --     Text_IO.Put_Line ("User_Name=""" & To_String (User_Email) & """");
+      --  end;
+
+      declare
+         T : TOML.TOML_Value := TOML.Create_Table;
+      begin
+         T.Set ("username", TOML.Create_String ("Francesc Rocher"));
+         T.Set ("github_login", TOML.Create_String ("rocher"));
+         T.Set
+           ("github_token",
+            TOML.Create_String ("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"));
+         Text_IO.Put_Line (T.Dump_As_String);
+      end;
+
    end Execute;
 
 end Alice_Cmd.Setup.Config;
