@@ -15,45 +15,58 @@ package Alice_User_Config is
 
    type User_Config_Type is private;
 
+   --!pp off
    function Author (User_Config : User_Config_Type) return Unbounded_String;
-   function Login (User_Config : User_Config_Type) return Unbounded_String;
-   function Email (User_Config : User_Config_Type) return Unbounded_String;
-   function Token (User_Config : User_Config_Type) return Unbounded_String;
+   function Email  (User_Config : User_Config_Type) return Unbounded_String;
+   function Login  (User_Config : User_Config_Type) return Unbounded_String;
+   function Token  (User_Config : User_Config_Type) return Unbounded_String;
+   --!pp on
 
-   procedure Token
-     (User_Config : in out User_Config_Type; Token : Unbounded_String);
-
-   function Get_Info_From_Github
-     (User_Config : in out User_Config_Type) return Boolean;
-   --  If not null, get login, name and email from the Github user account
-   --  associated to the token. Return False if the token is not set or it is
-   --  not associated to a valid Github account.
-
-   function Get_Info_From_Git_Config
-     (User_Config : in out User_Config_Type) return Boolean;
-   --  If not null, get name and email from 'git config -l'. Return False if
-   --  name or email are not set in git config.
+   function Get_Info_From_Token
+     (User_Config : in out User_Config_Type; Token : Unbounded_String)
+      return Boolean;
+   --  Set the GitHub personal access token associated to the Participant
+   --  GitHub' account and all extracts all the necessary information.
 
    function Has_User_Config_File return Boolean;
    --  Check that the user config file exists.
 
    function Check_User_Config_File return Boolean;
-   --  Check that the contents of user config file is correct.
+   --  Check that the contents of the user config file is correctly
+   --  associated to the GitHub user account.
 
-   function Read_User_Config_File return User_Config_Type;
+   function Read_From_File return User_Config_Type;
    --  Read user configuration from the user config file.
 
-   function Write_User_Config_File
-     (User_Config : User_Config_Type) return Boolean;
+   function Write_To_File (User_Config : User_Config_Type) return Boolean;
    --  Write user configuration to the user config file.
 
 private
 
    type User_Config_Type is record
-      Github_Login : Unbounded_String; -- from Github
-      Github_Token : Unbounded_String; -- from Github
-      User_Email   : Unbounded_String; -- from Github, or else from git config
-      User_Name    : Unbounded_String; -- From Github, or else from git config
+      GitHub_Login : Unbounded_String :=
+        To_Unbounded_String (""); -- from GitHub
+
+      GitHub_Token : Unbounded_String :=
+        To_Unbounded_String (""); -- from GitHub
+
+      User_Email : Unbounded_String :=
+        To_Unbounded_String (""); -- from GitHub, or else from git config
+
+      User_Name : Unbounded_String :=
+        To_Unbounded_String (""); -- From GitHub, or else from git config
    end record;
+
+   function Get_Info_From_GitHub_Token
+     (User_Config : in out User_Config_Type) return Boolean;
+   --  If not null, get login, name and email from the GitHub user account
+   --  associated to the token. Return False if the token is not set or it is
+   --  not associated to a valid GitHub user account. It must be a user
+   --  account, not an organization account.
+
+   function Get_Info_From_Git_Config
+     (User_Config : in out User_Config_Type) return Boolean;
+   --  If not null, get name and email from 'git config -l'. Return False if
+   --  name or email are not set in git config.
 
 end Alice_User_Config;

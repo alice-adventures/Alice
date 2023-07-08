@@ -8,22 +8,16 @@
 
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
+with Alice_User_Config;
+
 with CLIC.User_Input;
-with CLIC.Config;
+use all type CLIC.User_Input.Answer_Kind;
 
-with TOML;
-
-with OS_Cmd.Curl; use OS_Cmd.Curl;
-with OS_Cmd.Git;  use OS_Cmd.Git;
-
-with GNAT.AWK;
+with GNAT.Directory_Operations;
 with GNAT.OS_Lib;
-with GNAT.Regpat;
+use all type GNAT.OS_Lib.String_Access;
 
 with Simple_Logging;
-with Text_IO;
-
-use all type GNAT.OS_Lib.String_Access;
 
 package body Alice_Cmd.Setup.Config is
 
@@ -36,114 +30,110 @@ package body Alice_Cmd.Setup.Config is
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector)
    is
-      OS_Cmd_Curl : OS_Cmd_Curl_Type;
-      OS_Cmd_Git  : OS_Cmd_Git_Type;
-      Run_Output  : OS_Cmd.Run_Output_Type;
-      Args_Length : constant Natural := Natural (Args.Length);
+      Old_User_Config, New_User_Config : Alice_User_Config.User_Config_Type;
 
-      Author       : Unbounded_String := To_Unbounded_String ("");
-      User_Name    : Unbounded_String := To_Unbounded_String ("");
-      User_Email   : Unbounded_String := To_Unbounded_String ("");
-      Github_Token : Unbounded_String := To_Unbounded_String ("");
+      Config_File_Exists : constant Boolean :=
+        Alice_User_Config.Has_User_Config_File;
+
+      Success     : Boolean;
+      Args_Length : constant Natural := Natural (Args.Length);
    begin
 
-      if Args_Length > 0 then
-         Log.Warning ("Too many arguments, ignored");
+      if Args_Length < 1 then
+         Log.Error ("Too few arguments, TOKEN required");
+         return;
       end if;
 
-      OS_Cmd_Curl.Init;
-      OS_Cmd_Git.Init;
+      if Args_Length > 1 then
+         Log.Error ("Please provide only one TOKEN");
+         return;
+      end if;
 
-      OS_Cmd_Git.Run ("config -l", Run_Output);
+      if Config_File_Exists then
+         Log.Warning
+           ("User configuration file already exists, " &
+            "do you want to continue?");
+         CLIC.User_Input.Continue_Or_Abort;
+         Old_User_Config := Alice_User_Config.Read_From_File;
+         Log.Debug ("Old_User_Config" & Old_User_Config'Image);
+      end if;
 
-      declare
-         function Field_Str (Rank : GNAT.AWK.Count) return String renames
-           GNAT.AWK.Field;
+      Success :=
+        New_User_Config.Get_Info_From_Token
+          (To_Unbounded_String (Args.First_Element));
 
-         procedure User_Name_Match is
-         begin
-            Author := To_Unbounded_String (Field_Str (2));
-         end User_Name_Match;
+      if not Success then
+         return;
+      end if;
 
-         procedure User_Email_Match is
-         begin
-            User_Email := To_Unbounded_String (Field_Str (2));
-         end User_Email_Match;
-      begin
-         GNAT.AWK.Add_File (Run_Output.Temp_File.all);
-         GNAT.AWK.Set_Field_Separators ("=");
-         GNAT.AWK.Register
-           (1, "user.name", User_Name_Match'Unrestricted_Access);
-         GNAT.AWK.Register
-           (1, "user.email", User_Email_Match'Unrestricted_Access);
+      Log.Debug ("New_User_Config" & New_User_Config'Image);
 
-         GNAT.AWK.Parse;
-         GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
-      end;
+      if Config_File_Exists
+        and then Old_User_Config.Login /= New_User_Config.Login
+      then
+         pragma Style_Checks (off);
+         Log.Error
+           ("Token provided is associated to a different GitHub account");
+         Log.Error
+           ("Currently configured token is for user login '" &
+            To_String (Old_User_Config.Login) & "'");
+         Log.Error
+           ("Provided token is for user login '" &
+            To_String (New_User_Config.Login) & "'");
+         Log.Error
+           ("Overwriting the configuration file can cause serious problem in your locally cloned repositories and in Alice participation.");
+         pragma Style_Checks (on);
+      end if;
 
-      Text_IO.Put_Line ("Author:   " & To_String (Author));
-      Text_IO.Put_Line ("Username: " & To_String (User_Name));
-      Text_IO.Put_Line ("email:    " & To_String (User_Email));
-
-      OS_Cmd_Git.Clean (Run_Output);
-
-      --  declare
-      --     function Foo (User_Input : String) return CLIC.User_Input.Answer_Kind
-      --     is
-      --     begin
-      --        return CLIC.User_Input.Yes;
-      --     end Foo;
-
-      --     function Bar (User_Input : String) return Boolean is
-      --     begin
-      --        return True;
-      --     end Bar;
-      --  begin
-      --     declare
-      --        Answer : constant CLIC.User_Input.Answer_With_Input :=
-      --          CLIC.User_Input.Validated_Input
-      --            ("Enter your name", "(Default '" & To_String (Author) & "'): ",
-      --             [True, True, False], Foo'Access, Is_Valid => Bar'Access);
-      --     begin
-      --        if Answer.Length > 0 then
-      --           Author := To_Unbounded_String (AAA.Strings.Trim (Answer.Input));
-      --        end if;
-      --     end;
-
-      --     Text_IO.Put_Line ("Author=""" & To_String (Author) & """");
-      --     Text_IO.New_Line;
-
-      --     declare
-      --        Answer : constant CLIC.User_Input.Answer_With_Input :=
-      --          CLIC.User_Input.Validated_Input
-      --            ("Enter your Github username",
-      --             "(Default '" & To_String (User_Name) & "'): ",
-      --             [True, True, False], Foo'Access, Is_Valid => Bar'Access);
-      --     begin
-      --        User_Name := To_Unbounded_String (AAA.Strings.Trim (Answer.Input));
-      --     end;
-
-      --     Text_IO.Put_Line ("User_Name=""" & To_String (User_Name) & """");
-      --     Text_IO.New_Line;
-
-      --     User_Email :=
-      --       To_Unbounded_String
-      --         (CLIC.User_Input.Query_String
-      --            ("Enter your email> ", To_String (User_Email),
-      --             Bar'Unrestricted_Access));
-      --     Text_IO.Put_Line ("User_Name=""" & To_String (User_Email) & """");
-      --  end;
+      Log.Always ("");
+      Log.Always ("New configuration file is:");
+      Log.Always ("   login : " & To_String (New_User_Config.Login));
+      Log.Always ("   name  : " & To_String (New_User_Config.Author));
+      Log.Always ("   email : " & To_String (New_User_Config.Email));
+      Log.Always ("   token : " & To_String (New_User_Config.Token));
 
       declare
-         T : TOML.TOML_Value := TOML.Create_Table;
+         Answer : CLIC.User_Input.Answer_Kind;
       begin
-         T.Set ("username", TOML.Create_String ("Francesc Rocher"));
-         T.Set ("github_login", TOML.Create_String ("rocher"));
-         T.Set
-           ("github_token",
-            TOML.Create_String ("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"));
-         Text_IO.Put_Line (T.Dump_As_String);
+         Answer :=
+           CLIC.User_Input.Query
+             ("Do you want to continue?", Valid => [True, True, False],
+              Default                           =>
+                (if Old_User_Config.Login /= New_User_Config.Login then
+                   CLIC.User_Input.No
+                 else CLIC.User_Input.Yes));
+         if Answer = CLIC.User_Input.No then
+            return;
+         end if;
       end;
+
+      if Config_File_Exists then
+         --  make a backup copy of user config file
+         declare
+            User_Config_File : constant String :=
+              Alice_User_Config.Config_Directory &
+              GNAT.Directory_Operations.Dir_Separator &
+              Alice_User_Config.User_Config_File;
+
+            Backup_Config_File : constant String :=
+              User_Config_File & ".backup";
+
+            Success : Boolean;
+         begin
+            GNAT.OS_Lib.Copy_File
+              (User_Config_File, Backup_Config_File, Success,
+               GNAT.OS_Lib.Overwrite);
+            if not Success then
+               Log.Warning ("Could not make a backup copy of the config file");
+            end if;
+         end;
+      end if;
+
+      if New_User_Config.Write_To_File then
+         Log.Info ("New user configuration file saved");
+      else
+         Log.Error ("Could not save the new user configuration file");
+      end if;
 
    end Execute;
 

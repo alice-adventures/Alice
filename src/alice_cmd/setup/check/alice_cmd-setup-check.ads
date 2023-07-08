@@ -22,7 +22,7 @@ package Alice_Cmd.Setup.Check is
      ("");
 
    overriding function Short_Description (Cmd : Cmd_Type) return String is
-     ("Check system and external dependencies");
+     ("Check required commands and user profile");
 
    --!pp off
    pragma Style_Checks (off);
@@ -31,7 +31,7 @@ package Alice_Cmd.Setup.Check is
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
      (AAA.Strings.Empty_Vector
          .Append ("Check that your system is ready to work with Alice and that it has all required dependencies.")
-         .Append ("It also checks that 'alice' can create repositories in your GitHub account. This is used to setup new Problem Sources for you to store and share your work.")
+         .Append ("It also checks that your user configuration file is valid and in sync with the GitHub information.")
      );
 
    pragma Style_Checks (on);

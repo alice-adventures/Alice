@@ -19,7 +19,7 @@
   1. `log PSOURCE` : check if there are new problems solved y other
      Participants.
 
-   1. `pull PSOURCE` : get latest problems solved by other Participants.
+  1. `pull PSOURCE` : get latest problems solved by other Participants.
 
   1. `share PSOURCE` : push new stuff added into the shared repository
 

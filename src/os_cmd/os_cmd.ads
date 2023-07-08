@@ -23,9 +23,9 @@ package OS_Cmd is
 
    function Path (Cmd : OS_Cmd_Type) return String;
 
-   procedure Run
-     (Cmd : OS_Cmd_Type; Args : String; Run_Output : out Run_Output_Type);
-   procedure Clean (Cmd : OS_Cmd_Type; Run_Output : out Run_Output_Type);
+   function Run (Cmd : OS_Cmd_Type; Args : String) return Run_Output_Type;
+   procedure Clean
+     (Cmd : in out OS_Cmd_Type; Run_Output : out Run_Output_Type);
 
 private
 

@@ -19,7 +19,7 @@ package Alice_Cmd.PSource.Init is
 
    overriding function Usage_Custom_Parameters
      (Cmd : Cmd_Type) return String is
-     ("[Problem Source Tag]");
+     ("<problem_source>");
 
    overriding function Short_Description (Cmd : Cmd_Type) return String is
      ("Initialize new Problem Source");
@@ -30,10 +30,17 @@ package Alice_Cmd.PSource.Init is
    overriding function Long_Description
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
      (AAA.Strings.Empty_Vector
-         .Append ("Creates a new Problem Source directory, populating it with all required files and libraries.")
-         .Append ("Retrieves the necessary resources from the Problem Source shared repository.")
-         .Append ("With new Problem Source directory a new GitHub repository is created for you to store and share all solved problems.")
-         .Append ("Check all the available Problem Sources with 'alice list'.")
+         .Append ("Initializes a new Problem Source directory, populating it with all required repositories and resources.")
+         .New_Line
+         .Append ("• Installs the repository 'alice-adventures/<problem_source>', which is, in turn, the crate '<problem_source>' in the 'alice' index (cloned with 'git', maintained with 'alr').")
+         .New_Line
+         .Append ("• Creates a new git repository in your GitHub account. This repository is named 'alice-<problem_source>', which is cloned from the repository 'alice-adventures/<problem_source>-template' repository.")
+         .New_Line
+         .Append ("• Your new repository is created in '<problem_source>/usr/<your_login>/'.")
+         .New_Line
+         .Append ("• Clones the repository '<problem_source>-share' to access all the required resources. This repository is cloned in '<problem_source>/share'.")
+         .New_Line
+         .Append ("Note: Check all the available Problem Sources with 'alice list'.")
      );
 
    pragma Style_Checks (on);

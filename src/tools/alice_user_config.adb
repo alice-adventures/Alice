@@ -6,21 +6,21 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Text_IO;
-
-with OS_Cmd.Curl; use OS_Cmd.Curl;
-with OS_Cmd.Git;  use OS_Cmd.Git;
-
 with GNAT.AWK;
 with GNAT.Directory_Operations;
 with GNAT.OS_Lib;
-with GNAT.Regpat;
+
+use all type GNAT.OS_Lib.String_Access;
 
 with JSON.Types;
 with JSON.Parsers;
 
+with OS_Cmd.Curl; use OS_Cmd.Curl;
+with OS_Cmd.Git;  use OS_Cmd.Git;
+
 with Simple_Logging;
+
+with Text_IO;
 
 with TOML;
 with TOML.File_IO;
@@ -37,13 +37,6 @@ package body Alice_User_Config is
      (User_Config.User_Name);
 
    -----------
-   -- Login --
-   -----------
-
-   function Login (User_Config : User_Config_Type) return Unbounded_String is
-     (User_Config.Github_Login);
-
-   -----------
    -- Email --
    -----------
 
@@ -51,28 +44,182 @@ package body Alice_User_Config is
      (User_Config.User_Email);
 
    -----------
+   -- Login --
+   -----------
+
+   function Login (User_Config : User_Config_Type) return Unbounded_String is
+     (User_Config.GitHub_Login);
+
+   -----------
    -- Token --
    -----------
 
    function Token (User_Config : User_Config_Type) return Unbounded_String is
-     (User_Config.Github_Token);
+     (User_Config.GitHub_Token);
 
    -----------
    -- Token --
    -----------
 
-   procedure Token
+   function Get_Info_From_Token
      (User_Config : in out User_Config_Type; Token : Unbounded_String)
+      return Boolean
    is
+      Success : Boolean := False;
    begin
-      User_Config.Github_Token := Token;
-   end Token;
+      User_Config.GitHub_Token := Token;
+
+      Success := User_Config.Get_Info_From_GitHub_Token;
+      if Success then
+         Success := User_Config.Get_Info_From_Git_Config;
+      end if;
+
+      return Success;
+   end Get_Info_From_Token;
+
+   ---------------------
+   -- Has_Config_File --
+   ---------------------
+
+   function Has_Config_File (Filename : String) return Boolean is
+      Path    : GNAT.OS_Lib.String_Access;
+      Success : Boolean;
+   begin
+      Path    := GNAT.OS_Lib.Locate_Regular_File (Filename, Config_Directory);
+      Success := (Path /= null);
+
+      if Success then
+         Log.Debug ("config file '" & Filename & "' found at " & Path.all);
+         GNAT.OS_Lib.Free (Path);
+      end if;
+
+      return Success;
+   end Has_Config_File;
+
+   --------------------------
+   -- Has_User_Config_File --
+   --------------------------
+
+   function Has_User_Config_File return Boolean is
+      Success : Boolean := Has_Config_File (User_Config_File);
+   begin
+      if not Success then
+         Log.Error
+           ("User configuration file not found, please run 'alice config'");
+      end if;
+
+      return Success;
+   end Has_User_Config_File;
+
+   ----------------------------
+   -- Check_User_Config_File --
+   ----------------------------
+
+   function Check_User_Config_File return Boolean is
+      Success          : Boolean := False;
+      Config_From_File : User_Config_Type;
+   begin
+      if not Has_User_Config_File then
+         return False;
+      end if;
+
+      Config_From_File := Read_From_File;
+      if Success then
+         declare
+            Config_From_Token : User_Config_Type;
+         begin
+            Success :=
+              Config_From_Token.Get_Info_From_Token (Config_From_File.Token);
+            if not Success or else Config_From_File /= Config_From_File then
+               Log.Warning
+                 ("User configuration file outdated, please update it");
+            end if;
+         end;
+      end if;
+
+      return Success;
+   end Check_User_Config_File;
+
+   --------------------
+   -- Read_From_File --
+   --------------------
+
+   function Read_From_File return User_Config_Type is
+      User_Config : User_Config_Type;
+      Read_Result : TOML.Read_Result;
+   begin
+      if not Has_User_Config_File then
+         return User_Config;
+      end if;
+
+      Read_Result :=
+        TOML.File_IO.Load_File
+          (Config_Directory & GNAT.Directory_Operations.Dir_Separator &
+           User_Config_File);
+
+      if Read_Result.Success then
+         if Read_Result.Value.Has ("login") then
+            User_Config.GitHub_Login :=
+              To_Unbounded_String (Read_Result.Value.Get ("login").As_String);
+         else
+            Log.Error ("Could not get 'login' from user configuration file");
+         end if;
+         if Read_Result.Value.Has ("token") then
+            User_Config.GitHub_Token :=
+              To_Unbounded_String (Read_Result.Value.Get ("token").As_String);
+         else
+            Log.Error ("Could not get 'token' from user configuration file");
+         end if;
+         if Read_Result.Value.Has ("name") then
+            User_Config.User_Name :=
+              To_Unbounded_String (Read_Result.Value.Get ("name").As_String);
+         end if;
+         if Read_Result.Value.Has ("email") then
+            User_Config.User_Name :=
+              To_Unbounded_String (Read_Result.Value.Get ("email").As_String);
+         end if;
+      else
+         Log.Error ("Could not load user configuration file");
+         Log.Error (To_String (Read_Result.Message));
+      end if;
+
+      return User_Config;
+   end Read_From_File;
+
+   -------------------
+   -- Write_To_File --
+   -------------------
+
+   function Write_To_File (User_Config : User_Config_Type) return Boolean is
+      Success     : Boolean                  := True;
+      Table       : constant TOML.TOML_Value := TOML.Create_Table;
+      Config_File : Text_IO.File_Type;
+   begin
+      Table.Set
+        ("login", TOML.Create_String (To_String (User_Config.GitHub_Login)));
+      Table.Set
+        ("name", TOML.Create_String (To_String (User_Config.User_Name)));
+      Table.Set
+        ("email", TOML.Create_String (To_String (User_Config.User_Email)));
+      Table.Set
+        ("token", TOML.Create_String (To_String (User_Config.GitHub_Token)));
+
+      Config_File.Create
+        (Text_IO.Out_File,
+         Config_Directory & GNAT.Directory_Operations.Dir_Separator &
+         User_Config_File);
+
+      TOML.File_IO.Dump_To_File (Table, Config_File);
+
+      Config_File.Close;
+      return Success;
+   end Write_To_File;
 
    --------------------------------
-   -- Get_Info_From_Github_Token --
+   -- Get_Info_From_GitHub_Token --
    --------------------------------
 
-   function Get_Info_From_Github
+   function Get_Info_From_GitHub_Token
      (User_Config : in out User_Config_Type) return Boolean
    is
       Success     : Boolean := False;
@@ -80,15 +227,16 @@ package body Alice_User_Config is
       Run_Output  : OS_Cmd.Run_Output_Type;
    begin
       if User_Config.Token = To_Unbounded_String ("") then
-         Log.Error ("Github token not set");
+         Log.Error ("GitHub token not set");
          return False;
       end if;
 
       OS_Cmd_Curl.Init;
-      OS_Cmd_Curl.Run
-        ("-s -L -H Authorization:\ Bearer\ " & To_String (User_Config.Token) &
-         " " & "https://api.github.com/user",
-         Run_Output);
+      Run_Output :=
+        OS_Cmd_Curl.Run
+          ("-s -L -H Authorization:\ Bearer\ " &
+           To_String (User_Config.Token) & " " &
+           "https://api.github.com/user");
 
       declare
          package Types is new JSON.Types (Integer, Float);
@@ -99,27 +247,27 @@ package body Alice_User_Config is
          Parser : Parsers.Parser :=
            Parsers.Create_From_File (Run_Output.Temp_File.all);
 
-         Object : JSON_Value := Parser.Parse;
+         Object : constant JSON_Value := Parser.Parse;
 
          function Value_Str (Object : JSON_Value) return String renames
            Types.Value;
       begin
          if Object.Contains ("login") then
-            Log.Debug ("Github type : " & Image (Object.Get ("type")));
+            Log.Debug ("GitHub type : " & Image (Object.Get ("type")));
 
             if Object.Get ("type").Kind = String_Kind
               and then Value_Str (Object.Get ("type")) = "User"
             then
-               Log.Debug ("Github login: " & Image (Object.Get ("login")));
-               Log.Debug ("Github name : " & Image (Object.Get ("name")));
-               Log.Debug ("Github email: " & Image (Object.Get ("email")));
+               Log.Debug ("GitHub login: " & Image (Object.Get ("login")));
+               Log.Debug ("GitHub name : " & Image (Object.Get ("name")));
+               Log.Debug ("GitHub email: " & Image (Object.Get ("email")));
 
                if Object.Get ("login").Kind = String_Kind then
-                  User_Config.Github_Login :=
+                  User_Config.GitHub_Login :=
                     To_Unbounded_String (Value_Str (Object.Get ("login")));
                   Success                  := True;
                else
-                  Log.Error ("Could not get login from Github token");
+                  Log.Error ("Could not get login from GitHub token");
                end if;
 
                if Object.Get ("name").Kind = String_Kind then
@@ -133,14 +281,14 @@ package body Alice_User_Config is
                end if;
             end if;
          else
-            Log.Error ("Token is not associated to a valid Github account");
+            Log.Error ("Token is not associated to a valid GitHub account");
          end if;
       end;
 
       OS_Cmd_Curl.Clean (Run_Output);
 
       return Success;
-   end Get_Info_From_Github;
+   end Get_Info_From_GitHub_Token;
 
    ------------------------------
    -- Get_Info_From_Git_Config --
@@ -175,7 +323,7 @@ package body Alice_User_Config is
 
    begin
       OS_Cmd_Git.Init;
-      OS_Cmd_Git.Run ("config -l", Run_Output);
+      Run_Output := OS_Cmd_Git.Run ("config -l");
 
       GNAT.AWK.Add_File (Run_Output.Temp_File.all);
       GNAT.AWK.Set_Field_Separators ("=");
@@ -190,64 +338,5 @@ package body Alice_User_Config is
 
       return (Match_Count = 2);
    end Get_Info_From_Git_Config;
-
-   --------------------------
-   -- Has_User_Config_File --
-   --------------------------
-
-   function Has_User_Config_File return Boolean is (True);
-
-   ----------------------------
-   -- Check_User_Config_File --
-   ----------------------------
-
-   function Check_User_Config_File return Boolean is (True);
-
-   ---------------------------
-   -- Read_User_Config_File --
-   ---------------------------
-
-   function Read_User_Config_File return User_Config_Type is
-      User_Config : User_Config_Type;
-      Read_Result : TOML.Read_Result;
-   begin
-      Read_Result :=
-        TOML.File_IO.Load_File
-          (Config_Directory & GNAT.Directory_Operations.Dir_Separator &
-           User_Config_File);
-
-      return User_Config;
-   end Read_User_Config_File;
-
-   ----------------------------
-   -- Write_User_Config_File --
-   ----------------------------
-
-   function Write_User_Config_File
-     (User_Config : User_Config_Type) return Boolean
-   is
-      Success     : Boolean         := False;
-      Table       : TOML.TOML_Value := TOML.Create_Table;
-      Config_File : Text_IO.File_Type;
-   begin
-      Table.Set
-        ("login", TOML.Create_String (To_String (User_Config.Github_Login)));
-      Table.Set
-        ("name", TOML.Create_String (To_String (User_Config.User_Name)));
-      Table.Set
-        ("email", TOML.Create_String (To_String (User_Config.User_Email)));
-      Table.Set
-        ("token", TOML.Create_String (To_String (User_Config.Github_Token)));
-
-      Config_File.Create
-        (Text_IO.Out_File,
-         Config_Directory & GNAT.Directory_Operations.Dir_Separator &
-         User_Config_File);
-
-      TOML.File_IO.Dump_To_File (Table, Config_File);
-
-      Config_File.Close;
-      return Success;
-   end Write_User_Config_File;
 
 end Alice_User_Config;

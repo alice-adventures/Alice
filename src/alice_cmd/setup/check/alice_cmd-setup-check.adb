@@ -47,16 +47,15 @@ package body Alice_Cmd.Setup.Check is
       end if;
 
       OS_Cmd_Alr.Init;
-      Text_IO.Put_Line ("found alr  at '" & OS_Cmd_Alr.Path & "'");
+      Log.Always ("found alr  at '" & OS_Cmd_Alr.Path & "'");
 
       OS_Cmd_Curl.Init;
-      Text_IO.Put_Line ("found curl at '" & OS_Cmd_Curl.Path & "'");
+      Log.Always ("found curl at '" & OS_Cmd_Curl.Path & "'");
 
       OS_Cmd_Git.Init;
-      Text_IO.Put_Line ("found git  at '" & OS_Cmd_Git.Path & "'");
+      Log.Always ("found git  at '" & OS_Cmd_Git.Path & "'");
 
-      OS_Cmd_Git.Run ("remote -v", Run_Output);
-
+      Run_Output := OS_Cmd_Git.Run ("remote -v");
       declare
          Alice_Repo_Matcher : constant GNAT.Regpat.Pattern_Matcher :=
            GNAT.Regpat.Compile ("^.*github\.com.alice-adventures.Alice\.git$");
@@ -77,14 +76,19 @@ package body Alice_Cmd.Setup.Check is
          GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
 
          if Matches = 4 then
-            Text_IO.Put_Line ("alice repository detected");
+            Log.Always ("alice git repository detected");
          else
             Log.Error
-              ("command 'alice' must be invoked inside the Alice repository");
+              ("'alice' must be invoked inside the alice git repository");
          end if;
       end;
-
       OS_Cmd_Git.Clean (Run_Output);
+
+      if not Alice_User_Config.Has_User_Config_File then
+         return;
+      end if;
+
+      Log.Always ("");
 
       declare
          Success     : Boolean          := False;
@@ -92,22 +96,13 @@ package body Alice_Cmd.Setup.Check is
          My_Token    : Unbounded_String :=
            To_Unbounded_String ("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");
       begin
-         User_Config.Token (My_Token);
-         Success := User_Config.Get_Info_From_Github;
+         Success := User_Config.Get_Info_From_Token (My_Token);
+         --  Success := User_Config.Get_Info_From_GitHub_Token;
          if Success then
             Text_IO.Put_Line (User_Config'Image);
          else
             Text_IO.Put_Line ("Could not get info from github");
          end if;
-
-         Success := User_Config.Get_Info_From_Git_Config;
-         if Success then
-            Text_IO.Put_Line (User_Config'Image);
-         else
-            Text_IO.Put_Line ("Could not get info from git");
-         end if;
-
-         Success := Alice_User_Config.Write_User_Config_File (User_Config);
       end;
 
    end Execute;

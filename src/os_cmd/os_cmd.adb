@@ -37,10 +37,9 @@ package body OS_Cmd is
    -- Run --
    ---------
 
-   procedure Run
-     (Cmd : OS_Cmd_Type; Args : String; Run_Output : out Run_Output_Type)
-   is
-      Arg_List : GNAT.OS_Lib.Argument_List_Access;
+   function Run (Cmd : OS_Cmd_Type; Args : String) return Run_Output_Type is
+      Arg_List   : GNAT.OS_Lib.Argument_List_Access;
+      Run_Output : Run_Output_Type;
    begin
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
 
@@ -50,17 +49,23 @@ package body OS_Cmd is
       GNAT.OS_Lib.Spawn
         (Cmd.OS_Path.all, Arg_List.all, Run_Output.Temp_FD,
          Run_Output.Return_Code);
+
       GNAT.OS_Lib.Free (Arg_List);
+
+      return Run_Output;
    end Run;
 
    -----------
    -- Clean --
    -----------
 
-   procedure Clean (Cmd : OS_Cmd_Type; Run_Output : out Run_Output_Type) is
+   procedure Clean (Cmd : in out OS_Cmd_Type; Run_Output : out Run_Output_Type)
+   is
       Success : Boolean;
    begin
       GNAT.OS_Lib.Delete_File (Run_Output.Temp_File.all, Success);
+      GNAT.OS_Lib.Free (Run_Output.Temp_File);
+      GNAT.OS_Lib.Free (Cmd.OS_Path);
    end Clean;
 
 end OS_Cmd;
