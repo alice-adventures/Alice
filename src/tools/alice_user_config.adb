@@ -29,6 +29,11 @@ package body Alice_User_Config is
 
    package Log renames Simple_Logging;
 
+   Key_Email : constant String := "email";
+   Key_Login : constant String := "login";
+   Key_Name  : constant String := "name";
+   Key_Token : constant String := "token";
+
    ------------
    -- Author --
    ------------
@@ -158,25 +163,30 @@ package body Alice_User_Config is
            User_Config_File);
 
       if Read_Result.Success then
-         if Read_Result.Value.Has ("login") then
+         if Read_Result.Value.Has (Key_Login) then
             User_Config.GitHub_Login :=
-              To_Unbounded_String (Read_Result.Value.Get ("login").As_String);
+              To_Unbounded_String
+                (Read_Result.Value.Get (Key_Login).As_String);
          else
-            Log.Error ("Could not get 'login' from user configuration file");
+            Log.Error
+              ("Could not get " & Key_Login & " from user configuration file");
          end if;
-         if Read_Result.Value.Has ("token") then
+         if Read_Result.Value.Has (Key_Token) then
             User_Config.GitHub_Token :=
-              To_Unbounded_String (Read_Result.Value.Get ("token").As_String);
+              To_Unbounded_String
+                (Read_Result.Value.Get (Key_Token).As_String);
          else
-            Log.Error ("Could not get 'token' from user configuration file");
+            Log.Error
+              ("Could not get " & Key_Token & " from user configuration file");
          end if;
-         if Read_Result.Value.Has ("name") then
+         if Read_Result.Value.Has (Key_Name) then
             User_Config.User_Name :=
-              To_Unbounded_String (Read_Result.Value.Get ("name").As_String);
+              To_Unbounded_String (Read_Result.Value.Get (Key_Name).As_String);
          end if;
-         if Read_Result.Value.Has ("email") then
+         if Read_Result.Value.Has (Key_Email) then
             User_Config.User_Name :=
-              To_Unbounded_String (Read_Result.Value.Get ("email").As_String);
+              To_Unbounded_String
+                (Read_Result.Value.Get (Key_Email).As_String);
          end if;
       else
          Log.Error ("Could not load user configuration file");
@@ -196,13 +206,13 @@ package body Alice_User_Config is
       Config_File : Text_IO.File_Type;
    begin
       Table.Set
-        ("login", TOML.Create_String (To_String (User_Config.GitHub_Login)));
+        (Key_Login, TOML.Create_String (To_String (User_Config.GitHub_Login)));
       Table.Set
-        ("name", TOML.Create_String (To_String (User_Config.User_Name)));
+        (Key_Name, TOML.Create_String (To_String (User_Config.User_Name)));
       Table.Set
-        ("email", TOML.Create_String (To_String (User_Config.User_Email)));
+        (Key_Email, TOML.Create_String (To_String (User_Config.User_Email)));
       Table.Set
-        ("token", TOML.Create_String (To_String (User_Config.GitHub_Token)));
+        (Key_Token, TOML.Create_String (To_String (User_Config.GitHub_Token)));
 
       Config_File.Create
         (Text_IO.Out_File,
@@ -252,32 +262,32 @@ package body Alice_User_Config is
          function Value_Str (Object : JSON_Value) return String renames
            Types.Value;
       begin
-         if Object.Contains ("login") then
+         if Object.Contains (Key_Login) then
             Log.Debug ("GitHub type : " & Image (Object.Get ("type")));
 
             if Object.Get ("type").Kind = String_Kind
               and then Value_Str (Object.Get ("type")) = "User"
             then
-               Log.Debug ("GitHub login: " & Image (Object.Get ("login")));
-               Log.Debug ("GitHub name : " & Image (Object.Get ("name")));
-               Log.Debug ("GitHub email: " & Image (Object.Get ("email")));
+               Log.Debug ("GitHub login: " & Image (Object.Get (Key_Login)));
+               Log.Debug ("GitHub name : " & Image (Object.Get (Key_Name)));
+               Log.Debug ("GitHub email: " & Image (Object.Get (Key_Email)));
 
-               if Object.Get ("login").Kind = String_Kind then
+               if Object.Get (Key_Login).Kind = String_Kind then
                   User_Config.GitHub_Login :=
-                    To_Unbounded_String (Value_Str (Object.Get ("login")));
+                    To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
                   Success                  := True;
                else
                   Log.Error ("Could not get login from GitHub token");
                end if;
 
-               if Object.Get ("name").Kind = String_Kind then
+               if Object.Get (Key_Name).Kind = String_Kind then
                   User_Config.User_Name :=
-                    To_Unbounded_String (Value_Str (Object.Get ("name")));
+                    To_Unbounded_String (Value_Str (Object.Get (Key_Name)));
                end if;
 
-               if Object.Get ("email").Kind = String_Kind then
+               if Object.Get (Key_Email).Kind = String_Kind then
                   User_Config.User_Email :=
-                    To_Unbounded_String (Value_Str (Object.Get ("email")));
+                    To_Unbounded_String (Value_Str (Object.Get (Key_Email)));
                end if;
             end if;
          else
