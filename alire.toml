@@ -29,3 +29,5 @@ json = "^5.0.3"
 simple_logging = "^1.2.0"
 [[depends-on]]
 curl = "^7.81.0"
+[[depends-on]]
+spdx = "~0.2.0"

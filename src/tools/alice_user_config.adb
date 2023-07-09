@@ -20,6 +20,8 @@ with OS_Cmd.Git;  use OS_Cmd.Git;
 
 with Simple_Logging;
 
+with SPDX.Licenses;
+
 with Text_IO;
 
 with TOML;
@@ -29,10 +31,11 @@ package body Alice_User_Config is
 
    package Log renames Simple_Logging;
 
-   Key_Email : constant String := "email";
-   Key_Login : constant String := "login";
-   Key_Name  : constant String := "name";
-   Key_Token : constant String := "token";
+   Key_Email   : constant String := "email";
+   Key_Login   : constant String := "login";
+   Key_Name    : constant String := "name";
+   Key_Token   : constant String := "token";
+   Key_SPDX_Id : constant String := "spdx_id";
 
    ------------
    -- Author --
@@ -62,9 +65,37 @@ package body Alice_User_Config is
    function Token (User_Config : User_Config_Type) return Unbounded_String is
      (User_Config.GitHub_Token);
 
-   -----------
-   -- Token --
-   -----------
+   ----------
+   -- SPDX --
+   ----------
+
+   function SPDX (User_Config : User_Config_Type) return Unbounded_String is
+     (User_Config.SPDX_Id);
+
+   --------------
+   -- Set_SPDX --
+   --------------
+
+   function Set_SPDX
+     (User_Config  : in out User_Config_Type; SPDX_Id : Unbounded_String;
+      Report_Error :        Boolean := True) return Boolean
+   is
+      SPDX_Str    : constant String  := To_String (SPDX_Id);
+      Is_Valid_Id : constant Boolean :=
+        Standard.SPDX.Licenses.Valid_Id (SPDX_Str);
+   begin
+      if not Is_Valid_Id and then Report_Error then
+         Log.Error ("Invalid SPDX Id '" & SPDX_Str & "'");
+      else
+         User_Config.SPDX_Id := SPDX_Id;
+      end if;
+
+      return Is_Valid_Id;
+   end Set_SPDX;
+
+   -------------------------
+   -- Get_Info_From_Token --
+   -------------------------
 
    function Get_Info_From_Token
      (User_Config : in out User_Config_Type; Token : Unbounded_String)
@@ -105,10 +136,12 @@ package body Alice_User_Config is
    -- Has_User_Config_File --
    --------------------------
 
-   function Has_User_Config_File return Boolean is
-      Success : Boolean := Has_Config_File (User_Config_File);
+   function Has_User_Config_File
+     (Report_Error : Boolean := True) return Boolean
+   is
+      Success : constant Boolean := Has_Config_File (User_Config_File);
    begin
-      if not Success then
+      if not Success and then Report_Error then
          Log.Error
            ("User configuration file not found, please run 'alice config'");
       end if;
@@ -135,6 +168,15 @@ package body Alice_User_Config is
          begin
             Success :=
               Config_From_Token.Get_Info_From_Token (Config_From_File.Token);
+
+            if Success then
+               if Config_From_Token.GitHub_Login /=
+                 Config_From_File.GitHub_Login
+               then
+                  null;
+               end if;
+            end if;
+
             if not Success or else Config_From_File /= Config_From_File then
                Log.Warning
                  ("User configuration file outdated, please update it");
@@ -184,9 +226,14 @@ package body Alice_User_Config is
               To_Unbounded_String (Read_Result.Value.Get (Key_Name).As_String);
          end if;
          if Read_Result.Value.Has (Key_Email) then
-            User_Config.User_Name :=
+            User_Config.User_Email :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_Email).As_String);
+         end if;
+         if Read_Result.Value.Has (Key_SPDX_Id) then
+            User_Config.SPDX_Id :=
+              To_Unbounded_String
+                (Read_Result.Value.Get (Key_SPDX_Id).As_String);
          end if;
       else
          Log.Error ("Could not load user configuration file");
@@ -201,7 +248,7 @@ package body Alice_User_Config is
    -------------------
 
    function Write_To_File (User_Config : User_Config_Type) return Boolean is
-      Success     : Boolean                  := True;
+      Success     : constant Boolean         := True;
       Table       : constant TOML.TOML_Value := TOML.Create_Table;
       Config_File : Text_IO.File_Type;
    begin
@@ -224,6 +271,19 @@ package body Alice_User_Config is
       Config_File.Close;
       return Success;
    end Write_To_File;
+
+   ----------
+   -- Show --
+   ----------
+
+   procedure Show (User_Config : User_Config_Type) is
+   begin
+      Log.Always ("   login   : " & To_String (User_Config.Login));
+      Log.Always ("   name    : " & To_String (User_Config.Author));
+      Log.Always ("   email   : " & To_String (User_Config.Email));
+      Log.Always ("   token   : " & To_String (User_Config.Token));
+      Log.Always ("   spdx_id : " & To_String (User_Config.SPDX_Id));
+   end Show;
 
    --------------------------------
    -- Get_Info_From_GitHub_Token --

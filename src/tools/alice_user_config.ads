@@ -20,6 +20,7 @@ package Alice_User_Config is
    function Email  (User_Config : User_Config_Type) return Unbounded_String;
    function Login  (User_Config : User_Config_Type) return Unbounded_String;
    function Token  (User_Config : User_Config_Type) return Unbounded_String;
+   function SPDX   (User_Config : User_Config_Type) return Unbounded_String;
    --!pp on
 
    function Get_Info_From_Token
@@ -28,7 +29,14 @@ package Alice_User_Config is
    --  Set the GitHub personal access token associated to the Participant
    --  GitHub' account and all extracts all the necessary information.
 
-   function Has_User_Config_File return Boolean;
+   function Set_SPDX
+     (User_Config  : in out User_Config_Type; SPDX_Id : Unbounded_String;
+      Report_Error : Boolean := True) return Boolean;
+   --  Set the SPDX License Id. If SPDX is not a valid SPDX Id, reports an
+   --  error (optionally) and returns False.
+
+   function Has_User_Config_File
+     (Report_Error : Boolean := True) return Boolean;
    --  Check that the user config file exists.
 
    function Check_User_Config_File return Boolean;
@@ -40,6 +48,9 @@ package Alice_User_Config is
 
    function Write_To_File (User_Config : User_Config_Type) return Boolean;
    --  Write user configuration to the user config file.
+
+   procedure Show (User_Config : User_Config_Type);
+   --  Write user configuration contents to the console.
 
 private
 
@@ -55,6 +66,10 @@ private
 
       User_Name : Unbounded_String :=
         To_Unbounded_String (""); -- From GitHub, or else from git config
+
+      SPDX_Id : Unbounded_String := To_Unbounded_String ("MIT");
+      --  given by user, default is 'MIT'
+
    end record;
 
    function Get_Info_From_GitHub_Token
