@@ -126,6 +126,13 @@ package body Alice_Cmd.Setup.Config is
             Log.Detail
               ("keeping SPDX_Id '" & To_String (New_User_Config.SPDX) &
                "' from old config file");
+         else
+            Log.Warning
+              ("Could not save current SPDX Id '" &
+               To_String (Old_User_Config.SPDX) & "': invalid");
+            Log.Warning ("Using default SPDX Id");
+            Log.Warning ("Set a different one with 'alice config --license'");
+            Log.Always ("");
          end if;
       end if;
 

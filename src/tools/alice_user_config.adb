@@ -84,10 +84,10 @@ package body Alice_User_Config is
       Is_Valid_Id : constant Boolean :=
         Standard.SPDX.Licenses.Valid_Id (SPDX_Str);
    begin
-      if not Is_Valid_Id and then Report_Error then
-         Log.Error ("Invalid SPDX Id '" & SPDX_Str & "'");
-      else
+      if Is_Valid_Id then
          User_Config.SPDX_Id := SPDX_Id;
+      elsif Report_Error then
+         Log.Error ("Invalid SPDX Id '" & SPDX_Str & "'");
       end if;
 
       return Is_Valid_Id;
@@ -260,6 +260,8 @@ package body Alice_User_Config is
         (Key_Email, TOML.Create_String (To_String (User_Config.User_Email)));
       Table.Set
         (Key_Token, TOML.Create_String (To_String (User_Config.GitHub_Token)));
+      Table.Set
+        (Key_SPDX_Id, TOML.Create_String (To_String (User_Config.SPDX_Id)));
 
       Config_File.Create
         (Text_IO.Out_File,
