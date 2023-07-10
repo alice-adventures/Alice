@@ -86,6 +86,7 @@ package body Alice_User_Config is
    begin
       if Is_Valid_Id then
          User_Config.SPDX_Id := SPDX_Id;
+         Log.Debug ("Set_SPDX =" & SPDX_Str);
       elsif Report_Error then
          Log.Error ("Invalid SPDX Id '" & SPDX_Str & "'");
       end if;
@@ -101,16 +102,21 @@ package body Alice_User_Config is
      (User_Config : in out User_Config_Type; Token : Unbounded_String)
       return Boolean
    is
-      Success : Boolean := False;
    begin
+      Log.Info ("Retrieving info from token");
       User_Config.GitHub_Token := Token;
 
-      Success := User_Config.Get_Info_From_GitHub_Token;
-      if Success then
-         Success := User_Config.Get_Info_From_Git_Config;
+      if User_Config.Get_Info_From_GitHub_Token then
+         Log.Debug ("Get_Info_From_GitHub_Token =" & User_Config'Image);
+         if not User_Config.Get_Info_From_Git_Config then
+            Log.Debug ("Some info missing from 'git config'");
+         end if;
+         Log.Debug ("Get_Info_From_Git_Config =" & User_Config'Image);
+         return True;
+      else
+         return False;
       end if;
 
-      return Success;
    end Get_Info_From_Token;
 
    ---------------------
@@ -162,8 +168,8 @@ package body Alice_User_Config is
          return False;
       end if;
 
-      Config_From_File := Read_From_File;
-      if Success then
+      if Config_From_File.Read_From_File then
+         Log.Debug ("Config_From_File =" & Config_From_File'Image);
          declare
             Config_From_Token : User_Config_Type;
          begin
@@ -174,7 +180,7 @@ package body Alice_User_Config is
                if Config_From_Token.GitHub_Login /=
                  Config_From_File.GitHub_Login
                then
-                  null;
+                  Log.Error ("");
                end if;
             end if;
 
@@ -182,66 +188,85 @@ package body Alice_User_Config is
                Log.Warning
                  ("User configuration file outdated, please update it");
             end if;
-         end;
-      end if;
 
-      return Success;
+            return Success;
+         end;
+      else
+         return False;
+      end if;
    end Check_User_Config_File;
 
    --------------------
    -- Read_From_File --
    --------------------
 
-   function Read_From_File return User_Config_Type is
-      User_Config : User_Config_Type;
+   function Read_From_File
+     (User_Config : in out User_Config_Type; Report_Error : Boolean := True)
+      return Boolean
+   is
       Read_Result : TOML.Read_Result;
    begin
       if not Has_User_Config_File then
-         return User_Config;
+         return False;
       end if;
 
       Read_Result :=
         TOML.File_IO.Load_File
           (Config_Directory & GNAT.Directory_Operations.Dir_Separator &
            User_Config_File);
+      Log.Debug ("TOML.File_IO.Load_File =" & Read_Result'Image);
 
       if Read_Result.Success then
          if Read_Result.Value.Has (Key_Login) then
             User_Config.GitHub_Login :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_Login).As_String);
+            Log.Debug
+              ("Read_Result (Login) =" & To_String (User_Config.GitHub_Login));
          else
             Log.Error
               ("Could not get " & Key_Login & " from user configuration file");
+            return False;
          end if;
          if Read_Result.Value.Has (Key_Token) then
             User_Config.GitHub_Token :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_Token).As_String);
+            Log.Debug
+              ("Read_Result (Token) =" & To_String (User_Config.Token));
          else
             Log.Error
               ("Could not get " & Key_Token & " from user configuration file");
+            return False;
          end if;
          if Read_Result.Value.Has (Key_Name) then
             User_Config.User_Name :=
               To_Unbounded_String (Read_Result.Value.Get (Key_Name).As_String);
+            Log.Debug
+              ("Read_Result (Name) =" & To_String (User_Config.Author));
          end if;
          if Read_Result.Value.Has (Key_Email) then
             User_Config.User_Email :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_Email).As_String);
+            Log.Debug
+              ("Read_Result (Email) =" & To_String (User_Config.Email));
          end if;
          if Read_Result.Value.Has (Key_SPDX_Id) then
             User_Config.SPDX_Id :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_SPDX_Id).As_String);
+            Log.Debug
+              ("Read_Result (SPDX_Id) =" & To_String (User_Config.SPDX));
          end if;
-      else
+      elsif Report_Error then
          Log.Error ("Could not load user configuration file");
          Log.Error (To_String (Read_Result.Message));
       end if;
 
-      return User_Config;
+      Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
+
+      return True;
    end Read_From_File;
 
    -------------------
@@ -299,6 +324,8 @@ package body Alice_User_Config is
       OS_Cmd_Curl : OS_Cmd_Curl_Type;
       Run_Output  : OS_Cmd.Run_Output_Type;
    begin
+      Log.Detail ("Retrieving information from GitHub token");
+
       if User_Config.Token = To_Unbounded_String ("") then
          Log.Error ("GitHub token not set");
          return False;
@@ -379,22 +406,31 @@ package body Alice_User_Config is
 
       procedure User_Name_Match is
       begin
-         Log.Debug ("User_Name_Match");
+         Log.Debug ("AWK user.name match");
          Match_Count := @ + 1;
          if User_Config.User_Name = To_Unbounded_String ("") then
             User_Config.User_Name := To_Unbounded_String (Field_Str (2));
+            Log.Debug ("  * set User_Name = " & Field_Str (2));
+         else
+            Log.Debug ("  * User_Name already set, skip value");
          end if;
       end User_Name_Match;
 
       procedure User_Email_Match is
       begin
+         Log.Debug ("AWK user.email match");
          Match_Count := @ + 1;
          if User_Config.User_Email = To_Unbounded_String ("") then
             User_Config.User_Email := To_Unbounded_String (Field_Str (2));
+            Log.Debug ("  * set User_Email = " & Field_Str (2));
+         else
+            Log.Debug ("  * User_Email already set, skip value");
          end if;
       end User_Email_Match;
 
    begin
+      Log.Detail ("Retrieving information from 'git config'");
+
       OS_Cmd_Git.Init;
       Run_Output := OS_Cmd_Git.Run ("config -l");
 

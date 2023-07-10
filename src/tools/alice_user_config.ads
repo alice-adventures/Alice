@@ -31,7 +31,7 @@ package Alice_User_Config is
 
    function Set_SPDX
      (User_Config  : in out User_Config_Type; SPDX_Id : Unbounded_String;
-      Report_Error : Boolean := True) return Boolean;
+      Report_Error :        Boolean := True) return Boolean;
    --  Set the SPDX License Id. If SPDX is not a valid SPDX Id, reports an
    --  error (optionally) and returns False.
 
@@ -43,7 +43,9 @@ package Alice_User_Config is
    --  Check that the contents of the user config file is correctly
    --  associated to the GitHub user account.
 
-   function Read_From_File return User_Config_Type;
+   function Read_From_File
+     (User_Config : in out User_Config_Type; Report_Error : Boolean := True)
+      return Boolean;
    --  Read user configuration from the user config file.
 
    function Write_To_File (User_Config : User_Config_Type) return Boolean;

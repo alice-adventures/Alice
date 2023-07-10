@@ -75,8 +75,9 @@ package body Alice_Cmd.Setup.Config is
          return;
       end if;
 
-      User_Config := Alice_User_Config.Read_From_File;
-      Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
+      if not User_Config.Read_From_File then
+         return;
+      end if;
 
       Log.Info ("User configuration file contents is:");
       User_Config.Show;
@@ -95,15 +96,15 @@ package body Alice_Cmd.Setup.Config is
          return;
       end if;
 
-      Old_User_Config := Alice_User_Config.Read_From_File;
-      Log.Debug ("Old_User_Config.Read_From_File =" & Old_User_Config'Image);
+      if not Old_User_Config.Read_From_File then
+         return;
+      end if;
 
-      Log.Info ("Retrieving information from GitHub and git");
       Success := New_User_Config.Get_Info_From_Token (Old_User_Config.Token);
-      Log.Debug
-        ("New_User_Config.Get_Info_From_Token =" & New_User_Config'Image);
 
       if Success then
+         Log.Debug
+           ("New_User_Config.Get_Info_From_Token =" & New_User_Config'Image);
          if Old_User_Config.Login = New_User_Config.Login then
             Success :=
               New_User_Config.Set_SPDX
@@ -140,34 +141,28 @@ package body Alice_Cmd.Setup.Config is
    procedure Execute_Token (Token : Unbounded_String) is
       Old_User_Config, New_User_Config : Alice_User_Config.User_Config_Type;
 
-      Config_File_Exists : constant Boolean :=
+      Config_File_Exists : Boolean :=
         Alice_User_Config.Has_User_Config_File (Report_Error => False);
 
       Success       : Boolean;
       Login_Changed : Boolean := False;
    begin
-      if Config_File_Exists then
-         --  Log.Warning
-         --    ("User configuration file already exists, " &
-         --     "do you want to continue?");
-         --  CLIC.User_Input.Continue_Or_Abort;
+      Log.Detail
+        ("Retrieving info from GitHUb and git and saving new config file");
 
-         Old_User_Config := Alice_User_Config.Read_From_File;
-         Log.Debug
-           ("Old_User_Config.Read_From_File =" & Old_User_Config'Image);
+      if Config_File_Exists then
+         if not Old_User_Config.Read_From_File (Report_Error => False) then
+            Log.Warning ("Could not read current config file, ignoring");
+            Config_File_Exists := False;
+         end if;
       end if;
 
-      Log.Info ("Retrieving information from GitHub and git");
-      Success := New_User_Config.Get_Info_From_Token (Token);
-      Log.Debug
-        ("New_User_Config.Get_Info_From_Token =" & New_User_Config'Image);
-
-      if not Success then
+      if not New_User_Config.Get_Info_From_Token (Token) then
          return;
       end if;
 
-      Log.Detail ("Keep SPDX_Id from old config file, if any");
       if Config_File_Exists then
+         Log.Detail ("Keep SPDX_Id from old config file");
          Success :=
            New_User_Config.Set_SPDX
              (Old_User_Config.SPDX, Report_Error => False);
@@ -270,7 +265,10 @@ package body Alice_Cmd.Setup.Config is
          return;
       end if;
 
-      User_Config := Alice_User_Config.Read_From_File;
+      if not User_Config.Read_From_File then
+         return;
+      end if;
+
       Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
 
       if User_Config.SPDX = SPDX_Id then
