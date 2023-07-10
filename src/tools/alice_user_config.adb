@@ -143,7 +143,8 @@ package body Alice_User_Config is
    begin
       if not Success and then Report_Error then
          Log.Error
-           ("User configuration file not found, please run 'alice config'");
+           ("User config file not found," &
+            " run 'alice config -h' for more information");
       end if;
 
       return Success;

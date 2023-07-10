@@ -19,7 +19,7 @@ package Alice_Cmd.Setup.Config is
 
    overriding function Usage_Custom_Parameters
      (Cmd : Cmd_Type) return String is
-     ("[ --show ] | --refresh | --token <github_token> | --license <spdx_id>");
+     ("[ --show ] | --token <github_token> | --license <spdx_id> | --refresh");
 
    overriding function Short_Description (Cmd : Cmd_Type) return String is
      ("Configure Participant profile");
@@ -39,6 +39,8 @@ package Alice_Cmd.Setup.Config is
          .Append ("Visit https://github.com/settings/tokens to create your GitHub token. It must have the 'repo' scope. Select the expiration date of your choice. Once expired, generate a new one and use this command to update it. We strongly recommend to create a 'classic' token named 'Alice Adventures'.")
          .New_Line
          .Append ("The SPDX license identifier is used to replace such Id in some source code templates. Work attribution is made with the user name, SPDX license identifier and the current year. Each Participant is free to choose which license must apply to his/her work. By default 'MIT' license is applied. Choose any valid identifier from https://spdx.org/licenses that is compatible with software works (e.g. Creative Commons licenses are not recommended for software).")
+         .New_Line
+         .Append ("If you change some settings in your GitHub account (e.g. name, email), then use '--refresh' to update these changes in your config file, provided that the current token is still valid.")
      );
 
    pragma Style_Checks (on);

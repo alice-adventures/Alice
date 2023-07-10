@@ -9,6 +9,7 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Alice_User_Config;
+use all type Alice_User_Config.User_Config_Type;
 
 with CLIC.User_Input;
 use all type CLIC.User_Input.Answer_Kind;
@@ -36,24 +37,28 @@ package body Alice_Cmd.Setup.Config is
       CLIC.Subcommand.Define_Switch
         (Config      => Config,
          Output      => Cmd.Show'Access,
+         Switch      => "-s",
          Long_Switch => "--show",
          Help        => "Show user configuration");
 
       CLIC.Subcommand.Define_Switch
         (Config      => Config,
          Output      => Cmd.Refresh'Access,
+         Switch      => "-r",
          Long_Switch => "--refresh",
-         Help        => "Refresh user configuration from");
+         Help        => "Refresh user configuration");
 
       CLIC.Subcommand.Define_Switch
         (Config      => Config,
          Output      => Cmd.Token'Access,
+         Switch      => "-t",
          Long_Switch => "--token",
          Help        => "Set user config from GitHub token");
 
       CLIC.Subcommand.Define_Switch
         (Config      => Config,
          Output      => Cmd.License'Access,
+         Switch      => "-l",
          Long_Switch => "--license",
          Help        => "Set SPDX license ID for your work");
       --!pp on
@@ -81,8 +86,47 @@ package body Alice_Cmd.Setup.Config is
    ---------------------
 
    procedure Execute_Refresh is
+      Success         : Boolean;
+      New_User_Config : Alice_User_Config.User_Config_Type;
+      Old_User_Config : Alice_User_Config.User_Config_Type;
    begin
-      null;
+      if not Alice_User_Config.Has_User_Config_File then
+         return;
+      end if;
+
+      Old_User_Config := Alice_User_Config.Read_From_File;
+
+      Log.Always ("Retrieving information from GitHub and git");
+      Success := New_User_Config.Get_Info_From_Token (Old_User_Config.Token);
+
+      if Success then
+         if Old_User_Config.Login = New_User_Config.Login then
+            Success :=
+              New_User_Config.Set_SPDX
+                (Old_User_Config.SPDX, Report_Error => False);
+            if not Success then
+               Log.Warning
+                 ("Could not keep invalid SPDX Id '" &
+                  To_String (Old_User_Config.SPDX) &
+                  "', default 'MIT' applied");
+            end if;
+
+            if New_User_Config /= Old_User_Config then
+               Success := New_User_Config.Write_To_File;
+               Log.Always ("New user config file saved");
+               New_User_Config.Show;
+            else
+               Log.Warning ("No changes detected, config file unchanged");
+            end if;
+         else
+            Log.Error
+              ("Cannot change user login, " &
+               "run 'alice config --token' instead");
+         end if;
+      else
+         Log.Error ("Invalid token provided");
+      end if;
+
    end Execute_Refresh;
 
    -------------------
@@ -95,9 +139,8 @@ package body Alice_Cmd.Setup.Config is
       Config_File_Exists : constant Boolean :=
         Alice_User_Config.Has_User_Config_File (Report_Error => False);
 
+      Success       : Boolean;
       Login_Changed : Boolean := False;
-
-      Success : Boolean;
    begin
       if Config_File_Exists then
          Log.Warning
@@ -212,8 +255,29 @@ package body Alice_Cmd.Setup.Config is
    ---------------------
 
    procedure Execute_License (SPDX_Id : Unbounded_String) is
+      Success     : Boolean := False;
+      User_Config : Alice_User_Config.User_Config_Type;
    begin
-      null;
+      if not Alice_User_Config.Has_User_Config_File then
+         return;
+      end if;
+
+      User_Config := Alice_User_Config.Read_From_File;
+
+      if User_Config.SPDX /= SPDX_Id then
+         Success := User_Config.Set_SPDX (SPDX_Id);
+
+         if Success then
+            Success := User_Config.Write_To_File;
+            Log.Always
+              ("New SPDX license Id '" & To_String (SPDX_Id) &
+               "' will be applied from now on");
+         else
+            Log.Error ("Choose a valid Id from https://spdx.org/licenses");
+         end if;
+      else
+         Log.Warning ("Same SPDX Id specified, nothing changed");
+      end if;
    end Execute_License;
 
    -------------
