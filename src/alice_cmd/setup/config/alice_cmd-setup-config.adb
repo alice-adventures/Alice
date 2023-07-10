@@ -76,8 +76,9 @@ package body Alice_Cmd.Setup.Config is
       end if;
 
       User_Config := Alice_User_Config.Read_From_File;
+      Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
 
-      Log.Always ("User configuration file contents is:");
+      Log.Info ("User configuration file contents is:");
       User_Config.Show;
    end Execute_Show;
 
@@ -95,9 +96,12 @@ package body Alice_Cmd.Setup.Config is
       end if;
 
       Old_User_Config := Alice_User_Config.Read_From_File;
+      Log.Debug ("Old_User_Config.Read_From_File =" & Old_User_Config'Image);
 
-      Log.Always ("Retrieving information from GitHub and git");
+      Log.Info ("Retrieving information from GitHub and git");
       Success := New_User_Config.Get_Info_From_Token (Old_User_Config.Token);
+      Log.Debug
+        ("New_User_Config.Get_Info_From_Token =" & New_User_Config'Image);
 
       if Success then
          if Old_User_Config.Login = New_User_Config.Login then
@@ -113,18 +117,18 @@ package body Alice_Cmd.Setup.Config is
 
             if New_User_Config /= Old_User_Config then
                Success := New_User_Config.Write_To_File;
-               Log.Always ("New user config file saved");
+               Log.Info ("New user config file saved");
                New_User_Config.Show;
             else
-               Log.Warning ("No changes detected, config file unchanged");
+               Log.Info ("No changes detected, config file unchanged");
             end if;
          else
             Log.Error
-              ("Cannot change user login, " &
+              ("Cannot change GitHub login, " &
                "run 'alice config --token' instead");
          end if;
       else
-         Log.Error ("Invalid token provided");
+         Log.Error ("Run 'alice config --token' with a valid token");
       end if;
 
    end Execute_Refresh;
@@ -143,25 +147,27 @@ package body Alice_Cmd.Setup.Config is
       Login_Changed : Boolean := False;
    begin
       if Config_File_Exists then
-         Log.Warning
-           ("User configuration file already exists, " &
-            "do you want to continue?");
-         CLIC.User_Input.Continue_Or_Abort;
+         --  Log.Warning
+         --    ("User configuration file already exists, " &
+         --     "do you want to continue?");
+         --  CLIC.User_Input.Continue_Or_Abort;
+
          Old_User_Config := Alice_User_Config.Read_From_File;
-         Log.Debug ("Old_User_Config" & Old_User_Config'Image);
+         Log.Debug
+           ("Old_User_Config.Read_From_File =" & Old_User_Config'Image);
       end if;
 
-      Log.Always ("Retrieving information from GitHub and git");
+      Log.Info ("Retrieving information from GitHub and git");
       Success := New_User_Config.Get_Info_From_Token (Token);
+      Log.Debug
+        ("New_User_Config.Get_Info_From_Token =" & New_User_Config'Image);
 
       if not Success then
          return;
       end if;
 
-      Log.Debug ("New_User_Config" & New_User_Config'Image);
-
+      Log.Detail ("Keep SPDX_Id from old config file, if any");
       if Config_File_Exists then
-         Log.Debug ("Keep SPDX_Id from old config file, if any");
          Success :=
            New_User_Config.Set_SPDX
              (Old_User_Config.SPDX, Report_Error => False);
@@ -177,6 +183,7 @@ package body Alice_Cmd.Setup.Config is
             Log.Warning ("Set a different one with 'alice config --license'");
             Log.Always ("");
          end if;
+         Log.Debug ("New_User_Config.Set_SPDX = " & New_User_Config'Image);
       end if;
 
       if Config_File_Exists
@@ -202,9 +209,8 @@ package body Alice_Cmd.Setup.Config is
          pragma Style_Checks (on);
       end if;
 
-      Log.Always ("New configuration file contents is:");
+      Log.Info ("New configuration file contents is:");
       New_User_Config.Show;
-      Log.Always ("");
 
       declare
          Answer : CLIC.User_Input.Answer_Kind;
@@ -216,13 +222,13 @@ package body Alice_Cmd.Setup.Config is
                 (if Login_Changed then CLIC.User_Input.No
                  else CLIC.User_Input.Yes));
          if Answer = CLIC.User_Input.No then
+            Log.Warning ("No changes applied");
             return;
          end if;
-         Log.Always ("");
       end;
 
       if Config_File_Exists then
-         Log.Debug ("make a backup copy of user config file");
+         Log.Detail ("Make a backup copy of the user config file");
          declare
             User_Config_File : constant String :=
               Alice_User_Config.Config_Directory &
@@ -237,14 +243,16 @@ package body Alice_Cmd.Setup.Config is
             GNAT.OS_Lib.Copy_File
               (User_Config_File, Backup_Config_File, Success,
                GNAT.OS_Lib.Overwrite);
-            if not Success then
+            if Success then
+               Log.Detail ("User config file backup created");
+            else
                Log.Warning ("Could not make a backup copy of the config file");
             end if;
          end;
       end if;
 
       if New_User_Config.Write_To_File then
-         Log.Always ("New user configuration file saved");
+         Log.Info ("New user configuration file saved");
       else
          Log.Error ("Could not save the new user configuration file");
       end if;
@@ -263,20 +271,22 @@ package body Alice_Cmd.Setup.Config is
       end if;
 
       User_Config := Alice_User_Config.Read_From_File;
+      Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
 
-      if User_Config.SPDX /= SPDX_Id then
+      if User_Config.SPDX = SPDX_Id then
+         Log.Warning ("Same SPDX Id specified, nothing changed");
+      else
          Success := User_Config.Set_SPDX (SPDX_Id);
+         Log.Debug ("User_Config.Set_SPDX =" & User_Config'Image);
 
          if Success then
             Success := User_Config.Write_To_File;
-            Log.Always
+            Log.Info
               ("New SPDX license Id '" & To_String (SPDX_Id) &
                "' will be applied from now on");
          else
             Log.Error ("Choose a valid Id from https://spdx.org/licenses");
          end if;
-      else
-         Log.Warning ("Same SPDX Id specified, nothing changed");
       end if;
    end Execute_License;
 

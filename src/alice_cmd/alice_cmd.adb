@@ -31,8 +31,8 @@ package body Alice_Cmd is
       Help    : aliased Boolean := False;
       Color   : aliased Boolean := True;
       TTY     : aliased Boolean := True;
-      Verbose : aliased Boolean := False; --  describe command activity
-      Detail  : aliased Boolean := False; --  show command details
+      Quiet   : aliased Boolean := False; --  limit output
+      Verbose : aliased Boolean := False; --  show command activity
       Debug   : aliased Boolean := False; --  show program details
    end record;
 
@@ -70,7 +70,9 @@ package body Alice_Cmd is
    is
       use CLIC.Subcommand;
    begin
-      --!pp OFF
+      --!pp off
+      pragma Style_Checks (off);
+
       Define_Switch (Config,
                      Global_Switch.Help'Access,
                      "-h", "--help",
@@ -86,23 +88,25 @@ package body Alice_Cmd is
                      Help => "Disable control characters",
                      Value => False);
       Define_Switch (Config,
+                     Global_Switch.Quiet'Access,
+                     "-q", "--quiet",
+                     Help => "Limit output to strictly necessary");
+      Define_Switch (Config,
                      Global_Switch.Verbose'Access,
                      "-v", "--verbose",
                      Help => "Show command activity");
-      Define_Switch (Config,
-                     Global_Switch.Detail'Access,
-                     "-d", "--detail",
-                     Help => "Show command details");
 
       pragma Warnings (Off);
       if Global_Switch.Profile = Alice_Config.development then
          Define_Switch (Config,
                         Global_Switch.Debug'Access,
-                        "-g", "--debug",
+                        "-d", "--debug",
                         Help => "Show debug information");
       end if;
       pragma Warnings (On);
-      --!pp ON
+
+      pragma Style_Checks (on);
+      --!pp on
 
    end Set_Global_Switches;
 
@@ -114,21 +118,21 @@ package body Alice_Cmd is
    begin
       CLI_Command.Parse_Global_Switches;
 
-      Log.Level := Log.Warning;
+      --  default log level
+      Log.Level := Log.Info;
 
-      if Global_Switch.Verbose then
-         Log.Level := Log.Info;
-         Log.Info ("describe command activity");
+      if Global_Switch.Quiet then
+         Log.Level := Log.Warning;
       end if;
 
-      if Global_Switch.Detail then
+      if Global_Switch.Verbose then
          Log.Level := Log.Detail;
-         Log.Detail ("show command details");
+         Log.Info ("show command activity");
       end if;
 
       if Global_Switch.Debug then
          Log.Level := Log.Debug;
-         Log.Debug ("show program details");
+         Log.Debug ("show debug information");
          Log.Debug ("Global_Switch" & Global_Switch'Image);
       end if;
 
@@ -142,9 +146,9 @@ package body Alice_Cmd is
          Log.Detail ("enable Color");
       end if;
 
-      Log.Debug ("Command.Execute begin");
+      Log.Detail ("begin Command.Execute");
       CLI_Command.Execute;
-      Log.Debug ("Command.Execute end");
+      Log.Detail ("end Command.Execute");
    end Execute;
 
 begin
