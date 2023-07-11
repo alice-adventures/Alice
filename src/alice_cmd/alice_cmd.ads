@@ -8,6 +8,8 @@
 
 package Alice_Cmd is
 
+   Exit_Status : Integer := 0;
+
    procedure Execute;
 
 end Alice_Cmd;

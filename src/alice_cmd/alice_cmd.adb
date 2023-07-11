@@ -6,6 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
+with Alice_Env;
 with Alice_Config;
 
 with Alice_Cmd.Setup.Check;
@@ -146,9 +147,14 @@ package body Alice_Cmd is
          Log.Detail ("enable Color");
       end if;
 
-      Log.Detail ("begin Command.Execute");
-      CLI_Command.Execute;
-      Log.Detail ("end Command.Execute");
+      if Alice_Env.Is_Alice_Root_Dir then
+         Log.Detail ("begin Command.Execute");
+         CLI_Command.Execute;
+         Log.Detail ("end Command.Execute");
+      end if;
+
+      Log.Debug ("exit status =" & Alice_Cmd.Exit_Status'Image);
+      GNAT.OS_Lib.OS_Exit (Alice_Cmd.Exit_Status);
    end Execute;
 
 begin

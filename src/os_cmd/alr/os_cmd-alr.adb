@@ -12,9 +12,11 @@ package body OS_Cmd.Alr is
    -- Init --
    ----------
 
-   overriding procedure Init (OS_Cmd : in out OS_Cmd_Alr_Type) is
+   overriding function Init
+     (Cmd : in out Alr_Cmd_Type; Report_Error : Boolean := True) return Boolean
+   is
    begin
-      OS_Cmd.Init ("alr");
+      return Cmd.Init ("alr", Report_Error);
    end Init;
 
 end OS_Cmd.Alr;

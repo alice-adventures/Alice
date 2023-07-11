@@ -8,8 +8,10 @@
 
 package OS_Cmd.Curl is
 
-   type OS_Cmd_Curl_Type is new OS_Cmd_Type with null record;
+   type Curl_Cmd_Type is new OS_Cmd_Type with null record;
 
-   overriding procedure Init (OS_Cmd : in out OS_Cmd_Curl_Type);
+   overriding function Init
+     (Cmd : in out Curl_Cmd_Type; Report_Error : Boolean := True)
+      return Boolean;
 
 end OS_Cmd.Curl;

@@ -8,8 +8,10 @@
 
 package OS_Cmd.Alr is
 
-   type OS_Cmd_Alr_Type is new OS_Cmd_Type with null record;
+   type Alr_Cmd_Type is new OS_Cmd_Type with null record;
 
-   overriding procedure Init (OS_Cmd : in out OS_Cmd_Alr_Type);
+   overriding function Init
+     (Cmd : in out Alr_Cmd_Type; Report_Error : Boolean := True)
+      return Boolean;
 
 end OS_Cmd.Alr;

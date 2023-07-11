@@ -6,6 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
+with Alice_Cmd;
+
 with Simple_Logging;
 
 package body OS_Cmd is
@@ -16,15 +18,23 @@ package body OS_Cmd is
    -- Init --
    ----------
 
-   procedure Init (Cmd : in out OS_Cmd_Type; Cmd_Name : String) is
+   function Init
+     (Cmd          : in out OS_Cmd_Type; Cmd_Name : String;
+      Report_Error :        Boolean := True) return Boolean
+   is
+      Success : Boolean;
    begin
       Cmd.OS_Path := GNAT.OS_Lib.Locate_Exec_On_Path (Cmd_Name);
-      if Cmd.OS_Path = null then
-         Log.Error ("'" & Cmd_Name & "' cannot be found in PATH");
-         GNAT.OS_Lib.OS_Exit (1);
-      else
+      Success := (Cmd.OS_Path /= null);
+
+      if Success then
          Log.Debug ("found '" & Cmd_Name & "' at '" & Cmd.OS_Path.all & "'");
+      elsif Report_Error then
+         Alice_Cmd.Exit_Status := 1;
+         Log.Error ("'" & Cmd_Name & "' cannot be found in PATH");
       end if;
+
+      return Success;
    end Init;
 
    ----------
@@ -63,7 +73,9 @@ package body OS_Cmd is
    is
       Success : Boolean;
    begin
-      GNAT.OS_Lib.Delete_File (Run_Output.Temp_File.all, Success);
+      if Run_Output.Temp_File /= null then
+         GNAT.OS_Lib.Delete_File (Run_Output.Temp_File.all, Success);
+      end if;
       GNAT.OS_Lib.Free (Run_Output.Temp_File);
       GNAT.OS_Lib.Free (Cmd.OS_Path);
    end Clean;

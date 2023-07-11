@@ -8,18 +8,13 @@
 
 with Alice_User_Config; use Alice_User_Config;
 
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-
-with OS_Cmd.Alr;  use OS_Cmd.Alr;
+with OS_Cmd.Alr; use OS_Cmd.Alr;
 with OS_Cmd.Curl; use OS_Cmd.Curl;
-with OS_Cmd.Git;  use OS_Cmd.Git;
+with OS_Cmd.Git; use OS_Cmd.Git;
 
-with GNAT.AWK;
 with GNAT.OS_Lib;
-with GNAT.Regpat;
 
 with Simple_Logging;
-with Text_IO;
 
 use all type GNAT.OS_Lib.String_Access;
 
@@ -34,10 +29,9 @@ package body Alice_Cmd.Setup.Check is
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector)
    is
-      OS_Cmd_Alr  : OS_Cmd_Alr_Type;
-      OS_Cmd_Curl : OS_Cmd_Curl_Type;
-      OS_Cmd_Git  : OS_Cmd_Git_Type;
-      Run_Output  : OS_Cmd.Run_Output_Type;
+      OS_Cmd_Alr : Alr_Cmd_Type;
+      OS_Cmd_Curl : Curl_Cmd_Type;
+      OS_Cmd_Git : Git_Cmd_Type;
       Args_Length : constant Natural := Natural (Args.Length);
 
    begin
@@ -46,48 +40,21 @@ package body Alice_Cmd.Setup.Check is
          Log.Warning ("Too many arguments, ignored");
       end if;
 
-      OS_Cmd_Alr.Init;
-      Log.Always ("found alr  at '" & OS_Cmd_Alr.Path & "'");
+      if OS_Cmd_Alr.Init then
+         Log.Info ("alr  command found at '" & OS_Cmd_Alr.Path & "'");
+      end if;
 
-      OS_Cmd_Curl.Init;
-      Log.Always ("found curl at '" & OS_Cmd_Curl.Path & "'");
+      if OS_Cmd_Curl.Init then
+         Log.Info ("curl command found at '" & OS_Cmd_Curl.Path & "'");
+      end if;
 
-      OS_Cmd_Git.Init;
-      Log.Always ("found git  at '" & OS_Cmd_Git.Path & "'");
-
-      Run_Output := OS_Cmd_Git.Run ("remote -v");
-      declare
-         Alice_Repo_Matcher : constant GNAT.Regpat.Pattern_Matcher :=
-           GNAT.Regpat.Compile ("^.*github\.com.alice-adventures.Alice\.git$");
-
-         Matches : Natural := 0;
-
-         procedure Field_Match is
-         begin
-            Matches := @ + 1;
-         end Field_Match;
-      begin
-         GNAT.AWK.Add_File (Run_Output.Temp_File.all);
-         GNAT.AWK.Register (1, "origin", Field_Match'Unrestricted_Access);
-         GNAT.AWK.Register
-           (2, Alice_Repo_Matcher, Field_Match'Unrestricted_Access);
-
-         GNAT.AWK.Parse;
-         GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
-
-         if Matches = 4 then
-            Log.Always ("alice git repository detected");
-         else
-            Log.Error
-              ("'alice' must be invoked inside the alice git repository");
-         end if;
-      end;
-      OS_Cmd_Git.Clean (Run_Output);
+      if OS_Cmd_Git.Init then
+         Log.Info ("git  command found at '" & OS_Cmd_Git.Path & "'");
+      end if;
 
       if not Alice_User_Config.Has_User_Config_File then
          return;
       end if;
-
    end Execute;
 
 end Alice_Cmd.Setup.Check;

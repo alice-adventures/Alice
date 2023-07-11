@@ -6,6 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
+with Alice_Cmd;
+
 with OS_Cmd;
 with OS_Cmd.Git; use OS_Cmd.Git;
 
@@ -27,11 +29,13 @@ package body Alice_Env is
 
    function Is_Alice_Repository (Report_Error : Boolean := True) return Boolean
    is
-      OS_Cmd_Git : OS_Cmd_Git_Type;
+      OS_Cmd_Git : Git_Cmd_Type;
       Run_Output : OS_Cmd.Run_Output_Type;
       Success    : Boolean;
    begin
-      OS_Cmd_Git.Init;
+      if not OS_Cmd_Git.Init then
+         return False;
+      end if;
 
       Run_Output := OS_Cmd_Git.Run ("remote -v");
       declare
@@ -69,6 +73,7 @@ package body Alice_Env is
       if Success then
          Log.Detail ("alice git repository detected");
       elsif Report_Error then
+         Alice_Cmd.Exit_Status := 1;
          Log.Error ("'alice' must be invoked inside the alice git repository");
       end if;
 
@@ -102,6 +107,7 @@ package body Alice_Env is
       if Success then
          Log.Detail ("found config/alice_config.ads");
       elsif Report_Error then
+         Alice_Cmd.Exit_Status := 1;
          Log.Error ("'alice' must be invoked from the Alice' root directory");
       end if;
 

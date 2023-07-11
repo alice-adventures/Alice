@@ -19,13 +19,19 @@ package OS_Cmd is
       Temp_File   : GNAT.OS_Lib.String_Access;
    end record;
 
-   procedure Init (Cmd : in out OS_Cmd_Type) is abstract;
+   function Init
+     (Cmd : in out OS_Cmd_Type; Report_Error : Boolean := True)
+      return Boolean is abstract;
+   --  Initialize an OS command by trying to find the executable file in
+   --  PATH.
 
    function Path (Cmd : OS_Cmd_Type) return String;
+   --  Return the PATH where the OS command is found.
 
    function Run (Cmd : OS_Cmd_Type; Args : String) return Run_Output_Type;
    procedure Clean
      (Cmd : in out OS_Cmd_Type; Run_Output : out Run_Output_Type);
+   --  Run an OS command with the given arguments.
 
 private
 
@@ -33,6 +39,8 @@ private
       OS_Path : GNAT.OS_Lib.String_Access;
    end record;
 
-   procedure Init (Cmd : in out OS_Cmd_Type; Cmd_Name : String);
+   function Init
+     (Cmd          : in out OS_Cmd_Type; Cmd_Name : String;
+      Report_Error :        Boolean := True) return Boolean;
 
 end OS_Cmd;

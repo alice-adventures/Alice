@@ -14,7 +14,6 @@ use all type Alice_User_Config.User_Config_Type;
 with CLIC.User_Input;
 use all type CLIC.User_Input.Answer_Kind;
 
-with GNAT.Directory_Operations;
 with GNAT.OS_Lib;
 use all type GNAT.OS_Lib.String_Access;
 
@@ -227,7 +226,7 @@ package body Alice_Cmd.Setup.Config is
          declare
             User_Config_File : constant String :=
               Alice_User_Config.Config_Directory &
-              GNAT.Directory_Operations.Dir_Separator &
+              GNAT.OS_Lib.Directory_Separator &
               Alice_User_Config.User_Config_File;
 
             Backup_Config_File : constant String :=

@@ -6,10 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
-with GNAT.AWK;
-with GNAT.Directory_Operations;
-with GNAT.OS_Lib;
+with Alice_Cmd;
 
+with GNAT.AWK;
+with GNAT.OS_Lib;
 use all type GNAT.OS_Lib.String_Access;
 
 with JSON.Types;
@@ -147,7 +147,10 @@ package body Alice_User_Config is
    is
       Success : constant Boolean := Has_Config_File (User_Config_File);
    begin
-      if not Success and then Report_Error then
+      if Success then
+         Log.Detail ("user has config file");
+      elsif Report_Error then
+         Alice_Cmd.Exit_Status := 1;
          Log.Error
            ("User config file not found," &
             " run 'alice config -h' for more information");
@@ -172,7 +175,7 @@ package body Alice_User_Config is
 
       Read_Result :=
         TOML.File_IO.Load_File
-          (Config_Directory & GNAT.Directory_Operations.Dir_Separator &
+          (Config_Directory & GNAT.OS_Lib.Directory_Separator &
            User_Config_File);
       Log.Debug ("TOML.File_IO.Load_File =" & Read_Result'Image);
 
@@ -220,8 +223,10 @@ package body Alice_User_Config is
               ("Read_Result (SPDX_Id) =" & To_String (User_Config.SPDX));
          end if;
       elsif Report_Error then
+         Alice_Cmd.Exit_Status := 1;
          Log.Error ("Could not load user configuration file");
          Log.Error (To_String (Read_Result.Message));
+         return False;
       end if;
 
       Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
@@ -251,7 +256,7 @@ package body Alice_User_Config is
 
       Config_File.Create
         (Text_IO.Out_File,
-         Config_Directory & GNAT.Directory_Operations.Dir_Separator &
+         Config_Directory & GNAT.OS_Lib.Directory_Separator &
          User_Config_File);
 
       TOML.File_IO.Dump_To_File (Table, Config_File);
@@ -281,9 +286,13 @@ package body Alice_User_Config is
      (User_Config : in out User_Config_Type) return Boolean
    is
       Success     : Boolean := False;
-      OS_Cmd_Curl : OS_Cmd_Curl_Type;
+      OS_Cmd_Curl : Curl_Cmd_Type;
       Run_Output  : OS_Cmd.Run_Output_Type;
    begin
+      if not OS_Cmd_Curl.Init then
+         return False;
+      end if;
+
       Log.Detail ("Retrieving information from GitHub token");
 
       if User_Config.Token = To_Unbounded_String ("") then
@@ -291,7 +300,6 @@ package body Alice_User_Config is
          return False;
       end if;
 
-      OS_Cmd_Curl.Init;
       Run_Output :=
         OS_Cmd_Curl.Run
           ("-s -L -H Authorization:\ Bearer\ " &
@@ -341,6 +349,7 @@ package body Alice_User_Config is
                end if;
             end if;
          else
+            Alice_Cmd.Exit_Status := 1;
             Log.Error ("Token is not associated to a valid GitHub account");
          end if;
       end;
@@ -357,7 +366,7 @@ package body Alice_User_Config is
    function Get_Info_From_Git_Config
      (User_Config : in out User_Config_Type) return Boolean
    is
-      OS_Cmd_Git  : OS_Cmd_Git_Type;
+      OS_Cmd_Git  : Git_Cmd_Type;
       Run_Output  : OS_Cmd.Run_Output_Type;
       Match_Count : Natural := 0;
 
@@ -389,9 +398,12 @@ package body Alice_User_Config is
       end User_Email_Match;
 
    begin
+      if not OS_Cmd_Git.Init then
+         return False;
+      end if;
+
       Log.Detail ("Retrieving information from 'git config'");
 
-      OS_Cmd_Git.Init;
       Run_Output := OS_Cmd_Git.Run ("config -l");
 
       GNAT.AWK.Add_File (Run_Output.Temp_File.all);
