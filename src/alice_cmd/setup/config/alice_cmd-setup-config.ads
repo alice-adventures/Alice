@@ -30,7 +30,7 @@ package Alice_Cmd.Setup.Config is
    overriding function Long_Description
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
      (AAA.Strings.Empty_Vector
-         .Append ("Configure Participant profile. This includes: user name, GitHub login and token, email address and SPDX License Id. This information is mostly taken from GitHub (or 'git config') using a personal access token associated to a valid GitHub personal account (of a user, not an organization).")
+         .Append ("Configure Participant profile. This includes: user name, GitHub login and token, email address and SPDX License Id. This information is mostly taken from GitHub (or 'git config') using a personal access token associated to a valid GitHub account.")
          .New_Line
          .Append ("The GitHub token enables interaction through the GitHub REST API. It is necessary to clone Problem Sources repositories in your GitHub account. All repositories created to work with Alice share the prefix 'alice-', e.g. 'alice-project_euler'.")
          .New_Line

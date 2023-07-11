@@ -323,30 +323,27 @@ package body Alice_User_Config is
          if Object.Contains (Key_Login) then
             Log.Debug ("GitHub type : " & Image (Object.Get ("type")));
 
-            if Object.Get ("type").Kind = String_Kind
-              and then Value_Str (Object.Get ("type")) = "User"
-            then
-               Log.Debug ("GitHub login: " & Image (Object.Get (Key_Login)));
-               Log.Debug ("GitHub name : " & Image (Object.Get (Key_Name)));
-               Log.Debug ("GitHub email: " & Image (Object.Get (Key_Email)));
+            Log.Debug ("GitHub account type : " & Image (Object.Get ("type")));
+            Log.Debug ("GitHub login: " & Image (Object.Get (Key_Login)));
+            Log.Debug ("GitHub name : " & Image (Object.Get (Key_Name)));
+            Log.Debug ("GitHub email: " & Image (Object.Get (Key_Email)));
 
-               if Object.Get (Key_Login).Kind = String_Kind then
-                  User_Config.GitHub_Login :=
-                    To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
-                  Success                  := True;
-               else
-                  Log.Error ("Could not get login from GitHub token");
-               end if;
+            if Object.Get (Key_Login).Kind = String_Kind then
+               User_Config.GitHub_Login :=
+                 To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
+               Success                  := True;
+            else
+               Log.Error ("Could not get login from GitHub token");
+            end if;
 
-               if Object.Get (Key_Name).Kind = String_Kind then
-                  User_Config.User_Name :=
-                    To_Unbounded_String (Value_Str (Object.Get (Key_Name)));
-               end if;
+            if Object.Get (Key_Name).Kind = String_Kind then
+               User_Config.User_Name :=
+                 To_Unbounded_String (Value_Str (Object.Get (Key_Name)));
+            end if;
 
-               if Object.Get (Key_Email).Kind = String_Kind then
-                  User_Config.User_Email :=
-                    To_Unbounded_String (Value_Str (Object.Get (Key_Email)));
-               end if;
+            if Object.Get (Key_Email).Kind = String_Kind then
+               User_Config.User_Email :=
+                 To_Unbounded_String (Value_Str (Object.Get (Key_Email)));
             end if;
          else
             Alice_Cmd.Exit_Status := 1;
