@@ -6,8 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Setup;
-
 with GNAT.OS_Lib;
 with Simple_Logging;
 
@@ -27,19 +25,7 @@ package body Alice_Cmd.PSource.Init is
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector)
    is
       Args_Length : constant Natural := Natural (Args.Length);
-
-      Exists_Setup_Directory : constant Boolean :=
-        GNAT.OS_Lib.Is_Directory (".setup");
    begin
-      if not Exists_Setup_Directory then
-         Log.Detail ("setup directory not found");
-         if not Alice_Setup.Initialize then
-            Log.Always ("Alice could not be configured, aborting");
-            return;
-         end if;
-      else
-         Log.Detail ("alice already setup");
-      end if;
 
       if Args_Length = 0 then
          Log.Error ("Too few arguments: Problem Source Tag required");
