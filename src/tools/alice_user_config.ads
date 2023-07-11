@@ -39,10 +39,6 @@ package Alice_User_Config is
      (Report_Error : Boolean := True) return Boolean;
    --  Check that the user config file exists.
 
-   function Check_User_Config_File return Boolean;
-   --  Check that the contents of the user config file is correctly
-   --  associated to the GitHub user account.
-
    function Read_From_File
      (User_Config : in out User_Config_Type; Report_Error : Boolean := True)
       return Boolean;
