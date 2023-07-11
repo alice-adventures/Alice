@@ -88,23 +88,6 @@ package body Alice_Cmd.Setup.Check is
          return;
       end if;
 
-      Log.Always ("");
-
-      declare
-         Success     : Boolean          := False;
-         User_Config : User_Config_Type;
-         My_Token    : Unbounded_String :=
-           To_Unbounded_String ("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");
-      begin
-         Success := User_Config.Get_Info_From_Token (My_Token);
-         --  Success := User_Config.Get_Info_From_GitHub_Token;
-         if Success then
-            Text_IO.Put_Line (User_Config'Image);
-         else
-            Text_IO.Put_Line ("Could not get info from github");
-         end if;
-      end;
-
    end Execute;
 
 end Alice_Cmd.Setup.Check;
