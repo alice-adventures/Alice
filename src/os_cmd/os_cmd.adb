@@ -25,7 +25,7 @@ package body OS_Cmd is
       Success : Boolean;
    begin
       Cmd.OS_Path := GNAT.OS_Lib.Locate_Exec_On_Path (Cmd_Name);
-      Success := (Cmd.OS_Path /= null);
+      Success     := (Cmd.OS_Path /= null);
 
       if Success then
          Log.Debug ("found '" & Cmd_Name & "' at '" & Cmd.OS_Path.all & "'");
@@ -52,6 +52,11 @@ package body OS_Cmd is
       Run_Output : Run_Output_Type;
    begin
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
+
+      --  Debug all arguments:
+      --  for Arg of Arg_List.all loop
+      --     Log.Debug ("Arg : " & Arg.all);
+      --  end loop;
 
       GNAT.OS_Lib.Create_Temp_Output_File
         (Run_Output.Temp_FD, Run_Output.Temp_File);
