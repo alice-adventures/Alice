@@ -62,6 +62,26 @@ package body GitHub_API is
       return HTTP_Code;
    end Send_Request;
 
+   ----------------------------------------------------
+   -- Create_A_Repository_For_The_Authenticated_User --
+   ----------------------------------------------------
+
+   function Create_A_Repository_For_The_Authenticated_User
+     (User_Config : User_Config_Type; Repo : String; Description : String)
+      return Boolean is
+     (True);
+   --  *TODO - Implementation
+
+   ------------------------------------------
+   -- Create_A_Repository_Using_A_Template --
+   ------------------------------------------
+
+   function Create_A_Repository_Using_A_Template
+     (User_Config : User_Config_Type; Template : String; Repo : String;
+      Description : String) return Boolean is
+     (True);
+   --  *TODO - Implementation
+
    ----------------------
    -- Get_A_Repository --
    ----------------------
@@ -76,6 +96,19 @@ package body GitHub_API is
       return (Send_Request (Request) = 200);
    end Get_A_Repository;
 
+   ----------------
+   -- Get_A_User --
+   ----------------
+
+   function Get_A_User
+     (User_Config : User_Config_Type; Name : String) return Boolean is
+     (True);
+   --  *TODO - Implementation
+
+   --------------------------------
+   -- Get_The_Authenticated_User --
+   --------------------------------
+
    function Get_The_Authenticated_User
      (User_Config : User_Config_Type) return Boolean
    is
@@ -83,5 +116,23 @@ package body GitHub_API is
    begin
       return (Send_Request (Request) = 200);
    end Get_The_Authenticated_User;
+
+   ------------------------------
+   -- List_Public_Repositories --
+   ------------------------------
+
+   function List_Public_Repositories
+     (User_Config : User_Config_Type) return Boolean is
+     (True);
+   --  *TODO - Implementation
+
+   ----------------------------------
+   -- List_Repositories_For_A_User --
+   ----------------------------------
+
+   function List_Repositories_For_A_User
+     (User_Config : User_Config_Type; User : String) return Boolean is
+     (True);
+   --  *TODO - Implementation
 
 end GitHub_API;
