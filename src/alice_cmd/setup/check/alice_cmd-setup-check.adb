@@ -8,15 +8,13 @@
 
 with Alice_User_Config; use Alice_User_Config;
 
-with GNAT.OS_Lib;
+with GitHub_API; use GitHub_API;
 
 with OS_Cmd.Alr;  use OS_Cmd.Alr;
 with OS_Cmd.Curl; use OS_Cmd.Curl;
 with OS_Cmd.Git;  use OS_Cmd.Git;
 
 with Simple_Logging;
-
-use all type GNAT.OS_Lib.String_Access;
 
 package body Alice_Cmd.Setup.Check is
 
@@ -33,7 +31,7 @@ package body Alice_Cmd.Setup.Check is
       Curl_Cmd    : Curl_Cmd_Type;
       Git_Cmd     : Git_Cmd_Type;
       Args_Length : constant Natural := Natural (Args.Length);
-
+      User_Config : Alice_User_Config.User_Config_Type;
    begin
       if Args_Length > 0 then
          Log.Warning ("Too many arguments, ignored");
@@ -57,6 +55,17 @@ package body Alice_Cmd.Setup.Check is
 
       --  *TODO - Check that GitHub token is actually operative
       --  Try to make some GitHub API operation that modifies something
+      if User_Config.Read_From_File then
+         --  if Create_A_Repository_For_The_Authenticated_User
+         --      (User_Config, "alice-test3", "3rd repo test from Ada Github API")
+         if Create_A_Repository_Using_A_Template
+             (User_Config => User_Config, Template => "project_euler-template",
+              Repo        => "alice-test-project_euler",
+              Description => "Test created repo from tempoate with API")
+         then
+            Log.Info ("OK!");
+         end if;
+      end if;
 
    end Execute;
 
