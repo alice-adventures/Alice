@@ -8,6 +8,8 @@
 
 with Alice_Cmd;
 
+with GitHub_API;
+
 with GNAT.AWK;
 with GNAT.OS_Lib;
 use all type GNAT.OS_Lib.String_Access;
@@ -285,73 +287,61 @@ package body Alice_User_Config is
    function Get_Info_From_GitHub_Token
      (User_Config : in out User_Config_Type) return Boolean
    is
-      Success     : Boolean := False;
-      OS_Cmd_Curl : Curl_Cmd_Type;
-      Run_Output  : OS_Cmd.Run_Output_Type;
+      Success    : Boolean := False;
+      Curl_Cmd   : Curl_Cmd_Type;
+      Run_Output : OS_Cmd.Run_Output_Type;
    begin
-      if not OS_Cmd_Curl.Init then
-         return False;
-      end if;
+      Success := GitHub_API.Get_The_Authenticated_User (User_Config);
 
-      Log.Detail ("Retrieving information from GitHub token");
+      if Success then
+         declare
+            package Types is new JSON.Types (Integer, Float);
+            package Parsers is new JSON.Parsers (Types);
 
-      if User_Config.Token = To_Unbounded_String ("") then
-         Log.Error ("GitHub token not set");
-         return False;
-      end if;
+            use Types;
 
-      Run_Output :=
-        OS_Cmd_Curl.Run
-          ("-s -L -H Authorization:\ Bearer\ " &
-           To_String (User_Config.Token) & " " &
-           "https://api.github.com/user");
+            Parser : Parsers.Parser :=
+              Parsers.Create_From_File (GitHub_API.JSON_File);
 
-      declare
-         package Types is new JSON.Types (Integer, Float);
-         package Parsers is new JSON.Parsers (Types);
+            Object : constant JSON_Value := Parser.Parse;
 
-         use Types;
+            function Value_Str (Object : JSON_Value) return String renames
+              Types.Value;
+         begin
+            if Object.Contains (Key_Login) then
+               Log.Debug ("JSON.type : " & Image (Object.Get ("type")));
+               Log.Debug ("JSON.login: " & Image (Object.Get (Key_Login)));
+               Log.Debug ("JSON.name : " & Image (Object.Get (Key_Name)));
+               Log.Debug ("JSON.email: " & Image (Object.Get (Key_Email)));
 
-         Parser : Parsers.Parser :=
-           Parsers.Create_From_File (Run_Output.Temp_File.all);
+               if Object.Get (Key_Login).Kind = String_Kind then
+                  User_Config.GitHub_Login :=
+                    To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
+               else
+                  Success := False;
+                  Log.Debug ("Could not get login from GitHub token");
+               end if;
 
-         Object : constant JSON_Value := Parser.Parse;
+               if Object.Get (Key_Name).Kind = String_Kind then
+                  User_Config.User_Name :=
+                    To_Unbounded_String (Value_Str (Object.Get (Key_Name)));
+               end if;
 
-         function Value_Str (Object : JSON_Value) return String renames
-           Types.Value;
-      begin
-         if Object.Contains (Key_Login) then
-            Log.Debug ("GitHub type : " & Image (Object.Get ("type")));
-
-            Log.Debug ("GitHub account type : " & Image (Object.Get ("type")));
-            Log.Debug ("GitHub login: " & Image (Object.Get (Key_Login)));
-            Log.Debug ("GitHub name : " & Image (Object.Get (Key_Name)));
-            Log.Debug ("GitHub email: " & Image (Object.Get (Key_Email)));
-
-            if Object.Get (Key_Login).Kind = String_Kind then
-               User_Config.GitHub_Login :=
-                 To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
-               Success                  := True;
+               if Object.Get (Key_Email).Kind = String_Kind then
+                  User_Config.User_Email :=
+                    To_Unbounded_String (Value_Str (Object.Get (Key_Email)));
+               end if;
             else
-               Log.Error ("Could not get login from GitHub token");
+               Success := False;
+               Log.Debug ("JSON Object does not contains 'login' key");
             end if;
+         end;
+      end if;
 
-            if Object.Get (Key_Name).Kind = String_Kind then
-               User_Config.User_Name :=
-                 To_Unbounded_String (Value_Str (Object.Get (Key_Name)));
-            end if;
-
-            if Object.Get (Key_Email).Kind = String_Kind then
-               User_Config.User_Email :=
-                 To_Unbounded_String (Value_Str (Object.Get (Key_Email)));
-            end if;
-         else
-            Alice_Cmd.Exit_Status := 1;
-            Log.Error ("Token is not associated to a valid GitHub account");
-         end if;
-      end;
-
-      OS_Cmd_Curl.Clean (Run_Output);
+      if not Success then
+         Alice_Cmd.Exit_Status := 1;
+         Log.Error ("Token is not associated to a valid GitHub account");
+      end if;
 
       return Success;
    end Get_Info_From_GitHub_Token;

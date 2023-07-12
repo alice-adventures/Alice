@@ -1,5 +1,7 @@
+.github.json
+.vscode
+
 /.setup/
-/.vscode
 /alire/
 /bin/
 /config/
