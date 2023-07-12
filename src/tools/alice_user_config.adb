@@ -17,8 +17,7 @@ use all type GNAT.OS_Lib.String_Access;
 with JSON.Types;
 with JSON.Parsers;
 
-with OS_Cmd.Curl; use OS_Cmd.Curl;
-with OS_Cmd.Git;  use OS_Cmd.Git;
+with OS_Cmd.Git; use OS_Cmd.Git;
 
 with Simple_Logging;
 
@@ -287,9 +286,7 @@ package body Alice_User_Config is
    function Get_Info_From_GitHub_Token
      (User_Config : in out User_Config_Type) return Boolean
    is
-      Success    : Boolean := False;
-      Curl_Cmd   : Curl_Cmd_Type;
-      Run_Output : OS_Cmd.Run_Output_Type;
+      Success : Boolean := False;
    begin
       Success := GitHub_API.Get_The_Authenticated_User (User_Config);
 
