@@ -8,11 +8,11 @@
 
 with Alice_User_Config; use Alice_User_Config;
 
-with OS_Cmd.Alr; use OS_Cmd.Alr;
-with OS_Cmd.Curl; use OS_Cmd.Curl;
-with OS_Cmd.Git; use OS_Cmd.Git;
-
 with GNAT.OS_Lib;
+
+with OS_Cmd.Alr;  use OS_Cmd.Alr;
+with OS_Cmd.Curl; use OS_Cmd.Curl;
+with OS_Cmd.Git;  use OS_Cmd.Git;
 
 with Simple_Logging;
 
@@ -29,32 +29,35 @@ package body Alice_Cmd.Setup.Check is
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector)
    is
-      OS_Cmd_Alr : Alr_Cmd_Type;
-      OS_Cmd_Curl : Curl_Cmd_Type;
-      OS_Cmd_Git : Git_Cmd_Type;
+      Alr_Cmd     : Alr_Cmd_Type;
+      Curl_Cmd    : Curl_Cmd_Type;
+      Git_Cmd     : Git_Cmd_Type;
       Args_Length : constant Natural := Natural (Args.Length);
 
    begin
-
       if Args_Length > 0 then
          Log.Warning ("Too many arguments, ignored");
       end if;
 
-      if OS_Cmd_Alr.Init then
-         Log.Info ("alr  command found at '" & OS_Cmd_Alr.Path & "'");
+      if Alr_Cmd.Init then
+         Log.Info ("alr  command found at '" & Alr_Cmd.Path & "'");
       end if;
 
-      if OS_Cmd_Curl.Init then
-         Log.Info ("curl command found at '" & OS_Cmd_Curl.Path & "'");
+      if Curl_Cmd.Init then
+         Log.Info ("curl command found at '" & Curl_Cmd.Path & "'");
       end if;
 
-      if OS_Cmd_Git.Init then
-         Log.Info ("git  command found at '" & OS_Cmd_Git.Path & "'");
+      if Git_Cmd.Init then
+         Log.Info ("git  command found at '" & Git_Cmd.Path & "'");
       end if;
 
       if not Alice_User_Config.Has_User_Config_File then
          return;
       end if;
+
+      --  *TODO - Check that GitHub token is actually operative
+      --  Try to make some GitHub API operation that modifies something
+
    end Execute;
 
 end Alice_Cmd.Setup.Check;
