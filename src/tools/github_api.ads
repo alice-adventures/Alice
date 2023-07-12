@@ -64,12 +64,28 @@ package GitHub_API is
      (User_Config : User_Config_Type) return Boolean;
    --  https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-the-authenticated-user
 
-   function List_Public_Repositories
-     (User_Config : User_Config_Type) return Boolean;
-   --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-public-repositories
-
    function List_Repositories_For_A_User
      (User_Config : User_Config_Type; User : String) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+   --
+   --  Path parameters:
+   --    • username := User
+   --
+   --  Query Parameters:
+   --    • type      := "owner"
+   --    • sort      := "full_name"
+   --    • direction := "asc"
+   --    • per_page  := 100
+
+   function List_Repositories_For_The_Authenticated_User
+     (User_Config : User_Config_Type) return Boolean;
+   --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user
+   --
+   --  Query parameters:
+   --    • visibility  := "public"
+   --    • affiliation := "owner"
+   --    • sort        := "full_name"
+   --    • direction   := "asc"
+   --    • since       := "2023-07-12T00:00:00Z"
 
 end GitHub_API;
