@@ -6,18 +6,17 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Directories;
+
 with Alice_Cmd;
 
 with OS_Cmd;
 with OS_Cmd.Git; use OS_Cmd.Git;
 
 with GNAT.AWK;
-with GNAT.OS_Lib;
 with GNAT.Regpat;
 
 with Simple_Logging;
-
-use all type GNAT.OS_Lib.String_Access;
 
 package body Alice_Env is
 
@@ -86,23 +85,19 @@ package body Alice_Env is
 
    function Is_Alice_Root_Dir (Report_Error : Boolean := True) return Boolean
    is
+      use Ada.Directories;
       Success : Boolean := False;
    begin
       if not Is_Alice_Repository (Report_Error => False) then
          return False;
       end if;
 
-      Success := GNAT.OS_Lib.Is_Directory ("config");
-      if Success then
-         declare
-            Alice_Config_ADS : GNAT.OS_Lib.String_Access := null;
-         begin
-            Alice_Config_ADS :=
-              GNAT.OS_Lib.Locate_Regular_File ("alice_config.ads", "config");
-            Success          := (Alice_Config_ADS /= null);
-            GNAT.OS_Lib.Free (Alice_Config_ADS);
-         end;
-      end if;
+      Success :=
+        Exists ("config") and then Kind ("config") = Directory
+        and then Exists
+          (Compose
+             (Containing_Directory => "config", Name => "alice_config",
+              Extension            => "ads"));
 
       if Success then
          Log.Detail ("found config/alice_config.ads");

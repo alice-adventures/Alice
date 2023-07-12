@@ -6,6 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Directories;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Alice_User_Config;
@@ -13,9 +14,6 @@ use all type Alice_User_Config.User_Config_Type;
 
 with CLIC.User_Input;
 use all type CLIC.User_Input.Answer_Kind;
-
-with GNAT.OS_Lib;
-use all type GNAT.OS_Lib.String_Access;
 
 with Simple_Logging;
 
@@ -224,24 +222,22 @@ package body Alice_Cmd.Setup.Config is
       if Config_File_Exists then
          Log.Detail ("Make a backup copy of the user config file");
          declare
+            use Ada.Directories;
             User_Config_File : constant String :=
-              Alice_User_Config.Config_Directory &
-              GNAT.OS_Lib.Directory_Separator &
-              Alice_User_Config.User_Config_File;
+              Compose
+                (Containing_Directory => Alice_User_Config.Config_Directory,
+                 Name                 => Alice_User_Config.User_Config_File);
 
             Backup_Config_File : constant String :=
               User_Config_File & ".backup";
-
-            Success : Boolean;
          begin
-            GNAT.OS_Lib.Copy_File
-              (User_Config_File, Backup_Config_File, Success,
-               GNAT.OS_Lib.Overwrite);
-            if Success then
-               Log.Detail ("User config file backup created");
-            else
+            Copy_File
+              (User_Config_File, Backup_Config_File,
+               Form => "preserve=all_attributes, mode=overwrite");
+            Log.Detail ("User config file backup created");
+         exception
+            when Use_Error =>
                Log.Warning ("Could not make a backup copy of the config file");
-            end if;
          end;
       end if;
 

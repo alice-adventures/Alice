@@ -6,6 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Directories;
+
 with Alice_Cmd;
 
 with GitHub_API;
@@ -168,6 +170,7 @@ package body Alice_User_Config is
      (User_Config : in out User_Config_Type; Report_Error : Boolean := True)
       return Boolean
    is
+      use Ada.Directories;
       Read_Result : TOML.Read_Result;
    begin
       if not Has_User_Config_File then
@@ -176,8 +179,9 @@ package body Alice_User_Config is
 
       Read_Result :=
         TOML.File_IO.Load_File
-          (Config_Directory & GNAT.OS_Lib.Directory_Separator &
-           User_Config_File);
+          (Compose
+             (Containing_Directory => Config_Directory,
+              Name                 => User_Config_File));
       Log.Debug ("TOML.File_IO.Load_File =" & Read_Result'Image);
 
       if Read_Result.Success then
@@ -240,6 +244,7 @@ package body Alice_User_Config is
    -------------------
 
    function Write_To_File (User_Config : User_Config_Type) return Boolean is
+      use Ada.Directories;
       Success     : constant Boolean         := True;
       Table       : constant TOML.TOML_Value := TOML.Create_Table;
       Config_File : Text_IO.File_Type;
@@ -257,8 +262,9 @@ package body Alice_User_Config is
 
       Config_File.Create
         (Text_IO.Out_File,
-         Config_Directory & GNAT.OS_Lib.Directory_Separator &
-         User_Config_File);
+         Compose
+           (Containing_Directory => Config_Directory,
+            Name                 => User_Config_File));
 
       TOML.File_IO.Dump_To_File (Table, Config_File);
 
