@@ -108,7 +108,8 @@ package body GitHub_API is
       Contents : constant String :=
         JSON_Obj
           (Key_Value ("name", Repo) & "," &
-           Key_Value ("description", Description));
+           Key_Value ("description", Description) & "," &
+           Key_Value ("auto_init", "true"));
    begin
       return (Send_Request (Request, Contents) = 201);
    end Create_A_Repository_For_The_Authenticated_User;
@@ -138,11 +139,11 @@ package body GitHub_API is
    ----------------------
 
    function Get_A_Repository
-     (User_Config : User_Config_Type; Repo : String) return Boolean
+     (User_Config : User_Config_Type; Owner : String; Repo : String)
+      return Boolean
    is
       Request : constant String :=
-        Curl_Args (User_Config) & "repos/" & To_String (User_Config.Login) &
-        "/" & Repo;
+        Curl_Args (User_Config) & "repos/" & Owner & "/" & Repo;
    begin
       return (Send_Request (Request) = 200);
    end Get_A_Repository;

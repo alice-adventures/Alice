@@ -46,11 +46,12 @@ package GitHub_API is
    --    • description    := Description
 
    function Get_A_Repository
-     (User_Config : User_Config_Type; Repo : String) return Boolean;
+     (User_Config : User_Config_Type; Owner : String; Repo : String)
+      return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
    --
    --  Path parameters:
-   --    • owner := User_Config.Login
+   --    • owner := Owner
    --    • repo  := Repo
 
    function Get_A_User
