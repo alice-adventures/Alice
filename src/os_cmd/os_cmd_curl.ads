@@ -6,17 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
-package body OS_Cmd.Git is
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-   ----------
-   -- Init --
-   ----------
+with OS_Cmd;
 
-   overriding function Init
-     (Cmd : in out Git_Cmd_Type; Report_Error : Boolean := True) return Boolean
-   is
-   begin
-      return Cmd.Init ("git", Report_Error);
-   end Init;
-
-end OS_Cmd.Git;
+package OS_Cmd_Curl is new OS_Cmd (To_Unbounded_String ("curl"));

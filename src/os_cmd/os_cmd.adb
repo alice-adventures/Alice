@@ -14,40 +14,54 @@ package body OS_Cmd is
 
    package Log renames Simple_Logging;
 
+   OS_Cmd_Instance : Cmd_Type;
+
    ----------
    -- Init --
    ----------
 
    function Init
-     (Cmd          : in out OS_Cmd_Type; Cmd_Name : String;
-      Report_Error :        Boolean := True) return Boolean
+     (Cmd : in out Cmd_Type; Report_Error : Boolean := True) return Boolean
    is
-      Success : Boolean;
    begin
-      Cmd.OS_Path := GNAT.OS_Lib.Locate_Exec_On_Path (Cmd_Name);
-      Success     := (Cmd.OS_Path /= null);
+      if OS_Cmd_Instance.OS_Path = null then
+         OS_Cmd_Instance.OS_Path :=
+           GNAT.OS_Lib.Locate_Exec_On_Path (To_String (OS_Cmd_Name));
 
-      if Success then
-         Log.Debug ("found '" & Cmd_Name & "' at '" & Cmd.OS_Path.all & "'");
-      elsif Report_Error then
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error ("'" & Cmd_Name & "' cannot be found in PATH");
+         if OS_Cmd_Instance.OS_Path /= null then
+            Log.Debug
+              ("found '" & To_String (OS_Cmd_Name) & "' at '" &
+               OS_Cmd_Instance.OS_Path.all & "'");
+         elsif Report_Error then
+            Alice_Cmd.Exit_Status := 1;
+            Log.Error
+              ("'" & To_String (OS_Cmd_Name) & "' cannot be found in PATH");
+            return False;
+         end if;
       end if;
 
-      return Success;
+      Log.Debug
+        ("Instance @" & OS_Cmd_Instance'Address'Image & " =" &
+         OS_Cmd_Instance'Image);
+
+      Cmd.OS_Path := OS_Cmd_Instance.OS_Path;
+      Log.Debug
+        ("Cmd @" & Cmd'Address'Image & " =" & Cmd'Image & Cmd.OS_Path.all);
+
+      return (Cmd.OS_Path /= null);
    end Init;
 
    ----------
    -- Path --
    ----------
 
-   function Path (Cmd : OS_Cmd_Type) return String is (Cmd.OS_Path.all);
+   function Path (Cmd : Cmd_Type) return String is (Cmd.OS_Path.all);
 
    ---------
    -- Run --
    ---------
 
-   function Run (Cmd : OS_Cmd_Type; Args : String) return Run_Output_Type is
+   function Run (Cmd : Cmd_Type; Args : String) return Run_Output_Type is
       Arg_List   : GNAT.OS_Lib.Argument_List_Access;
       Run_Output : Run_Output_Type;
    begin
@@ -74,15 +88,13 @@ package body OS_Cmd is
    -- Clean --
    -----------
 
-   procedure Clean (Cmd : in out OS_Cmd_Type; Run_Output : out Run_Output_Type)
-   is
+   procedure Clean (Cmd : in out Cmd_Type; Run_Output : out Run_Output_Type) is
       Success : Boolean;
    begin
       if Run_Output.Temp_File /= null then
          GNAT.OS_Lib.Delete_File (Run_Output.Temp_File.all, Success);
       end if;
       GNAT.OS_Lib.Free (Run_Output.Temp_File);
-      GNAT.OS_Lib.Free (Cmd.OS_Path);
    end Clean;
 
 end OS_Cmd;

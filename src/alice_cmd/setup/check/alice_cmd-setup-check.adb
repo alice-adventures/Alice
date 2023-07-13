@@ -10,9 +10,9 @@ with Alice_User_Config; use Alice_User_Config;
 
 with GitHub_API; use GitHub_API;
 
-with OS_Cmd.Alr;  use OS_Cmd.Alr;
-with OS_Cmd.Curl; use OS_Cmd.Curl;
-with OS_Cmd.Git;  use OS_Cmd.Git;
+with OS_Cmd_Alr;
+with OS_Cmd_Curl;
+with OS_Cmd_Git;
 
 with Simple_Logging;
 
@@ -27,9 +27,9 @@ package body Alice_Cmd.Setup.Check is
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector)
    is
-      Alr_Cmd     : Alr_Cmd_Type;
-      Curl_Cmd    : Curl_Cmd_Type;
-      Git_Cmd     : Git_Cmd_Type;
+      Alr_Cmd     : OS_Cmd_Alr.Cmd_Type;
+      Curl_Cmd    : OS_Cmd_Curl.Cmd_Type;
+      Git_Cmd     : OS_Cmd_Git.Cmd_Type;
       Args_Length : constant Natural := Natural (Args.Length);
       User_Config : Alice_User_Config.User_Config_Type;
    begin

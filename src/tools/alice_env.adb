@@ -10,8 +10,7 @@ with Ada.Directories;
 
 with Alice_Cmd;
 
-with OS_Cmd;
-with OS_Cmd.Git; use OS_Cmd.Git;
+with OS_Cmd_Git; use OS_Cmd_Git;
 
 with GNAT.AWK;
 with GNAT.Regpat;
@@ -28,15 +27,15 @@ package body Alice_Env is
 
    function Is_Alice_Repository (Report_Error : Boolean := True) return Boolean
    is
-      OS_Cmd_Git : Git_Cmd_Type;
-      Run_Output : OS_Cmd.Run_Output_Type;
+      Cmd_Git : OS_Cmd_Git.Cmd_Type;
+      Run_Output : OS_Cmd_Git.Run_Output_Type;
       Success    : Boolean;
    begin
-      if not OS_Cmd_Git.Init then
+      if not Cmd_Git.Init then
          return False;
       end if;
 
-      Run_Output := OS_Cmd_Git.Run ("remote -v");
+      Run_Output := Cmd_Git.Run ("remote -v");
       declare
          Alice_Repo_Matcher : constant GNAT.Regpat.Pattern_Matcher :=
            GNAT.Regpat.Compile ("^.*github\.com.alice-adventures.Alice\.git$");
@@ -67,7 +66,7 @@ package body Alice_Env is
 
          Success := (Matches = 4);
       end;
-      OS_Cmd_Git.Clean (Run_Output);
+      Cmd_Git.Clean (Run_Output);
 
       if Success then
          Log.Detail ("alice git repository detected");

@@ -11,19 +11,18 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
 with Ada.Integer_Text_IO;
 
-with OS_Cmd;
-with OS_Cmd.Curl; use OS_Cmd.Curl;
+with OS_Cmd_Curl;
 
 with Simple_Logging;
 
 package body GitHub_API is
 
-   Flags : constant String := " -s -L";
-   HTTP_Code : constant String := " -w %{http_code}\\n";
-   Output : constant String := " -o " & JSON_File;
+   Flags      : constant String := " -s -L";
+   HTTP_Code  : constant String := " -w %{http_code}\\n";
+   Output     : constant String := " -o " & JSON_File;
    Accept_Hdr : constant String := " -H Accept:\ application/vnd.github+json";
-   Auth_Hdr : constant String := " -H Authorization:\ Bearer\ ";
-   Base_URL : constant String := " https://api.github.com/";
+   Auth_Hdr   : constant String := " -H Authorization:\ Bearer\ ";
+   Base_URL   : constant String := " https://api.github.com/";
 
    package Log renames Simple_Logging;
 
@@ -69,9 +68,9 @@ package body GitHub_API is
    function Send_Request
      (Request : String; Contents : String := "") return Natural
    is
-      Curl_Cmd : Curl_Cmd_Type;
-      Run_Output : OS_Cmd.Run_Output_Type;
-      HTTP_Code : Natural;
+      Curl_Cmd      : OS_Cmd_Curl.Cmd_Type;
+      Run_Output    : OS_Cmd_Curl.Run_Output_Type;
+      HTTP_Code     : Natural;
       Response_File : Ada.Text_IO.File_Type;
    begin
       if not Curl_Cmd.Init then
@@ -105,7 +104,7 @@ package body GitHub_API is
      (User_Config : User_Config_Type; Repo : String; Description : String)
       return Boolean
    is
-      Request : constant String := Curl_Args (User_Config) & "user/repos";
+      Request  : constant String := Curl_Args (User_Config) & "user/repos";
       Contents : constant String :=
         JSON_Obj
           (Key_Value ("name", Repo) & "," &
@@ -122,7 +121,7 @@ package body GitHub_API is
      (User_Config : User_Config_Type; Template : String; Repo : String;
       Description : String) return Boolean
    is
-      Request : constant String :=
+      Request  : constant String :=
         Curl_Args (User_Config) & "repos/alice-adventures/" & Template &
         "/generate";
       Contents : constant String :=

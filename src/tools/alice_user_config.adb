@@ -19,7 +19,7 @@ use all type GNAT.OS_Lib.String_Access;
 with JSON.Types;
 with JSON.Parsers;
 
-with OS_Cmd.Git; use OS_Cmd.Git;
+with OS_Cmd_Git;
 
 with Simple_Logging;
 
@@ -356,8 +356,8 @@ package body Alice_User_Config is
    function Get_Info_From_Git_Config
      (User_Config : in out User_Config_Type) return Boolean
    is
-      OS_Cmd_Git  : Git_Cmd_Type;
-      Run_Output  : OS_Cmd.Run_Output_Type;
+      Cmd_Git     : OS_Cmd_Git.Cmd_Type;
+      Run_Output  : OS_Cmd_Git.Run_Output_Type;
       Match_Count : Natural := 0;
 
       function Field_Str (RanK : GNAT.AWK.Count) return String renames
@@ -388,13 +388,13 @@ package body Alice_User_Config is
       end User_Email_Match;
 
    begin
-      if not OS_Cmd_Git.Init then
+      if not Cmd_Git.Init then
          return False;
       end if;
 
       Log.Detail ("Retrieving information from 'git config'");
 
-      Run_Output := OS_Cmd_Git.Run ("config -l");
+      Run_Output := Cmd_Git.Run ("config -l");
 
       GNAT.AWK.Add_File (Run_Output.Temp_File.all);
       GNAT.AWK.Set_Field_Separators ("=");
@@ -405,7 +405,7 @@ package body Alice_User_Config is
       GNAT.AWK.Parse;
       GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
 
-      OS_Cmd_Git.Clean (Run_Output);
+      Cmd_Git.Clean (Run_Output);
 
       return (Match_Count = 2);
    end Get_Info_From_Git_Config;

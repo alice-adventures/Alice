@@ -6,12 +6,17 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 with GNAT.OS_Lib;
 use all type GNAT.OS_Lib.String_Access;
 
+generic
+   OS_Cmd_Name : Unbounded_String;
+
 package OS_Cmd is
 
-   type OS_Cmd_Type is abstract tagged limited private;
+   type Cmd_Type is limited private;
 
    type Run_Output_Type is record
       Return_Code : Integer;
@@ -20,27 +25,23 @@ package OS_Cmd is
    end record;
 
    function Init
-     (Cmd : in out OS_Cmd_Type; Report_Error : Boolean := True)
-      return Boolean is abstract;
+     (Cmd : in out Cmd_Type; Report_Error : Boolean := True) return Boolean;
    --  Initialize an OS command by trying to find the executable file in
    --  PATH.
 
-   function Path (Cmd : OS_Cmd_Type) return String;
+   function Path (Cmd : Cmd_Type) return String;
    --  Return the PATH where the OS command is found.
 
-   function Run (Cmd : OS_Cmd_Type; Args : String) return Run_Output_Type;
-   procedure Clean
-     (Cmd : in out OS_Cmd_Type; Run_Output : out Run_Output_Type);
+   function Run (Cmd : Cmd_Type; Args : String) return Run_Output_Type;
+   --  Run the command with the given arguments.
+
+   procedure Clean (Cmd : in out Cmd_Type; Run_Output : out Run_Output_Type);
    --  Run an OS command with the given arguments.
 
 private
 
-   type OS_Cmd_Type is abstract tagged limited record
-      OS_Path : GNAT.OS_Lib.String_Access;
+   type Cmd_Type is limited record
+      OS_Path : aliased GNAT.OS_Lib.String_Access := null;
    end record;
-
-   function Init
-     (Cmd          : in out OS_Cmd_Type; Cmd_Name : String;
-      Report_Error :        Boolean := True) return Boolean;
 
 end OS_Cmd;

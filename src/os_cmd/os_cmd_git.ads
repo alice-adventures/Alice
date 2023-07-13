@@ -6,12 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
-package OS_Cmd.Git is
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-   type Git_Cmd_Type is new OS_Cmd_Type with null record;
+with OS_Cmd;
 
-   overriding function Init
-     (Cmd : in out Git_Cmd_Type; Report_Error : Boolean := True)
-      return Boolean;
-
-end OS_Cmd.Git;
+package OS_Cmd_Git is new OS_Cmd (To_Unbounded_String ("git"));

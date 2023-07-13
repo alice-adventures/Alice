@@ -6,17 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
-package body OS_Cmd.Alr is
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-   ----------
-   -- Init --
-   ----------
+with OS_Cmd;
 
-   overriding function Init
-     (Cmd : in out Alr_Cmd_Type; Report_Error : Boolean := True) return Boolean
-   is
-   begin
-      return Cmd.Init ("alr", Report_Error);
-   end Init;
-
-end OS_Cmd.Alr;
+package OS_Cmd_Alr is new OS_Cmd (To_Unbounded_String ("alr"));
