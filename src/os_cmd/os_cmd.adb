@@ -40,14 +40,7 @@ package body OS_Cmd is
          end if;
       end if;
 
-      Log.Debug
-        ("Instance @" & OS_Cmd_Instance'Address'Image & " =" &
-         OS_Cmd_Instance'Image);
-
       Cmd.OS_Path := OS_Cmd_Instance.OS_Path;
-      Log.Debug
-        ("Cmd @" & Cmd'Address'Image & " =" & Cmd'Image & Cmd.OS_Path.all);
-
       return (Cmd.OS_Path /= null);
    end Init;
 
