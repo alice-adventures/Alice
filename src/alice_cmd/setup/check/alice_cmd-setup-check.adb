@@ -6,15 +6,18 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_User_Config; use Alice_User_Config;
+with Ada.Directories;
 
-with GitHub_API; use GitHub_API;
+with Alice_User_Config; use Alice_User_Config;
+with Alice_Git;         use Alice_Git;
 
 with OS_Cmd_Alr;
 with OS_Cmd_Curl;
 with OS_Cmd_Git;
 
 with Simple_Logging;
+
+with Text_IO;
 
 package body Alice_Cmd.Setup.Check is
 
@@ -55,18 +58,28 @@ package body Alice_Cmd.Setup.Check is
          return;
       end if;
 
-      --  *TODO - Check that GitHub token is actually operative
-      --  Try to make some GitHub API operation that modifies something
+      --  *REVIEW - Check that GitHub token is truly operative
+
       if User_Config.Read_From_File then
-         --  if Create_A_Repository_For_The_Authenticated_User
-         --      (User_Config, "alice-test3", "3rd repo test from Ada Github API")
-         if Create_A_Repository_Using_A_Template
-             (User_Config => User_Config, Template => "project_euler-template",
-              Repo        => "alice-test-project_euler",
-              Description => "Test created repo from tempoate with API")
-         then
-            Log.Info ("OK!");
+         if User_Has_Repository (User_Config, "alice-test") then
+            Log.Detail ("User has repo 'alice-test'");
+         else
+            Log.Detail ("Missing repo 'alice-test' for user, creating repo");
+            if Create_Repository
+                (User_Config, "alice-test",
+                 "Test repository used by Alice Adventures")
+            then
+               Log.Info ("Repository 'alice-test' created");
+            else
+               Alice_Cmd.Exit_Status := 1;
+               Log.Error ("Could no create repository 'alice-test'");
+               return;
+            end if;
          end if;
+
+         Ada.Directories.Set_Directory ("config");
+
+
       end if;
 
    end Execute;
