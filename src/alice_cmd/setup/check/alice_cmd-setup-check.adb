@@ -27,10 +27,12 @@ package body Alice_Cmd.Setup.Check is
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector)
    is
-      Alr_Cmd     : OS_Cmd_Alr.Cmd_Type;
-      Curl_Cmd    : OS_Cmd_Curl.Cmd_Type;
-      Git_Cmd     : OS_Cmd_Git.Cmd_Type;
       Args_Length : constant Natural := Natural (Args.Length);
+
+      Alr_Cmd  : OS_Cmd_Alr.Cmd_Type;
+      Curl_Cmd : OS_Cmd_Curl.Cmd_Type;
+      Git_Cmd  : OS_Cmd_Git.Cmd_Type;
+
       User_Config : Alice_User_Config.User_Config_Type;
    begin
       if Args_Length > 0 then

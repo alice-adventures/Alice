@@ -82,6 +82,7 @@ package body OS_Cmd is
    -----------
 
    procedure Clean (Cmd : in out Cmd_Type; Run_Output : out Run_Output_Type) is
+      pragma Unreferenced (Cmd);
       Success : Boolean;
    begin
       if Run_Output.Temp_File /= null then
