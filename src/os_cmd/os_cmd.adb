@@ -58,6 +58,13 @@ package body OS_Cmd is
       Arg_List   : GNAT.OS_Lib.Argument_List_Access;
       Run_Output : Run_Output_Type;
    begin
+      if Cmd.OS_Path = null then
+         Alice_Cmd.Exit_Status := 1;
+         Log.Error ("System error, command not initialized");
+         Run_Output.Return_Code := -1;
+         return Run_Output;
+      end if;
+
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
 
       --  Debug all arguments:
@@ -68,6 +75,7 @@ package body OS_Cmd is
       GNAT.OS_Lib.Create_Temp_Output_File
         (Run_Output.Temp_FD, Run_Output.Temp_File);
 
+      Log.Debug ("Run " & To_String (OS_Cmd_Name) & " " & Args);
       GNAT.OS_Lib.Spawn
         (Cmd.OS_Path.all, Arg_List.all, Run_Output.Temp_FD,
          Run_Output.Return_Code);
@@ -81,8 +89,7 @@ package body OS_Cmd is
    -- Clean --
    -----------
 
-   procedure Clean (Cmd : in out Cmd_Type; Run_Output : out Run_Output_Type) is
-      pragma Unreferenced (Cmd);
+   procedure Clean (Run_Output : out Run_Output_Type) is
       Success : Boolean;
    begin
       if Run_Output.Temp_File /= null then

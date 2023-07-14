@@ -14,13 +14,15 @@ package GitHub_API is
 
    JSON_File : constant String := ".github.json";
 
-   --  All functions interacting with the GitHub API work in the same way:
+   --  All functions interacting with the GitHub API (all those functions
+   --  that have a link to the GitHub doc) work in the same way:
    --
    --     1. Send a request to the GitHub API using curl
    --     2. The response (HTTP code) is saved in a temporary file
    --     3. The JSON object received is saved in the file JSON_File
    --     4. The function returns True if the HTTP code is 200 (Ok)
-   --     5. The caller can parse the JSON saved in the JSON_File
+   --     5. The caller can parse the JSON saved in the JSON_File in the
+   --        current directory
 
    function Create_A_Repository_For_The_Authenticated_User
      (User_Config : User_Config_Type; Repo : String; Description : String)

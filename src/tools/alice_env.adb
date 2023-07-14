@@ -7,6 +7,7 @@
 -------------------------------------------------------------------------------
 
 with Ada.Directories;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Alice_Cmd;
 
@@ -21,13 +22,15 @@ package body Alice_Env is
 
    package Log renames Simple_Logging;
 
+   Alice_Root_Dir : Unbounded_String := To_Unbounded_String ("");
+
    -------------------------
    -- Is_Alice_Repository --
    -------------------------
 
    function Is_Alice_Repository (Report_Error : Boolean := True) return Boolean
    is
-      Cmd_Git : OS_Cmd_Git.Cmd_Type;
+      Cmd_Git    : OS_Cmd_Git.Cmd_Type;
       Run_Output : OS_Cmd_Git.Run_Output_Type;
       Success    : Boolean;
    begin
@@ -66,7 +69,7 @@ package body Alice_Env is
 
          Success := (Matches = 4);
       end;
-      Cmd_Git.Clean (Run_Output);
+      Run_Output.Clean;
 
       if Success then
          Log.Detail ("alice git repository detected");
@@ -75,7 +78,7 @@ package body Alice_Env is
          Log.Error ("'alice' must be invoked inside the alice git repository");
       end if;
 
-      return True;
+      return Success;
    end Is_Alice_Repository;
 
    -----------------------
@@ -100,6 +103,8 @@ package body Alice_Env is
 
       if Success then
          Log.Detail ("found config/alice_config.ads");
+         Alice_Root_Dir := To_Unbounded_String (Current_Directory);
+         Log.Detail ("Alice_Root_Dir = " & Get_Alice_Root_Dir);
       elsif Report_Error then
          Alice_Cmd.Exit_Status := 1;
          Log.Error ("'alice' must be invoked from the Alice' root directory");
@@ -107,5 +112,11 @@ package body Alice_Env is
 
       return Success;
    end Is_Alice_Root_Dir;
+
+   ------------------------
+   -- Get_Alice_Root_Dir --
+   ------------------------
+
+   function Get_Alice_Root_Dir return String is (To_String (Alice_Root_Dir));
 
 end Alice_Env;

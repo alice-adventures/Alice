@@ -403,7 +403,7 @@ package body Alice_User_Config is
       GNAT.AWK.Parse;
       GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
 
-      Cmd_Git.Clean (Run_Output);
+      Run_Output.Clean;
 
       return (Match_Count = 2);
    end Get_Info_From_Git_Config;

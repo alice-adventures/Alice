@@ -10,8 +10,11 @@ with Alice_User_Config; use Alice_User_Config;
 
 package Alice_Git is
 
-   --  function Clone_Repository
-   --    (Repo : String; Directory : String) return Boolean;
+   GitHub_Root       : constant String := "git@github.com:";
+   Alice_Github_Root : constant String := GitHub_Root & "alice-adventures";
+
+   function Clone_Repository
+     (Repo : String; Directory : String := "") return Boolean;
 
    function Create_Repository
      (User_Config : User_Config_Type; Repo : String; Description : String)

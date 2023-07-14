@@ -7,7 +7,6 @@
 -------------------------------------------------------------------------------
 with AAA.Strings;
 
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;
 with Ada.Integer_Text_IO;
 
@@ -58,8 +57,8 @@ package body GitHub_API is
    ---------------
 
    function Curl_Args (User_Config : User_Config_Type) return String is
-     (Flags & HTTP_Code & Output & Accept_Hdr & Auth_Hdr &
-      To_String (User_Config.Token) & Base_URL);
+     (Flags & HTTP_Code & Output & Accept_Hdr & Auth_Hdr & User_Config.Token &
+      Base_URL);
 
    ------------------
    -- Send_Request --
@@ -91,7 +90,7 @@ package body GitHub_API is
       Log.Debug ("Response =" & HTTP_Code'Image);
       Response_File.Close;
 
-      Curl_Cmd.Clean (Run_Output);
+      Run_Output.Clean;
 
       return HTTP_Code;
    end Send_Request;
@@ -127,7 +126,7 @@ package body GitHub_API is
         "/generate";
       Contents : constant String :=
         JSON_Obj
-          (Key_Value ("owner", To_String (User_Config.Login)) & "," &
+          (Key_Value ("owner", User_Config.Login) & "," &
            Key_Value ("name", Repo) & "," &
            Key_Value ("description", Description));
    begin

@@ -35,7 +35,7 @@ package OS_Cmd is
    function Run (Cmd : Cmd_Type; Args : String) return Run_Output_Type;
    --  Run the command with the given arguments.
 
-   procedure Clean (Cmd : in out Cmd_Type; Run_Output : out Run_Output_Type);
+   procedure Clean (Run_Output : out Run_Output_Type);
    --  Run an OS command with the given arguments.
 
 private

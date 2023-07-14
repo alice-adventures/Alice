@@ -6,8 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-
 with GitHub_API;
 
 with JSON.Types;
@@ -25,6 +23,28 @@ package body Alice_Git is
    package Parsers is new JSON.Parsers (Types);
 
    use Types;
+
+   ----------------------
+   -- Clone_Repository --
+   ----------------------
+
+   function Clone_Repository
+     (Repo : String; Directory : String := "") return Boolean
+   is
+      Success    : Boolean;
+      Git_Cmd    : OS_Cmd_Git.Cmd_Type;
+      Run_Output : OS_Cmd_Git.Run_Output_Type;
+   begin
+      if not Git_Cmd.Init then
+         return False;
+      end if;
+
+      Run_Output := Git_Cmd.Run ("clone -q " & Repo & " " & Directory);
+      Success    := (Run_Output.Return_Code = 0);
+      Run_Output.Clean;
+
+      return Success;
+   end Clone_Repository;
 
    -----------------------
    -- Create_Repository --
@@ -48,8 +68,7 @@ package body Alice_Git is
      (User_Config : User_Config_Type; Repo : String) return Boolean
    is
    begin
-      return
-        User_Has_Repository (User_Config, To_String (User_Config.Login), Repo);
+      return User_Has_Repository (User_Config, User_Config.Login, Repo);
    end User_Has_Repository;
 
    -------------------------

@@ -134,7 +134,7 @@ package body Alice_Cmd.Setup.Config is
    -- Execute_Token --
    -------------------
 
-   procedure Execute_Token (Token : Unbounded_String) is
+   procedure Execute_Token (Token : String) is
       Old_User_Config, New_User_Config : Alice_User_Config.User_Config_Type;
 
       Config_File_Exists : Boolean :=
@@ -251,7 +251,7 @@ package body Alice_Cmd.Setup.Config is
    -- Execute_License --
    ---------------------
 
-   procedure Execute_License (SPDX_Id : Unbounded_String) is
+   procedure Execute_License (SPDX_Id : String) is
       Success     : Boolean := False;
       User_Config : Alice_User_Config.User_Config_Type;
    begin
@@ -322,7 +322,7 @@ package body Alice_Cmd.Setup.Config is
             return;
          end if;
 
-         Execute_Token (To_Unbounded_String (Args.First_Element));
+         Execute_Token (Args.First_Element);
       elsif Cmd.License then
 
          if Args_Length < 1 then
@@ -335,7 +335,7 @@ package body Alice_Cmd.Setup.Config is
             return;
          end if;
 
-         Execute_License (To_Unbounded_String (Args.First_Element));
+         Execute_License (Args.First_Element);
       else
          Log.Error ("subcommand not found (?)");
       end if;
