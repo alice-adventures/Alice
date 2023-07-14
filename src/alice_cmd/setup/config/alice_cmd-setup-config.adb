@@ -108,8 +108,7 @@ package body Alice_Cmd.Setup.Config is
                 (Old_User_Config.SPDX, Report_Error => False);
             if not Success then
                Log.Warning
-                 ("Could not keep invalid SPDX Id '" &
-                  To_String (Old_User_Config.SPDX) &
+                 ("Could not keep invalid SPDX Id '" & Old_User_Config.SPDX &
                   "', default 'MIT' applied");
             end if;
 
@@ -165,12 +164,12 @@ package body Alice_Cmd.Setup.Config is
              (Old_User_Config.SPDX, Report_Error => False);
          if Success then
             Log.Detail
-              ("keeping SPDX_Id '" & To_String (New_User_Config.SPDX) &
+              ("keeping SPDX_Id '" & New_User_Config.SPDX &
                "' from old config file");
          else
             Log.Warning
-              ("Could not save current SPDX Id '" &
-               To_String (Old_User_Config.SPDX) & "': invalid");
+              ("Could not save current SPDX Id '" & Old_User_Config.SPDX &
+               "': invalid");
             Log.Warning ("Using default SPDX Id");
             Log.Warning ("Set a different one with 'alice config --license'");
             Log.Always ("");
@@ -187,10 +186,10 @@ package body Alice_Cmd.Setup.Config is
            ("Token provided is associated to a different GitHub account:");
          Log.Error
            ("  • currently configured token is for user login '" &
-            To_String (Old_User_Config.Login) & "'");
+            Old_User_Config.Login & "'");
          Log.Error
-           ("  • provided token is for user login '" &
-            To_String (New_User_Config.Login) & "'");
+           ("  • provided token is for user login '" & New_User_Config.Login &
+            "'");
          Log.Error
            ("Overwriting the configuration file with a different login can cause serious problems,");
          Log.Error
@@ -275,7 +274,7 @@ package body Alice_Cmd.Setup.Config is
          if Success then
             Success := User_Config.Write_To_File;
             Log.Info
-              ("New SPDX license Id '" & To_String (SPDX_Id) &
+              ("New SPDX license Id '" & SPDX_Id &
                "' will be applied from now on");
          else
             Log.Error ("Choose a valid Id from https://spdx.org/licenses");

@@ -44,54 +44,53 @@ package body Alice_User_Config is
    -- Author --
    ------------
 
-   function Author (User_Config : User_Config_Type) return Unbounded_String is
-     (User_Config.User_Name);
+   function Author (User_Config : User_Config_Type) return String is
+     (To_String (User_Config.User_Name));
 
    -----------
    -- Email --
    -----------
 
-   function Email (User_Config : User_Config_Type) return Unbounded_String is
-     (User_Config.User_Email);
+   function Email (User_Config : User_Config_Type) return String is
+     (To_String (User_Config.User_Email));
 
    -----------
    -- Login --
    -----------
 
-   function Login (User_Config : User_Config_Type) return Unbounded_String is
-     (User_Config.GitHub_Login);
+   function Login (User_Config : User_Config_Type) return String is
+     (To_String (User_Config.GitHub_Login));
 
    -----------
    -- Token --
    -----------
 
-   function Token (User_Config : User_Config_Type) return Unbounded_String is
-     (User_Config.GitHub_Token);
+   function Token (User_Config : User_Config_Type) return String is
+     (To_String (User_Config.GitHub_Token));
 
    ----------
    -- SPDX --
    ----------
 
-   function SPDX (User_Config : User_Config_Type) return Unbounded_String is
-     (User_Config.SPDX_Id);
+   function SPDX (User_Config : User_Config_Type) return String is
+     (To_String (User_Config.SPDX_Id));
 
    --------------
    -- Set_SPDX --
    --------------
 
    function Set_SPDX
-     (User_Config  : in out User_Config_Type; SPDX_Id : Unbounded_String;
+     (User_Config  : in out User_Config_Type; SPDX_Id : String;
       Report_Error :        Boolean := True) return Boolean
    is
-      SPDX_Str    : constant String  := To_String (SPDX_Id);
       Is_Valid_Id : constant Boolean :=
-        Standard.SPDX.Licenses.Valid_Id (SPDX_Str);
+        Standard.SPDX.Licenses.Valid_Id (SPDX_Id);
    begin
       if Is_Valid_Id then
-         User_Config.SPDX_Id := SPDX_Id;
-         Log.Debug ("Set_SPDX =" & SPDX_Str);
+         User_Config.SPDX_Id := To_Unbounded_String ("SPDX_Id");
+         Log.Debug ("Set_SPDX =" & SPDX_Id);
       elsif Report_Error then
-         Log.Error ("Invalid SPDX Id '" & SPDX_Str & "'");
+         Log.Error ("Invalid SPDX Id '" & SPDX_Id & "'");
       end if;
 
       return Is_Valid_Id;
@@ -102,12 +101,11 @@ package body Alice_User_Config is
    -------------------------
 
    function Get_Info_From_Token
-     (User_Config : in out User_Config_Type; Token : Unbounded_String)
-      return Boolean
+     (User_Config : in out User_Config_Type; Token : String) return Boolean
    is
    begin
       Log.Info ("Retrieving info from token");
-      User_Config.GitHub_Token := Token;
+      User_Config.GitHub_Token := To_Unbounded_String (Token);
 
       if User_Config.Get_Info_From_GitHub_Token then
          Log.Debug ("Get_Info_From_GitHub_Token =" & User_Config'Image);
@@ -210,22 +208,19 @@ package body Alice_User_Config is
          if Read_Result.Value.Has (Key_Name) then
             User_Config.User_Name :=
               To_Unbounded_String (Read_Result.Value.Get (Key_Name).As_String);
-            Log.Debug
-              ("Read_Result (Name) =" & To_String (User_Config.Author));
+            Log.Debug ("Read_Result (Name) =" & User_Config.Author);
          end if;
          if Read_Result.Value.Has (Key_Email) then
             User_Config.User_Email :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_Email).As_String);
-            Log.Debug
-              ("Read_Result (Email) =" & To_String (User_Config.Email));
+            Log.Debug ("Read_Result (Email) =" & User_Config.Email);
          end if;
          if Read_Result.Value.Has (Key_SPDX_Id) then
             User_Config.SPDX_Id :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_SPDX_Id).As_String);
-            Log.Debug
-              ("Read_Result (SPDX_Id) =" & To_String (User_Config.SPDX));
+            Log.Debug ("Read_Result (SPDX_Id) =" & User_Config.SPDX);
          end if;
       elsif Report_Error then
          Alice_Cmd.Exit_Status := 1;
@@ -278,9 +273,9 @@ package body Alice_User_Config is
 
    procedure Show (User_Config : User_Config_Type) is
    begin
-      Log.Always ("   login   : " & To_String (User_Config.Login));
-      Log.Always ("   name    : " & To_String (User_Config.Author));
-      Log.Always ("   email   : " & To_String (User_Config.Email));
+      Log.Always ("   login   : " & User_Config.Login);
+      Log.Always ("   name    : " & User_Config.Author);
+      Log.Always ("   email   : " & User_Config.Email);
       Log.Always
         ("   token   : " &
          (if User_Config.Valid_Token then "VALID" else "INVALID"));

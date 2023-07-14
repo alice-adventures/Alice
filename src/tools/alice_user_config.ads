@@ -16,21 +16,20 @@ package Alice_User_Config is
    type User_Config_Type is private;
 
    --!pp off
-   function Author (User_Config : User_Config_Type) return Unbounded_String;
-   function Email  (User_Config : User_Config_Type) return Unbounded_String;
-   function Login  (User_Config : User_Config_Type) return Unbounded_String;
-   function Token  (User_Config : User_Config_Type) return Unbounded_String;
-   function SPDX   (User_Config : User_Config_Type) return Unbounded_String;
+   function Author (User_Config : User_Config_Type) return String;
+   function Email  (User_Config : User_Config_Type) return String;
+   function Login  (User_Config : User_Config_Type) return String;
+   function Token  (User_Config : User_Config_Type) return String;
+   function SPDX   (User_Config : User_Config_Type) return String;
    --!pp on
 
    function Get_Info_From_Token
-     (User_Config : in out User_Config_Type; Token : Unbounded_String)
-      return Boolean;
+     (User_Config : in out User_Config_Type; Token : String) return Boolean;
    --  Set the GitHub personal access token associated to the Participant
    --  GitHub' account and all extracts all the necessary information.
 
    function Set_SPDX
-     (User_Config  : in out User_Config_Type; SPDX_Id : Unbounded_String;
+     (User_Config  : in out User_Config_Type; SPDX_Id : String;
       Report_Error :        Boolean := True) return Boolean;
    --  Set the SPDX License Id. If SPDX is not a valid SPDX Id, reports an
    --  error (optionally) and returns False.
