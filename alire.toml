@@ -21,7 +21,7 @@ tags = [
 "alice" = "development"
 
 [build-switches."*"]
-ada_version = ["-gnat2022", "-gnatX", "-gnatW8"]
+ada_version = ["-gnat2022", "-gnatX"]
 
 [[depends-on]]
 clic = "~0.2.1"
