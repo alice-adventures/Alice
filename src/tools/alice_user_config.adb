@@ -200,8 +200,8 @@ package body Alice_User_Config is
             User_Config.GitHub_Token :=
               To_Unbounded_String
                 (Read_Result.Value.Get (Key_Token).As_String);
-            Log.Debug
-              ("Read_Result (Token) =" & To_String (User_Config.Token));
+            User_Config.Valid_Token  := True;
+            Log.Debug ("Read_Result (Token) : exists (valid)");
          else
             Log.Error
               ("Could not get " & Key_Token & " from user configuration file");
@@ -281,7 +281,9 @@ package body Alice_User_Config is
       Log.Always ("   login   : " & To_String (User_Config.Login));
       Log.Always ("   name    : " & To_String (User_Config.Author));
       Log.Always ("   email   : " & To_String (User_Config.Email));
-      Log.Always ("   token   : " & To_String (User_Config.Token));
+      Log.Always
+        ("   token   : " &
+         (if User_Config.Valid_Token then "VALID" else "INVALID"));
       Log.Always ("   spdx_id : " & To_String (User_Config.SPDX_Id));
    end Show;
 
@@ -320,6 +322,7 @@ package body Alice_User_Config is
                if Object.Get (Key_Login).Kind = String_Kind then
                   User_Config.GitHub_Login :=
                     To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
+                  User_Config.Valid_Token  := True;
                else
                   Success := False;
                   Log.Debug ("Could not get login from GitHub token");

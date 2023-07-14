@@ -68,6 +68,7 @@ private
       SPDX_Id : Unbounded_String := To_Unbounded_String ("MIT");
       --  given by user, default is 'MIT'
 
+      Valid_Token : Boolean := False;
    end record;
 
    function Get_Info_From_GitHub_Token
