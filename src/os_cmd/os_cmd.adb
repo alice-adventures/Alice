@@ -63,7 +63,6 @@ package body OS_Cmd is
       end if;
 
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
-
       --  Debug all arguments:
       --  for Arg of Arg_List.all loop
       --     Log.Debug ("Arg : " & Arg.all);
@@ -78,8 +77,30 @@ package body OS_Cmd is
          Run_Output.Return_Code);
 
       GNAT.OS_Lib.Free (Arg_List);
-
       return Run_Output;
+   end Run;
+
+   function Run (Cmd : Cmd_Type; Args : String) return Integer is
+      Return_Code : Integer;
+      Arg_List    : GNAT.OS_Lib.Argument_List_Access;
+   begin
+      if Cmd.OS_Path = null then
+         Alice_Cmd.Abort_Execution
+           ("System error, command '" & To_String (OS_Cmd_Name) &
+            "' not initialized");
+      end if;
+
+      Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
+      --  Debug all arguments:
+      --  for Arg of Arg_List.all loop
+      --     Log.Debug ("Arg : " & Arg.all);
+      --  end loop;
+
+      Log.Debug ("Run " & To_String (OS_Cmd_Name) & " " & Args);
+      Return_Code := GNAT.OS_Lib.Spawn (Cmd.OS_Path.all, Arg_List.all);
+
+      GNAT.OS_Lib.Free (Arg_List);
+      return Return_Code;
    end Run;
 
    -----------

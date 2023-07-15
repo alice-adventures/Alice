@@ -32,8 +32,14 @@ package OS_Cmd is
    function Path (Cmd : Cmd_Type) return String;
    --  Return the PATH where the OS command is found.
 
+   function Run (Cmd : Cmd_Type; Args : String) return Integer;
+   --  Run the command with the given arguments and return the command exit
+   --  code. The standard output and errors goe directly to the screen, no
+   --  file saved.
+
    function Run (Cmd : Cmd_Type; Args : String) return Run_Output_Type;
-   --  Run the command with the given arguments.
+   --  Run the command with the given arguments. Return the exit code and a
+   --  file with the output.
 
    procedure Clean (Run_Output : out Run_Output_Type);
    --  Run an OS command with the given arguments.
