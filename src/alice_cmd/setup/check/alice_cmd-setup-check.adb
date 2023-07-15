@@ -41,6 +41,8 @@ package body Alice_Cmd.Setup.Check is
 
       User_Config : Alice_User_Config.User_Config_Type;
       Run_Output  : OS_Cmd_Git.Run_Output_Type;
+
+      Has_Errors : Boolean := False;
    begin
       if Args_Length > 0 then
          Log.Warning ("Too many arguments, ignored");
@@ -58,14 +60,19 @@ package body Alice_Cmd.Setup.Check is
          Log.Info ("git  command found at '" & Git_Cmd.Path & "'");
       end if;
 
-      if not Alice_User_Config.Has_User_Config_File then
-         Alice_Cmd.Exit_Status := 1;
-         return;
+      if not Alice_User_Config.Has_User_Config_File (Report_Error => False)
+      then
+         Log.Error ("Could not find the user config file");
+         Has_Errors := True;
       end if;
 
-      if not User_Config.Read_From_File then
-         Alice_Cmd.Exit_Status := 1;
-         return;
+      if not User_Config.Read_From_File (Report_Error => False) then
+         Log.Error ("Could not read the user config file");
+         Has_Errors := True;
+      end if;
+
+      if Has_Errors then
+         Alice_Cmd.Abort_Execution ("Solve the previous errors to continue");
       end if;
 
       Log.Info ("Checking GitHub access and git functionality");
@@ -80,9 +87,8 @@ package body Alice_Cmd.Setup.Check is
          then
             Log.Info ("Repository 'alice-test' created");
          else
-            Alice_Cmd.Exit_Status := 1;
-            Log.Error ("Could no create repository 'alice-test'");
-            return;
+            Alice_Cmd.Abort_Execution
+              ("Could no create repository 'alice-test'");
          end if;
       end if;
 
@@ -97,8 +103,7 @@ package body Alice_Cmd.Setup.Check is
       then
          Log.Detail ("Repo alice-test cloned");
       else
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error
+         Alice_Cmd.Abort_Execution
            ("Could not clone '" & User_Config.Login &
             "alice-test' repository");
          return;
@@ -125,9 +130,8 @@ package body Alice_Cmd.Setup.Check is
       if Run_Output.Return_Code = 0 then
          Log.Detail ("Changes staged for commit");
       else
-         Alice_Cmd.Exit_Status := 1;
-         Log.Debug ("Could not work with this git repository");
-         return;
+         Alice_Cmd.Abort_Execution
+           ("Could not work (add) with 'alice-test' repository");
       end if;
 
       Run_Output := Git_Cmd.Run ("commit -m check");
@@ -135,9 +139,8 @@ package body Alice_Cmd.Setup.Check is
       if Run_Output.Return_Code = 0 then
          Log.Detail ("Commit README.md");
       else
-         Alice_Cmd.Exit_Status := 1;
-         Log.Debug ("Could not work with this git repository");
-         return;
+         Alice_Cmd.Abort_Execution
+           ("Could not work (commit) with 'alice-test' repository");
       end if;
 
       Run_Output := Git_Cmd.Run ("push -u origin HEAD");
@@ -145,9 +148,8 @@ package body Alice_Cmd.Setup.Check is
       if Run_Output.Return_Code = 0 then
          Log.Detail ("Pushed changes in README.md");
       else
-         Alice_Cmd.Exit_Status := 1;
-         Log.Debug ("Could not work with this git repository");
-         return;
+         Alice_Cmd.Abort_Execution
+           ("Could not work (push) with 'alice-test' repository");
       end if;
 
       Log.Info ("Your environment is fully functional");

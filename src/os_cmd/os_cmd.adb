@@ -33,10 +33,8 @@ package body OS_Cmd is
               ("found '" & To_String (OS_Cmd_Name) & "' at '" &
                OS_Cmd_Instance.OS_Path.all & "'");
          elsif Report_Error then
-            Alice_Cmd.Exit_Status := 1;
-            Log.Error
+            Alice_Cmd.Abort_Execution
               ("'" & To_String (OS_Cmd_Name) & "' cannot be found in PATH");
-            return False;
          end if;
       end if;
 
@@ -59,10 +57,9 @@ package body OS_Cmd is
       Run_Output : Run_Output_Type;
    begin
       if Cmd.OS_Path = null then
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error ("System error, command not initialized");
-         Run_Output.Return_Code := -1;
-         return Run_Output;
+         Alice_Cmd.Abort_Execution
+           ("System error, command '" & To_String (OS_Cmd_Name) &
+            "' not initialized");
       end if;
 
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);

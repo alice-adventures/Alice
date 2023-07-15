@@ -151,8 +151,7 @@ package body Alice_User_Config is
       if Success then
          Log.Detail ("user has config file");
       elsif Report_Error then
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error
+         Alice_Cmd.Abort_Execution
            ("User config file not found," &
             " run 'alice config -h' for more information");
       end if;
@@ -171,7 +170,7 @@ package body Alice_User_Config is
       use Ada.Directories;
       Read_Result : TOML.Read_Result;
    begin
-      if not Has_User_Config_File then
+      if not Has_User_Config_File (Report_Error) then
          return False;
       end if;
 
@@ -190,9 +189,8 @@ package body Alice_User_Config is
             Log.Debug
               ("Read_Result (Login) =" & To_String (User_Config.GitHub_Login));
          else
-            Log.Error
+            Alice_Cmd.Abort_Execution
               ("Could not get " & Key_Login & " from user configuration file");
-            return False;
          end if;
          if Read_Result.Value.Has (Key_Token) then
             User_Config.GitHub_Token :=
@@ -201,9 +199,8 @@ package body Alice_User_Config is
             User_Config.Valid_Token  := True;
             Log.Debug ("Read_Result (Token) : exists (valid)");
          else
-            Log.Error
+            Alice_Cmd.Abort_Execution
               ("Could not get " & Key_Token & " from user configuration file");
-            return False;
          end if;
          if Read_Result.Value.Has (Key_Name) then
             User_Config.User_Name :=
@@ -223,10 +220,8 @@ package body Alice_User_Config is
             Log.Debug ("Read_Result (SPDX_Id) =" & User_Config.SPDX);
          end if;
       elsif Report_Error then
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error ("Could not load user configuration file");
          Log.Error (To_String (Read_Result.Message));
-         return False;
+         Alice_Cmd.Abort_Execution ("Could not load user configuration file");
       end if;
 
       Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
@@ -340,8 +335,8 @@ package body Alice_User_Config is
       end if;
 
       if not Success then
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error ("Token is not associated to a valid GitHub account");
+         Alice_Cmd.Abort_Execution
+           ("Token is not associated to a valid GitHub account");
       end if;
 
       return Success;

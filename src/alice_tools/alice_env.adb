@@ -74,8 +74,8 @@ package body Alice_Env is
       if Success then
          Log.Detail ("alice git repository detected");
       elsif Report_Error then
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error ("'alice' must be invoked inside the alice git repository");
+         Alice_Cmd.Abort_Execution
+           ("'alice' must be invoked inside the alice git repository");
       end if;
 
       return Success;
@@ -106,8 +106,8 @@ package body Alice_Env is
          Alice_Root_Dir := To_Unbounded_String (Current_Directory);
          Log.Detail ("Alice_Root_Dir = " & Get_Alice_Root_Dir);
       elsif Report_Error then
-         Alice_Cmd.Exit_Status := 1;
-         Log.Error ("'alice' must be invoked from the Alice' root directory");
+         Alice_Cmd.Abort_Execution
+           ("'alice' must be invoked from the Alice' root directory");
       end if;
 
       return Success;

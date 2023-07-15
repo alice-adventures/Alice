@@ -17,6 +17,7 @@ with Alice_Cmd.PSource.Init;
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
 with GNAT.OS_Lib;
+
 with Simple_Logging;
 
 with Text_IO;
@@ -42,7 +43,7 @@ package body Alice_Cmd is
    procedure Set_Global_Switches
      (Config : in out CLIC.Subcommand.Switches_Configuration);
 
-   --!pp OFF
+   --!pp off
    package CLI_Command is new CLIC.Subcommand.Instance
      (Main_Command_Name   => Alice_Config.Crate_Name,
       Version             =>
@@ -60,7 +61,7 @@ package body Alice_Cmd is
       TTY_Version         => CLIC.TTY.Version,
       TTY_Underline       => CLIC.TTY.Underline,
       TTY_Emph            => CLIC.TTY.Emph);
-   --!pp ON
+   --!pp on
 
    -------------------------
    -- Set_Global_Switches --
@@ -111,6 +112,16 @@ package body Alice_Cmd is
 
    end Set_Global_Switches;
 
+   ---------------------
+   -- Abort_Execution --
+   ---------------------
+
+   procedure Abort_Execution (Error : String; Exit_Status : Integer := 1) is
+   begin
+      Log.Error (Error);
+      GNAT.OS_Lib.OS_Exit (Exit_Status);
+   end Abort_Execution;
+
    -------------
    -- Execute --
    -------------
@@ -152,9 +163,6 @@ package body Alice_Cmd is
          CLI_Command.Execute;
          Log.Detail ("end Command.Execute");
       end if;
-
-      Log.Debug ("exit status =" & Alice_Cmd.Exit_Status'Image);
-      GNAT.OS_Lib.OS_Exit (Alice_Cmd.Exit_Status);
    end Execute;
 
 begin
