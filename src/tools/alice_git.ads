@@ -13,19 +13,19 @@ package Alice_Git is
    GitHub_Root       : constant String := "git@github.com:";
    Alice_Github_Root : constant String := GitHub_Root & "alice-adventures";
 
-   function Clone_Repository
+   function Clone_GitHub_Repository
      (Repo : String; Directory : String := "") return Boolean;
 
-   function Create_Repository
+   function Create_GitHub_Repository
      (User_Config : User_Config_Type; Repo : String; Description : String)
       return Boolean;
    --  Create a new repository for the authenticated user.
 
-   function User_Has_Repository
+   function User_Has_GitHub_Repository
      (User_Config : User_Config_Type; Repo : String) return Boolean;
    --  Return True if user the authenticated user has the repo Repo.
 
-   function User_Has_Repository
+   function Exists_GitHub_Repository
      (User_Config : User_Config_Type; User : String; Repo : String)
       return Boolean;
    --  Return True if User user has teh repo Repo.

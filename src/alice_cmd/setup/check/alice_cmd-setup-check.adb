@@ -70,11 +70,11 @@ package body Alice_Cmd.Setup.Check is
 
       Log.Info ("Checking GitHub access and git functionality");
 
-      if User_Has_Repository (User_Config, "alice-test") then
+      if User_Has_GitHub_Repository (User_Config, "alice-test") then
          Log.Detail ("User has repo 'alice-test'");
       else
          Log.Detail ("Missing repo 'alice-test' for user, creating repo");
-         if Create_Repository
+         if Create_GitHub_Repository
              (User_Config, "alice-test",
               "Test repository used by Alice Adventures")
          then
@@ -92,7 +92,7 @@ package body Alice_Cmd.Setup.Check is
          Dir.Delete_Tree ("alice-test");
       end if;
 
-      if Alice_Git.Clone_Repository
+      if Alice_Git.Clone_GitHub_Repository
           (Alice_Git.GitHub_Root & User_Config.Login & "/alice-test")
       then
          Log.Detail ("Repo alice-test cloned");

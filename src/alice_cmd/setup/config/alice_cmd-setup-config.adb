@@ -7,7 +7,6 @@
 -------------------------------------------------------------------------------
 
 with Ada.Directories;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Alice_User_Config;
 use all type Alice_User_Config.User_Config_Type;
