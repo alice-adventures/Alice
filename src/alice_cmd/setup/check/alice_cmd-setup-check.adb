@@ -40,7 +40,6 @@ package body Alice_Cmd.Setup.Check is
       Git_Cmd  : OS_Cmd_Git.Cmd_Type;
 
       User_Config : Alice_User_Config.User_Config_Type;
-      Run_Output  : OS_Cmd_Git.Run_Output_Type;
 
       Has_Errors : Boolean := False;
    begin
@@ -125,27 +124,21 @@ package body Alice_Cmd.Setup.Check is
          Log.Detail ("New check line added to README.md");
       end;
 
-      Run_Output := Git_Cmd.Run ("add README.md");
-      Run_Output.Clean;
-      if Run_Output.Return_Code = 0 then
+      if Git_Cmd.Run ("add README.md") = 0 then
          Log.Detail ("Changes staged for commit");
       else
          Alice_Cmd.Abort_Execution
            ("Could not work (add) with 'alice-test' repository");
       end if;
 
-      Run_Output := Git_Cmd.Run ("commit -m check");
-      Run_Output.Clean;
-      if Run_Output.Return_Code = 0 then
+      if Git_Cmd.Run ("commit -q -m check") = 0 then
          Log.Detail ("Commit README.md");
       else
          Alice_Cmd.Abort_Execution
            ("Could not work (commit) with 'alice-test' repository");
       end if;
 
-      Run_Output := Git_Cmd.Run ("push -u origin HEAD");
-      Run_Output.Clean;
-      if Run_Output.Return_Code = 0 then
+      if Git_Cmd.Run ("push -q -u origin HEAD") = 0 then
          Log.Detail ("Pushed changes in README.md");
       else
          Alice_Cmd.Abort_Execution
