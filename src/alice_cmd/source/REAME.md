@@ -8,13 +8,13 @@
        * clone the repository `alice-adventures/<psource>` into the directory
          `alice/<psource>`
        * run `alr update` in `alice/<psource>`
-         * clones the repository `alice-adventures/<psource>-shared` in the
+         * clone the repository `alice-adventures/<psource>-shared` in the
            directory `alice/<psource>/shared`
        * run `alr build` in `alice/<psource>`
        * creates the repository `<user>/alice-<psource>` in GitHub for the
        user, if it does not exists, based on the
        `alice-adventures/<psource>-template` repository
-       * clones the repository `<user>/alice-<psource>` in the directory
+       * clone the repository `<user>/alice-<psource>` in the directory
          `alice/<psource>/usr/<user>`
 
      * `--update <psource>` :

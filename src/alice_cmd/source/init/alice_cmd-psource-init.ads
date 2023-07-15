@@ -38,7 +38,7 @@ package Alice_Cmd.PSource.Init is
          .New_Line
          .Append ("• Your new repository is created in '<problem_source>/usr/<your_login>/'.")
          .New_Line
-         .Append ("• Clones the repository '<problem_source>-share' to access all the required resources. This repository is cloned in '<problem_source>/share'.")
+         .Append ("• Clone the repository '<problem_source>-share' to access all the required resources. This repository is cloned in '<problem_source>/share'.")
          .New_Line
          .Append ("Note: Check all the available Problem Sources with 'alice list'.")
      );
