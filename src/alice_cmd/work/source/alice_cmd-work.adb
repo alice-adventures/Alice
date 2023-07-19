@@ -50,9 +50,7 @@ package body Alice_Cmd.Work is
          end if;
       end Alice_Match;
    begin
-      if not Cmd_Alr.Init then
-         return False;
-      end if;
+      Cmd_Alr.Init;
       Run_Output := Cmd_Alr.Run ("index --list");
 
       GNAT.AWK.Add_File (Run_Output.Temp_File.all);
@@ -75,9 +73,7 @@ package body Alice_Cmd.Work is
       Cmd_Alr    : OS_Cmd_Alr.Cmd_Type;
       Run_Output : OS_Cmd_Alr.Run_Output_Type;
    begin
-      if not Cmd_Alr.Init then
-         return;
-      end if;
+      Cmd_Alr.Init;
       Run_Output :=
         Cmd_Alr.Run ("index --add=" & Alice_Alire_Index_URL & " --name=alice");
       Run_Output.Clean;

@@ -47,15 +47,15 @@ package body Alice_Cmd.Setup.Check is
          Log.Warning ("Too many arguments, ignored");
       end if;
 
-      if Alr_Cmd.Init then
+      if Alr_Cmd.Check then
          Log.Info ("alr  command found at '" & Alr_Cmd.Path & "'");
       end if;
 
-      if Curl_Cmd.Init then
+      if Curl_Cmd.Check then
          Log.Info ("curl command found at '" & Curl_Cmd.Path & "'");
       end if;
 
-      if Git_Cmd.Init then
+      if Git_Cmd.Check then
          Log.Info ("git  command found at '" & Git_Cmd.Path & "'");
       end if;
 

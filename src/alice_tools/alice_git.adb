@@ -31,9 +31,7 @@ package body Alice_Git is
       Git_Cmd    : OS_Cmd_Git.Cmd_Type;
       Run_Output : OS_Cmd_Git.Run_Output_Type;
    begin
-      if not Git_Cmd.Init then
-         return False;
-      end if;
+      Git_Cmd.Init;
 
       Run_Output := Git_Cmd.Run ("clone -q " & Repo & " " & Directory);
       Success    := (Run_Output.Return_Code = 0);

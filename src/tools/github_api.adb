@@ -72,9 +72,7 @@ package body GitHub_API is
       HTTP_Code     : Natural;
       Response_File : Ada.Text_IO.File_Type;
    begin
-      if not Curl_Cmd.Init then
-         return 404;
-      end if;
+      Curl_Cmd.Init;
 
       Log.Debug ("Request = " & Request);
       if Contents'Length = 0 then

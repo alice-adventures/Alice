@@ -24,10 +24,13 @@ package OS_Cmd is
       Temp_File   : GNAT.OS_Lib.String_Access;
    end record;
 
-   function Init
-     (Cmd : in out Cmd_Type; Report_Error : Boolean := True) return Boolean;
+   procedure Init (Cmd : in out Cmd_Type);
+   --  Initialize an OS command or abort the execution if the command cannot
+   --  be found in PATH.
+
+   function Check (Cmd : in out Cmd_Type) return Boolean;
    --  Initialize an OS command by trying to find the executable file in
-   --  PATH.
+   --  PATH. Return True if the OS command can be used.
 
    function Path (Cmd : Cmd_Type) return String;
    --  Return the PATH where the OS command is found.

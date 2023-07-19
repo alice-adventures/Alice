@@ -381,9 +381,7 @@ package body Alice_User_Config is
       end User_Email_Match;
 
    begin
-      if not Cmd_Git.Init then
-         return False;
-      end if;
+      Cmd_Git.Init;
 
       Log.Detail ("Retrieving information from 'git config'");
 

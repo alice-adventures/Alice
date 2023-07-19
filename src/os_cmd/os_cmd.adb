@@ -20,9 +20,21 @@ package body OS_Cmd is
    -- Init --
    ----------
 
-   function Init
-     (Cmd : in out Cmd_Type; Report_Error : Boolean := True) return Boolean
-   is
+   procedure Init (Cmd : in out Cmd_Type) is
+   begin
+      if not Cmd.Check then
+         Alice_Cmd.Abort_Execution
+           ("'" & To_String (OS_Cmd_Name) & "' cannot be found in PATH");
+      end if;
+
+      Cmd.OS_Path := OS_Cmd_Instance.OS_Path;
+   end Init;
+
+   -----------
+   -- Check --
+   -----------
+
+   function Check (Cmd : in out Cmd_Type) return Boolean is
    begin
       if OS_Cmd_Instance.OS_Path = null then
          OS_Cmd_Instance.OS_Path :=
@@ -32,15 +44,15 @@ package body OS_Cmd is
             Log.Debug
               ("found '" & To_String (OS_Cmd_Name) & "' at '" &
                OS_Cmd_Instance.OS_Path.all & "'");
-         elsif Report_Error then
-            Alice_Cmd.Abort_Execution
+         else
+            Log.Debug
               ("'" & To_String (OS_Cmd_Name) & "' cannot be found in PATH");
          end if;
       end if;
 
       Cmd.OS_Path := OS_Cmd_Instance.OS_Path;
       return (Cmd.OS_Path /= null);
-   end Init;
+   end Check;
 
    ----------
    -- Path --

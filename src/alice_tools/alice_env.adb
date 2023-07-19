@@ -34,9 +34,7 @@ package body Alice_Env is
       Run_Output : OS_Cmd_Git.Run_Output_Type;
       Success    : Boolean;
    begin
-      if not Cmd_Git.Init then
-         return False;
-      end if;
+      Cmd_Git.Init;
 
       Run_Output := Cmd_Git.Run ("remote -v");
       declare
