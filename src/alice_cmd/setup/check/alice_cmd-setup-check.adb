@@ -71,7 +71,7 @@ package body Alice_Cmd.Setup.Check is
       end if;
 
       if Has_Errors then
-         Alice_Cmd.Abort_Execution ("Solve the previous errors to continue");
+         Abort_Execution ("Solve the previous errors to continue");
       end if;
 
       Log.Info ("Checking GitHub access and git functionality");
@@ -86,8 +86,7 @@ package body Alice_Cmd.Setup.Check is
          then
             Log.Info ("Repository 'alice-test' created");
          else
-            Alice_Cmd.Abort_Execution
-              ("Could no create repository 'alice-test'");
+            Abort_Execution ("Could no create repository 'alice-test'");
          end if;
       end if;
 
@@ -102,7 +101,7 @@ package body Alice_Cmd.Setup.Check is
       then
          Log.Detail ("Repo alice-test cloned");
       else
-         Alice_Cmd.Abort_Execution
+         Abort_Execution
            ("Could not clone '" & User_Config.Login &
             "alice-test' repository");
          return;
@@ -127,21 +126,20 @@ package body Alice_Cmd.Setup.Check is
       if Git_Cmd.Run ("add README.md") = 0 then
          Log.Detail ("Changes staged for commit");
       else
-         Alice_Cmd.Abort_Execution
-           ("Could not work (add) with 'alice-test' repository");
+         Abort_Execution ("Could not work (add) with 'alice-test' repository");
       end if;
 
       if Git_Cmd.Run ("commit -q -m check") = 0 then
          Log.Detail ("Commit README.md");
       else
-         Alice_Cmd.Abort_Execution
+         Abort_Execution
            ("Could not work (commit) with 'alice-test' repository");
       end if;
 
       if Git_Cmd.Run ("push -q -u origin HEAD") = 0 then
          Log.Detail ("Pushed changes in README.md");
       else
-         Alice_Cmd.Abort_Execution
+         Abort_Execution
            ("Could not work (push) with 'alice-test' repository");
       end if;
 

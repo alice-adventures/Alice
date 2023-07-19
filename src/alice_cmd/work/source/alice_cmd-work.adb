@@ -6,21 +6,21 @@
 --
 -------------------------------------------------------------------------------
 
-package body Alice_Cmd.PSource is
+package body Alice_Cmd.Work is
 
-   ------------------
-   -- Is_Valid_Tag --
-   ------------------
+   -------------------------
+   -- Is_Valid_Source_Tag --
+   -------------------------
 
-   function Is_Valid_Tag (Tag : Unbounded_String) return Boolean is
+   function Is_Valid_Source_Tag (Tag : Unbounded_String) return Boolean is
    begin
-      for PSource of Available_PSources loop
-         if PSource.Tag = Tag then
+      for Source of Available_Sources loop
+         if Source.Tag = Tag then
             return True;
          end if;
       end loop;
 
       return False;
-   end Is_Valid_Tag;
+   end Is_Valid_Source_Tag;
 
-end Alice_Cmd.PSource;
+end Alice_Cmd.Work;

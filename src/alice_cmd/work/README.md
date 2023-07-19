@@ -1,35 +1,35 @@
 <!--REVIEW - Check & compare with the architecture diagram -->
 
-# Command Group `source`
+# Command Group `work`
 
-  1. `source [--list] | { --init | --update | --status } <source>`
+  1. `source [ --list ] | { --init | --status | --update } <source>`
      * `--list` : list all Problem Sources currently available
 
      * `--init <source>` : init `<source>` for participation:
 
+       * add the Alice index in Alire, if not present
+       * update Alire indexes
        * clone the repository `alice-adventures/<source>` into the directory
          `alice/<source>`, if it does not exists
        * run `alr update` in `alice/<source>`
        * clone the repository `alice-adventures/<source>-shared` in the
          directory `alice/<source>/shared`, if it does not exists
        * run `alr build` in `alice/<source>`
-       * creates the repository `<user>/alice-<source>` in GitHub for the
+       * create the repository `<user>/alice-<source>` in GitHub for the
        user, if it does not exists, based on the
        `alice-adventures/<source>-template` repository
        * clone the repository `<user>/alice-<source>` in the directory
          `alice/<source>/usr/<user>`, if it does not exists
-
-     * `--update <source> [<user>]` :
-       * update Problem Source `<source>`, including
-         * run `alr update` & `alr build` in `alice/<source>`
-         * run `alr update` & `alr build` in `alice/<source>/usr/<user>` for
-           the specified `<user>` or for the current one if none specified
 
      * `--status <source>` : show overall status of `<source>`, including,
        but not limited to:
        * users with published solutions: who, how many
        * assets shared: for which `<id>`s
        * solutions shared: which `<id>`, how many times
+
+     * `--update <source>` :
+       * update Problem Source `<source>`, including
+         * run `alr update` & `alr build` in `alice/<source>`
 
 
   2. `share { --check | --get | --post } <source>`

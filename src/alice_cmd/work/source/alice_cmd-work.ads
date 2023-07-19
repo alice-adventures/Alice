@@ -9,11 +9,11 @@
 with AAA.Strings;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-package Alice_Cmd.PSource is
+package Alice_Cmd.Work is
 
-   type PSource_Name is (Project_Euler);
+   type Source_Name is (Project_Euler);
 
-   type PSource_Type is record
+   type Source_Type is record
       Name  : Unbounded_String;
       Tag   : Unbounded_String;
       URL   : Unbounded_String;
@@ -23,7 +23,7 @@ package Alice_Cmd.PSource is
    --!pp off
    pragma Style_Checks (off);
 
-   Available_PSources : constant array (PSource_Name) of PSource_Type :=
+   Available_Sources : constant array (Source_Name) of Source_Type :=
      [Project_Euler =>
        (Name  => To_Unbounded_String ("Project Euler"),
         Tag   => To_Unbounded_String ("peuler"),
@@ -36,6 +36,9 @@ package Alice_Cmd.PSource is
    pragma Style_Checks (on);
    --!pp on
 
-   function Is_Valid_Tag (Tag : Unbounded_String) return Boolean;
+   function Is_Valid_Source_Tag (Tag : Unbounded_String) return Boolean;
 
-end Alice_Cmd.PSource;
+   function Is_Valid_Source_Tag (Tag : String) return Boolean is
+     (Is_Valid_Source_Tag (To_Unbounded_String (Tag)));
+
+end Alice_Cmd.Work;

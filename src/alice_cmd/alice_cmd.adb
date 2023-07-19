@@ -11,8 +11,7 @@ with Alice_Config;
 
 with Alice_Cmd.Setup.Check;
 with Alice_Cmd.Setup.Config;
-with Alice_Cmd.PSource.List;
-with Alice_Cmd.PSource.Init;
+with Alice_Cmd.Work.Source;
 
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
@@ -165,6 +164,40 @@ package body Alice_Cmd is
       end if;
    end Execute;
 
+   -----------------------------
+   -- Check_Unique_Subcommand --
+   -----------------------------
+
+   procedure Check_Unique_Subcommand (Number : Positive) is
+   begin
+      if Number > 1 then
+         Abort_Execution ("Only one subcommand can be specified");
+      end if;
+   end Check_Unique_Subcommand;
+
+   ---------------------------
+   -- Check_Argument_Length --
+   ---------------------------
+
+   procedure Check_Argument_Length (Number, Length : Positive) is
+   begin
+      if Number < Length then
+         Abort_Execution ("Too few arguments provided");
+      end if;
+      if Number > Length then
+         Abort_Execution ("Too many argument provided");
+      end if;
+   end Check_Argument_Length;
+
+   --------------------------
+   -- Subcommand_Not_Found --
+   --------------------------
+
+   procedure Subcommand_Not_Found is
+   begin
+      Abort_Execution ("System error, subcommand not found");
+   end Subcommand_Not_Found;
+
 begin
 
    CLI_Command.Register ("General", new CLI_Command.Builtin_Help);
@@ -172,9 +205,6 @@ begin
    CLI_Command.Register ("Setup", new Alice_Cmd.Setup.Check.Cmd_Type);
    CLI_Command.Register ("Setup", new Alice_Cmd.Setup.Config.Cmd_Type);
 
-   CLI_Command.Register
-     ("Problem Sources", new Alice_Cmd.PSource.List.Cmd_Type);
-   CLI_Command.Register
-     ("Problem Sources", new Alice_Cmd.PSource.Init.Cmd_Type);
+   CLI_Command.Register ("Contents", new Alice_Cmd.Work.Source.Cmd_Type);
 
 end Alice_Cmd;

@@ -16,4 +16,13 @@ package Alice_Cmd is
    procedure Execute;
    --  Execute the Alice command specified by the arguments.
 
+   procedure Check_Unique_Subcommand (Number : Positive);
+   --  Check that only one subcommand has been specified.
+
+   procedure Check_Argument_Length (Number, Length : Positive);
+   --  Check that the Number of arguments is exactly the Length required.
+
+   procedure Subcommand_Not_Found;
+   --  Emits an error when a subcommand cannot be found.
+
 end Alice_Cmd;

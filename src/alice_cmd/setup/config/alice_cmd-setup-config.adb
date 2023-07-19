@@ -188,44 +188,27 @@ package body Alice_Cmd.Setup.Config is
       if Actions = 0 then
          --  default command is '--show'
          Cmd.Show := True;
+      else
+         Check_Unique_Subcommand (Actions);
       end if;
 
       if Actions > 1 then
-         Log.Error ("Specify only one subcommand");
-         return;
+         Abort_Execution ("Specify only one subcommand");
       end if;
 
       if Cmd.Show then
          Execute_Show;
       elsif Cmd.Refresh then
          Execute_Refresh;
-      elsif Cmd.Token then
-         if Args_Length < 1 then
-            Log.Error ("Too few arguments, <github_token> required");
-            return;
+      elsif Cmd.Token or else Cmd.License then
+         Check_Argument_Length (Args_Length, 1);
+         if Cmd.Token then
+            Execute_Token (Args.First_Element);
+         else
+            Execute_License (Args.First_Element);
          end if;
-
-         if Args_Length > 1 then
-            Log.Error ("Provide only one <github_token> argument");
-            return;
-         end if;
-
-         Execute_Token (Args.First_Element);
-      elsif Cmd.License then
-
-         if Args_Length < 1 then
-            Log.Error ("Too few arguments, <spdx_id> required");
-            return;
-         end if;
-
-         if Args_Length > 1 then
-            Log.Error ("Provide only one <spdx_id> argument");
-            return;
-         end if;
-
-         Execute_License (Args.First_Element);
       else
-         Log.Error ("subcommand not found (?)");
+         Subcommand_Not_Found;
       end if;
    end Execute;
 

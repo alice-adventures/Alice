@@ -9,20 +9,20 @@
 with AAA.Strings;
 with CLIC.Subcommand;
 
-package Alice_Cmd.PSource.List is
+package Alice_Cmd.Work.Source is
 
-   type Cmd_Type is new CLIC.Subcommand.Command with null record;
+   type Cmd_Type is new CLIC.Subcommand.Command with private;
 
    overriding function Name
      (Cmd : Cmd_Type) return CLIC.Subcommand.Identifier is
-     ("list");
+     ("source");
 
    overriding function Usage_Custom_Parameters
      (Cmd : Cmd_Type) return String is
-     ("");
+     ("[ --list ] | { --init | --status | --update } <source>");
 
    overriding function Short_Description (Cmd : Cmd_Type) return String is
-     ("List available Problem Sources");
+     ("Manage Problem Sources");
 
    --!pp off
    pragma Style_Checks (off);
@@ -30,7 +30,9 @@ package Alice_Cmd.PSource.List is
    overriding function Long_Description
      (Cmd : Cmd_Type) return AAA.Strings.Vector is
      (AAA.Strings.Empty_Vector
-         .Append ("List all available Problem Sources in Alice.")
+         .Append ("Manage Problem Sources, including the setup from scratch, show the overall status and update the libraries and tools.")
+         .New_Line
+         .Append ("With no option, show the list of available Problem Sources, same as '--list'.")
      );
 
    pragma Style_Checks (on);
@@ -42,9 +44,18 @@ package Alice_Cmd.PSource.List is
 
    overriding procedure Setup_Switches
      (Cmd    : in out Cmd_Type;
-      Config : in out CLIC.Subcommand.Switches_Configuration) is null;
+      Config : in out CLIC.Subcommand.Switches_Configuration);
 
    overriding procedure Execute
      (Cmd : in out Cmd_Type; Args : AAA.Strings.Vector);
 
-end Alice_Cmd.PSource.List;
+private
+
+   type Cmd_Type is new CLIC.Subcommand.Command with record
+      List   : aliased Boolean := False;
+      Init   : aliased Boolean := False;
+      Status : aliased Boolean := False;
+      Update : aliased Boolean := False;
+   end record;
+
+end Alice_Cmd.Work.Source;
