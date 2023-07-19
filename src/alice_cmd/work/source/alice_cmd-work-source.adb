@@ -62,11 +62,15 @@ package body Alice_Cmd.Work.Source is
    begin
       Text_IO.Put_Line ("Available Problem Sources");
       Text_IO.Put_Line ("");
-      Table.Append ("  Tag").Append ("Name").Append ("URL").New_Row;
-      Table.Append ("  ---").Append ("----").Append ("---").New_Row;
+      Table.Append ("  Name").Append ("Id").Append ("Tag").Append ("URL")
+        .New_Row;
+      Table.Append ("  ----").Append ("--").Append ("---").Append ("---")
+        .New_Row;
       for Source of Available_Sources loop
-         Table.Append ("  " & To_String (Source.Tag)).Append
-           (To_String (Source.Name))
+         Table.Append ("  " & To_String (Source.Name)).Append
+           (To_String (Source.Id))
+           .Append
+           (To_String (Source.Tag))
            .Append
            (To_String (Source.URL))
            .New_Row;
@@ -78,7 +82,7 @@ package body Alice_Cmd.Work.Source is
       pragma Style_Checks (off);
 
       AAA.Text_IO.Put_Paragraph
-        ("Note: when required, use the 'tag' in alice commands to refer to a specific Problem Source");
+        ("Note: when required, use the Id or the tag in alice commands to refer to a particular Problem Source");
 
       pragma Style_Checks (on);
    end Execute_List;
@@ -87,7 +91,10 @@ package body Alice_Cmd.Work.Source is
    -- Execute_Init --
    ------------------
 
-   procedure Execute_Init (Source : String) is null;
+   procedure Execute_Init (Source : String) is
+   begin
+      Ensure_Alice_Alire_Index;
+   end Execute_Init;
 
    --------------------
    -- Execute_Status --
@@ -126,7 +133,7 @@ package body Alice_Cmd.Work.Source is
       if Cmd.Init or else Cmd.Status or else Cmd.Update then
          Check_Argument_Length (Args_Length, 1);
          if not Is_Valid_Source_Tag (Args.First_Element) then
-            Abort_Execution ("Invalid Source tag, see 'alice --list'");
+            Abort_Execution ("Invalid Source Id or tag, see 'source --list'");
          end if;
       end if;
 

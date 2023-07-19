@@ -80,6 +80,10 @@ package body OS_Cmd is
       return Run_Output;
    end Run;
 
+   ---------
+   -- Run --
+   ---------
+
    function Run (Cmd : Cmd_Type; Args : String) return Integer is
       Return_Code : Integer;
       Arg_List    : GNAT.OS_Lib.Argument_List_Access;

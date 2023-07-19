@@ -15,6 +15,7 @@ with Alice_Cmd.Work.Source;
 
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
+
 with GNAT.OS_Lib;
 
 with Simple_Logging;
@@ -162,13 +163,15 @@ package body Alice_Cmd is
          CLI_Command.Execute;
          Log.Detail ("end Command.Execute");
       end if;
+
+      GNAT.OS_Lib.OS_Exit (0);
    end Execute;
 
    -----------------------------
    -- Check_Unique_Subcommand --
    -----------------------------
 
-   procedure Check_Unique_Subcommand (Number : Positive) is
+   procedure Check_Unique_Subcommand (Number : Natural) is
    begin
       if Number > 1 then
          Abort_Execution ("Only one subcommand can be specified");
@@ -179,7 +182,7 @@ package body Alice_Cmd is
    -- Check_Argument_Length --
    ---------------------------
 
-   procedure Check_Argument_Length (Number, Length : Positive) is
+   procedure Check_Argument_Length (Number, Length : Natural) is
    begin
       if Number < Length then
          Abort_Execution ("Too few arguments provided");
