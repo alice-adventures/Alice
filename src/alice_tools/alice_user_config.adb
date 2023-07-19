@@ -336,7 +336,7 @@ package body Alice_User_Config is
 
       if not Success then
          Alice_Cmd.Abort_Execution
-           ("Token is not associated to a valid GitHub account");
+           ("Cannot retrieve information of a valid GitHub account");
       end if;
 
       return Success;
