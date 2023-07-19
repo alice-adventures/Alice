@@ -8,9 +8,6 @@
 
 with GitHub_API;
 
-with JSON.Types;
-with JSON.Parsers;
-
 with OS_Cmd_Git;
 
 package body Alice_Git is
