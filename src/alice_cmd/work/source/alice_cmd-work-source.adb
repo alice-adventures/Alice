@@ -93,7 +93,7 @@ package body Alice_Cmd.Work.Source is
 
    procedure Execute_Init (Source : String) is
    begin
-      Ensure_Alice_Alire_Index;
+      Alice_alire.Ensure_Alice_Index;
    end Execute_Init;
 
    --------------------
