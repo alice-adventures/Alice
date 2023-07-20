@@ -28,6 +28,6 @@ package Alice_Git is
    function Exists_GitHub_Repository
      (User_Config : User_Config_Type; User : String; Repo : String)
       return Boolean;
-   --  Return True if User user has teh repo Repo.
+   --  Return True if User user has the repo Repo.
 
 end Alice_Git;
