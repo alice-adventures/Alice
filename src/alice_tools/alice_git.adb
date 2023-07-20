@@ -82,11 +82,11 @@ package body Alice_Git is
       return GitHub_API.Get_A_Repository (User_Config, User, Repo);
    end Exists_GitHub_Repository;
 
-   ------------------
-   -- Is_Git_Clone --
-   ------------------
+   ---------------------
+   -- Is_Git_Clone_Of --
+   ---------------------
 
-   function Is_Git_Clone (Server, Repository : String) return Boolean is
+   function Is_Git_Clone_Of (Server, Repository : String) return Boolean is
       Cmd_Git    : OS_Cmd_Git.Cmd_Type;
       Run_Output : OS_Cmd_Git.Run_Output_Type;
 
@@ -140,6 +140,6 @@ package body Alice_Git is
       end if;
 
       return Success;
-   end Is_Git_Clone;
+   end Is_Git_Clone_Of;
 
 end Alice_Git;
