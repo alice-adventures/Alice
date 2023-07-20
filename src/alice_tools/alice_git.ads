@@ -30,4 +30,12 @@ package Alice_Git is
       return Boolean;
    --  Return True if User user has the repo Repo.
 
+   function Is_Git_Clone (Server, Repository : String) return Boolean;
+   --  Return True if the current working directory is a clone of the
+   --  repository with the origin "Server:Repository". Internally, a regular
+   --  expression is created to match ssh and http transports. For example,
+   --  for Server="server.com" and Repository="user/repo", the regular
+   --  expression match "git@server.com:user/repo.git" (ssh) and
+   --  "https://server.com/user/repo.git" (https).
+
 end Alice_Git;

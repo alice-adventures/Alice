@@ -10,11 +10,7 @@ with Ada.Directories;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Alice_Cmd;
-
-with OS_Cmd_Git; use OS_Cmd_Git;
-
-with GNAT.AWK;
-with GNAT.Regpat;
+with Alice_Git;
 
 with Simple_Logging;
 
@@ -30,44 +26,10 @@ package body Alice_Env is
 
    function Is_Alice_Repository (Report_Error : Boolean := True) return Boolean
    is
-      Cmd_Git    : OS_Cmd_Git.Cmd_Type;
-      Run_Output : OS_Cmd_Git.Run_Output_Type;
-      Success    : Boolean;
+      Success : Boolean;
    begin
-      Cmd_Git.Init;
-
-      Run_Output := Cmd_Git.Run ("remote -v");
-      declare
-         Alice_Repo_Matcher : constant GNAT.Regpat.Pattern_Matcher :=
-           GNAT.Regpat.Compile ("^.*github\.com.alice-adventures.Alice\.git$");
-
-         Matches : Natural := 0;
-
-         procedure Origin_Match is
-         begin
-            Matches := @ + 1;
-            Log.Debug ("AWK origin match #" & Matches'Image);
-         end Origin_Match;
-
-         procedure Repo_Match is
-         begin
-            Matches := @ + 1;
-            Log.Debug
-              ("AWK repo match #" & Matches'Image & ", " & GNAT.AWK.Field (2) &
-               " " & GNAT.AWK.Field (3));
-         end Repo_Match;
-      begin
-         GNAT.AWK.Add_File (Run_Output.Temp_File.all);
-         GNAT.AWK.Register (1, "origin", Origin_Match'Unrestricted_Access);
-         GNAT.AWK.Register
-           (2, Alice_Repo_Matcher, Repo_Match'Unrestricted_Access);
-
-         GNAT.AWK.Parse;
-         GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
-
-         Success := (Matches = 4);
-      end;
-      Run_Output.Clean;
+      Success :=
+        Alice_Git.Is_Git_Clone ("github.com", "alice-adventures/Alice");
 
       if Success then
          Log.Detail ("alice git repository detected");
