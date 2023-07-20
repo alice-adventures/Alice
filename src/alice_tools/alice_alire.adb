@@ -87,6 +87,31 @@ package body Alice_Alire is
    -- Update_Indexes --
    --------------------
 
-   procedure Update_Indexes is null;
+   procedure Update_Indexes is
+      Cmd_Alr    : OS_Cmd_Alr.Cmd_Type;
+      Run_Output : OS_Cmd_Alr.Run_Output_Type;
+   begin
+      Cmd_Alr.Init;
+      Run_Output := Cmd_Alr.Run ("index --update-all");
+
+      if Run_Output.Return_Code = 0 then
+         Log.Detail ("Alire indexes updated");
+      else
+         Alice_Cmd.Abort_Execution ("Could not update Alire indexes");
+      end if;
+   end Update_Indexes;
+
+   -----------------
+   -- Build_Crate --
+   -----------------
+
+   procedure Build_Crate (Args : String := "") is
+      Cmd_Alr : OS_Cmd_Alr.Cmd_Type;
+   begin
+      Cmd_Alr.Init;
+      if Cmd_Alr.Run ("build " & Args) /= 0 then
+         Alice_Cmd.Abort_Execution ("Could not build the current crate");
+      end if;
+   end Build_Crate;
 
 end Alice_Alire;

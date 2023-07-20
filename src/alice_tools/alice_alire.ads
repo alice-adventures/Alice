@@ -19,4 +19,7 @@ package Alice_Alire is
    procedure Update_Indexes;
    --  Update all Alire indexes.
 
+   procedure Build_Crate (Args : String := "");
+   --  Build the crate in the current directory with the given arguments.
+
 end Alice_Alire;
