@@ -6,9 +6,13 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Directories;
+
 with Alice_Cmd;
 
 with Simple_Logging;
+
+with Text_IO;
 
 package body OS_Cmd is
 
@@ -60,6 +64,54 @@ package body OS_Cmd is
 
    function Path (Cmd : Cmd_Type) return String is (Cmd.OS_Path.all);
 
+   -----------------------
+   -- Check_Initialized --
+   -----------------------
+
+   procedure Check_Initialized (Cmd : Cmd_Type) is
+   begin
+      if Cmd.OS_Path = null then
+         Alice_Cmd.Abort_Execution
+           ("System error, command '" & To_String (OS_Cmd_Name) &
+            "' not initialized");
+      end if;
+   end Check_Initialized;
+
+   -----------
+   -- Print --
+   -----------
+
+   procedure Print (Run_Output : Run_Output_Type) is
+      use Ada.Directories, Text_IO;
+      Output : File_Type;
+      Lines  : Natural := 0;
+   begin
+      if Run_Output.Temp_File = null then
+         Log.Debug ("Cannot print Run_Output file, null pointer");
+         return;
+      end if;
+
+      Log.Debug ("Printing temp file " & Run_Output.Temp_File.all);
+      Run_Output.Temp_FD.Close;
+
+      if Size (Run_Output.Temp_File.all) > 0 then
+         Output.Open (In_File, Run_Output.Temp_File.all);
+         loop
+            declare
+               Line : constant String := Output.Get_Line;
+            begin
+               Log.Debug (Line);
+               Lines := @ + 1;
+            end;
+            exit when Output.End_Of_File;
+         end loop;
+         Log.Debug ("(" & Lines'Image & " lines )");
+         Output.Close;
+      else
+         Log.Debug ("( empty file )");
+      end if;
+   end Print;
+
    ---------
    -- Run --
    ---------
@@ -68,11 +120,7 @@ package body OS_Cmd is
       Arg_List   : GNAT.OS_Lib.Argument_List_Access;
       Run_Output : Run_Output_Type;
    begin
-      if Cmd.OS_Path = null then
-         Alice_Cmd.Abort_Execution
-           ("System error, command '" & To_String (OS_Cmd_Name) &
-            "' not initialized");
-      end if;
+      Check_Initialized (Cmd);
 
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
       --  Debug all arguments:
@@ -100,11 +148,7 @@ package body OS_Cmd is
       Return_Code : Integer;
       Arg_List    : GNAT.OS_Lib.Argument_List_Access;
    begin
-      if Cmd.OS_Path = null then
-         Alice_Cmd.Abort_Execution
-           ("System error, command '" & To_String (OS_Cmd_Name) &
-            "' not initialized");
-      end if;
+      Check_Initialized (Cmd);
 
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
       --  Debug all arguments:
@@ -124,9 +168,16 @@ package body OS_Cmd is
    -----------
 
    procedure Clean (Run_Output : out Run_Output_Type) is
+      use all type Log.Levels;
       Success : Boolean;
    begin
-      if Run_Output.Temp_File /= null then
+      if Run_Output.Temp_File = null then
+         Log.Debug ("Run_Output file access is null");
+      else
+         if Log.Level = Log.Debug then
+            Run_Output.Print;
+         end if;
+         Log.Debug ("Removing Run_Output file");
          GNAT.OS_Lib.Delete_File (Run_Output.Temp_File.all, Success);
       end if;
       GNAT.OS_Lib.Free (Run_Output.Temp_File);
