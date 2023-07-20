@@ -87,7 +87,7 @@ package body Alice_User_Config is
         Standard.SPDX.Licenses.Valid_Id (SPDX_Id);
    begin
       if Is_Valid_Id then
-         User_Config.SPDX_Id := To_Unbounded_String ("SPDX_Id");
+         User_Config.SPDX_Id := To_Unbounded_String (SPDX_Id);
          Log.Debug ("Set_SPDX =" & SPDX_Id);
       elsif Report_Error then
          Log.Error ("Invalid SPDX Id '" & SPDX_Id & "'");
