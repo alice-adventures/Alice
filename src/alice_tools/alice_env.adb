@@ -29,7 +29,7 @@ package body Alice_Env is
       Success : Boolean;
    begin
       Success :=
-        Alice_Git.Is_Git_Clone ("github.com", "alice-adventures/Alice");
+        Alice_Git.Is_Git_Clone_Of ("github.com", "alice-adventures/Alice");
 
       if Success then
          Log.Detail ("alice git repository detected");
