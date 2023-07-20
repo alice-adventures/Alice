@@ -96,8 +96,7 @@ package body Alice_Cmd.Setup.Check is
          Dir.Delete_Tree ("alice-test");
       end if;
 
-      if Alice_Git.Clone_GitHub_Repository
-          (Alice_Git.GitHub_Root & User_Config.Login & "/alice-test")
+      if Alice_Git.Clone_GitHub_Repository (User_Config.Login & "/alice-test")
       then
          Log.Detail ("Repo alice-test cloned");
       else
