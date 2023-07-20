@@ -9,9 +9,15 @@
 with AAA.Table_IO;
 with AAA.Text_IO;
 
+with Alice_Alire;
+
+with Simple_Logging;
+
 with Text_IO;
 
 package body Alice_Cmd.Work.Source is
+
+   package Log renames Simple_Logging;
 
    --------------------
    -- Setup_Switches --
@@ -87,13 +93,26 @@ package body Alice_Cmd.Work.Source is
       pragma Style_Checks (on);
    end Execute_List;
 
+   --------------------------------
+   -- Execute_Init_Project_Euler --
+   --------------------------------
+
+   procedure Execute_Init_Project_Euler is separate;
+
    ------------------
    -- Execute_Init --
    ------------------
 
    procedure Execute_Init (Source : String) is
    begin
-      Alice_alire.Ensure_Alice_Index;
+      Alice_Alire.Ensure_Alice_Index;
+
+      case Source is
+         when "per" | "project_euler" =>
+            Execute_Init_Project_Euler;
+         when others =>
+            Log.Error ("System error, unknown source '" & Source & "'");
+      end case;
    end Execute_Init;
 
    --------------------
