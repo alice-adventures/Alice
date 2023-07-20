@@ -42,7 +42,7 @@ package Alice_Cmd.Work is
 
    function Is_Valid_Source (Id_Or_Tag : Unbounded_String) return Boolean;
 
-   function Is_Valid_Source_Tag (Id_Or_Tag : String) return Boolean is
+   function Is_Valid_Source (Id_Or_Tag : String) return Boolean is
      (Is_Valid_Source (To_Unbounded_String (Id_Or_Tag)));
 
 end Alice_Cmd.Work;
