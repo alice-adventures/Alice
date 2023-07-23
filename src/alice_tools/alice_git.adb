@@ -96,7 +96,9 @@ package body Alice_Git is
       procedure Origin_Match is
       begin
          Matches := @ + 1;
-         Log.Debug ("AWK origin match #" & Matches'Image);
+         Log.Debug
+           ("AWK 'origin' match #" & Matches'Image & ": " &
+            GNAT.AWK.Field (0));
       end Origin_Match;
 
       procedure Repo_Match is
@@ -110,15 +112,18 @@ package body Alice_Git is
    begin
       Cmd_Git.Init;
 
+      Log.Debug ("Is clone of " & Server & ":" & Repository);
       Run_Output := Cmd_Git.Run ("remote -v");
       declare
+         AWK_Session          : GNAT.AWK.Session_Type;
          HTTPS_Origin_Matcher : constant GNAT.Regpat.Pattern_Matcher :=
            GNAT.Regpat.Compile
-             ("^https://" & Server & "/" & Repository & "\.git$");
+             ("^https://" & Server & "/" & Repository & "(?:\.git)?$");
          SSH_Origin_Matcher   : constant GNAT.Regpat.Pattern_Matcher :=
            GNAT.Regpat.Compile
-             ("^git@" & Server & ":" & Repository & "\.git$");
+             ("^git@" & Server & ":" & Repository & "(?:\.git)?$");
       begin
+         GNAT.AWK.Set_Current (AWK_Session);
          GNAT.AWK.Add_File (Run_Output.Temp_File.all);
          GNAT.AWK.Register (1, "origin", Origin_Match'Unrestricted_Access);
          GNAT.AWK.Register
@@ -127,16 +132,17 @@ package body Alice_Git is
            (2, SSH_Origin_Matcher, Repo_Match'Unrestricted_Access);
 
          GNAT.AWK.Parse;
-         GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
+         GNAT.AWK.Close (AWK_Session);
+         --  GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
 
       end;
       Run_Output.Clean;
 
       Success := (Matches = 4);
       if Success then
-         Log.Detail ("alice git repository detected");
+         Log.Detail (Server & ":" & Repository & " repository detected");
       else
-         Log.Debug ("'alice' must be invoked inside the alice git repository");
+         Log.Debug (Server & ":" & Repository & " repository not found");
       end if;
 
       return Success;
