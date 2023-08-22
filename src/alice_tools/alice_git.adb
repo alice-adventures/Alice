@@ -29,7 +29,7 @@ package body Alice_Git is
    -----------------------------
 
    function Clone_GitHub_Repository
-     (Repo : String; Directory : String := "") return Boolean
+     (Repository : String; Directory : String := "") return Boolean
    is
       Success    : Boolean;
       Git_Cmd    : OS_Cmd_Git.Cmd_Type;
@@ -50,13 +50,13 @@ package body Alice_Git is
    ------------------------------
 
    function Create_GitHub_Repository
-     (User_Config : User_Config_Type; Repo : String; Description : String)
-      return Boolean
+     (User_Config : User_Config_Type; Repository : String;
+      Description : String) return Boolean
    is
    begin
       return
         GitHub_API.Create_A_Repository_For_The_Authenticated_User
-          (User_Config, Repo, Description);
+          (User_Config, Repository, Description);
    end Create_GitHub_Repository;
 
    --------------------------------
@@ -64,10 +64,11 @@ package body Alice_Git is
    --------------------------------
 
    function User_Has_GitHub_Repository
-     (User_Config : User_Config_Type; Repo : String) return Boolean
+     (User_Config : User_Config_Type; Repository : String) return Boolean
    is
    begin
-      return Exists_GitHub_Repository (User_Config, User_Config.Login, Repo);
+      return
+        Exists_GitHub_Repository (User_Config, User_Config.Login, Repository);
    end User_Has_GitHub_Repository;
 
    ------------------------------
@@ -75,11 +76,11 @@ package body Alice_Git is
    ------------------------------
 
    function Exists_GitHub_Repository
-     (User_Config : User_Config_Type; User : String; Repo : String)
+     (User_Config : User_Config_Type; User : String; Repository : String)
       return Boolean
    is
    begin
-      return GitHub_API.Get_A_Repository (User_Config, User, Repo);
+      return GitHub_API.Get_A_Repository (User_Config, User, Repository);
    end Exists_GitHub_Repository;
 
    ---------------------

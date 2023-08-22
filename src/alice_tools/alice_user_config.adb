@@ -40,6 +40,9 @@ package body Alice_User_Config is
    Key_Token   : constant String := "token";
    Key_SPDX_Id : constant String := "spdx_id";
 
+   Current_User       : User_Config_Type;
+   Valid_Current_User : Boolean := False;
+
    ------------
    -- Author --
    ------------
@@ -261,6 +264,19 @@ package body Alice_User_Config is
       Config_File.Close;
       return Success;
    end Write_To_File;
+
+   ----------------------
+   -- Get_Current_User --
+   ----------------------
+
+   function Get_Current_User return User_Config_Type is
+   begin
+      if not Valid_Current_User and then Read_From_File (Current_User) then
+         Valid_Current_User := True;
+      end if;
+
+      return Current_User;
+   end Get_Current_User;
 
    ----------
    -- Show --

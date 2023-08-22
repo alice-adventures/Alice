@@ -46,6 +46,10 @@ package Alice_User_Config is
    function Write_To_File (User_Config : User_Config_Type) return Boolean;
    --  Write user configuration to the user config file.
 
+   function Get_Current_User return User_Config_Type;
+   --  Return the currently configured user, reading configuration from file
+   --  when needed.
+
    procedure Show (User_Config : User_Config_Type);
    --  Write user configuration contents to the console.
 
