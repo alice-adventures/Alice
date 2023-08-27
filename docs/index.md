@@ -27,28 +27,29 @@ remember that `mkdocs` allows you to:
 
 ### Figures
 
-Inclusion of figures require
+Inclusion of figures requires
 
 ```markdown
-![Repositories](img/repositories-light.png#only-light){ width="70%" }
-![Repositories](img/repositories-dark.png#only-dark){ width="70%" }
-<br>**Figure 4** - *Repositories*
+![Repositories](./img/repositories-light.png#only-light){ width="90%" }
+![Repositories](./img/repositories-dark.png#only-dark){ width="90%" }
+<br>**Figure 1** - *Repositories*
 { .figure }
 ```
 
 Images for dark theme are prepared as follows:
 
-  1. Export image from excalidraw in dark mode with no background.
+  1. Export image from excalidraw in dark mode with no background to `tmp.png`.
   2. Run the following command:
 
   ```bash
-  convert -background {--'#22252a'--} '#2e303e' -flatten input.png output.png
+  convert -background '#2e303e' -flatten tmp.png repositories-dark.png
+  rm tmp.png
   ```
 
 The result is shown in **Figure 1**.
 
-![Repositories](repositories-light.png#only-light){ width="70%" }
-![Repositories](repositories-dark.png#only-dark){ width="70%" }
+![Repositories](/img/repositories-light.png#only-light){ width="90%" }
+![Repositories](/img/repositories-dark.png#only-dark){ width="90%" }
 <br>**Figure 1** - *Repositories*
 { .figure }
 
@@ -157,8 +158,8 @@ pulsant dicentem guttur bella. Beati oraque, increpor aequore in repulsa licet,
 ponunt litus, cum **deinde** prioribus frigus causam.
 
 
-![Project_Euler-screenshot](Project_Euler-screenshot-01.png)
-<br>**Figure 4** - *Project_Euler screenshot*
+![Project_Euler-screenshot_01](img/Project_Euler-screenshot_01-all.png)
+<br>**Figure 4** - *Project_Euler screenshot 1*
 { .figure }
 
 
