@@ -1,21 +1,28 @@
 ---
 hide:
   - footer
+tags:
+  - Ada
+  - Example
+  - Bash
 ---
 
-![Alice](img/Alice_Adventures-top-right-light.png#only-light){ .alice align=right .off-glb }
-![Alice](img/Alice_Adventures-top-right-dark.png#only-dark){ .alice align=right .off-glb }
+--8<-- "docs/snippets/alice-header.md"
 
 # MKDOCS & MATERIAL <br>THEME TEST
+*Adventures for Learning and Inspiring Coding Excellence*
 
-## Character
+This file contains tests for `mkdocs` and `material` theme, with particular
+instructions to manage images and publications with versions.
+
+## Formatting
 
 ### Basic Markdown
 
 Text in __bold__ and _italic_.
 
 
-``` markdown
+```md title="character"
 Text in __bold__ and _italic_.
 ```
 
@@ -36,7 +43,7 @@ paragraphs.
 
 Using the [keys] extension one ca write keyboard commands:
 
-```
+```md title="keys"
 Press ++ctrl+alt+"C"++ to exit.
 ```
 
@@ -51,7 +58,7 @@ $$
   \sigma^2 = \frac{1}{N-1} \sum_{i=1}^{N} (x_i - \bar{X})^2
 $$
 
-```
+```md title="mathjax"
 One can write maths like for $X = \{x_1, x_2, \ldots x_N\}$ with
 $\bar{X} = 1/N \sum_{1}^{N}x_i$, variance is defined by
 
@@ -62,7 +69,7 @@ $$
 
 ### Footnotes
 
-``` title="Footnote"
+```md title="footnote"
 [^1]: Lorem Ipsum dolor sit amet, consectetur adipiscing elit.
 ```
 
@@ -149,7 +156,7 @@ And now jump to [Figure 1](#Figure-1)
 #### Basic block
 
 
-```ada
+```ada title="package"
    package Hello_World is
       procedure Say_Hello;
    end Hello_World;
@@ -157,7 +164,7 @@ And now jump to [Figure 1](#Figure-1)
 
 #### Code with line numbers
 
-```ada linenums="1"
+```ada linenums="1" title="with lines"
    package Hello_World is
       procedure Say_Hello;
    end Hello_World;
@@ -185,11 +192,11 @@ And now jump to [Figure 1](#Figure-1)
 
 ```ada linenums="1" title="Nice example" hl_lines="1 2"
    package Hello_World is
-      procedure Say_Hello;  -- (1)!
-   end Hello_World;
+      procedure Say_Hello;
+   end Hello_World;  -- (1)!
 ```
 
-1. This is the classic procedure to write `Text_IO.Put_Line ("Hello, world");`
+1. This line defines the end of the `Hello_World` package.
 
 #### Code including an external file
 
@@ -197,7 +204,7 @@ And now jump to [Figure 1](#Figure-1)
     Note that line 14 (highlighted) clearly shows _font ligatures_ enabled.
 
 ```js linenums="1" title="Javascript to enable MathJax" hl_lines="14"
---8<-- "javascripts/mathjax.js"
+--8<-- "docs/javascripts/mathjax.js"
 ```
 
 

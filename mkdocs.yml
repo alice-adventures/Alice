@@ -47,6 +47,7 @@ theme:
     - navigation.path
 #    - navigation.sections
     - navigation.tabs
+    - navigation.top
     - navigation.tracking
     - search.highlight
     - toc.integrate
@@ -85,8 +86,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.mark
   - pymdownx.snippets:
-      base_path:
-        - snippets
+      # base_path:
+      #   - docs/snippets
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
@@ -137,6 +138,7 @@ nav:
   - HOME:
       - Home: index.md
       - About: about.md
+      - Test: test.md
   - "&nbsp;For Participants&nbsp;":
     - participant/index.md
     - Project Euler: participant/Project_Euler.md
