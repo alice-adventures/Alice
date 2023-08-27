@@ -7,8 +7,8 @@ tags:
   - Bash
 ---
 
-![Alice](Alice_Adventures-top-right-blue.png#only-light){ .alice align=right .off-glb }
-![Alice](Alice_Adventures-top-right-white.png#only-dark){ .alice align=right .off-glb }
+![Alice](img/Alice_Adventures-top-right-light.png#only-light){ .alice align=right .off-glb }
+![Alice](img/Alice_Adventures-top-right-dark.png#only-dark){ .alice align=right .off-glb }
 
 # WELCOME TO ALICE DOCUMENTATION TEST
 *Adventures for Learning and Inspiring Coding Excellence*
@@ -30,8 +30,8 @@ remember that `mkdocs` allows you to:
 Inclusion of figures require
 
 ```markdown
-![Repositories](repositories-light.png#only-light){ width="70%" }
-![Repositories](repositories-dark.png#only-dark){ width="70%" }
+![Repositories](img/repositories-light.png#only-light){ width="70%" }
+![Repositories](img/repositories-dark.png#only-dark){ width="70%" }
 <br>**Figure 4** - *Repositories*
 { .figure }
 ```

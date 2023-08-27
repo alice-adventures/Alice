@@ -59,7 +59,8 @@ h4 {
 }
 
 [data-md-color-scheme="slate"] .gslider {
-    background: #22252a;
+    /* background: #22252a; */
+    background: #2e303e;
 }
 
 [data-md-color-scheme="default"] .gslider {
