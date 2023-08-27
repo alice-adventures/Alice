@@ -1,0 +1,1938 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
+  "elements": [
+    {
+      "type": "ellipse",
+      "version": 435,
+      "versionNonce": 407454049,
+      "isDeleted": false,
+      "id": "TH7lTb9cvEacXr1tILPpl",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1645.455722495647,
+      "y": -1348.3238236085529,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 19.199486649580876,
+      "height": 28.569707884022883,
+      "seed": 1806756816,
+      "groupIds": [
+        "OdyKGIeok4loAc1RXH2-t",
+        "d5NME3v_pHMcUOcnv8dKI"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "line",
+      "version": 366,
+      "versionNonce": 1559150895,
+      "isDeleted": false,
+      "id": "bEyLB9bdz_52o-wYtL7pO",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1655.1191872993877,
+      "y": -1319.9079889835557,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 0,
+      "height": 41.90253277087663,
+      "seed": 352352560,
+      "groupIds": [
+        "OdyKGIeok4loAc1RXH2-t",
+        "d5NME3v_pHMcUOcnv8dKI"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          41.90253277087663
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 331,
+      "versionNonce": 1060924737,
+      "isDeleted": false,
+      "id": "dLbWs5CUxzlMTnxxVFgP3",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1656.123532729906,
+      "y": -1277.1934408182171,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 19.43684432788058,
+      "height": 15.440252195500875,
+      "seed": 339931600,
+      "groupIds": [
+        "OdyKGIeok4loAc1RXH2-t",
+        "d5NME3v_pHMcUOcnv8dKI"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -19.43684432788058,
+          15.440252195500875
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 335,
+      "versionNonce": 855425871,
+      "isDeleted": false,
+      "id": "wXCsBh7nykL0tm0tKpcSu",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1656.530311122137,
+      "y": -1277.1934408182171,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 15.813797847917272,
+      "height": 16.048079842401876,
+      "seed": 2063192880,
+      "groupIds": [
+        "OdyKGIeok4loAc1RXH2-t",
+        "d5NME3v_pHMcUOcnv8dKI"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          15.813797847917272,
+          16.048079842401876
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 393,
+      "versionNonce": 446635297,
+      "isDeleted": false,
+      "id": "l5zl-sWaXlRfEFn1-dxw5",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1641.3338213981674,
+      "y": -1302.0355777415286,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 27.958641793227173,
+      "height": 0,
+      "seed": 681850832,
+      "groupIds": [
+        "OdyKGIeok4loAc1RXH2-t",
+        "d5NME3v_pHMcUOcnv8dKI"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          27.958641793227173,
+          0
+        ]
+      ]
+    },
+    {
+      "type": "rectangle",
+      "version": 373,
+      "versionNonce": 944079215,
+      "isDeleted": false,
+      "id": "DS-je4-yKv0wRzoxJ8mm7",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1634.8585637329193,
+      "y": -1351.0998396346574,
+      "strokeColor": "transparent",
+      "backgroundColor": "transparent",
+      "width": 37.70178296410751,
+      "height": 91.18664961709673,
+      "seed": 1287122224,
+      "groupIds": [
+        "OdyKGIeok4loAc1RXH2-t",
+        "d5NME3v_pHMcUOcnv8dKI"
+      ],
+      "roundness": null,
+      "boundElements": [
+        {
+          "id": "sHo4reqkQTc7EybUVaEkQ",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 327,
+      "versionNonce": 1434256193,
+      "isDeleted": false,
+      "id": "mmxtBtovjk1JrpMgSB-wV",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1604.922009504291,
+      "y": -1255.1924722588476,
+      "strokeColor": "#862e9c",
+      "backgroundColor": "transparent",
+      "width": 95.96823120117188,
+      "height": 20,
+      "seed": 1827454416,
+      "groupIds": [
+        "d5NME3v_pHMcUOcnv8dKI"
+      ],
+      "roundness": null,
+      "boundElements": [
+        {
+          "id": "cbK27qdN3LABz-kb_J9pn",
+          "type": "arrow"
+        },
+        {
+          "id": "sHo4reqkQTc7EybUVaEkQ",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1693145877510,
+      "link": null,
+      "locked": false,
+      "fontSize": 16,
+      "fontFamily": 1,
+      "text": "Participants",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Participants",
+      "lineHeight": 1.25,
+      "baseline": 14
+    },
+    {
+      "type": "arrow",
+      "version": 238,
+      "versionNonce": 1205683055,
+      "isDeleted": false,
+      "id": "sHo4reqkQTc7EybUVaEkQ",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1620.1325256488974,
+      "y": -1226.8911505564788,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 102.03162017412274,
+      "height": 102.03162017412262,
+      "seed": 1589315311,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930696,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "mmxtBtovjk1JrpMgSB-wV",
+        "focus": 0.24959038529276992,
+        "gap": 8.301321702368796
+      },
+      "endBinding": {
+        "elementId": "txWbxXEc2lbDHCceeNlNN",
+        "focus": 0.11092256961268579,
+        "gap": 22.26296805492254
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -102.03162017412274,
+          102.03162017412262
+        ]
+      ]
+    },
+    {
+      "type": "arrow",
+      "version": 517,
+      "versionNonce": 962657679,
+      "isDeleted": false,
+      "id": "QyfcO1cjvepDPKd_au2K0",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2696.615593983353,
+      "y": -1225.6091005092471,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 100.8740421595312,
+      "height": 100.87404215953148,
+      "seed": 2117974607,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930696,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "pjGEMnAVd9G_qpGSNldup",
+        "focus": 0.37483480113968687,
+        "gap": 9.583371749600474
+      },
+      "endBinding": {
+        "elementId": "ZPiuQWr-rE7BTLZkKnsCI",
+        "focus": 0.07614048634157661,
+        "gap": 20.154668226735765
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -100.8740421595312,
+          100.87404215953148
+        ]
+      ]
+    },
+    {
+      "type": "arrow",
+      "version": 254,
+      "versionNonce": 1386771375,
+      "isDeleted": false,
+      "id": "cbK27qdN3LABz-kb_J9pn",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1701.6113908632415,
+      "y": -1224.6316415017632,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 102.03763399025581,
+      "height": 102.03763399025581,
+      "seed": 1248720943,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930696,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "mmxtBtovjk1JrpMgSB-wV",
+        "focus": -0.48538181034179023,
+        "gap": 10.560830757084432
+      },
+      "endBinding": {
+        "elementId": "9bKfFfIzCGNGxH3GdkBtk",
+        "focus": -0.11563247701976238,
+        "gap": 19.624170758381283
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          102.03763399025581,
+          102.03763399025581
+        ]
+      ]
+    },
+    {
+      "type": "arrow",
+      "version": 504,
+      "versionNonce": 1541154255,
+      "isDeleted": false,
+      "id": "2PtZPw39ttxJ5V6Pu4uHH",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2781.127925719392,
+      "y": -1225.335372618377,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 101.718264438603,
+      "height": 101.71826443860272,
+      "seed": 1498224161,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930696,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "pjGEMnAVd9G_qpGSNldup",
+        "focus": -0.49500834260705784,
+        "gap": 9.857099640470551
+      },
+      "endBinding": {
+        "elementId": "P3lfmFLmvkkUt8JLBSDNL",
+        "focus": -0.13567696761352505,
+        "gap": 22.126682952260296
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          101.718264438603,
+          101.71826443860272
+        ]
+      ]
+    },
+    {
+      "type": "ellipse",
+      "version": 72,
+      "versionNonce": 1311358721,
+      "isDeleted": false,
+      "id": "txWbxXEc2lbDHCceeNlNN",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1270.6406993168455,
+      "y": -1118.8780056171627,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 299,
+      "height": 147,
+      "seed": 807232399,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "SrqauS-a0mEkDQHcntvNt"
+        },
+        {
+          "id": "sHo4reqkQTc7EybUVaEkQ",
+          "type": "arrow"
+        },
+        {
+          "id": "dTwgyW0TMON-Iz7PfXtrI",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1685204796132,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 84,
+      "versionNonce": 255364431,
+      "isDeleted": false,
+      "id": "SrqauS-a0mEkDQHcntvNt",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1326.9538397775036,
+      "y": -1080.3503540343738,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 185.94879150390625,
+      "height": 70,
+      "seed": 41594191,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877510,
+      "link": null,
+      "locked": false,
+      "fontSize": 28,
+      "fontFamily": 1,
+      "text": "APPRENTICE\nPATH",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "txWbxXEc2lbDHCceeNlNN",
+      "originalText": "APPRENTICE\nPATH",
+      "lineHeight": 1.25,
+      "baseline": 60
+    },
+    {
+      "type": "ellipse",
+      "version": 131,
+      "versionNonce": 936977697,
+      "isDeleted": false,
+      "id": "ZPiuQWr-rE7BTLZkKnsCI",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2354.2001933354004,
+      "y": -1118.8780056171627,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 299,
+      "height": 147,
+      "seed": 2119145583,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [
+        {
+          "id": "QyfcO1cjvepDPKd_au2K0",
+          "type": "arrow"
+        },
+        {
+          "type": "text",
+          "id": "886v7E1Sw6aoAhzdSgDs1"
+        },
+        {
+          "id": "-6OJK5KMgly6M1rCBZcqP",
+          "type": "arrow"
+        },
+        {
+          "id": "qhtTHuMOPwXV53q3twY_a",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1685204810928,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 141,
+      "versionNonce": 140309281,
+      "isDeleted": false,
+      "id": "886v7E1Sw6aoAhzdSgDs1",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2410.5133337960588,
+      "y": -1080.3503540343738,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 185.94879150390625,
+      "height": 70,
+      "seed": 40348161,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877511,
+      "link": null,
+      "locked": false,
+      "fontSize": 28,
+      "fontFamily": 1,
+      "text": "APPRENTICE\nPATH",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ZPiuQWr-rE7BTLZkKnsCI",
+      "originalText": "APPRENTICE\nPATH",
+      "lineHeight": 1.25,
+      "baseline": 60
+    },
+    {
+      "type": "ellipse",
+      "version": 99,
+      "versionNonce": 1321557921,
+      "isDeleted": false,
+      "id": "9bKfFfIzCGNGxH3GdkBtk",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1750.6283354591524,
+      "y": -1118.8780056171627,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 299,
+      "height": 147,
+      "seed": 994121057,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "VrFk2SG04K3pPZKu1WmiU"
+        },
+        {
+          "id": "cbK27qdN3LABz-kb_J9pn",
+          "type": "arrow"
+        },
+        {
+          "id": "dTwgyW0TMON-Iz7PfXtrI",
+          "type": "arrow"
+        },
+        {
+          "id": "-6OJK5KMgly6M1rCBZcqP",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1685204805452,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 104,
+      "versionNonce": 1853361007,
+      "isDeleted": false,
+      "id": "VrFk2SG04K3pPZKu1WmiU",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1835.6695948162946,
+      "y": -1080.3503540343738,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 128.4925537109375,
+      "height": 70,
+      "seed": 1695427887,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877511,
+      "link": null,
+      "locked": false,
+      "fontSize": 28,
+      "fontFamily": 1,
+      "text": "EXPERT \nPATH",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "9bKfFfIzCGNGxH3GdkBtk",
+      "originalText": "EXPERT PATH",
+      "lineHeight": 1.25,
+      "baseline": 60
+    },
+    {
+      "type": "ellipse",
+      "version": 156,
+      "versionNonce": 1922685185,
+      "isDeleted": false,
+      "id": "P3lfmFLmvkkUt8JLBSDNL",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2834.1878294777075,
+      "y": -1118.8780056171627,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 299,
+      "height": 147,
+      "seed": 2025894543,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [
+        {
+          "id": "2PtZPw39ttxJ5V6Pu4uHH",
+          "type": "arrow"
+        },
+        {
+          "type": "text",
+          "id": "jz2r9g2KzeDx_KqlNyByZ"
+        },
+        {
+          "id": "qhtTHuMOPwXV53q3twY_a",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1685204810928,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 161,
+      "versionNonce": 1567876865,
+      "isDeleted": false,
+      "id": "jz2r9g2KzeDx_KqlNyByZ",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2919.22908883485,
+      "y": -1080.3503540343738,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 128.4925537109375,
+      "height": 70,
+      "seed": 1992606177,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877511,
+      "link": null,
+      "locked": false,
+      "fontSize": 28,
+      "fontFamily": 1,
+      "text": "EXPERT \nPATH",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "P3lfmFLmvkkUt8JLBSDNL",
+      "originalText": "EXPERT PATH",
+      "lineHeight": 1.25,
+      "baseline": 60
+    },
+    {
+      "type": "text",
+      "version": 929,
+      "versionNonce": 1365427599,
+      "isDeleted": false,
+      "id": "76YRdOxMvg_feM-Es1q-x",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -204.41208718772336,
+      "y": -221.3923601057292,
+      "strokeColor": "#862e9c",
+      "backgroundColor": "transparent",
+      "width": 475.7794189453125,
+      "height": 450,
+      "seed": 90555169,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877512,
+      "link": null,
+      "locked": false,
+      "fontSize": 20,
+      "fontFamily": 1,
+      "text": "• Registration is not required\n\n• Participants' work is not traced nor shared\n\n• There is an easy way to get into Alice with a\n  Docker container that contains a fully func-\n  tional Alice setup with examples and demos\n\n• Participants are encouraged to run demos\n  and to write short programs\n\n• There shall be a small intorduction to the\n  Ada programming language, Alire tool, and\n  Alice work environment and framework\n\n• Participants are encouraged to follow the\n  PARTICIPANT EXPERT path\n",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "• Registration is not required\n\n• Participants' work is not traced nor shared\n\n• There is an easy way to get into Alice with a\n  Docker container that contains a fully func-\n  tional Alice setup with examples and demos\n\n• Participants are encouraged to run demos\n  and to write short programs\n\n• There shall be a small intorduction to the\n  Ada programming language, Alire tool, and\n  Alice work environment and framework\n\n• Participants are encouraged to follow the\n  PARTICIPANT EXPERT path\n",
+      "lineHeight": 1.25,
+      "baseline": 442
+    },
+    {
+      "type": "text",
+      "version": 1316,
+      "versionNonce": 2134990561,
+      "isDeleted": false,
+      "id": "mdjTDnbA1ofkbAK8cIUTh",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -203.5147205586047,
+      "y": 644.261476849718,
+      "strokeColor": "#5f3dc4",
+      "backgroundColor": "transparent",
+      "width": 473.73944091796875,
+      "height": 500,
+      "seed": 841631247,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877513,
+      "link": null,
+      "locked": false,
+      "fontSize": 20,
+      "fontFamily": 1,
+      "text": "• Registration is required\n\n• Participants' work is traced and shared;\n  this means that their public repository is\n  available using tools in Alice\n\n• Participants must set up its own work\n  environment according to a minimal structure\n  (with the help of alice command)\n\n• Participants are encouraged to\n\n  – provide shared contents for their preferred\n    Problem Source\n\n  – provide feedback to other Participants as\n    well as on the Alice framework\n\n  – follow the DEVELOPER APPRENTICE path\n",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "• Registration is required\n\n• Participants' work is traced and shared;\n  this means that their public repository is\n  available using tools in Alice\n\n• Participants must set up its own work\n  environment according to a minimal structure\n  (with the help of alice command)\n\n• Participants are encouraged to\n\n  – provide shared contents for their preferred\n    Problem Source\n\n  – provide feedback to other Participants as\n    well as on the Alice framework\n\n  – follow the DEVELOPER APPRENTICE path\n",
+      "lineHeight": 1.25,
+      "baseline": 492
+    },
+    {
+      "type": "text",
+      "version": 305,
+      "versionNonce": 389102511,
+      "isDeleted": false,
+      "id": "EZXFGzplXRjl7l0Jln4mF",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2075.9316085541773,
+      "y": -1395.8072556721213,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 142.76986694335938,
+      "height": 81.6171222834145,
+      "seed": 263881551,
+      "groupIds": [
+        "A8xxe1t-AWgzRCM8uueaY"
+      ],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877513,
+      "link": null,
+      "locked": false,
+      "fontSize": 65.2936978267316,
+      "fontFamily": 1,
+      "text": "Alice",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Alice",
+      "lineHeight": 1.25,
+      "baseline": 57
+    },
+    {
+      "type": "text",
+      "version": 163,
+      "versionNonce": 475323073,
+      "isDeleted": false,
+      "id": "cqamAd8TrSuDK4nkVYkUv",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2075.9316085541773,
+      "y": -1312.4948720508985,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 283.0333251953125,
+      "height": 45.65828217809356,
+      "seed": 1637498305,
+      "groupIds": [
+        "A8xxe1t-AWgzRCM8uueaY"
+      ],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877514,
+      "link": null,
+      "locked": false,
+      "fontSize": 36.52662574247485,
+      "fontFamily": 1,
+      "text": "How to get into",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "How to get into",
+      "lineHeight": 1.25,
+      "baseline": 32
+    },
+    {
+      "type": "ellipse",
+      "version": 548,
+      "versionNonce": 1893278927,
+      "isDeleted": false,
+      "id": "vPbbHm9GRak8jis9ia0k2",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2728.5516241902933,
+      "y": -1348.3238236085529,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 19.199486649580876,
+      "height": 28.569707884022883,
+      "seed": 2058553808,
+      "groupIds": [
+        "cymRoUWPZsrerofzGoc9I",
+        "4tEDrFWVUPdQk7ojxTaDc"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "line",
+      "version": 479,
+      "versionNonce": 5477281,
+      "isDeleted": false,
+      "id": "_HDTYXJ6RIxzXA0bCZZvh",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2738.215088994034,
+      "y": -1319.9079889835557,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 0,
+      "height": 41.90253277087663,
+      "seed": 87505712,
+      "groupIds": [
+        "cymRoUWPZsrerofzGoc9I",
+        "4tEDrFWVUPdQk7ojxTaDc"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          41.90253277087663
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 444,
+      "versionNonce": 253342447,
+      "isDeleted": false,
+      "id": "4ASGsiWTkoAFZ3TmYk1DZ",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2739.219434424552,
+      "y": -1277.1934408182171,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 19.43684432788058,
+      "height": 15.440252195500875,
+      "seed": 2035371984,
+      "groupIds": [
+        "cymRoUWPZsrerofzGoc9I",
+        "4tEDrFWVUPdQk7ojxTaDc"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -19.43684432788058,
+          15.440252195500875
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 448,
+      "versionNonce": 1321367425,
+      "isDeleted": false,
+      "id": "pZYw64y7QVv5wMA0X-bwU",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2739.626212816783,
+      "y": -1277.1934408182171,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 15.813797847917272,
+      "height": 16.048079842401876,
+      "seed": 2064143664,
+      "groupIds": [
+        "cymRoUWPZsrerofzGoc9I",
+        "4tEDrFWVUPdQk7ojxTaDc"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          15.813797847917272,
+          16.048079842401876
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 506,
+      "versionNonce": 1315142927,
+      "isDeleted": false,
+      "id": "8rH4-fVDqN0NcZRXNME2k",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2724.4297230928137,
+      "y": -1302.0355777415286,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 27.958641793227173,
+      "height": 0,
+      "seed": 1479988688,
+      "groupIds": [
+        "cymRoUWPZsrerofzGoc9I",
+        "4tEDrFWVUPdQk7ojxTaDc"
+      ],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          27.958641793227173,
+          0
+        ]
+      ]
+    },
+    {
+      "type": "rectangle",
+      "version": 484,
+      "versionNonce": 1500110689,
+      "isDeleted": false,
+      "id": "fAGLWdI8KipyYTvb8zTkk",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2717.954465427565,
+      "y": -1351.0998396346574,
+      "strokeColor": "transparent",
+      "backgroundColor": "transparent",
+      "width": 37.70178296410751,
+      "height": 91.18664961709673,
+      "seed": 389500880,
+      "groupIds": [
+        "cymRoUWPZsrerofzGoc9I",
+        "4tEDrFWVUPdQk7ojxTaDc"
+      ],
+      "roundness": null,
+      "boundElements": [
+        {
+          "id": "QyfcO1cjvepDPKd_au2K0",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1685183930695,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 430,
+      "versionNonce": 604761551,
+      "isDeleted": false,
+      "id": "pjGEMnAVd9G_qpGSNldup",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2693.805356909619,
+      "y": -1255.1924722588476,
+      "strokeColor": "#2b8a3e",
+      "backgroundColor": "transparent",
+      "width": 83.63215637207031,
+      "height": 20,
+      "seed": 870181168,
+      "groupIds": [
+        "4tEDrFWVUPdQk7ojxTaDc"
+      ],
+      "roundness": null,
+      "boundElements": [
+        {
+          "id": "2PtZPw39ttxJ5V6Pu4uHH",
+          "type": "arrow"
+        },
+        {
+          "id": "QyfcO1cjvepDPKd_au2K0",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1693145877514,
+      "link": null,
+      "locked": false,
+      "fontSize": 16,
+      "fontFamily": 1,
+      "text": "Developers",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Developers",
+      "lineHeight": 1.25,
+      "baseline": 14
+    },
+    {
+      "type": "text",
+      "version": 1724,
+      "versionNonce": 1699601057,
+      "isDeleted": false,
+      "id": "qyIxUz50E5zRAH3VL-2pP",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -203.5147205586047,
+      "y": 1592.5724582259686,
+      "strokeColor": "#087f5b",
+      "backgroundColor": "transparent",
+      "width": 459.3794250488281,
+      "height": 625,
+      "seed": 1746605217,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877514,
+      "link": null,
+      "locked": false,
+      "fontSize": 20,
+      "fontFamily": 1,
+      "text": "• Required to be an Expert Participant\n\n• Developers are encouraged to develop:\n\n  – small tasks to improve existing features;\n    start to gain confidence and knowledge to\n    develop Alice framework\n\n  – medium tasks to add new features that\n    extend certain aspects of the Alice\n    framework\n\n• Developers are encouraged to:\n\n  – provide shared contents for Problem\n    Sources when this requires to write a\n    program (e.g., new games in CodigGame)\n\n  – provide feedback to other Developers as\n    well as on the Alice framework\n\n  – follow good coding practices\n\n  – follow the DEVELOPER EXPERT path\n",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "• Required to be an Expert Participant\n\n• Developers are encouraged to develop:\n\n  – small tasks to improve existing features;\n    start to gain confidence and knowledge to\n    develop Alice framework\n\n  – medium tasks to add new features that\n    extend certain aspects of the Alice\n    framework\n\n• Developers are encouraged to:\n\n  – provide shared contents for Problem\n    Sources when this requires to write a\n    program (e.g., new games in CodigGame)\n\n  – provide feedback to other Developers as\n    well as on the Alice framework\n\n  – follow good coding practices\n\n  – follow the DEVELOPER EXPERT path\n",
+      "lineHeight": 1.25,
+      "baseline": 617
+    },
+    {
+      "type": "text",
+      "version": 1304,
+      "versionNonce": 1124817903,
+      "isDeleted": false,
+      "id": "PvlXHSzXEkNmfp3EPlnRg",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -203.5147205586047,
+      "y": 2269.222768075669,
+      "strokeColor": "#2b8a3e",
+      "backgroundColor": "transparent",
+      "width": 472.99945068359375,
+      "height": 575,
+      "seed": 1457145967,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877515,
+      "link": null,
+      "locked": false,
+      "fontSize": 20,
+      "fontFamily": 1,
+      "text": "• Developers are encouraged to:\n\n  – extend a supported Problem Source in Alice\n    with new interfaces or graphical capabilities\n\n  – propose, design and implement support for\n    existing Problem Sources\n\n  – implement tools to create complex Problem\n    Sources\n\n  – provide feedback to other Developers as\n    well as on the Alice framework\n\n• Developers are welcomed to actively partici-\n  pate in the creation of a new Problem Source\n  entirely focused in Ada/SPARK, real-time pro-\n  blems, critical software, fault tolerant\n  design, high integrity applications and formal\n  methods; collaboration from other parties\n  (experts, industry, universities) is also appre-\n  ciated\n",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "• Developers are encouraged to:\n\n  – extend a supported Problem Source in Alice\n    with new interfaces or graphical capabilities\n\n  – propose, design and implement support for\n    existing Problem Sources\n\n  – implement tools to create complex Problem\n    Sources\n\n  – provide feedback to other Developers as\n    well as on the Alice framework\n\n• Developers are welcomed to actively partici-\n  pate in the creation of a new Problem Source\n  entirely focused in Ada/SPARK, real-time pro-\n  blems, critical software, fault tolerant\n  design, high integrity applications and formal\n  methods; collaboration from other parties\n  (experts, industry, universities) is also appre-\n  ciated\n",
+      "lineHeight": 1.25,
+      "baseline": 567
+    },
+    {
+      "type": "text",
+      "version": 75,
+      "versionNonce": 1255923329,
+      "isDeleted": false,
+      "id": "blzE5ZUoAQjtLMWMn_JY7",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -153.06692059315833,
+      "y": -344.2867206440144,
+      "strokeColor": "#1864ab",
+      "backgroundColor": "transparent",
+      "width": 360.4735107421875,
+      "height": 35,
+      "seed": 1682918991,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877515,
+      "link": null,
+      "locked": false,
+      "fontSize": 28,
+      "fontFamily": 1,
+      "text": "DEFINITION AND SCOPE",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "DEFINITION AND SCOPE",
+      "lineHeight": 1.25,
+      "baseline": 25
+    },
+    {
+      "type": "text",
+      "version": 57,
+      "versionNonce": 1211631119,
+      "isDeleted": false,
+      "id": "tjjHCjAZ0TbmEdyPv8sAT",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 363.2342772472948,
+      "y": -345.9217097953861,
+      "strokeColor": "#1864ab",
+      "backgroundColor": "transparent",
+      "width": 182.16879272460938,
+      "height": 35,
+      "seed": 1427845327,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877516,
+      "link": null,
+      "locked": false,
+      "fontSize": 28,
+      "fontFamily": 1,
+      "text": "USER STORY",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "USER STORY",
+      "lineHeight": 1.25,
+      "baseline": 25
+    },
+    {
+      "type": "text",
+      "version": 1852,
+      "versionNonce": 2076075617,
+      "isDeleted": false,
+      "id": "EoI9r9VGV1gErI2ufki88",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 273.25673575788596,
+      "y": -237.2093569704503,
+      "strokeColor": "#862e9c",
+      "backgroundColor": "transparent",
+      "width": 611.2993774414062,
+      "height": 825,
+      "seed": 89640815,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877517,
+      "link": null,
+      "locked": false,
+      "fontSize": 20,
+      "fontFamily": 1,
+      "text": "• There shall be a Docker image that provides a fully\n  functional Alice setup, including external tools to facilitate\n  the first approach to Ada, Alice and Alire; for example:\n\n  – the code-server (vscode server version) can be installed\n    in the docker and accessed with a web browser running\n    in the host\n\n  – a guided tour on Alice, what's inside, tools and programs,\n    collaboration roles and modes (overview with concrete \n    examples)\n\n  – a short tutorial to write example programs for a\n    particular Problem Source\n\n  – a small introduction to the most distinctive features of\n    the Ada programming language for the newcomers, with\n    hands-on exercises\n\n• A Participant follows a very basic set of steps to create\n  and run a Docker container based on the above Docker\n  image\n\n• The Docker container runs an http server; the Participant\n  connects to it with a web browser and starts exploring\n  Alice: introduction to Alice, generic description, possibilities,\n  introduction to Ada, tutorials, sample code, compile and run\n  demos, etc.\n\n• From here, a Participant can learn how to setup Alice,\n  where things can be found, its internal structure, how to\n  install and use Alire and the crates in some indexes; the\n  transition to the EXPERT PRTICIPANT begins",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "• There shall be a Docker image that provides a fully\n  functional Alice setup, including external tools to facilitate\n  the first approach to Ada, Alice and Alire; for example:\n\n  – the code-server (vscode server version) can be installed\n    in the docker and accessed with a web browser running\n    in the host\n\n  – a guided tour on Alice, what's inside, tools and programs,\n    collaboration roles and modes (overview with concrete \n    examples)\n\n  – a short tutorial to write example programs for a\n    particular Problem Source\n\n  – a small introduction to the most distinctive features of\n    the Ada programming language for the newcomers, with\n    hands-on exercises\n\n• A Participant follows a very basic set of steps to create\n  and run a Docker container based on the above Docker\n  image\n\n• The Docker container runs an http server; the Participant\n  connects to it with a web browser and starts exploring\n  Alice: introduction to Alice, generic description, possibilities,\n  introduction to Ada, tutorials, sample code, compile and run\n  demos, etc.\n\n• From here, a Participant can learn how to setup Alice,\n  where things can be found, its internal structure, how to\n  install and use Alire and the crates in some indexes; the\n  transition to the EXPERT PRTICIPANT begins",
+      "lineHeight": 1.25,
+      "baseline": 817
+    },
+    {
+      "type": "line",
+      "version": 264,
+      "versionNonce": 202296207,
+      "isDeleted": false,
+      "id": "teV7ky0iKFBTmV3rFhFym",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 269.58959842614223,
+      "y": -413.5655557220847,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 0,
+      "height": 3656.4321711288076,
+      "seed": 1492662607,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685203543839,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          3656.4321711288076
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 339,
+      "versionNonce": 412918447,
+      "isDeleted": false,
+      "id": "KU9NbB0lExmc-dEM-9Dj1",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 882.4463839441111,
+      "y": -438.79135913830453,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 0,
+      "height": 3680.7143118189465,
+      "seed": 68457455,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685203548247,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          3680.7143118189465
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 289,
+      "versionNonce": 1584427055,
+      "isDeleted": false,
+      "id": "UUYivLiYw-vPHgP4pS4IU",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -206.80030896154133,
+      "y": 3240.664651118558,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 0,
+      "height": 3647.465042973102,
+      "seed": 1329271009,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685203539390,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          -3647.465042973102
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 74,
+      "versionNonce": 834618913,
+      "isDeleted": false,
+      "id": "iEPT8ozsCRBr-hYNZKwy_",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -207.40303364591244,
+      "y": -388.51978532908896,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 481.93621344827744,
+      "height": 0,
+      "seed": 1125000911,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685203503876,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          481.93621344827744,
+          0
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 105,
+      "versionNonce": 1096312943,
+      "isDeleted": false,
+      "id": "n2vY8XSyzxfHymkztZv23",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 274.0856974840039,
+      "y": -389.0725769510176,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 481.93621344827744,
+      "height": 0,
+      "seed": 1907349167,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685203503876,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          481.93621344827744,
+          0
+        ]
+      ]
+    },
+    {
+      "type": "line",
+      "version": 47,
+      "versionNonce": 1830017537,
+      "isDeleted": false,
+      "id": "kzOs1pEP2u-LBscRfZRms",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 269.79567166427046,
+      "y": -384.07083463917115,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 613.4334048142339,
+      "height": 0,
+      "seed": 1214347201,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685203503876,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          613.4334048142339,
+          0
+        ]
+      ]
+    },
+    {
+      "type": "text",
+      "version": 2113,
+      "versionNonce": 1921674287,
+      "isDeleted": false,
+      "id": "2xA6VDIGMUc8eFVREy7a_",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 272.06162668283457,
+      "y": 650.2809003959245,
+      "strokeColor": "#5f3dc4",
+      "backgroundColor": "transparent",
+      "width": 608.6993408203125,
+      "height": 850,
+      "seed": 1520981569,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": [],
+      "updated": 1693145877518,
+      "link": null,
+      "locked": false,
+      "fontSize": 20,
+      "fontFamily": 1,
+      "text": "• An APPRENTICE PARTICIPANT, or an Ada developer that\n  already woked with Alire, can make an Alice setup with the\n  need of the Docker container. Although it is possible to\n  have Alice in a Docker container, she/he can choose to\n  setup Alice in the host\n\n• Using the Docker container has pros and cons:\n\n  CONS:                         PROS:\n  – slower on some hosts       – portability; deploy & run\n  – difficult to integrate       – 100% automation of\n    desktop GUI applications      complex tasks for some\n    on hosts other than Linux     users\n  – networking & security can   – integration of multiple\n     cause troubles               tools\n\n• Expert Participants can cotinue using Docker containers\n  with no problem; local clones of their public repository(ies)\n  can be put inside the docker or in a shared volume; a\n  shared volume is convenient if they want to use a\n  different IDE, for example\n\n• Participant registration takes places by sending a pull\n  request to a specific table in a repository where each\n  entry contains the name of the participant, the Problem\n  Source she/he is going to participate and the URL of the\n  public repository; this is a VERY BASIC schema, and must\n  be improved a lot to avoid problems like duplicity of entries\n  and unauthorized changes if Add/Edit/Delete operations\n  are going to be automated. Initial validation by human\n  revision\n\n\n",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "• An APPRENTICE PARTICIPANT, or an Ada developer that\n  already woked with Alire, can make an Alice setup with the\n  need of the Docker container. Although it is possible to\n  have Alice in a Docker container, she/he can choose to\n  setup Alice in the host\n\n• Using the Docker container has pros and cons:\n\n  CONS:                         PROS:\n  – slower on some hosts       – portability; deploy & run\n  – difficult to integrate       – 100% automation of\n    desktop GUI applications      complex tasks for some\n    on hosts other than Linux     users\n  – networking & security can   – integration of multiple\n     cause troubles               tools\n\n• Expert Participants can cotinue using Docker containers\n  with no problem; local clones of their public repository(ies)\n  can be put inside the docker or in a shared volume; a\n  shared volume is convenient if they want to use a\n  different IDE, for example\n\n• Participant registration takes places by sending a pull\n  request to a specific table in a repository where each\n  entry contains the name of the participant, the Problem\n  Source she/he is going to participate and the URL of the\n  public repository; this is a VERY BASIC schema, and must\n  be improved a lot to avoid problems like duplicity of entries\n  and unauthorized changes if Add/Edit/Delete operations\n  are going to be automated. Initial validation by human\n  revision\n\n\n",
+      "lineHeight": 1.25,
+      "baseline": 842
+    },
+    {
+      "type": "line",
+      "version": 31,
+      "versionNonce": 410222319,
+      "isDeleted": false,
+      "id": "DmuqP0IaGByMwfdx73ObW",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -287.58967749808164,
+      "y": 3241.542165584754,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 1329.6044374915132,
+      "height": 0,
+      "seed": 36668047,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685203534100,
+      "link": null,
+      "locked": false,
+      "startBinding": null,
+      "endBinding": null,
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": null,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          1329.6044374915132,
+          0
+        ]
+      ]
+    },
+    {
+      "type": "arrow",
+      "version": 39,
+      "versionNonce": 1748283023,
+      "isDeleted": false,
+      "id": "dTwgyW0TMON-Iz7PfXtrI",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1419.3964837919693,
+      "y": -956.8245040036861,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 422.8307794843772,
+      "height": 134.56224280177378,
+      "seed": 1600608385,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685204798563,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "txWbxXEc2lbDHCceeNlNN",
+        "focus": 0.7431713989472225,
+        "gap": 15.05436935300574
+      },
+      "endBinding": {
+        "elementId": "9bKfFfIzCGNGxH3GdkBtk",
+        "focus": -0.407646658772249,
+        "gap": 15.969049936694617
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          205.5564670829126,
+          130.05805314121653
+        ],
+        [
+          422.8307794843772,
+          -4.504189660557245
+        ]
+      ]
+    },
+    {
+      "type": "arrow",
+      "version": 74,
+      "versionNonce": 1920640751,
+      "isDeleted": false,
+      "id": "-6OJK5KMgly6M1rCBZcqP",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1976.2867023249378,
+      "y": -972.9327083945407,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 422.8307794843772,
+      "height": 134.56224280177378,
+      "seed": 1704887777,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685204805452,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "9bKfFfIzCGNGxH3GdkBtk",
+        "focus": 0.202512858918578,
+        "gap": 8.845223853357027
+      },
+      "endBinding": {
+        "elementId": "ZPiuQWr-rE7BTLZkKnsCI",
+        "focus": -0.02682381395780752,
+        "gap": 14.02503592419913
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          205.5564670829126,
+          130.05805314121653
+        ],
+        [
+          422.8307794843772,
+          -4.504189660557245
+        ]
+      ]
+    },
+    {
+      "type": "arrow",
+      "version": 110,
+      "versionNonce": 697301359,
+      "isDeleted": false,
+      "id": "qhtTHuMOPwXV53q3twY_a",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 2522.6930414343747,
+      "y": -953.2397663487124,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "width": 422.8307794843772,
+      "height": 134.56224280177378,
+      "seed": 25555215,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1685204810928,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "ZPiuQWr-rE7BTLZkKnsCI",
+        "focus": 0.6688483928980569,
+        "gap": 19.198067826997246
+      },
+      "endBinding": {
+        "elementId": "P3lfmFLmvkkUt8JLBSDNL",
+        "focus": -0.5413712947796607,
+        "gap": 16.439022709065284
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          205.5564670829126,
+          130.05805314121653
+        ],
+        [
+          422.8307794843772,
+          -4.504189660557245
+        ]
+      ]
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
