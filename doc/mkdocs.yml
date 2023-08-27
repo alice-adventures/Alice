@@ -63,6 +63,7 @@ markdown_extensions:
   - admonition
   - attr_list
   - def_list
+  - footnotes
   - md_in_html
   - meta
   - toc:
@@ -85,11 +86,15 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.snippets:
       base_path:
-        - docs
+        - snippets
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
-  - pymdownx.tilde
+  - pymdownx.critic
+  # - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  # - pymdownx.tilde
 
 extra_css:
   - https://fonts.googleapis.com/css?family=Oswald:300,300i,400,400i,500,500i
@@ -111,8 +116,13 @@ plugins:
         - skip-lightbox
   - offline
   - search
+  - mike
 #  - tags:
 #      tags_file: tags.md
+
+extra:
+  version:
+    provider: mike
 
 # extra:
 #   consent:
@@ -134,3 +144,27 @@ nav:
     - Advent of Code : participant/Advent_of_code.md
   - "&nbsp;For Developers&nbsp;":
     - developer/index.md
+
+
+# nav:
+#   - ALICE:
+#       - Introduction: index.md
+#       - 'Map of Contents': map-of-contents.md
+#       - Resources: resources.md
+#       - 'Getting Started': getting-started.md
+#       - 'Collaboration Roles': collaboration-roles.md
+#       - 'Coding Excellence': coding-excellence.md
+# #      - About: about.md
+# #  - "&nbsp;For Participants&nbsp;":
+# #    - participant/index.md
+# #    - Project Euler: participant/Project_Euler.md
+# #    - CodinFame: participant/CodinGame.md
+# #    - Advent of Code : participant/Advent_of_code.md
+# #  - "&nbsp;For Developers&nbsp;":
+# #    - developer/index.md
+
+
+# * SECTION - PUBLISH DOCS
+#   • Locally develop and inspect with 'mkdocs serve'
+#   • Publish new version with 'mike deploy --push --update-aliases REL latest'
+#   • Update web default version with 'mike --set-default --push REL'

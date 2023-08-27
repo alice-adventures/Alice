@@ -17,8 +17,8 @@
 h1 {
     /* color: var(--md-default-fg-color--light) !important; */
     font-family: Oswald !important;
-    font-size: 3.1em !important;
-    font-weight: 500 !important;
+    font-size: 3.4em !important;
+    font-weight: 600 !important;
     margin: 0 !important;
 }
 
@@ -26,29 +26,32 @@ h1 {
     color: #0061af !important;
 }
 
-[data-md-color-scheme="slate"] h1 {
+/*[data-md-color-scheme="slate"] h1 {
     color: #ffffff !important;
-}
+}*/
 
 h2 {
-    color: var(--md-default-fg-color--light) !important;
+    /* color: var(--md-default-fg-color--light) !important; */
     font-family: Oswald !important;
-    font-size: 1.8em !important;
+    font-size: 2.5em !important;
     font-weight: 400 !important;
+    padding-top: 0.3em;
 }
 
 h3 {
-    color: var(--md-default-fg-color--light) !important;
+    /* color: var(--md-default-fg-color--light) !important; */
     font-family: Oswald !important;
-    font-size: 1.5em !important;
-    font-weight: 400 !important;
+    font-size: 2.2em !important;
+    font-weight: 300 !important;
+    padding-top: 0.1em;
 }
 
 h4 {
-    color: var(--md-default-fg-color--light) !important;
+    /* color: var(--md-default-fg-color--light) !important; */
     font-family: Oswald !important;
-    font-size: 1.1em !important;
-    font-weight: 400 !important;
+    font-size: 1.7em !important;
+    font-weight: 300 !important;
+    padding-top: 0.1em;
 }
 
 .highlighttable .linenos {
@@ -75,12 +78,12 @@ img {
 img.alice {
     /* margin-top: -3.5em; */
     padding: 0;
-    width: 36%;
+    width: 32%;
 }
 
 .md-nav {
-    font-family: Oswald !important;
-    font-size: 0.85rem;
+    /* font-family: Oswald !important; */
+    font-size: 0.77rem;
 }
 
 /* Old style admonitions */
@@ -98,18 +101,19 @@ img.alice {
 
 [data-md-color-scheme="default"] {
     --md-primary-fg-color: #0061af !important;
-    --md-code-bg-color: #f2f2f2;
+    --md-code-bg-color: #efefef;
 }
 
 [data-md-color-scheme="slate"] {
-    --md-hue: 222;
+    /* --md-hue: 222; */
 
     /* == #22252a */
-    --md-default-bg-color: hsla(var(--md-hue), 11%, 15%, 1);
+    /* --md-default-bg-color: hsla(var(--md-hue), 11%, 15%, 1); */
     --md-primary-fg-color: #0061af !important;
 
+    --md-code-bg-hue: 133;
     /* --md-code-bg-color: hsla(var(--md-hue), 15%, 15%, 1); */
-    --md-code-bg-color: hsla(var(--md-hue), 5%, 25%, 0.5);
+    /* --md-code-bg-color: hsla(var(--md-hue), 5%, 25%, 0.5); */
 
     /* GitHub */
     /* --md-default-bg-color: #0d1117; */
