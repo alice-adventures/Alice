@@ -42,7 +42,7 @@ Images for dark theme are prepared as follows:
   2. Run the following command:
 
   ```bash
-  convert -background '#22252a' -flatten input.png output.png
+  convert -background {--'#22252a'--} '#2e303e' -flatten input.png output.png
   ```
 
 The result is shown in **Figure 1**.
