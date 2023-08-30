@@ -24,13 +24,19 @@ begin
    Log.Info ("Updating indexes");
    Update_Indexes;
 
-   if not User_Has_GitHub_Repository (Get_Current_User) then
+   if not User_Has_GitHub_Repository (Get_Current_User, Repository_Name) then
       Log.Info
-        ("Creating repository " & Get_Current_User.Author & "/" &
-         "project_euler");
-      Create_GitHub_Repository
-        (Get_Current_User, "project_euler",
-         "Alice Adventures - repository for Project Euler problems");
+        ("Creating repository " & Get_Current_User.Author & "/project_euler");
+      if Create_GitHub_Repository
+          (Get_Current_User, "project_euler",
+           "Alice Adventures - repository for Project Euler problems")
+      then
+         Log.Info ("Repository successfully created");
+      else
+         Abort_Execution
+           ("Could not create repository " & Get_Current_User.Author &
+            "/project_euler");
+      end if;
    end if;
 
    if Exists ("project_euler") then

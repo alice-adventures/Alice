@@ -38,7 +38,7 @@ package body Alice_Git is
       Git_Cmd.Init;
 
       Run_Output :=
-        Git_Cmd.Run ("clone -q " & GitHub_Root & Repo & " " & Directory);
+        Git_Cmd.Run ("clone -q " & GitHub_Root & Repository & " " & Directory);
       Success    := (Run_Output.Return_Code = 0);
       Run_Output.Clean;
 
