@@ -25,9 +25,8 @@ ada_version = ["-gnat2022", "-gnatX"]
 
 [[depends-on]]
 clic = "~0.2.1"
-json = "^5.0.3"
-simple_logging = "^1.2.0"
-[[depends-on]]
 curl = "^7.81.0"
-[[depends-on]]
+json = "^5.0.3"
+mold_lib = "^0.2.1"
+simple_logging = "^1.2.0"
 spdx = "~0.2.0"
