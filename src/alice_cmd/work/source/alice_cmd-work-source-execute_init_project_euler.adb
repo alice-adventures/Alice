@@ -6,10 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Directories;   use Ada.Directories;
-with Alice_Alire;       use Alice_Alire;
-with Alice_Git;         use Alice_Git;
-with Alice_User_Config; use Alice_User_Config;
+with Ada.Directories;
+with Alice_Alire;
+with Alice_Git;
+with Alice_User_Config;
 
 separate (Alice_Cmd.Work.Source)
 
@@ -18,45 +18,100 @@ separate (Alice_Cmd.Work.Source)
 --------------------------------
 
 procedure Execute_Init_Project_Euler is
-   Repository_Name : constant String :=
-     Get_Current_User.Author & "/project_euler";
+
+   package Alr renames Alice_Alire;
+   package Cmd renames Alice_Cmd;
+   package Dir renames Ada.Directories;
+   package Git renames Alice_Git;
+   package Usr renames Alice_User_Config;
+
+   Source            : constant String := "Project Euler";
+   Repository        : constant String := "project_euler";
+   Source_Repository : constant String := "alice-adventures/" & Repository;
+   Shared_Repository : constant String :=
+     "alice-adventures/" & Repository & "-shared";
+   User_Repository   : constant String :=
+     Usr.Get_Current_User.Login & "/" & Repository;
 begin
+   Log.Info ("BEGIN alice source --init " & Repository);
+
    Log.Info ("Updating indexes");
-   Update_Indexes;
+   Alr.Update_Indexes;
 
-   if not User_Has_GitHub_Repository (Get_Current_User, Repository_Name) then
-      Log.Info
-        ("Creating repository " & Get_Current_User.Author & "/project_euler");
-      if Create_GitHub_Repository
-          (Get_Current_User, "project_euler",
-           "Alice Adventures - repository for Project Euler problems")
-      then
-         Log.Info ("Repository successfully created");
-      else
-         Abort_Execution
-           ("Could not create repository " & Get_Current_User.Author &
-            "/project_euler");
-      end if;
-   end if;
-
-   if Exists ("project_euler") then
-      Set_Directory ("project_euler");
-      if Is_Git_Clone_Of ("github.com", "alice-adventures/project_euler") then
-         Log.Info ("Project Euler already initialized");
-      else
-         Abort_Execution ("Invalid repository found at project_euler");
-      end if;
+   Log.Detail ("Checking existence of directory " & Repository);
+   if Dir.Exists (Repository) then
+      declare
+         Is_Valid_Dir : Boolean := True;
+      begin
+         Dir.Set_Directory (Repository);
+         if Git.Is_Clone_Of (Source_Repository) then
+            if Dir.Exists ("shared") then
+               Dir.Set_Directory ("shared");
+               if Git.Is_Clone_Of (Shared_Repository) then
+                  Log.Info (Source & " already initialized at " & Repository);
+               else
+                  Log.Error
+                    ("Directory " & Dir.Current_Directory &
+                     " should be a clone of " & Shared_Repository);
+                  Is_Valid_Dir := False;
+               end if;
+               Dir.Set_Directory ("..");
+            end if;
+         else
+            Log.Error
+              ("Directory " & Dir.Current_Directory &
+               " should be a clone of " & Source_Repository);
+            Is_Valid_Dir := False;
+         end if;
+         Dir.Set_Directory ("..");
+         if not Is_Valid_Dir then
+            Cmd.Abort_Execution ("Invalid repository found at " & Repository);
+         end if;
+      end;
    else
-      Log.Info ("Retrieving information from Project Euler");
-      if Clone_GitHub_Repository ("alice-adventures/project_euler") then
-         Log.Info ("Configuring Project Euler");
-         Set_Directory ("project_euler");
+      Log.Info ("Retrieving information from " & Source);
+      if Git.Clone_Remote_Repository (Source_Repository) then
+         Log.Detail ("Cloned repository " & Source_Repository);
+         Log.Info ("Configuring " & Source);
+         declare
+            CWD : constant String := Dir.Current_Directory;
+         begin
+            Dir.Set_Directory (Repository);
+            if Git.Clone_Remote_Repository (Shared_Repository) then
+               Log.Detail ("Cloned repository " & Shared_Repository);
+               Dir.Set_Directory (CWD);
+            else
+               Dir.Set_Directory (CWD);
+               Dir.Delete_Tree (Repository);
+               Cmd.Abort_Execution
+                 ("Could not clone repository " & Shared_Repository);
+            end if;
+         end;
       else
-         Abort_Execution ("Could not clone project_euler repository");
+         Dir.Delete_Tree (Repository);
+         Cmd.Abort_Execution
+           ("Could not clone repository " & Source_Repository);
       end if;
    end if;
 
+   Log.Detail ("Checking existence of repository " & User_Repository);
+   if Git.User_Has_Remote_Repository (Usr.Get_Current_User, Repository) then
+      Log.Info ("Repository " & User_Repository & " already exists");
+   else
+      Log.Info ("Creating repository " & User_Repository);
+      if Git.Create_Remote_Repository
+          (Usr.Get_Current_User, Repository,
+           "Alice Adventures - repository for " & Source & " problems")
+      then
+         Log.Info ("Repository" & User_Repository & " successfully created");
+      else
+         Cmd.Abort_Execution
+           ("Could not create repository " & User_Repository);
+      end if;
+   end if;
+
+   Dir.Set_Directory (Repository);
    Log.Info ("Building libraries and tools");
-   Build_Crate;
+   Alr.Build_Crate;
 
 end Execute_Init_Project_Euler;
