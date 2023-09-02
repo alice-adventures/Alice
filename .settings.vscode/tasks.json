@@ -6,7 +6,7 @@
       {
          "label": "Alice: Build alice",
          "type": "shell",
-         "command": "alr build --development",
+         "command": "alr build --development -- -gnatef",
          "group": {
             "kind": "build",
             "isDefault": true
