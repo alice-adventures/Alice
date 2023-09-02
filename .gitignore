@@ -1,5 +1,6 @@
 .github.json
 .vscode
+*.log
 
 /.setup/
 /alire/
