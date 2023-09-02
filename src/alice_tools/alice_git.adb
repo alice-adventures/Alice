@@ -28,7 +28,7 @@ package body Alice_Git is
    -- Clone_GitHub_Repository --
    -----------------------------
 
-   function Clone_GitHub_Repository
+   function Clone_Remote_Repository
      (Repository : String; Directory : String := "") return Boolean
    is
       Success    : Boolean;
@@ -38,18 +38,19 @@ package body Alice_Git is
       Git_Cmd.Init;
 
       Run_Output :=
-        Git_Cmd.Run ("clone -q " & GitHub_Root & Repository & " " & Directory);
+        Git_Cmd.Run
+          ("clone -q " & Env.Remote_Repo_Root & Repository & " " & Directory);
       Success    := (Run_Output.Return_Code = 0);
       Run_Output.Clean;
 
       return Success;
-   end Clone_GitHub_Repository;
+   end Clone_Remote_Repository;
 
    ------------------------------
-   -- Create_GitHub_Repository --
+   -- Create_Remote_Repository --
    ------------------------------
 
-   function Create_GitHub_Repository
+   function Create_Remote_Repository
      (User_Config : User_Config_Type; Repository : String;
       Description : String) return Boolean
    is
@@ -57,37 +58,39 @@ package body Alice_Git is
       return
         GitHub_API.Create_A_Repository_For_The_Authenticated_User
           (User_Config, Repository, Description);
-   end Create_GitHub_Repository;
+   end Create_Remote_Repository;
 
    --------------------------------
-   -- User_Has_GitHub_Repository --
+   -- User_Has_Remote_Repository --
    --------------------------------
 
-   function User_Has_GitHub_Repository
+   function User_Has_Remote_Repository
      (User_Config : User_Config_Type; Repository : String) return Boolean
    is
    begin
       return
-        Exists_GitHub_Repository (User_Config, User_Config.Login, Repository);
-   end User_Has_GitHub_Repository;
+        Exists_Remote_Repository (User_Config, User_Config.Login, Repository);
+   end User_Has_Remote_Repository;
 
    ------------------------------
-   -- Exists_GitHub_Repository --
+   -- Exists_Remote_Repository --
    ------------------------------
 
-   function Exists_GitHub_Repository
+   function Exists_Remote_Repository
      (User_Config : User_Config_Type; User : String; Repository : String)
       return Boolean
    is
    begin
       return GitHub_API.Get_A_Repository (User_Config, User, Repository);
-   end Exists_GitHub_Repository;
+   end Exists_Remote_Repository;
 
    ---------------------
    -- Is_Git_Clone_Of --
    ---------------------
 
-   function Is_Git_Clone_Of (Server, Repository : String) return Boolean is
+   function Is_Clone_Of
+     (Repository : String; Server : String := Env.Remote_Repo) return Boolean
+   is
       Cmd_Git    : OS_Cmd_Git.Cmd_Type;
       Run_Output : OS_Cmd_Git.Run_Output_Type;
 
@@ -147,6 +150,6 @@ package body Alice_Git is
       end if;
 
       return Success;
-   end Is_Git_Clone_Of;
+   end Is_Clone_Of;
 
 end Alice_Git;

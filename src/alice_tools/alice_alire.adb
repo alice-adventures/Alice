@@ -7,15 +7,16 @@
 -------------------------------------------------------------------------------
 
 with Alice_Cmd;
+with Alice_Env;
+with OS_Cmd_Alr;
 
 with GNAT.AWK;
-
 with Simple_Logging;
-
-with OS_Cmd_Alr;
 
 package body Alice_Alire is
 
+   package Cmd renames Alice_Cmd;
+   package Env renames Alice_Env;
    package Log renames Simple_Logging;
 
    ------------------------
@@ -29,11 +30,11 @@ package body Alice_Alire is
 
       procedure Alice_Match is
       begin
-         if GNAT.AWK.Field (3) = Alice_Index_URL then
+         if GNAT.AWK.Field (3) = Env.Alice_Index_URL then
             Log.Debug ("AWK alice match");
             Index_Exists := True;
          else
-            Alice_Cmd.Abort_Execution ("Invalid Alice index URL");
+            Cmd.Abort_Execution ("Invalid Alice index URL");
          end if;
       end Alice_Match;
    begin
@@ -62,11 +63,11 @@ package body Alice_Alire is
    begin
       Cmd_Alr.Init;
       Run_Output :=
-        Cmd_Alr.Run ("index --add=" & Alice_Index_URL & " --name=alice");
+        Cmd_Alr.Run ("index --add=" & Env.Alice_Index_URL & " --name=alice");
       Run_Output.Clean;
 
       if Run_Output.Return_Code /= 0 then
-         Alice_Cmd.Abort_Execution ("Unknown error while adding Alice index");
+         Cmd.Abort_Execution ("Unknown error while adding Alice index");
       end if;
 
       Log.Detail ("Added Alice index in Alire");
@@ -97,7 +98,7 @@ package body Alice_Alire is
       if Run_Output.Return_Code = 0 then
          Log.Detail ("Alire indexes updated");
       else
-         Alice_Cmd.Abort_Execution ("Could not update Alire indexes");
+         Cmd.Abort_Execution ("Could not update Alire indexes");
       end if;
    end Update_Indexes;
 
@@ -110,7 +111,7 @@ package body Alice_Alire is
    begin
       Cmd_Alr.Init;
       if Cmd_Alr.Run ("build " & Args) /= 0 then
-         Alice_Cmd.Abort_Execution ("Could not build the current crate");
+         Cmd.Abort_Execution ("Could not build the current crate");
       end if;
    end Build_Crate;
 

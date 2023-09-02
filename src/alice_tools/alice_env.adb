@@ -26,19 +26,17 @@ package body Alice_Env is
 
    function Is_Alice_Repository (Report_Error : Boolean := True) return Boolean
    is
-      Success : Boolean;
    begin
-      Success :=
-        Alice_Git.Is_Git_Clone_Of ("github.com", "alice-adventures/Alice");
-
-      if Success then
-         Log.Detail ("alice git repository detected");
-      elsif Report_Error then
-         Alice_Cmd.Abort_Execution
-           ("'alice' must be invoked inside the alice git repository");
-      end if;
-
-      return Success;
+      return
+        Success : constant Boolean :=
+          Alice_Git.Is_Clone_Of (Alice_Repository ("Alice")) do
+         if Success then
+            Log.Detail ("Alice git repository detected");
+         elsif Report_Error then
+            Alice_Cmd.Abort_Execution
+              ("'alice' command must be invoked inside the Alice git repository");
+         end if;
+      end return;
    end Is_Alice_Repository;
 
    -----------------------
