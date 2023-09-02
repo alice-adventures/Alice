@@ -19,6 +19,7 @@ with CLIC.TTY;
 with GNAT.OS_Lib;
 
 with Simple_Logging;
+with Simple_Logging.Decorators;
 
 with Text_IO;
 
@@ -143,7 +144,13 @@ package body Alice_Cmd is
       end if;
 
       if Global_Switch.Debug then
-         Log.Level := Log.Debug;
+         Log.Level                         := Log.Debug;
+         --  Log.Decorators.Level_Decorator    :=
+         --    Log.Decorators.Default_Level_Decorator'Access;
+         Log.Decorators.Location_Decorator :=
+           Log.Decorators.Simple_Location_Decorator'Access;
+         --  Log.Decorators.Entity_Width       := 0;
+         Log.Decorators.Location_Width     := 40;
          Log.Debug ("show debug information");
          Log.Debug ("Global_Switch" & Global_Switch'Image);
       end if;
