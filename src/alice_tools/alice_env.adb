@@ -34,7 +34,8 @@ package body Alice_Env is
             Log.Detail ("Alice git repository detected");
          elsif Report_Error then
             Alice_Cmd.Abort_Execution
-              ("'alice' command must be invoked inside the Alice git repository");
+              ("'alice' command must be invoked inside " &
+               "the Alice git repository");
          end if;
       end return;
    end Is_Alice_Repository;
