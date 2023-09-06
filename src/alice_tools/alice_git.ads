@@ -34,15 +34,14 @@ package Alice_Git is
       return Boolean;
    --  Return True if the remote repository "User/Repository" exists.
 
-   function Is_Clone_Of
-     (Repository : String; Server : String := Env.Remote_Repo) return Boolean;
+   function Is_Clone_Of (Repository : String) return Boolean;
    --  Return True if the current working directory is a clone of the
-   --  repository with the origin "Server:Repository".
+   --  Repository.
    --
-   --  Internally, a regular expression is created to match ssh and http
-   --  transports. For example, for Server="server.com" and
-   --  Repository="user/repo", the regular expression match
-   --  "git@server.com:user/Repository.git" (ssh) and
-   --  "https://server.com/user/Repository.git" (https).
+   --  Internally, a regular expression is created to match git and https
+   --  transport protocols. For example, for Host="github.com" and
+   --  Repository="bob/foo", the regular expression match
+   --  "git@github.com:bob/foo.git" (git) and
+   --  "https://github.com/bob/foo.git" (https).
 
 end Alice_Git;

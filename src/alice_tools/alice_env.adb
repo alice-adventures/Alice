@@ -11,12 +11,17 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Alice_Cmd;
 with Alice_Git;
+with Alice_Repository;
 
 with Simple_Logging;
 
 package body Alice_Env is
 
+   package Cmd renames Alice_Cmd;
+   package Dir renames Ada.Directories;
+   package Git renames Alice_Git;
    package Log renames Simple_Logging;
+   package Repo renames Alice_Repository;
 
    Alice_Root_Dir : Unbounded_String := To_Unbounded_String ("");
 
@@ -28,12 +33,12 @@ package body Alice_Env is
    is
    begin
       return
-        Success : constant Boolean :=
-          Alice_Git.Is_Clone_Of (Alice_Repository ("Alice")) do
+        Success : constant Boolean := Git.Is_Clone_Of (Repo.Name (Repo.Main))
+      do
          if Success then
             Log.Detail ("Alice git repository detected");
          elsif Report_Error then
-            Alice_Cmd.Abort_Execution
+            Cmd.Abort_Execution
               ("'alice' command must be invoked inside " &
                "the Alice git repository");
          end if;
@@ -54,9 +59,9 @@ package body Alice_Env is
       end if;
 
       Success :=
-        Exists ("config") and then Kind ("config") = Directory
-        and then Exists
-          (Compose
+        Dir.Exists ("config") and then Dir.Kind ("config") = Directory
+        and then Dir.Exists
+          (Dir.Compose
              (Containing_Directory => "config", Name => "alice_config",
               Extension            => "ads"));
 
@@ -65,7 +70,7 @@ package body Alice_Env is
          Alice_Root_Dir := To_Unbounded_String (Current_Directory);
          Log.Detail ("Alice_Root_Dir = " & Get_Alice_Root_Dir);
       elsif Report_Error then
-         Alice_Cmd.Abort_Execution
+         Cmd.Abort_Execution
            ("'alice' must be invoked from the Alice' root directory");
       end if;
 

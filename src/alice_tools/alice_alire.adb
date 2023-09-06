@@ -7,6 +7,7 @@
 -------------------------------------------------------------------------------
 
 with Alice_Cmd;
+with Alice_Conf;
 with Alice_Env;
 with OS_Cmd_Alr;
 
@@ -15,6 +16,7 @@ with Simple_Logging;
 
 package body Alice_Alire is
 
+   package Conf renames Alice_Conf;
    package Cmd renames Alice_Cmd;
    package Env renames Alice_Env;
    package Log renames Simple_Logging;
@@ -30,7 +32,7 @@ package body Alice_Alire is
 
       procedure Alice_Match is
       begin
-         if GNAT.AWK.Field (3) = Env.Alice_Index_URL then
+         if GNAT.AWK.Field (3) = Conf.Alire.Index_URL then
             Log.Debug ("AWK alice match");
             Index_Exists := True;
          else
@@ -63,7 +65,7 @@ package body Alice_Alire is
    begin
       Cmd_Alr.Init;
       Run_Output :=
-        Cmd_Alr.Run ("index --add=" & Env.Alice_Index_URL & " --name=alice");
+        Cmd_Alr.Run ("index --add=" & Conf.Alire.Index_URL & " --name=alice");
       Run_Output.Clean;
 
       if Run_Output.Return_Code /= 0 then
