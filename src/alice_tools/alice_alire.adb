@@ -8,7 +8,6 @@
 
 with Alice_Cmd;
 with Alice_Conf;
-with Alice_Env;
 with OS_Cmd_Alr;
 
 with GNAT.AWK;
@@ -18,7 +17,6 @@ package body Alice_Alire is
 
    package Conf renames Alice_Conf;
    package Cmd renames Alice_Cmd;
-   package Env renames Alice_Env;
    package Log renames Simple_Logging;
 
    ------------------------
