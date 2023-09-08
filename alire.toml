@@ -30,3 +30,5 @@ json = "^5.0.3"
 mold_lib = "^0.2.1"
 simple_logging = "^1.2.0"
 spdx = "~0.2.0"
+[[depends-on]]
+sha1 = "^2.0.0"
