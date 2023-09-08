@@ -23,7 +23,7 @@ package body Alice_Env is
    package Log renames Simple_Logging;
    package Repo renames Alice_Repository;
 
-   Alice_Root_Dir : Unbounded_String := To_Unbounded_String ("");
+   Alice_Root_Dir : Unbounded_String := Null_Unbounded_String;
 
    -------------------------
    -- Is_Alice_Repository --

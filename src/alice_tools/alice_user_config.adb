@@ -7,32 +7,26 @@
 -------------------------------------------------------------------------------
 
 with Ada.Directories;
-
-with Alice_Cmd;
-
-with GitHub_API;
-
+with Ada.Text_IO;
 with GNAT.AWK;
 with GNAT.OS_Lib;
-use all type GNAT.OS_Lib.String_Access;
 
 with JSON.Types;
 with JSON.Parsers;
-
-with OS_Cmd_Git;
-
 with Simple_Logging;
-
 with SPDX.Licenses;
-
-with Text_IO;
-
 with TOML;
 with TOML.File_IO;
+
+with Alice_Cmd;
+with GitHub_API;
+with OS_Cmd_Git;
 
 package body Alice_User_Config is
 
    package Log renames Simple_Logging;
+
+   use all type GNAT.OS_Lib.String_Access;
 
    Key_Email   : constant String := "email";
    Key_Login   : constant String := "login";
@@ -40,7 +34,7 @@ package body Alice_User_Config is
    Key_Token   : constant String := "token";
    Key_SPDX_Id : constant String := "spdx_id";
 
-   Current_User       : User_Config_Type;
+   Current_User       : aliased User_Config_Type;
    Valid_Current_User : Boolean := False;
 
    ------------
@@ -240,7 +234,7 @@ package body Alice_User_Config is
       use Ada.Directories;
       Success     : constant Boolean         := True;
       Table       : constant TOML.TOML_Value := TOML.Create_Table;
-      Config_File : Text_IO.File_Type;
+      Config_File : Ada.Text_IO.File_Type;
    begin
       Table.Set
         (Key_Login, TOML.Create_String (To_String (User_Config.GitHub_Login)));
@@ -254,7 +248,7 @@ package body Alice_User_Config is
         (Key_SPDX_Id, TOML.Create_String (To_String (User_Config.SPDX_Id)));
 
       Config_File.Create
-        (Text_IO.Out_File,
+        (Ada.Text_IO.Out_File,
          Compose
            (Containing_Directory => Config_Directory,
             Name                 => User_Config_File));
@@ -376,7 +370,7 @@ package body Alice_User_Config is
       begin
          Log.Debug ("AWK user.name match");
          Match_Count := @ + 1;
-         if User_Config.User_Name = To_Unbounded_String ("") then
+         if User_Config.User_Name = Null_Unbounded_String then
             User_Config.User_Name := To_Unbounded_String (Field_Str (2));
             Log.Debug ("  * set User_Name = " & Field_Str (2));
          else
@@ -388,7 +382,7 @@ package body Alice_User_Config is
       begin
          Log.Debug ("AWK user.email match");
          Match_Count := @ + 1;
-         if User_Config.User_Email = To_Unbounded_String ("") then
+         if User_Config.User_Email = Null_Unbounded_String then
             User_Config.User_Email := To_Unbounded_String (Field_Str (2));
             Log.Debug ("  * set User_Email = " & Field_Str (2));
          else

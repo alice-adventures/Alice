@@ -6,20 +6,19 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Repository;
-
 with GNAT.AWK;
 with GNAT.Regpat;
 
 with Simple_Logging;
 
+with Alice_Repository;
 with GitHub_API;
-
 with OS_Cmd_Git;
 with Protocols;
 
 package body Alice_Git is
 
+   package GHub renames GitHub_API;
    package Log renames Simple_Logging;
    package Repo renames Alice_Repository;
    package Prot renames Protocols;
@@ -31,18 +30,17 @@ package body Alice_Git is
    function Clone_Remote_Repository
      (Repository : String; Directory : String := "") return Boolean
    is
-      Success    : Boolean;
       Git_Cmd    : OS_Cmd_Git.Cmd_Type;
       Run_Output : OS_Cmd_Git.Run_Output_Type;
    begin
-      Git_Cmd.Init;
+      return Success : Boolean do
+         Git_Cmd.Init;
 
-      Run_Output :=
-        Git_Cmd.Run ("clone -q " & Repo.URL (Repository) & " " & Directory);
-      Success    := (Run_Output.Return_Code = 0);
-      Run_Output.Clean;
-
-      return Success;
+         Run_Output :=
+           Git_Cmd.Run ("clone -q " & Repo.URL (Repository) & " " & Directory);
+         Success    := (Run_Output.Return_Code = 0);
+         Run_Output.Clean;
+      end return;
    end Clone_Remote_Repository;
 
    ------------------------------
@@ -55,7 +53,7 @@ package body Alice_Git is
    is
    begin
       return
-        GitHub_API.Create_A_Repository_For_The_Authenticated_User
+        GHub.Create_A_Repository_For_The_Authenticated_User
           (User_Config, Repository, Description);
    end Create_Remote_Repository;
 
@@ -80,7 +78,7 @@ package body Alice_Git is
       return Boolean
    is
    begin
-      return GitHub_API.Get_A_Repository (User_Config, User, Repository);
+      return GHub.Get_A_Repository (User_Config, User, Repository);
    end Exists_Remote_Repository;
 
    -----------------

@@ -15,6 +15,8 @@ package Alice_User_Config is
 
    type User_Config_Type is private;
 
+   Empty_Config : constant User_Config_Type;
+
    --!pp off
    function Author (User_Config : User_Config_Type) return String;
    function Email  (User_Config : User_Config_Type) return String;
@@ -56,23 +58,28 @@ package Alice_User_Config is
 private
 
    type User_Config_Type is record
-      GitHub_Login : Unbounded_String :=
-        To_Unbounded_String (""); -- from GitHub
+      GitHub_Login : Unbounded_String := Null_Unbounded_String;
+      --  From GitHub
 
-      GitHub_Token : Unbounded_String :=
-        To_Unbounded_String (""); -- from GitHub
+      GitHub_Token : Unbounded_String := Null_Unbounded_String;
+      --  From GitHub
 
-      User_Email : Unbounded_String :=
-        To_Unbounded_String (""); -- from GitHub, or else from git config
+      User_Email : Unbounded_String := Null_Unbounded_String;
+      --  From GitHub, or else from git config
 
-      User_Name : Unbounded_String :=
-        To_Unbounded_String (""); -- From GitHub, or else from git config
+      User_Name : Unbounded_String := Null_Unbounded_String;
+      --  From GitHub, or else from git config
 
-      SPDX_Id : Unbounded_String := To_Unbounded_String ("MIT");
+      SPDX_Id : Unbounded_String := Null_Unbounded_String;
+      --  SPDX_Id : Unbounded_String := To_Unbounded_String ("MIT");
       --  given by user, default is 'MIT'
 
       Valid_Token : Boolean := False;
    end record;
+
+   Empty_Config : constant User_Config_Type :=
+     (Null_Unbounded_String, Null_Unbounded_String, Null_Unbounded_String,
+      Null_Unbounded_String, Null_Unbounded_String, False);
 
    function Get_Info_From_GitHub_Token
      (User_Config : in out User_Config_Type) return Boolean;

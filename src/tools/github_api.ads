@@ -12,6 +12,8 @@ with Alice_User_Config; use Alice_User_Config;
 
 package GitHub_API is
 
+   package Usr renames Alice_User_Config;
+
    JSON_File : constant String := ".github.json";
 
    --  All functions interacting with the GitHub API (all those functions

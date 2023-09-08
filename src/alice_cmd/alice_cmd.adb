@@ -6,22 +6,19 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Env;
-with Alice_Config;
-
-with Alice_Cmd.Setup.Check;
-with Alice_Cmd.Setup.Config;
-with Alice_Cmd.Work.Source;
+with Ada.Text_IO;
+with GNAT.OS_Lib;
 
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
-
-with GNAT.OS_Lib;
-
 with Simple_Logging;
 with Simple_Logging.Decorators;
 
-with Text_IO;
+with Alice_Env;
+with Alice_Cmd.Setup.Check;
+with Alice_Cmd.Setup.Config;
+with Alice_Cmd.Work.Source;
+with Alice_Config;
 
 package body Alice_Cmd is
 
@@ -53,9 +50,9 @@ package body Alice_Cmd is
            Alice_Config.Build_Profile'Image & ")"
          else Alice_Config.Crate_Version),
       Set_Global_Switches => Set_Global_Switches,
-      Put                 => Text_IO.Put,
-      Put_Line            => Text_IO.Put_Line,
-      Put_Error           => Text_IO.Put_Line,
+      Put                 => Ada.Text_IO.Put,
+      Put_Line            => Ada.Text_IO.Put_Line,
+      Put_Error           => Ada.Text_IO.Put_Line,
       Error_Exit          => GNAT.OS_Lib.OS_Exit,
       TTY_Chapter         => CLIC.TTY.Info,
       TTY_Description     => CLIC.TTY.Description,

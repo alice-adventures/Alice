@@ -9,22 +9,22 @@
 with Ada.Calendar;
 with Ada.Calendar.Formatting;
 with Ada.Directories;
+with Ada.Text_IO;
 
-with Alice_User_Config; use Alice_User_Config;
-with Alice_Git;         use Alice_Git;
+with Simple_Logging;
 
+with Alice_User_Config;
+with Alice_Git;
 with OS_Cmd_Alr;
 with OS_Cmd_Curl;
 with OS_Cmd_Git;
 
-with Simple_Logging;
-
-with Text_IO;
-
 package body Alice_Cmd.Setup.Check is
 
    package Dir renames Ada.Directories;
+   package Git renames Alice_Git;
    package Log renames Simple_Logging;
+   package Usr renames Alice_User_Config;
 
    -------------
    -- Execute --
@@ -39,7 +39,7 @@ package body Alice_Cmd.Setup.Check is
       Curl_Cmd : OS_Cmd_Curl.Cmd_Type;
       Git_Cmd  : OS_Cmd_Git.Cmd_Type;
 
-      User_Config : Alice_User_Config.User_Config_Type;
+      User_Config : Usr.User_Config_Type;
 
       Has_Errors : Boolean := False;
    begin
@@ -59,7 +59,7 @@ package body Alice_Cmd.Setup.Check is
          Log.Info ("git  command found at '" & Git_Cmd.Path & "'");
       end if;
 
-      if not Alice_User_Config.Has_User_Config_File (Report_Error => False)
+      if not Usr.Has_User_Config_File (Report_Error => False)
       then
          Log.Error ("Could not find the user config file");
          Has_Errors := True;
@@ -76,11 +76,11 @@ package body Alice_Cmd.Setup.Check is
 
       Log.Info ("Checking GitHub access and git functionality");
 
-      if User_Has_Remote_Repository (User_Config, "alice-test") then
+      if Git.User_Has_Remote_Repository (User_Config, "alice-test") then
          Log.Detail ("User has repo 'alice-test'");
       else
          Log.Detail ("Missing repo 'alice-test' for user, creating repo");
-         if Create_Remote_Repository
+         if Git.Create_Remote_Repository
              (User_Config, "alice-test",
               "Test repository used by Alice Adventures")
          then
@@ -108,7 +108,7 @@ package body Alice_Cmd.Setup.Check is
 
       Dir.Set_Directory ("alice-test");
       declare
-         use Text_IO;
+         use Ada.Text_IO;
          Readme   : File_Type;
          Time_Str : constant String :=
            Ada.Calendar.Formatting.Image (Ada.Calendar.Clock);

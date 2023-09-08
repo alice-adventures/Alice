@@ -6,14 +6,13 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Text_IO;
+
 with AAA.Table_IO;
 with AAA.Text_IO;
-
-with Alice_Alire;
-
 with Simple_Logging;
 
-with Text_IO;
+with Alice_Alire;
 
 package body Alice_Cmd.Work.Source is
 
@@ -64,10 +63,11 @@ package body Alice_Cmd.Work.Source is
    ------------------
 
    procedure Execute_List is
+      use Ada.Text_IO;
       Table : AAA.Table_IO.Table;
    begin
-      Text_IO.Put_Line ("Available Problem Sources");
-      Text_IO.Put_Line ("");
+      Put_Line ("Available Problem Sources");
+      Put_Line ("");
       Table.Append ("  Name").Append ("Id").Append ("Tag").Append ("URL")
         .New_Row;
       Table.Append ("  ----").Append ("--").Append ("---").Append ("---")
@@ -83,7 +83,7 @@ package body Alice_Cmd.Work.Source is
       end loop;
       Table.Print ("    ");
 
-      Text_IO.Put_Line ("");
+      Put_Line ("");
 
       pragma Style_Checks (off);
 
