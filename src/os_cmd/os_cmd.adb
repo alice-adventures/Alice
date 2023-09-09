@@ -7,16 +7,17 @@
 -------------------------------------------------------------------------------
 
 with Ada.Directories;
-
-with Alice_Cmd;
+with Ada.Text_IO;
 
 with Simple_Logging;
 
-with Text_IO;
-
 package body OS_Cmd is
 
+   package Dir renames Ada.Directories;
    package Log renames Simple_Logging;
+
+   use all type Dir.File_Size;
+   use all type Log.Levels;
 
    OS_Cmd_Instance : Cmd_Type;
 
@@ -27,8 +28,8 @@ package body OS_Cmd is
    procedure Init (Cmd : in out Cmd_Type) is
    begin
       if not Cmd.Check then
-         Alice_Cmd.Abort_Execution
-           ("'" & To_String (OS_Cmd_Name) & "' cannot be found in PATH");
+         raise Command_Error
+           with "Command " & To_String (OS_Cmd_Name) & " not found in PATH";
       end if;
 
       Cmd.OS_Path := OS_Cmd_Instance.OS_Path;
@@ -71,9 +72,8 @@ package body OS_Cmd is
    procedure Check_Initialized (Cmd : Cmd_Type) is
    begin
       if Cmd.OS_Path = null then
-         Alice_Cmd.Abort_Execution
-           ("System error, command '" & To_String (OS_Cmd_Name) &
-            "' not initialized");
+         raise Command_Error
+           with "Command " & To_String (OS_Cmd_Name) & " not initialized";
       end if;
    end Check_Initialized;
 
@@ -82,7 +82,8 @@ package body OS_Cmd is
    -----------
 
    procedure Print (Run_Output : Run_Output_Type) is
-      use Ada.Directories, Text_IO;
+      use Ada.Text_IO;
+
       Output : File_Type;
       Lines  : Natural := 0;
    begin
@@ -94,7 +95,7 @@ package body OS_Cmd is
       Log.Debug ("Printing temp file " & Run_Output.Temp_File.all);
       Run_Output.Temp_FD.Close;
 
-      if Size (Run_Output.Temp_File.all) > 0 then
+      if Dir.Size (Run_Output.Temp_File.all) > 0 then
          Output.Open (In_File, Run_Output.Temp_File.all);
          loop
             declare
@@ -117,27 +118,30 @@ package body OS_Cmd is
    ---------
 
    function Run (Cmd : Cmd_Type; Args : String) return Run_Output_Type is
-      Arg_List   : GNAT.OS_Lib.Argument_List_Access;
-      Run_Output : Run_Output_Type;
+      Arg_List : GNAT.OS_Lib.Argument_List_Access;
    begin
       Check_Initialized (Cmd);
 
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
-      --  Debug all arguments:
-      --  for Arg of Arg_List.all loop
-      --     Log.Debug ("Arg : " & Arg.all);
-      --  end loop;
 
-      GNAT.OS_Lib.Create_Temp_Output_File
-        (Run_Output.Temp_FD, Run_Output.Temp_File);
+      --  Debug all arguments
+      if Log.Level = Log.Debug then
+         for Arg of Arg_List.all loop
+            Log.Debug ("Arg : " & Arg.all);
+         end loop;
+      end if;
 
-      Log.Debug ("Run " & To_String (OS_Cmd_Name) & " " & Args);
-      GNAT.OS_Lib.Spawn
-        (Cmd.OS_Path.all, Arg_List.all, Run_Output.Temp_FD,
-         Run_Output.Return_Code);
+      return Run_Output : Run_Output_Type do
+         GNAT.OS_Lib.Create_Temp_Output_File
+           (Run_Output.Temp_FD, Run_Output.Temp_File);
 
-      GNAT.OS_Lib.Free (Arg_List);
-      return Run_Output;
+         Log.Debug ("Run " & To_String (OS_Cmd_Name) & " " & Args);
+         GNAT.OS_Lib.Spawn
+           (Cmd.OS_Path.all, Arg_List.all, Run_Output.Temp_FD,
+            Run_Output.Return_Code);
+
+         GNAT.OS_Lib.Free (Arg_List);
+      end return;
    end Run;
 
    ---------
@@ -145,30 +149,32 @@ package body OS_Cmd is
    ---------
 
    function Run (Cmd : Cmd_Type; Args : String) return Integer is
-      Return_Code : Integer;
-      Arg_List    : GNAT.OS_Lib.Argument_List_Access;
+      Arg_List : GNAT.OS_Lib.Argument_List_Access;
    begin
       Check_Initialized (Cmd);
 
       Arg_List := GNAT.OS_Lib.Argument_String_To_List (Args);
-      --  Debug all arguments:
-      --  for Arg of Arg_List.all loop
-      --     Log.Debug ("Arg : " & Arg.all);
-      --  end loop;
 
-      Log.Debug ("Run " & To_String (OS_Cmd_Name) & " " & Args);
-      Return_Code := GNAT.OS_Lib.Spawn (Cmd.OS_Path.all, Arg_List.all);
+      --  Debug all arguments
+      if Log.Level = Log.Debug then
+         for Arg of Arg_List.all loop
+            Log.Debug ("Arg : " & Arg.all);
+         end loop;
+      end if;
 
-      GNAT.OS_Lib.Free (Arg_List);
-      return Return_Code;
+      return Return_Code : Integer do
+         Log.Debug ("Run " & To_String (OS_Cmd_Name) & " " & Args);
+         Return_Code := GNAT.OS_Lib.Spawn (Cmd.OS_Path.all, Arg_List.all);
+
+         GNAT.OS_Lib.Free (Arg_List);
+      end return;
    end Run;
 
    -----------
    -- Clean --
    -----------
 
-   procedure Clean (Run_Output : out Run_Output_Type) is
-      use all type Log.Levels;
+   procedure Clean (Run_Output : in out Run_Output_Type) is
       Success : Boolean;
    begin
       if Run_Output.Temp_File = null then

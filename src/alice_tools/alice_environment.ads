@@ -6,7 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
-package Alice_Env is
+package Alice_Environment is
 
    function Is_Alice_Repository
      (Report_Error : Boolean := True) return Boolean;
@@ -21,4 +21,4 @@ package Alice_Env is
    --  Return the root directory of Alice Adventures. When called before
    --  Is_Alice_Root_Dir confirmation it returns an empty String.
 
-end Alice_Env;
+end Alice_Environment;

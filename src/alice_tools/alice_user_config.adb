@@ -19,11 +19,13 @@ with TOML;
 with TOML.File_IO;
 
 with Alice_Cmd;
+with Alice_Configuration;
 with GitHub_API;
 with OS_Cmd_Git;
 
 package body Alice_User_Config is
 
+   package Conf renames Alice_Configuration;
    package Log renames Simple_Logging;
 
    use all type GNAT.OS_Lib.String_Access;
@@ -125,7 +127,9 @@ package body Alice_User_Config is
       Path    : GNAT.OS_Lib.String_Access;
       Success : Boolean;
    begin
-      Path    := GNAT.OS_Lib.Locate_Regular_File (Filename, Config_Directory);
+      Path    :=
+        GNAT.OS_Lib.Locate_Regular_File
+          (Filename, Conf.Local.Config_Directory);
       Success := (Path /= null);
 
       if Success then
@@ -143,7 +147,7 @@ package body Alice_User_Config is
    function Has_User_Config_File
      (Report_Error : Boolean := True) return Boolean
    is
-      Success : constant Boolean := Has_Config_File (User_Config_File);
+      Success : constant Boolean := Has_Config_File (Conf.Local.Config_File);
    begin
       if Success then
          Log.Detail ("user has config file");
@@ -174,8 +178,8 @@ package body Alice_User_Config is
       Read_Result :=
         TOML.File_IO.Load_File
           (Compose
-             (Containing_Directory => Config_Directory,
-              Name                 => User_Config_File));
+             (Containing_Directory => Conf.Local.Config_Directory,
+              Name                 => Conf.Local.Config_File));
       Log.Debug ("TOML.File_IO.Load_File =" & Read_Result'Image);
 
       if Read_Result.Success then
@@ -250,8 +254,8 @@ package body Alice_User_Config is
       Config_File.Create
         (Ada.Text_IO.Out_File,
          Compose
-           (Containing_Directory => Config_Directory,
-            Name                 => User_Config_File));
+           (Containing_Directory => Conf.Local.Config_Directory,
+            Name                 => Conf.Local.Config_File));
 
       TOML.File_IO.Dump_To_File (Table, Config_File);
 

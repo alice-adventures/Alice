@@ -90,7 +90,6 @@ package body Alice_Git is
       Run_Output : OS_Cmd_Git.Run_Output_Type;
 
       Matches : Natural := 0;
-      Success : Boolean;
 
       procedure Origin_Match is
       begin
@@ -109,22 +108,18 @@ package body Alice_Git is
       end Repo_Match;
 
    begin
-      Cmd_Git.Init;
-
       Log.Debug ("Is clone of " & Repository);
+
+      Cmd_Git.Init;
       Run_Output := Cmd_Git.Run ("remote -v");
       declare
          AWK_Session          : GNAT.AWK.Session_Type;
          HTTPS_Origin_Matcher : constant GNAT.Regpat.Pattern_Matcher :=
            GNAT.Regpat.Compile
              ("^" & Repo.URL (Repository, Prot.https) & "(?:\.git)?$");
-         --    GNAT.Regpat.Compile
-         --      ("^https://" & Server & "/" & Repository & "(?:\.git)?$");
          Git_Origin_Matcher   : constant GNAT.Regpat.Pattern_Matcher :=
            GNAT.Regpat.Compile
              ("^" & Repo.URL (Repository, Prot.git) & "(?:\.git)?$");
-         --    GNAT.Regpat.Compile
-         --      ("^git@" & Server & ":" & Repository & "(?:\.git)?$");
       begin
          GNAT.AWK.Set_Current (AWK_Session);
          GNAT.AWK.Add_File (Run_Output.Temp_File.all);
@@ -136,19 +131,15 @@ package body Alice_Git is
 
          GNAT.AWK.Parse;
          GNAT.AWK.Close (AWK_Session);
-         --  GNAT.AWK.Close (GNAT.AWK.Default_Session.all);
-
       end;
       Run_Output.Clean;
 
-      Success := (Matches = 4);
-      if Success then
-         Log.Detail (Repo.Host & ":" & Repository & " repository detected");
-      else
-         Log.Debug (Repo.Host & ":" & Repository & " repository not found");
-      end if;
-
-      return Success;
+      return Success : constant Boolean := (Matches = 4) do
+         Log.Detail
+           (Repo.URL (Repository) &
+            (if Success then " repository detected"
+             else " repository not found"));
+      end return;
    end Is_Clone_Of;
 
 end Alice_Git;

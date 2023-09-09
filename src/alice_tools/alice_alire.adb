@@ -7,7 +7,7 @@
 -------------------------------------------------------------------------------
 
 with Alice_Cmd;
-with Alice_Conf;
+with Alice_Configuration;
 with OS_Cmd_Alr;
 
 with GNAT.AWK;
@@ -15,7 +15,7 @@ with Simple_Logging;
 
 package body Alice_Alire is
 
-   package Conf renames Alice_Conf;
+   package Conf renames Alice_Configuration;
    package Cmd renames Alice_Cmd;
    package Log renames Simple_Logging;
 
@@ -37,6 +37,7 @@ package body Alice_Alire is
             Cmd.Abort_Execution ("Invalid Alice index URL");
          end if;
       end Alice_Match;
+
    begin
       Cmd_Alr.Init;
       Run_Output := Cmd_Alr.Run ("index --list");

@@ -6,12 +6,12 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Env;
+with Alice_Environment;
 with Alice_User_Config; use Alice_User_Config;
 
 package Alice_Git is
 
-   package Env renames Alice_Env;
+   package Env renames Alice_Environment;
    package Usr renames Alice_User_Config;
 
    function Clone_Remote_Repository

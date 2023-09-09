@@ -6,7 +6,12 @@
 --
 -------------------------------------------------------------------------------
 
-package Alice_Conf is
+package Alice_Configuration is
+
+   package Local is
+      Config_Directory : constant String := "config";
+      Config_File      : constant String := "user.toml";
+   end Local;
 
    package Alire is
       Index_Name : constant String := "alice";
@@ -15,8 +20,8 @@ package Alice_Conf is
    end Alire;
 
    package Repositories is
-      Alice_Org : constant String := "alice-adventures";
       Host_Name : constant String := "github.com";
+      Alice_Org : constant String := "alice-adventures";
 
       Main  : constant String := "Alice";
       Index : constant String := "alice-index";
@@ -29,4 +34,4 @@ package Alice_Conf is
       end Sources;
    end Repositories;
 
-end Alice_Conf;
+end Alice_Configuration;

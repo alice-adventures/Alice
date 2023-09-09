@@ -6,11 +6,11 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Conf;
+with Alice_Configuration;
 
 package body Alice_Repository is
 
-   package Conf renames Alice_Conf;
+   package Conf renames Alice_Configuration;
 
    ---------------
    -- Base_Name --

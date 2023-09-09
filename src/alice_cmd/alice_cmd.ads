@@ -6,7 +6,20 @@
 --
 -------------------------------------------------------------------------------
 
+with Simple_Logging;
+
+with Alice_Configuration;
+with Alice_Environment;
+with Alice_Git;
+with Alice_User_Config;
+
 package Alice_Cmd is
+
+   package Conf renames Alice_Configuration;
+   package Env renames Alice_Environment;
+   package Git renames Alice_Git;
+   package Log renames Simple_Logging;
+   package Usr renames Alice_User_Config;
 
    procedure Abort_Execution (Error : String; Exit_Status : Integer := 1);
    --  Logs the given error and stops execution of the Alice command.

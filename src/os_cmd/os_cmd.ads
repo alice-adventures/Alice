@@ -16,6 +16,8 @@ generic
 
 package OS_Cmd is
 
+   Command_Error : exception;
+
    type Cmd_Type is limited private;
 
    type Run_Output_Type is record
@@ -25,7 +27,7 @@ package OS_Cmd is
    end record;
 
    procedure Init (Cmd : in out Cmd_Type);
-   --  Initialize an OS command or abort the execution if the command cannot
+   --  Initialize an OS command, or abort the execution if the command cannot
    --  be found in PATH.
 
    function Check (Cmd : in out Cmd_Type) return Boolean;
@@ -44,11 +46,12 @@ package OS_Cmd is
    --  Run the command with the given arguments. Return the exit code and a
    --  file with the output.
 
-   procedure Clean (Run_Output : out Run_Output_Type);
-   --  Run an OS command with the given arguments.
+   procedure Clean (Run_Output : in out Run_Output_Type);
+   --  Delete temporary files and allocated memory by the command.
 
 private
 
+   --  *TODO - Make it a controlled type (?)
    type Cmd_Type is limited record
       OS_Path : aliased GNAT.OS_Lib.String_Access := null;
    end record;

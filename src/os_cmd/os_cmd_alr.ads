@@ -10,4 +10,4 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with OS_Cmd;
 
-package OS_Cmd_Alr is new OS_Cmd (To_Unbounded_String ("alr"));
+package OS_Cmd_Alr is new OS_Cmd (To_Unbounded_String ("alire"));

@@ -15,13 +15,15 @@ with Alice_Repository;
 
 with Simple_Logging;
 
-package body Alice_Env is
+package body Alice_Environment is
 
    package Cmd renames Alice_Cmd;
    package Dir renames Ada.Directories;
    package Git renames Alice_Git;
    package Log renames Simple_Logging;
    package Repo renames Alice_Repository;
+
+   use all type Dir.File_Kind;
 
    Alice_Root_Dir : Unbounded_String := Null_Unbounded_String;
 
@@ -51,30 +53,28 @@ package body Alice_Env is
 
    function Is_Alice_Root_Dir (Report_Error : Boolean := True) return Boolean
    is
-      use Ada.Directories;
-      Success : Boolean := False;
    begin
       if not Is_Alice_Repository (Report_Error => False) then
          return False;
       end if;
 
-      Success :=
-        Dir.Exists ("config") and then Dir.Kind ("config") = Directory
-        and then Dir.Exists
-          (Dir.Compose
-             (Containing_Directory => "config", Name => "alice_config",
-              Extension            => "ads"));
-
-      if Success then
-         Log.Detail ("found config/alice_config.ads");
-         Alice_Root_Dir := To_Unbounded_String (Current_Directory);
-         Log.Detail ("Alice_Root_Dir = " & Get_Alice_Root_Dir);
-      elsif Report_Error then
-         Cmd.Abort_Execution
-           ("'alice' must be invoked from the Alice' root directory");
-      end if;
-
-      return Success;
+      return
+        Success : constant Boolean :=
+          Dir.Exists ("config") and then Dir.Kind ("config") = Dir.Directory
+          and then Dir.Exists
+            (Dir.Compose
+               (Containing_Directory => "config", Name => "alice_config",
+                 Extension           => "ads"))
+      do
+         if Success then
+            Log.Detail ("found config/alice_config.ads");
+            Alice_Root_Dir := To_Unbounded_String (Dir.Current_Directory);
+            Log.Detail ("Alice_Root_Dir = " & Get_Alice_Root_Dir);
+         elsif Report_Error then
+            Cmd.Abort_Execution
+              ("alice command must be invoked from the Alice root directory");
+         end if;
+      end return;
    end Is_Alice_Root_Dir;
 
    ------------------------
@@ -83,4 +83,4 @@ package body Alice_Env is
 
    function Get_Alice_Root_Dir return String is (To_String (Alice_Root_Dir));
 
-end Alice_Env;
+end Alice_Environment;

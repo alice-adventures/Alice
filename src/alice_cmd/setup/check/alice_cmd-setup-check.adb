@@ -11,10 +11,6 @@ with Ada.Calendar.Formatting;
 with Ada.Directories;
 with Ada.Text_IO;
 
-with Simple_Logging;
-
-with Alice_User_Config;
-with Alice_Git;
 with OS_Cmd_Alr;
 with OS_Cmd_Curl;
 with OS_Cmd_Git;
@@ -22,9 +18,6 @@ with OS_Cmd_Git;
 package body Alice_Cmd.Setup.Check is
 
    package Dir renames Ada.Directories;
-   package Git renames Alice_Git;
-   package Log renames Simple_Logging;
-   package Usr renames Alice_User_Config;
 
    -------------
    -- Execute --
@@ -48,19 +41,27 @@ package body Alice_Cmd.Setup.Check is
       end if;
 
       if Alr_Cmd.Check then
-         Log.Info ("alr  command found at '" & Alr_Cmd.Path & "'");
+         Log.Info ("Command alr found at " & Alr_Cmd.Path);
+      else
+         Has_Errors := True;
+         Log.Error ("Command alr not found");
       end if;
 
       if Curl_Cmd.Check then
-         Log.Info ("curl command found at '" & Curl_Cmd.Path & "'");
+         Log.Info ("Command curl found at " & Curl_Cmd.Path);
+      else
+         Has_Errors := True;
+         Log.Error ("Command curl not found");
       end if;
 
       if Git_Cmd.Check then
-         Log.Info ("git  command found at '" & Git_Cmd.Path & "'");
+         Log.Info ("Command git found at " & Git_Cmd.Path);
+      else
+         Has_Errors := True;
+         Log.Error ("Command git not found");
       end if;
 
-      if not Usr.Has_User_Config_File (Report_Error => False)
-      then
+      if not Usr.Has_User_Config_File (Report_Error => False) then
          Log.Error ("Could not find the user config file");
          Has_Errors := True;
       end if;

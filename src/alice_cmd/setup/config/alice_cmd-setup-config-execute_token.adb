@@ -96,8 +96,8 @@ begin
          use Ada.Directories;
          User_Config_File : constant String :=
            Compose
-             (Containing_Directory => Alice_User_Config.Config_Directory,
-              Name                 => Alice_User_Config.User_Config_File);
+             (Containing_Directory => Conf.Local.Config_Directory,
+              Name                 => Conf.Local.Config_File);
 
          Backup_Config_File : constant String := User_Config_File & ".backup";
       begin

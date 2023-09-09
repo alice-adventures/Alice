@@ -11,18 +11,14 @@ with GNAT.OS_Lib;
 
 with CLIC.Subcommand.Instance;
 with CLIC.TTY;
-with Simple_Logging;
 with Simple_Logging.Decorators;
 
-with Alice_Env;
 with Alice_Cmd.Setup.Check;
 with Alice_Cmd.Setup.Config;
 with Alice_Cmd.Work.Source;
 with Alice_Config;
 
 package body Alice_Cmd is
-
-   package Log renames Simple_Logging;
 
    use all type Alice_Config.Build_Profile_Kind;
 
@@ -162,7 +158,7 @@ package body Alice_Cmd is
          Log.Detail ("enable Color");
       end if;
 
-      if Alice_Env.Is_Alice_Root_Dir then
+      if Env.Is_Alice_Root_Dir then
          Log.Detail ("begin Command.Execute");
          CLI_Command.Execute;
          Log.Detail ("end Command.Execute");

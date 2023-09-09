@@ -10,9 +10,6 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package Alice_User_Config is
 
-   Config_Directory : constant String := "config";
-   User_Config_File : constant String := "user.toml";
-
    type User_Config_Type is private;
 
    Empty_Config : constant User_Config_Type;

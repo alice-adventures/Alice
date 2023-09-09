@@ -5,16 +5,18 @@
 --  SPDX-License-Identifier: MIT
 --
 -------------------------------------------------------------------------------
-with AAA.Strings;
 
 with Ada.Text_IO;
 with Ada.Integer_Text_IO;
 
-with OS_Cmd_Curl;
-
+with AAA.Strings;
 with Simple_Logging;
 
+with OS_Cmd_Curl;
+
 package body GitHub_API is
+
+   package Log renames Simple_Logging;
 
    Flags      : constant String := " -s -L";
    HTTP_Code  : constant String := " -w %{http_code}\\n";
@@ -22,8 +24,6 @@ package body GitHub_API is
    Accept_Hdr : constant String := " -H Accept:\ application/vnd.github+json";
    Auth_Hdr   : constant String := " -H Authorization:\ Bearer\ ";
    Base_URL   : constant String := " https://api.github.com/";
-
-   package Log renames Simple_Logging;
 
    ------------
    -- Quoted --
@@ -69,7 +69,6 @@ package body GitHub_API is
    is
       Curl_Cmd      : OS_Cmd_Curl.Cmd_Type;
       Run_Output    : OS_Cmd_Curl.Run_Output_Type;
-      HTTP_Code     : Natural;
       Response_File : Ada.Text_IO.File_Type;
    begin
       Curl_Cmd.Init;
@@ -82,15 +81,15 @@ package body GitHub_API is
          Run_Output := Curl_Cmd.Run (Request & " -d " & Contents);
       end if;
 
-      Response_File.Open
-        (Mode => Ada.Text_IO.In_File, Name => Run_Output.Temp_File.all);
-      Ada.Integer_Text_IO.Get (Response_File, HTTP_Code);
-      Log.Debug ("Response =" & HTTP_Code'Image);
-      Response_File.Close;
+      return HTTP_Code : Natural do
+         Response_File.Open
+           (Mode => Ada.Text_IO.In_File, Name => Run_Output.Temp_File.all);
+         Ada.Integer_Text_IO.Get (Response_File, HTTP_Code);
+         Log.Debug ("Response =" & HTTP_Code'Image);
 
-      Run_Output.Clean;
-
-      return HTTP_Code;
+         Response_File.Close;
+         Run_Output.Clean;
+      end return;
    end Send_Request;
 
    ----------------------------------------------------
