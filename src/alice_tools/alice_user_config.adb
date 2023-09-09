@@ -18,7 +18,6 @@ with SPDX.Licenses;
 with TOML;
 with TOML.File_IO;
 
-with Alice_Cmd;
 with Alice_Configuration;
 with GitHub_API;
 with OS_Cmd_Git;
@@ -152,9 +151,9 @@ package body Alice_User_Config is
       if Success then
          Log.Detail ("user has config file");
       elsif Report_Error then
-         Alice_Cmd.Abort_Execution
-           ("User config file not found," &
-            " run 'alice config -h' for more information");
+         raise User_Config_Error
+           with "User config file not found," &
+           " run 'alice config -h' for more information";
       end if;
 
       return Success;
@@ -190,8 +189,9 @@ package body Alice_User_Config is
             Log.Debug
               ("Read_Result (Login) =" & To_String (User_Config.GitHub_Login));
          else
-            Alice_Cmd.Abort_Execution
-              ("Could not get " & Key_Login & " from user configuration file");
+            raise User_Config_Error
+              with "Could not get " & Key_Login &
+              " from user configuration file";
          end if;
          if Read_Result.Value.Has (Key_Token) then
             User_Config.GitHub_Token :=
@@ -200,8 +200,9 @@ package body Alice_User_Config is
             User_Config.Valid_Token  := True;
             Log.Debug ("Read_Result (Token) : exists (valid)");
          else
-            Alice_Cmd.Abort_Execution
-              ("Could not get " & Key_Token & " from user configuration file");
+            raise User_Config_Error
+              with "Could not get " & Key_Token &
+              " from user configuration file";
          end if;
          if Read_Result.Value.Has (Key_Name) then
             User_Config.User_Name :=
@@ -222,7 +223,7 @@ package body Alice_User_Config is
          end if;
       elsif Report_Error then
          Log.Error (To_String (Read_Result.Message));
-         Alice_Cmd.Abort_Execution ("Could not load user configuration file");
+         raise User_Config_Error with "Could not load user configuration file";
       end if;
 
       Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
@@ -349,8 +350,8 @@ package body Alice_User_Config is
       end if;
 
       if not Success then
-         Alice_Cmd.Abort_Execution
-           ("Cannot retrieve information of a valid GitHub account");
+         raise User_Config_Error
+           with "Cannot retrieve information of a valid GitHub account";
       end if;
 
       return Success;

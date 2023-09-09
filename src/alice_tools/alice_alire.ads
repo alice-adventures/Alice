@@ -8,6 +8,8 @@
 
 package Alice_Alire is
 
+   Alire_Error : exception;
+
    procedure Ensure_Alice_Index;
    --  Add the Alice index in the current Alire configuration, if not exists.
    --  Return True if the Alice index already exists or has been successfully

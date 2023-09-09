@@ -11,6 +11,8 @@ with CLIC.Subcommand;
 
 package Alice_Cmd.Work.Source is
 
+   Command_Source_Error : exception;
+
    type Cmd_Type is new CLIC.Subcommand.Command with private;
 
    overriding function Name

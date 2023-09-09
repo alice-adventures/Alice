@@ -6,7 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Cmd;
 with Alice_Configuration;
 with OS_Cmd_Alr;
 
@@ -16,7 +15,6 @@ with Simple_Logging;
 package body Alice_Alire is
 
    package Conf renames Alice_Configuration;
-   package Cmd renames Alice_Cmd;
    package Log renames Simple_Logging;
 
    ------------------------
@@ -34,7 +32,7 @@ package body Alice_Alire is
             Log.Debug ("AWK alice match");
             Index_Exists := True;
          else
-            Cmd.Abort_Execution ("Invalid Alice index URL");
+            raise Alire_Error with "Invalid Alice index URL";
          end if;
       end Alice_Match;
 
@@ -68,7 +66,7 @@ package body Alice_Alire is
       Run_Output.Clean;
 
       if Run_Output.Return_Code /= 0 then
-         Cmd.Abort_Execution ("Unknown error while adding Alice index");
+         raise Alire_Error with "Unknown error while adding Alice index";
       end if;
 
       Log.Detail ("Added Alice index in Alire");
@@ -99,7 +97,7 @@ package body Alice_Alire is
       if Run_Output.Return_Code = 0 then
          Log.Detail ("Alire indexes updated");
       else
-         Cmd.Abort_Execution ("Could not update Alire indexes");
+         raise Alire_Error with "Could not update Alire indexes";
       end if;
    end Update_Indexes;
 
@@ -112,7 +110,7 @@ package body Alice_Alire is
    begin
       Cmd_Alr.Init;
       if Cmd_Alr.Run ("build " & Args) /= 0 then
-         Cmd.Abort_Execution ("Could not build the current crate");
+         raise Alire_Error with "Could not build the current crate";
       end if;
    end Build_Crate;
 

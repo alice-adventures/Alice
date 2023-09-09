@@ -9,7 +9,6 @@
 with Ada.Directories;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-with Alice_Cmd;
 with Alice_Git;
 with Alice_Repository;
 
@@ -17,7 +16,6 @@ with Simple_Logging;
 
 package body Alice_Environment is
 
-   package Cmd renames Alice_Cmd;
    package Dir renames Ada.Directories;
    package Git renames Alice_Git;
    package Log renames Simple_Logging;
@@ -40,9 +38,9 @@ package body Alice_Environment is
          if Success then
             Log.Detail ("Alice git repository detected");
          elsif Report_Error then
-            Cmd.Abort_Execution
-              ("'alice' command must be invoked inside " &
-               "the Alice git repository");
+            raise Environment_Error
+              with "Command alice must be invoked inside " &
+              "the Alice git repository";
          end if;
       end return;
    end Is_Alice_Repository;
@@ -71,8 +69,9 @@ package body Alice_Environment is
             Alice_Root_Dir := To_Unbounded_String (Dir.Current_Directory);
             Log.Detail ("Alice_Root_Dir = " & Get_Alice_Root_Dir);
          elsif Report_Error then
-            Cmd.Abort_Execution
-              ("alice command must be invoked from the Alice root directory");
+            raise Environment_Error
+              with "Command alice must be invoked from " &
+              "the Alice root directory";
          end if;
       end return;
    end Is_Alice_Root_Dir;

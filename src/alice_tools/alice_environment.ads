@@ -8,6 +8,8 @@
 
 package Alice_Environment is
 
+   Environment_Error : exception;
+
    function Is_Alice_Repository
      (Report_Error : Boolean := True) return Boolean;
    --  Check if the current working directory belongs to the Alice

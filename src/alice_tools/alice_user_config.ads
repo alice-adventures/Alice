@@ -12,6 +12,8 @@ package Alice_User_Config is
 
    type User_Config_Type is private;
 
+   User_Config_Error : exception;
+
    Empty_Config : constant User_Config_Type;
 
    --!pp off

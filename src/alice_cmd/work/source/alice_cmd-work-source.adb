@@ -152,7 +152,8 @@ package body Alice_Cmd.Work.Source is
       if Cmd.Init or else Cmd.Status or else Cmd.Update then
          Check_Argument_Length (Args_Length, 1);
          if not Is_Valid_Source (Args.First_Element) then
-            Abort_Execution ("Invalid Source Id or tag, see 'source --list'");
+            raise Command_Source_Error
+              with "Invalid Source Id or tag, see 'source --list'";
          end if;
       end if;
 
