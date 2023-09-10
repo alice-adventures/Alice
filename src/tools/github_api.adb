@@ -56,7 +56,7 @@ package body GitHub_API is
    -- Curl_Args --
    ---------------
 
-   function Curl_Args (User_Config : User_Config_Type) return String is
+   function Curl_Args (User_Config : Usr.User_Config_Type) return String is
      (Flags & HTTP_Code & Output & Accept_Hdr & Auth_Hdr & User_Config.Token &
       Base_URL);
 
@@ -97,7 +97,7 @@ package body GitHub_API is
    ----------------------------------------------------
 
    function Create_A_Repository_For_The_Authenticated_User
-     (User_Config : User_Config_Type; Repo : String; Description : String)
+     (User_Config : Usr.User_Config_Type; Repo : String; Description : String)
       return Boolean
    is
       Request  : constant String := Curl_Args (User_Config) & "user/repos";
@@ -115,7 +115,7 @@ package body GitHub_API is
    ------------------------------------------
 
    function Create_A_Repository_Using_A_Template
-     (User_Config : User_Config_Type; Template : String; Repo : String;
+     (User_Config : Usr.User_Config_Type; Template : String; Repo : String;
       Description : String) return Boolean
    is
       Request  : constant String :=
@@ -135,7 +135,7 @@ package body GitHub_API is
    ----------------------
 
    function Get_A_Repository
-     (User_Config : User_Config_Type; Owner : String; Repo : String)
+     (User_Config : Usr.User_Config_Type; Owner : String; Repo : String)
       return Boolean
    is
       Request : constant String :=
@@ -149,7 +149,7 @@ package body GitHub_API is
    ----------------
 
    function Get_A_User
-     (User_Config : User_Config_Type; Name : String) return Boolean
+     (User_Config : Usr.User_Config_Type; Name : String) return Boolean
    is
       Request : constant String := Curl_Args (User_Config) & "users/" & Name;
    begin
@@ -161,7 +161,7 @@ package body GitHub_API is
    --------------------------------
 
    function Get_The_Authenticated_User
-     (User_Config : User_Config_Type) return Boolean
+     (User_Config : Usr.User_Config_Type) return Boolean
    is
       Request : constant String := Curl_Args (User_Config) & "user";
    begin
@@ -173,7 +173,7 @@ package body GitHub_API is
    ----------------------------------
 
    function List_Repositories_For_A_User
-     (User_Config : User_Config_Type; User : String) return Boolean
+     (User_Config : Usr.User_Config_Type; User : String) return Boolean
    is
       Request : constant String :=
         Curl_Args (User_Config) & "users/" & User & "/repos" &
@@ -187,7 +187,7 @@ package body GitHub_API is
    --------------------------------------------------
 
    function List_Repositories_For_The_Authenticated_User
-     (User_Config : User_Config_Type) return Boolean
+     (User_Config : Usr.User_Config_Type) return Boolean
    is
       Request : constant String :=
         Curl_Args (User_Config) & "user/repos" &

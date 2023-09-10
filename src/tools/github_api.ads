@@ -8,7 +8,7 @@
 
 pragma Style_Checks (off);
 
-with Alice_User_Config; use Alice_User_Config;
+with Alice_User_Config;
 
 package GitHub_API is
 
@@ -27,7 +27,7 @@ package GitHub_API is
    --        current directory
 
    function Create_A_Repository_For_The_Authenticated_User
-     (User_Config : User_Config_Type; Repo : String; Description : String)
+     (User_Config : Usr.User_Config_Type; Repo : String; Description : String)
       return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user
    --
@@ -36,7 +36,7 @@ package GitHub_API is
    --    • description := Description
 
    function Create_A_Repository_Using_A_Template
-     (User_Config : User_Config_Type; Template : String; Repo : String;
+     (User_Config : Usr.User_Config_Type; Template : String; Repo : String;
       Description : String) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-using-a-template
    --
@@ -50,7 +50,7 @@ package GitHub_API is
    --    • description    := Description
 
    function Get_A_Repository
-     (User_Config : User_Config_Type; Owner : String; Repo : String)
+     (User_Config : Usr.User_Config_Type; Owner : String; Repo : String)
       return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
    --
@@ -59,18 +59,18 @@ package GitHub_API is
    --    • repo  := Repo
 
    function Get_A_User
-     (User_Config : User_Config_Type; Name : String) return Boolean;
+     (User_Config : Usr.User_Config_Type; Name : String) return Boolean;
    --  https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user
    --
    --  Path parameters:
    --    • username := Name
 
    function Get_The_Authenticated_User
-     (User_Config : User_Config_Type) return Boolean;
+     (User_Config : Usr.User_Config_Type) return Boolean;
    --  https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-the-authenticated-user
 
    function List_Repositories_For_A_User
-     (User_Config : User_Config_Type; User : String) return Boolean;
+     (User_Config : Usr.User_Config_Type; User : String) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
    --
    --  Path parameters:
@@ -83,7 +83,7 @@ package GitHub_API is
    --    • per_page  := 100
 
    function List_Repositories_For_The_Authenticated_User
-     (User_Config : User_Config_Type) return Boolean;
+     (User_Config : Usr.User_Config_Type) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user
    --
    --  Query parameters:
