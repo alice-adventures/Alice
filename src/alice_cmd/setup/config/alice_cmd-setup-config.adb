@@ -8,17 +8,17 @@
 
 with Ada.Directories;
 
-with Alice_User_Config;
-use all type Alice_User_Config.User_Config_Type;
-
-with CLIC.User_Input;
-use all type CLIC.User_Input.Answer_Kind;
-
 with Simple_Logging;
+with CLIC.User_Input;
+
+with Alice_User_Config;
 
 package body Alice_Cmd.Setup.Config is
 
    package Log renames Simple_Logging;
+
+   use all type Alice_User_Config.User_Config_Type;
+   use all type CLIC.User_Input.Answer_Kind;
 
    --------------------
    -- Setup_Switches --
@@ -193,7 +193,7 @@ package body Alice_Cmd.Setup.Config is
       end if;
 
       if Actions > 1 then
-         Abort_Execution ("Specify only one subcommand");
+         raise Command_Config_Error with "Specify only one subcommand";
       end if;
 
       if Cmd.Show then

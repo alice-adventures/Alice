@@ -11,6 +11,8 @@ with CLIC.Subcommand;
 
 package Alice_Cmd.Setup.Check is
 
+   Command_Check_Error : exception;
+
    type Cmd_Type is new CLIC.Subcommand.Command with null record;
 
    overriding function Name

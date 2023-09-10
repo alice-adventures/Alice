@@ -11,16 +11,14 @@ with Alice_Alire;
 with Alice_Git;
 with Alice_User_Config;
 
-separate (Alice_Cmd.Work.Source)
-
 --------------------------------
 -- Execute_Init_Project_Euler --
 --------------------------------
 
+separate (Alice_Cmd.Work.Source)
 procedure Execute_Init_Project_Euler is
 
    package Alr renames Alice_Alire;
-   package Cmd renames Alice_Cmd;
    package Dir renames Ada.Directories;
    package Git renames Alice_Git;
    package Usr renames Alice_User_Config;
@@ -65,7 +63,8 @@ begin
          end if;
          Dir.Set_Directory ("..");
          if not Is_Valid_Dir then
-            Cmd.Abort_Execution ("Invalid repository found at " & Repository);
+            raise Command_Source_Error
+              with "Invalid repository found at " & Repository;
          end if;
       end;
    else
@@ -83,14 +82,14 @@ begin
             else
                Dir.Set_Directory (CWD);
                Dir.Delete_Tree (Repository);
-               Cmd.Abort_Execution
-                 ("Could not clone repository " & Shared_Repository);
+               raise Command_Source_Error
+                 with "Could not clone repository " & Shared_Repository;
             end if;
          end;
       else
          Dir.Delete_Tree (Repository);
-         Cmd.Abort_Execution
-           ("Could not clone repository " & Source_Repository);
+         raise Command_Source_Error
+           with "Could not clone repository " & Source_Repository;
       end if;
    end if;
 
@@ -105,8 +104,8 @@ begin
       then
          Log.Info ("Repository" & User_Repository & " successfully created");
       else
-         Cmd.Abort_Execution
-           ("Could not create repository " & User_Repository);
+         raise Command_Source_Error
+           with "Could not create repository " & User_Repository;
       end if;
    end if;
 

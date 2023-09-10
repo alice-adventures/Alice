@@ -21,10 +21,7 @@ package Alice_Cmd is
    package Log renames Simple_Logging;
    package Usr renames Alice_User_Config;
 
-   procedure Abort_Execution (Error : String; Exit_Status : Integer := 1);
-   --  Logs the given error and stops execution of the Alice command.
-   --  Immediately returns control the to calling parent (script or command
-   --  line).
+   Command_Alice_Error : exception;
 
    procedure Execute;
    --  Execute the Alice command specified by the arguments.

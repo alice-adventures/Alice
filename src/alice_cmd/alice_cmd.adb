@@ -106,16 +106,6 @@ package body Alice_Cmd is
 
    end Set_Global_Switches;
 
-   ---------------------
-   -- Abort_Execution --
-   ---------------------
-
-   procedure Abort_Execution (Error : String; Exit_Status : Integer := 1) is
-   begin
-      Log.Error (Error);
-      GNAT.OS_Lib.OS_Exit (Exit_Status);
-   end Abort_Execution;
-
    -------------
    -- Execute --
    -------------
@@ -174,7 +164,7 @@ package body Alice_Cmd is
    procedure Check_Unique_Subcommand (Number : Natural) is
    begin
       if Number > 1 then
-         Abort_Execution ("Only one subcommand can be specified");
+         raise Command_Alice_Error with "Only one subcommand can be specified";
       end if;
    end Check_Unique_Subcommand;
 
@@ -185,10 +175,10 @@ package body Alice_Cmd is
    procedure Check_Argument_Length (Number, Length : Natural) is
    begin
       if Number < Length then
-         Abort_Execution ("Too few arguments provided");
+         raise Command_Alice_Error with "Too few arguments provided";
       end if;
       if Number > Length then
-         Abort_Execution ("Too many argument provided");
+         raise Command_Alice_Error with "Too many argument provided";
       end if;
    end Check_Argument_Length;
 
@@ -198,7 +188,7 @@ package body Alice_Cmd is
 
    procedure Subcommand_Not_Found is
    begin
-      Abort_Execution ("System error, subcommand not found");
+      raise Command_Alice_Error with "Subcommand not found";
    end Subcommand_Not_Found;
 
 begin
