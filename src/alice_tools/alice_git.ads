@@ -7,30 +7,31 @@
 -------------------------------------------------------------------------------
 
 with Alice_Environment;
-with Alice_User_Config; use Alice_User_Config;
+with Alice_Participant;
+with GitHub.Profile; use GitHub.Profile;
 
 package Alice_Git is
 
    package Env renames Alice_Environment;
-   package Usr renames Alice_User_Config;
+   package Usr renames Alice_Participant;
 
    function Clone_Remote_Repository
      (Repository : String; Directory : String := "") return Boolean;
    --  Clone the remote Repository in the directory Directory.
 
    function Create_Remote_Repository
-     (User_Config : User_Config_Type; Repository : String;
+     (Profile : Profile_Type; Repository : String;
       Description : String) return Boolean;
-   --  Create the remote repository "<User_Config.Author>/Repository" for the
+   --  Create the remote repository "<Profile.Author>/Repository" for the
    --  authenticated user.
 
    function User_Has_Remote_Repository
-     (User_Config : User_Config_Type; Repository : String) return Boolean;
-   --  Return True if the remote repository "<User_Config.Author>/Repository"
+     (Profile : Profile_Type; Repository : String) return Boolean;
+   --  Return True if the remote repository "<Profile.Author>/Repository"
    --  exists.
 
    function Exists_Remote_Repository
-     (User_Config : Usr.User_Config_Type; User : String; Repository : String)
+     (Profile : Profile_Type; User : String; Repository : String)
       return Boolean;
    --  Return True if the remote repository "User/Repository" exists.
 

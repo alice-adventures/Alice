@@ -11,7 +11,7 @@ with Simple_Logging;
 with Alice_Configuration;
 with Alice_Environment;
 with Alice_Git;
-with Alice_User_Config;
+with Alice_Participant;
 
 package Alice_Cmd is
 
@@ -19,7 +19,7 @@ package Alice_Cmd is
    package Env renames Alice_Environment;
    package Git renames Alice_Git;
    package Log renames Simple_Logging;
-   package Usr renames Alice_User_Config;
+   package Usr renames Alice_Participant;
 
    Command_Alice_Error : exception;
 

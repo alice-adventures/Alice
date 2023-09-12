@@ -9,7 +9,8 @@
 with Ada.Directories;
 with Alice_Alire;
 with Alice_Git;
-with Alice_User_Config;
+with Alice_Participant;
+with GitHub.Profile;
 
 --------------------------------
 -- Execute_Init_Project_Euler --
@@ -21,7 +22,7 @@ procedure Execute_Init_Project_Euler is
    package Alr renames Alice_Alire;
    package Dir renames Ada.Directories;
    package Git renames Alice_Git;
-   package Usr renames Alice_User_Config;
+   package PPant renames Alice_Participant;
 
    Source            : constant String := "Project Euler";
    Repository        : constant String := "project_euler";
@@ -29,7 +30,7 @@ procedure Execute_Init_Project_Euler is
    Shared_Repository : constant String :=
      "alice-adventures/" & Repository & "-shared";
    User_Repository   : constant String :=
-     Usr.Get_Current_User.Login & "/" & Repository;
+     PPant.Get_Current_Participant.Login & "/" & Repository;
 begin
    Log.Info ("BEGIN alice source --init " & Repository);
 
@@ -94,12 +95,14 @@ begin
    end if;
 
    Log.Detail ("Checking existence of repository " & User_Repository);
-   if Git.User_Has_Remote_Repository (Usr.Get_Current_User, Repository) then
+   if Git.User_Has_Remote_Repository
+       (PPant.Get_Current_Participant, Repository)
+   then
       Log.Info ("Repository " & User_Repository & " already exists");
    else
       Log.Info ("Creating repository " & User_Repository);
       if Git.Create_Remote_Repository
-          (Usr.Get_Current_User, Repository,
+          (PPant.Get_Current_Participant, Repository,
            "Alice Adventures - repository for " & Source & " problems")
       then
          Log.Info ("Repository" & User_Repository & " successfully created");

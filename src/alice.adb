@@ -45,7 +45,7 @@ exception
       Log.Error (Ada.Exceptions.Exception_Message (Error));
       GNAT.OS_Lib.OS_Exit (6);
 
-   when Error : User_Config =>
-      Log.Error (Ada.Exceptions.Exception_Message (Error));
-      GNAT.OS_Lib.OS_Exit (7);
+   --  when Error : User_Config =>
+   --     Log.Error (Ada.Exceptions.Exception_Message (Error));
+   --     GNAT.OS_Lib.OS_Exit (7);
 end Alice;

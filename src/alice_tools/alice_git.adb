@@ -12,13 +12,13 @@ with GNAT.Regpat;
 with Simple_Logging;
 
 with Alice_Repository;
-with GitHub_API;
+with GitHub.API;
 with OS_Cmd_Git;
 with Protocols;
 
 package body Alice_Git is
-
-   package GHub renames GitHub_API;
+   --
+   package GHub renames GitHub.API;
    package Log renames Simple_Logging;
    package Repo renames Alice_Repository;
    package Prot renames Protocols;
@@ -48,13 +48,14 @@ package body Alice_Git is
    ------------------------------
 
    function Create_Remote_Repository
-     (User_Config : User_Config_Type; Repository : String;
+     (Profile : Profile_Type; Repository : String;
       Description : String) return Boolean
    is
    begin
-      return
-        GHub.Create_A_Repository_For_The_Authenticated_User
-          (User_Config, Repository, Description);
+      --  return
+      GHub.Create_A_Repository_For_The_Authenticated_User
+        (Profile, Repository, Description);
+      return True;
    end Create_Remote_Repository;
 
    --------------------------------
@@ -62,11 +63,11 @@ package body Alice_Git is
    --------------------------------
 
    function User_Has_Remote_Repository
-     (User_Config : User_Config_Type; Repository : String) return Boolean
+     (Profile : Profile_Type; Repository : String) return Boolean
    is
    begin
       return
-        Exists_Remote_Repository (User_Config, User_Config.Login, Repository);
+        Exists_Remote_Repository (Profile, Profile.Login, Repository);
    end User_Has_Remote_Repository;
 
    ------------------------------
@@ -74,11 +75,11 @@ package body Alice_Git is
    ------------------------------
 
    function Exists_Remote_Repository
-     (User_Config : User_Config_Type; User : String; Repository : String)
+     (Profile : Profile_Type; User : String; Repository : String)
       return Boolean
    is
    begin
-      return GHub.Get_A_Repository (User_Config, User, Repository);
+      return GHub.Get_A_Repository (Profile, User, Repository);
    end Exists_Remote_Repository;
 
    -----------------

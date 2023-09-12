@@ -11,13 +11,14 @@ with Ada.Directories;
 with Simple_Logging;
 with CLIC.User_Input;
 
-with Alice_User_Config;
+with Alice_Participant;
+with GitHub.Profile; use GitHub.Profile;
 
 package body Alice_Cmd.Setup.Config is
 
    package Log renames Simple_Logging;
+   package Participant renames Alice_Participant;
 
-   use all type Alice_User_Config.User_Config_Type;
    use all type CLIC.User_Input.Answer_Kind;
 
    --------------------
@@ -65,18 +66,16 @@ package body Alice_Cmd.Setup.Config is
    ------------------
 
    procedure Execute_Show is
-      User_Config : Alice_User_Config.User_Config_Type;
+      Profile : Profile_Type;
    begin
-      if not Alice_User_Config.Has_User_Config_File then
+      if not Participant.Has_Profile then
          return;
       end if;
 
-      if not User_Config.Read_From_File then
-         return;
-      end if;
+      Profile.Load_Profile;
 
       Log.Info ("User configuration file contents is:");
-      User_Config.Show;
+      Profile.Show;
    end Execute_Show;
 
    ---------------------
@@ -84,37 +83,35 @@ package body Alice_Cmd.Setup.Config is
    ---------------------
 
    procedure Execute_Refresh is
-      Success         : Boolean;
-      New_User_Config : Alice_User_Config.User_Config_Type;
-      Old_User_Config : Alice_User_Config.User_Config_Type;
+      Success     : Boolean;
+      New_Profile : Profile_Type;
+      Old_Profile : Profile_Type;
    begin
-      if not Alice_User_Config.Has_User_Config_File then
+      if not Participant.Has_Profile then
          return;
       end if;
 
-      if not Old_User_Config.Read_From_File then
+      if not Old_Profile.Load_Profile then
          return;
       end if;
 
-      Success := New_User_Config.Get_Info_From_Token (Old_User_Config.Token);
+      Success := New_Profile.Get_Info_From_Token (Old_Profile.Token);
 
       if Success then
-         Log.Debug
-           ("New_User_Config.Get_Info_From_Token =" & New_User_Config'Image);
-         if Old_User_Config.Login = New_User_Config.Login then
+         Log.Debug ("New_Profile.Get_Info_From_Token =" & New_Profile'Image);
+         if Old_Profile.Login = New_Profile.Login then
             Success :=
-              New_User_Config.Set_SPDX
-                (Old_User_Config.SPDX, Report_Error => False);
+              New_Profile.Set_SPDX (Old_Profile.SPDX, Report_Error => False);
             if not Success then
                Log.Warning
-                 ("Could not keep invalid SPDX Id '" & Old_User_Config.SPDX &
+                 ("Could not keep invalid SPDX Id '" & Old_Profile.SPDX &
                   "', default 'MIT' applied");
             end if;
 
-            if New_User_Config /= Old_User_Config then
-               Success := New_User_Config.Write_To_File;
+            if New_Profile /= Old_Profile then
+               Success := New_Profile.Write_To_File;
                Log.Info ("New user config file saved");
-               New_User_Config.Show;
+               New_Profile.Show;
             else
                Log.Info ("No changes detected, config file unchanged");
             end if;
@@ -140,27 +137,27 @@ package body Alice_Cmd.Setup.Config is
    ---------------------
 
    procedure Execute_License (SPDX_Id : String) is
-      Success     : Boolean := False;
-      User_Config : Alice_User_Config.User_Config_Type;
+      Success : Boolean := False;
+      Profile : Profile_Type;
    begin
-      if not Alice_User_Config.Has_User_Config_File then
+      if not Participant.Has_Profile then
          return;
       end if;
 
-      if not User_Config.Read_From_File then
+      if not Profile.Load_Profile then
          return;
       end if;
 
-      Log.Debug ("User_Config.Read_From_File =" & User_Config'Image);
+      Log.Debug ("Profile.Load_Profile =" & Profile'Image);
 
-      if User_Config.SPDX = SPDX_Id then
+      if Profile.SPDX = SPDX_Id then
          Log.Warning ("Same SPDX Id specified, nothing changed");
       else
-         Success := User_Config.Set_SPDX (SPDX_Id);
-         Log.Debug ("User_Config.Set_SPDX =" & User_Config'Image);
+         Success := Profile.Set_SPDX (SPDX_Id);
+         Log.Debug ("Profile.Set_SPDX =" & Profile'Image);
 
          if Success then
-            Success := User_Config.Write_To_File;
+            Success := Profile.Write_To_File;
             Log.Info
               ("New SPDX license Id '" & SPDX_Id &
                "' will be applied from now on");

@@ -11,7 +11,7 @@ with Alice_Cmd;
 with Alice_Cmd.Setup.Check;
 with Alice_Cmd.Setup.Config;
 with Alice_Cmd.Work.Source;
-with Alice_User_Config;
+--  with Alice_Participant;
 with OS_Cmd_Alr;
 with OS_Cmd_Curl;
 with OS_Cmd_Git;
@@ -30,6 +30,6 @@ package Errors is
    OS_Command_Alire : exception renames OS_Cmd_Alr.Command_Error;
    OS_Command_Curl  : exception renames OS_Cmd_Curl.Command_Error;
    OS_Command_Git   : exception renames OS_Cmd_Git.Command_Error;
-   User_Config      : exception renames Alice_User_Config.User_Config_Error;
+   --  User_Config  : exception renames Alice_Participant.User_Config_Error;
 
 end Errors;

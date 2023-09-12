@@ -8,11 +8,11 @@
 
 pragma Style_Checks (off);
 
-with Alice_User_Config;
+with GitHub.Profile; use GitHub.Profile;
 
-package GitHub_API is
+package GitHub.API is
 
-   package Usr renames Alice_User_Config;
+   GitHub_Api_Error : exception;
 
    JSON_File : constant String := ".github.json";
 
@@ -26,9 +26,8 @@ package GitHub_API is
    --     5. The caller can parse the JSON saved in the JSON_File in the
    --        current directory
 
-   function Create_A_Repository_For_The_Authenticated_User
-     (User_Config : Usr.User_Config_Type; Repo : String; Description : String)
-      return Boolean;
+   procedure Create_A_Repository_For_The_Authenticated_User
+     (Profile : Profile_Type; Repo : String; Description : String);
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user
    --
    --  Body parameters:
@@ -36,7 +35,7 @@ package GitHub_API is
    --    • description := Description
 
    function Create_A_Repository_Using_A_Template
-     (User_Config : Usr.User_Config_Type; Template : String; Repo : String;
+     (Profile     : Profile_Type; Template : String; Repo : String;
       Description : String) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-using-a-template
    --
@@ -45,32 +44,29 @@ package GitHub_API is
    --    • template_repo  := Template
    --
    --  Body parameters:
-   --    • owner          := User_Config.Login
+   --    • owner          := Profile.Login
    --    • name           := Repo
    --    • description    := Description
 
    function Get_A_Repository
-     (User_Config : Usr.User_Config_Type; Owner : String; Repo : String)
-      return Boolean;
+     (Profile : Profile_Type; Owner : String; Repo : String) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
    --
    --  Path parameters:
    --    • owner := Owner
    --    • repo  := Repo
 
-   function Get_A_User
-     (User_Config : Usr.User_Config_Type; Name : String) return Boolean;
+   function Get_A_User (Profile : Profile_Type; Name : String) return Boolean;
    --  https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user
    --
    --  Path parameters:
    --    • username := Name
 
-   function Get_The_Authenticated_User
-     (User_Config : Usr.User_Config_Type) return Boolean;
+   procedure Get_The_Authenticated_User (Profile : Profile_Type);
    --  https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-the-authenticated-user
 
    function List_Repositories_For_A_User
-     (User_Config : Usr.User_Config_Type; User : String) return Boolean;
+     (Profile : Profile_Type; User : String) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
    --
    --  Path parameters:
@@ -83,7 +79,7 @@ package GitHub_API is
    --    • per_page  := 100
 
    function List_Repositories_For_The_Authenticated_User
-     (User_Config : Usr.User_Config_Type) return Boolean;
+     (Profile : Profile_Type) return Boolean;
    --  https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user
    --
    --  Query parameters:
@@ -93,4 +89,4 @@ package GitHub_API is
    --    • direction   := "asc"
    --    • since       := "2023-07-12T00:00:00Z"
 
-end GitHub_API;
+end GitHub.API;

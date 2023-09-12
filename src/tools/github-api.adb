@@ -14,7 +14,7 @@ with Simple_Logging;
 
 with OS_Cmd_Curl;
 
-package body GitHub_API is
+package body GitHub.API is
 
    package Log renames Simple_Logging;
 
@@ -56,8 +56,8 @@ package body GitHub_API is
    -- Curl_Args --
    ---------------
 
-   function Curl_Args (User_Config : Usr.User_Config_Type) return String is
-     (Flags & HTTP_Code & Output & Accept_Hdr & Auth_Hdr & User_Config.Token &
+   function Curl_Args (Profile : Profile_Type) return String is
+     (Flags & HTTP_Code & Output & Accept_Hdr & Auth_Hdr & Profile.Token &
       Base_URL);
 
    ------------------
@@ -96,18 +96,20 @@ package body GitHub_API is
    -- Create_A_Repository_For_The_Authenticated_User --
    ----------------------------------------------------
 
-   function Create_A_Repository_For_The_Authenticated_User
-     (User_Config : Usr.User_Config_Type; Repo : String; Description : String)
-      return Boolean
+   procedure Create_A_Repository_For_The_Authenticated_User
+     (Profile : Profile_Type; Repo : String; Description : String)
    is
-      Request  : constant String := Curl_Args (User_Config) & "user/repos";
+      Request  : constant String := Curl_Args (Profile) & "user/repos";
       Contents : constant String :=
         JSON_Obj
           (Key_Value ("name", Repo) & "," &
            Key_Value ("description", Description) & "," &
            Key_Value ("auto_init", "true"));
    begin
-      return (Send_Request (Request, Contents) = 201);
+      if Send_Request (Request, Contents) /= 201 then
+         raise GitHub_Api_Error
+           with "Cannot create a repository for the authenticated user";
+      end if;
    end Create_A_Repository_For_The_Authenticated_User;
 
    ------------------------------------------
@@ -115,15 +117,15 @@ package body GitHub_API is
    ------------------------------------------
 
    function Create_A_Repository_Using_A_Template
-     (User_Config : Usr.User_Config_Type; Template : String; Repo : String;
+     (Profile     : Profile_Type; Template : String; Repo : String;
       Description : String) return Boolean
    is
       Request  : constant String :=
-        Curl_Args (User_Config) & "repos/alice-adventures/" & Template &
+        Curl_Args (Profile) & "repos/alice-adventures/" & Template &
         "/generate";
       Contents : constant String :=
         JSON_Obj
-          (Key_Value ("owner", User_Config.Login) & "," &
+          (Key_Value ("owner", Profile.Login) & "," &
            Key_Value ("name", Repo) & "," &
            Key_Value ("description", Description));
    begin
@@ -135,11 +137,10 @@ package body GitHub_API is
    ----------------------
 
    function Get_A_Repository
-     (User_Config : Usr.User_Config_Type; Owner : String; Repo : String)
-      return Boolean
+     (Profile : Profile_Type; Owner : String; Repo : String) return Boolean
    is
       Request : constant String :=
-        Curl_Args (User_Config) & "repos/" & Owner & "/" & Repo;
+        Curl_Args (Profile) & "repos/" & Owner & "/" & Repo;
    begin
       return (Send_Request (Request) = 200);
    end Get_A_Repository;
@@ -148,10 +149,9 @@ package body GitHub_API is
    -- Get_A_User --
    ----------------
 
-   function Get_A_User
-     (User_Config : Usr.User_Config_Type; Name : String) return Boolean
+   function Get_A_User (Profile : Profile_Type; Name : String) return Boolean
    is
-      Request : constant String := Curl_Args (User_Config) & "users/" & Name;
+      Request : constant String := Curl_Args (Profile) & "users/" & Name;
    begin
       return (Send_Request (Request) = 200);
    end Get_A_User;
@@ -160,12 +160,12 @@ package body GitHub_API is
    -- Get_The_Authenticated_User --
    --------------------------------
 
-   function Get_The_Authenticated_User
-     (User_Config : Usr.User_Config_Type) return Boolean
-   is
-      Request : constant String := Curl_Args (User_Config) & "user";
+   procedure Get_The_Authenticated_User (Profile : Profile_Type) is
+      Request : constant String := Curl_Args (Profile) & "user";
    begin
-      return (Send_Request (Request) = 200);
+      if Send_Request (Request) /= 200 then
+         raise GitHub_Api_Error with "Cannot get the authenticated user";
+      end if;
    end Get_The_Authenticated_User;
 
    ----------------------------------
@@ -173,10 +173,10 @@ package body GitHub_API is
    ----------------------------------
 
    function List_Repositories_For_A_User
-     (User_Config : Usr.User_Config_Type; User : String) return Boolean
+     (Profile : Profile_Type; User : String) return Boolean
    is
       Request : constant String :=
-        Curl_Args (User_Config) & "users/" & User & "/repos" &
+        Curl_Args (Profile) & "users/" & User & "/repos" &
         "?type=owner&sort=full_name&direction=asc&per_page=100";
    begin
       return (Send_Request (Request) = 200);
@@ -187,14 +187,14 @@ package body GitHub_API is
    --------------------------------------------------
 
    function List_Repositories_For_The_Authenticated_User
-     (User_Config : Usr.User_Config_Type) return Boolean
+     (Profile : Profile_Type) return Boolean
    is
       Request : constant String :=
-        Curl_Args (User_Config) & "user/repos" &
+        Curl_Args (Profile) & "user/repos" &
         "?visibility=public&affiliation=owner&sort=full_name&direction=asc" &
         "&since=2023-07-12T00:00:00Z";
    begin
       return (Send_Request (Request) = 200);
    end List_Repositories_For_The_Authenticated_User;
 
-end GitHub_API;
+end GitHub.API;
