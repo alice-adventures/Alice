@@ -19,8 +19,8 @@ package body Alice_Participant is
 
    use all type GNAT.OS_Lib.String_Access;
 
-   Profile       : aliased Profile_Type;
-   Valid_Profile : Boolean := False;
+   Current_Profile : aliased Profile_Type;
+   Valid_Profile   : Boolean := False;
 
    -----------------
    -- Has_Profile --
@@ -47,6 +47,16 @@ package body Alice_Participant is
    -- Load_Profile --
    ------------------
 
+   procedure Load_Profile is
+   begin
+      Current_Profile.Load_From_File;
+      Valid_Profile := True;
+   end Load_Profile;
+
+   ------------------
+   -- Load_Profile --
+   ------------------
+
    procedure Load_Profile (Profile : in out Profile_Type) is
    begin
       if not Has_Profile then
@@ -60,32 +70,8 @@ package body Alice_Participant is
    ------------------
 
    procedure Save_Profile (Profile : Profile_Type) is
-   --  use Ada.Directories;
-   --  Success     : constant Boolean         := True;
-   --  Table       : constant TOML.TOML_Value := TOML.Create_Table;
-   --  Config_File : Ada.Text_IO.File_Type;
    begin
       Profile.Save_To_File;
-      --  Table.Set
-      --    (Key_Login, TOML.Create_String (To_String (Profile.Login)));
-      --  Table.Set (Key_Name, TOML.Create_String (To_String (Profile.Name)));
-      --  Table.Set
-      --    (Key_Email, TOML.Create_String (To_String (Profile.Email)));
-      --  Table.Set
-      --    (Key_Token, TOML.Create_String (To_String (Profile.Token)));
-      --  Table.Set
-      --    (Key_SPDX_Id, TOML.Create_String (To_String (Profile.SPDX_Id)));
-
-      --  Config_File.Create
-      --    (Ada.Text_IO.Out_File,
-      --     Compose
-      --       (Containing_Directory => Conf.Local.Config_Directory,
-      --        Name                 => Conf.Local.Config_File));
-
-      --  TOML.File_IO.Dump_To_File (Table, Config_File);
-
-      --  Config_File.Close;
-      --  return Success;
    end Save_Profile;
 
    ----------------------------
@@ -108,10 +94,10 @@ package body Alice_Participant is
    function Get_Current_Participant return Profile_Type is
    begin
       if not Valid_Profile then
-         Profile.Load_From_File;
+         Current_Profile.Load_From_File;
          Valid_Profile := True;
       end if;
-      return Profile;
+      return Current_Profile;
    end Get_Current_Participant;
 
    ----------

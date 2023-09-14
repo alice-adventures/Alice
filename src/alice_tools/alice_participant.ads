@@ -15,20 +15,22 @@ package Alice_Participant is
    Participant_Error : exception;
 
    function Has_Profile return Boolean;
-   --  Check if the user profile file exists.
+   --  Check if the user profile exists.
+
+   procedure Load_Profile;
+   --  Load the user profile and stores it as the current participant.
 
    procedure Load_Profile (Profile : in out Profile_Type);
-   --  Read the user profile from the user profile file.
+   --  Load the user profile into the given variable.
 
    procedure Save_Profile (Profile : Profile_Type);
-   --  Write the user profile to the user profile file.
+   --  Write the user profile.
 
    procedure Set_Profile_From_Token
      (Profile : in out Profile_Type; Token : String);
 
    function Get_Current_Participant return Profile_Type;
-   --  Return the currently configured user, reading the profile from file
-   --  when needed.
+   --  Return the current participant profile; read the profile if needed.
 
    procedure Show (Profile : Profile_Type);
    --  Write the user profile contents to the console.

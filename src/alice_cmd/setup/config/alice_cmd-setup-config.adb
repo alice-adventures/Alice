@@ -69,13 +69,14 @@ package body Alice_Cmd.Setup.Config is
       Profile : Profile_Type;
    begin
       if not Participant.Has_Profile then
+         Log.Info ("User profile not found:");
          return;
       end if;
 
-      Profile.Load_Profile;
+      Participant.Load_Profile (Profile);
 
-      Log.Info ("User configuration file contents is:");
-      Profile.Show;
+      Log.Info ("User profile is:");
+      Participant.Show (Profile);
    end Execute_Show;
 
    ---------------------
@@ -83,47 +84,43 @@ package body Alice_Cmd.Setup.Config is
    ---------------------
 
    procedure Execute_Refresh is
-      Success     : Boolean;
       New_Profile : Profile_Type;
       Old_Profile : Profile_Type;
    begin
       if not Participant.Has_Profile then
-         return;
+         raise Participant.Participant_Error
+           with "Profile not found, cannot refresh";
       end if;
 
-      if not Old_Profile.Load_Profile then
-         return;
+      Participant.Load_Profile (Old_Profile);
+      Participant.Set_Profile_From_Token (New_Profile, Old_Profile.Token);
+      Log.Debug ("New_Profile from Token =" & New_Profile'Image);
+
+      if Old_Profile.Login /= New_Profile.Login then
+         raise Participant.Participant_Error
+           with "Cannot change GitHub login, " &
+           "run 'alice config --token' instead";
       end if;
 
-      Success := New_Profile.Get_Info_From_Token (Old_Profile.Token);
+      New_Profile.Set_SPDX (Old_Profile.SPDX);
+      --  if not Success then
+      --     Log.Warning
+      --       ("Could not keep invalid SPDX Id '" & Old_Profile.SPDX &
+      --        "', default 'MIT' applied");
+      --  end if;
 
-      if Success then
-         Log.Debug ("New_Profile.Get_Info_From_Token =" & New_Profile'Image);
-         if Old_Profile.Login = New_Profile.Login then
-            Success :=
-              New_Profile.Set_SPDX (Old_Profile.SPDX, Report_Error => False);
-            if not Success then
-               Log.Warning
-                 ("Could not keep invalid SPDX Id '" & Old_Profile.SPDX &
-                  "', default 'MIT' applied");
-            end if;
-
-            if New_Profile /= Old_Profile then
-               Success := New_Profile.Write_To_File;
-               Log.Info ("New user config file saved");
-               New_Profile.Show;
-            else
-               Log.Info ("No changes detected, config file unchanged");
-            end if;
-         else
-            Log.Error
-              ("Cannot change GitHub login, " &
-               "run 'alice config --token' instead");
-         end if;
+      if New_Profile /= Old_Profile then
+         Participant.Save_Profile (New_Profile);
+         Log.Info ("New profile saved");
+         Participant.Show (New_Profile);
       else
-         Log.Error ("Run 'alice config --token' with a valid token");
+         Log.Info ("No changes detected, profile unchanged");
       end if;
 
+   exception
+      when GitHub.Profile.GitHub_Profile_Error =>
+         raise Participant.Participant_Error
+           with "Run 'alice config --token' with a valid token";
    end Execute_Refresh;
 
    -------------------
@@ -137,33 +134,31 @@ package body Alice_Cmd.Setup.Config is
    ---------------------
 
    procedure Execute_License (SPDX_Id : String) is
-      Success : Boolean := False;
       Profile : Profile_Type;
    begin
       if not Participant.Has_Profile then
-         return;
+         raise Participant.Participant_Error
+           with "Profile not found, cannot set SPDX";
       end if;
 
-      if not Profile.Load_Profile then
-         return;
-      end if;
-
-      Log.Debug ("Profile.Load_Profile =" & Profile'Image);
+      Profile := Participant.Get_Current_Participant;
+      Log.Debug ("Profile =" & Profile'Image);
 
       if Profile.SPDX = SPDX_Id then
          Log.Warning ("Same SPDX Id specified, nothing changed");
       else
-         Success := Profile.Set_SPDX (SPDX_Id);
+         Profile.Set_SPDX (SPDX_Id);
          Log.Debug ("Profile.Set_SPDX =" & Profile'Image);
+         Participant.Save_Profile (Profile);
 
-         if Success then
-            Success := Profile.Write_To_File;
-            Log.Info
-              ("New SPDX license Id '" & SPDX_Id &
-               "' will be applied from now on");
-         else
-            Log.Error ("Choose a valid Id from https://spdx.org/licenses");
-         end if;
+         --  if Success then
+         --     Success := Profile.Write_To_File;
+         --     Log.Info
+         --       ("New SPDX license Id '" & SPDX_Id &
+         --        "' will be applied from now on");
+         --  else
+         --     Log.Error ("Choose a valid Id from https://spdx.org/licenses");
+         --  end if;
       end if;
    end Execute_License;
 

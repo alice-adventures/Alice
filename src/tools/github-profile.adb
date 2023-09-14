@@ -78,52 +78,40 @@ package body GitHub.Profile is
 
          use Types;
 
-         Parser : Parsers.Parser :=
+         Parser : Parsers.Parser      :=
            Parsers.Create_From_File (GitHub.API.JSON_File);
-
          Object : constant JSON_Value := Parser.Parse;
 
          function Value_Str (Object : JSON_Value) return String renames
            Types.Value;
       begin
-         if Object.Contains (Key_Login) then
-            Log.Debug ("JSON.type : " & Image (Object.Get ("type")));
-            Log.Debug ("JSON.login: " & Image (Object.Get (Key_Login)));
-            Log.Debug ("JSON.name : " & Image (Object.Get (Key_Name)));
-            Log.Debug ("JSON.email: " & Image (Object.Get (Key_Email)));
+         if not Object.Contains (Key_Login) then
+            raise Error.Load_Profile with "Invalid token, login not found";
+         end if;
 
-            if Object.Get (Key_Login).Kind = String_Kind then
-               Profile.GitHub_Login :=
-                 To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
-               Profile.Valid_Token  := True;
-            else
-               goto Error;
-            end if;
+         if Object.Get (Key_Login).Kind /= String_Kind then
+            raise Error.Load_Profile with "Invalid login found";
+         end if;
 
-            if Object.Get (Key_Name).Kind = String_Kind then
-               Profile.User_Name :=
-                 To_Unbounded_String (Value_Str (Object.Get (Key_Name)));
-            end if;
+         Log.Debug ("JSON.type : " & Image (Object.Get ("type")));
+         Log.Debug ("JSON.login: " & Image (Object.Get (Key_Login)));
+         Log.Debug ("JSON.name : " & Image (Object.Get (Key_Name)));
+         Log.Debug ("JSON.email: " & Image (Object.Get (Key_Email)));
 
-            if Object.Get (Key_Email).Kind = String_Kind then
-               Profile.User_Email :=
-                 To_Unbounded_String (Value_Str (Object.Get (Key_Email)));
-            end if;
-         else
-            Log.Debug ("JSON Object does not contains 'login' key");
-            goto Error;
+         Profile.GitHub_Login :=
+           To_Unbounded_String (Value_Str (Object.Get (Key_Login)));
+         Profile.Valid_Token  := True;
+
+         if Object.Get (Key_Name).Kind = String_Kind then
+            Profile.User_Name :=
+              To_Unbounded_String (Value_Str (Object.Get (Key_Name)));
+         end if;
+
+         if Object.Get (Key_Email).Kind = String_Kind then
+            Profile.User_Email :=
+              To_Unbounded_String (Value_Str (Object.Get (Key_Email)));
          end if;
       end;
-
-      return;
-
-      <<Error>>
-      raise GitHub_Profile_Error with "Could not get login from GitHub token";
-
-   exception
-      when GitHub.API.GitHub_Api_Error =>
-         raise GitHub_Profile_Error
-           with "Cannot retrieve information of a valid GitHub account";
    end Load_From_GitHub_Token;
 
    --------------------------

@@ -8,50 +8,36 @@
 
 separate (Alice_Cmd.Setup.Config)
 procedure Execute_Token (Token : String) is
-   Old_Profile, New_Profile : Alice_Participant.Profile_Type;
+   Old_Profile, New_Profile : Profile_Type;
 
-   Config_File_Exists : Boolean :=
-     Alice_Participant.Has_Profile_File (Report_Error => False);
-
-   Success       : Boolean;
-   Login_Changed : Boolean := False;
+   Profile_Exists : constant Boolean := Participant.Has_Profile;
+   Login_Changed  : Boolean          := False;
 begin
    Log.Detail
      ("Retrieving info from GitHUb and git and saving new config file");
 
-   if Config_File_Exists then
-      if not Old_Profile.Read_From_File (Report_Error => False) then
-         Log.Warning ("Could not read current config file, ignoring");
-         Config_File_Exists := False;
-      end if;
-   end if;
+   Participant.Set_Profile_From_Token (New_Profile, Token);
 
-   if not New_Profile.Get_Info_From_Token (Token) then
-      return;
-   end if;
-
-   if Config_File_Exists then
+   if Profile_Exists then
       Log.Detail ("Keep SPDX_Id from old config file");
-      Success :=
-        New_Profile.Set_SPDX (Old_Profile.SPDX, Report_Error => False);
-      if Success then
-         Log.Detail
-           ("keeping SPDX_Id '" & New_Profile.SPDX &
-            "' from old config file");
-      else
-         Log.Warning
-           ("Could not save current SPDX Id '" & Old_Profile.SPDX &
-            "': invalid");
-         Log.Warning ("Using default SPDX Id");
-         Log.Warning ("Set a different one with 'alice config --license'");
-         Log.Always ("");
-      end if;
-      Log.Debug ("New_Profile.Set_SPDX = " & New_Profile'Image);
+      Participant.Load_Profile (Old_Profile);
+      New_Profile.Set_SPDX (Old_Profile.SPDX);
+
+      --  if Success then
+      --     Log.Detail
+      --   ("keeping SPDX_Id '" & New_Profile.SPDX & "' from old config file");
+      --  else
+      --     Log.Warning
+      --       ("Could not save current SPDX Id '" & Old_Profile.SPDX &
+      --        "': invalid");
+      --     Log.Warning ("Using default SPDX Id");
+      --     Log.Warning ("Set a different one with 'alice config --license'");
+      --     Log.Always ("");
+      --  end if;
+      --  Log.Debug ("New_Profile.Set_SPDX = " & New_Profile'Image);
    end if;
 
-   if Config_File_Exists
-     and then Old_Profile.Login /= New_Profile.Login
-   then
+   if Profile_Exists and then Old_Profile.Login /= New_Profile.Login then
       Login_Changed := True;
       pragma Style_Checks (off);
       Log.Error
@@ -60,8 +46,7 @@ begin
         ("  • currently configured token is for user login '" &
          Old_Profile.Login & "'");
       Log.Error
-        ("  • provided token is for user login '" & New_Profile.Login &
-         "'");
+        ("  • provided token is for user login '" & New_Profile.Login & "'");
       Log.Error
         ("Overwriting the configuration file with a different login can cause serious problems,");
       Log.Error
@@ -73,7 +58,7 @@ begin
    end if;
 
    Log.Info ("New configuration file contents is:");
-   New_Profile.Show;
+   Participant.Show (New_Profile);
 
    declare
       Answer : CLIC.User_Input.Answer_Kind;
@@ -90,7 +75,7 @@ begin
       end if;
    end;
 
-   if Config_File_Exists then
+   if Profile_Exists then
       Log.Detail ("Make a backup copy of the user config file");
       declare
          use Ada.Directories;
@@ -111,9 +96,5 @@ begin
       end;
    end if;
 
-   if New_Profile.Write_To_File then
-      Log.Info ("New user configuration file saved");
-   else
-      Log.Error ("Could not save the new user configuration file");
-   end if;
+   Participant.Save_Profile (New_Profile);
 end Execute_Token;

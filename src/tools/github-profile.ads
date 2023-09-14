@@ -10,6 +10,9 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package GitHub.Profile is
 
+   package Error is
+      Load_Profile : exception;
+   end Error;
    GitHub_Profile_Error : exception;
 
    type Profile_Type is private;
