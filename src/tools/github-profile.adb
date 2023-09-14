@@ -186,7 +186,7 @@ package body GitHub.Profile is
         TOML.File_IO.Load_File
           (Compose
              (Containing_Directory => Conf.Local.Config_Directory,
-              Name                 => Conf.Local.Config_File));
+              Name                 => Conf.Local.Profile));
       Log.Debug ("TOML.File_IO.Load_File =" & Read_Result'Image);
 
       if not Read_Result.Success then
@@ -237,8 +237,8 @@ package body GitHub.Profile is
 
    procedure Save_To_File (Profile : Profile_Type) is
       use Ada.Directories;
-      Table       : constant TOML.TOML_Value := TOML.Create_Table;
-      Config_File : Ada.Text_IO.File_Type;
+      Table      : constant TOML.TOML_Value := TOML.Create_Table;
+      Profile_FD : Ada.Text_IO.File_Type;
    begin
       Table.Set (Key_Login, TOML.Create_String (Profile.Login));
       Table.Set (Key_Name, TOML.Create_String (Profile.Name));
@@ -246,15 +246,15 @@ package body GitHub.Profile is
       Table.Set (Key_Token, TOML.Create_String (Profile.Token));
       Table.Set (Key_SPDX_Id, TOML.Create_String (Profile.SPDX));
 
-      Config_File.Create
+      Profile_FD.Create
         (Ada.Text_IO.Out_File,
          Compose
            (Containing_Directory => Conf.Local.Config_Directory,
-            Name                 => Conf.Local.Config_File));
+            Name                 => Conf.Local.Profile));
 
-      TOML.File_IO.Dump_To_File (Table, Config_File);
+      TOML.File_IO.Dump_To_File (Table, Profile_FD);
 
-      Config_File.Close;
+      Profile_FD.Close;
       Log.Debug ("Profile saved");
 
    exception

@@ -10,7 +10,7 @@ package Alice_Configuration is
 
    package Local is
       Config_Directory : constant String := "config";
-      Config_File      : constant String := "user.toml";
+      Profile          : constant String := "profile.toml";
    end Local;
 
    package Alire is

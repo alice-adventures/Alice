@@ -31,7 +31,7 @@ package body Alice_Participant is
    begin
       Path :=
         GNAT.OS_Lib.Locate_Regular_File
-          (Conf.Local.Config_File, Conf.Local.Config_Directory);
+          (Conf.Local.Profile, Conf.Local.Config_Directory);
 
       return Success : constant Boolean := (Path /= null) do
          if Success then

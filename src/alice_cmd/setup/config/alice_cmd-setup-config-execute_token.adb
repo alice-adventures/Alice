@@ -82,7 +82,7 @@ begin
          Profile_File : constant String :=
            Compose
              (Containing_Directory => Conf.Local.Config_Directory,
-              Name                 => Conf.Local.Config_File);
+              Name                 => Conf.Local.Profile);
 
          Backup_Config_File : constant String := Profile_File & ".backup";
       begin
