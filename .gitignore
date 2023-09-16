@@ -1,6 +1,7 @@
 .github.json
 .vscode
 *.log
+export/
 
 /.setup/
 /alire/
