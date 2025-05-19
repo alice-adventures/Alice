@@ -1,5 +1,4 @@
-![Alice](../Alice_Adventures-top-right-blue.png#only-light){ .alice align=right .off-glb }
-![Alice](../Alice_Adventures-top-right-white.png#only-dark){ .alice align=right .off-glb }
+--8<-- "docs/snippets/alice-header.md"
 
 # WELCOME TO ALICE
 *Adventures for Learning and Inspiring Coding Excellence*

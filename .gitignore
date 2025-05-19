@@ -10,5 +10,6 @@ export/
 /obj/
 /shared/
 /site/
+/venv/
 
 /project_euler/

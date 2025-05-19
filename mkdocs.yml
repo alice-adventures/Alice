@@ -13,7 +13,7 @@ repo_name: alice-adventures/alice
 repo_url: https://github.com/orgs/alice-adventures/alice
 
 copyright:
-  Copyright &copy; - 2023 Francesc Rocher
+  Copyright &copy; - 2023-2025 Francesc Rocher
 
 theme:
   name: material
@@ -77,8 +77,8 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -142,7 +142,7 @@ nav:
   - "&nbsp;For Participants&nbsp;":
     - participant/index.md
     - Project Euler: participant/Project_Euler.md
-    - CodinFame: participant/CodinGame.md
+    - CodinGame: participant/CodinGame.md
     - Advent of Code : participant/Advent_of_code.md
   - "&nbsp;For Developers&nbsp;":
     - developer/index.md
@@ -160,13 +160,24 @@ nav:
 # #  - "&nbsp;For Participants&nbsp;":
 # #    - participant/index.md
 # #    - Project Euler: participant/Project_Euler.md
-# #    - CodinFame: participant/CodinGame.md
+# #    - CodinGame: participant/CodinGame.md
 # #    - Advent of Code : participant/Advent_of_code.md
 # #  - "&nbsp;For Developers&nbsp;":
 # #    - developer/index.md
 
-
-# * SECTION - PUBLISH DOCS
+# SECTION - DOCS DEVELOPMENT
+#
+# NOTE - Environment installation
+#
+# In Linux:
+#
+#     python3 -m venv venv
+#     source venv/bin/activate
+#     pip install mkdocs
+#     pip install $(mkdocs get-deps)
+#
+# NOTE - Publish docs
+#
 #   • Locally develop and inspect with 'mkdocs serve'
 #   • Publish new version with 'mike deploy --push --update-aliases REL latest'
 #   • Update web default version with 'mike --set-default --push REL'

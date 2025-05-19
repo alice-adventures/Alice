@@ -7,8 +7,7 @@ tags:
   - Bash
 ---
 
-![Alice](img/Alice_Adventures-top-right-light.png#only-light){ .alice align=right .off-glb }
-![Alice](img/Alice_Adventures-top-right-dark.png#only-dark){ .alice align=right .off-glb }
+--8<-- "docs/snippets/alice-header.md"
 
 # WELCOME TO ALICE DOCUMENTATION TEST
 *Adventures for Learning and Inspiring Coding Excellence*
@@ -30,8 +29,8 @@ remember that `mkdocs` allows you to:
 Inclusion of figures requires
 
 ```markdown
-![Repositories](./img/repositories-light.png#only-light){ width="90%" }
-![Repositories](./img/repositories-dark.png#only-dark){ width="90%" }
+![Repositories](img/repositories-light.png#only-light){ width="90%" }
+![Repositories](img/repositories-dark.png#only-dark){ width="90%" }
 <br>**Figure 1** - *Repositories*
 { .figure }
 ```
@@ -48,8 +47,8 @@ Images for dark theme are prepared as follows:
 
 The result is shown in **Figure 1**.
 
-![Repositories](/img/repositories-light.png#only-light){ width="90%" }
-![Repositories](/img/repositories-dark.png#only-dark){ width="90%" }
+![Repositories](img/repositories-light.png#only-light){ width="90%" }
+![Repositories](img/repositories-dark.png#only-dark){ width="90%" }
 <br>**Figure 1** - *Repositories*
 { .figure }
 
