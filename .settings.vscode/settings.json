@@ -1,6 +1,4 @@
 {
-   "ada.defaultCharset": "utf-8",
-   "ada.projectFile": "alice.gpr",
    "editor.detectIndentation": false,
    "editor.formatOnSave": true,
    "editor.tabSize": 3,
