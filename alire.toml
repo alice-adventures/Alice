@@ -24,9 +24,9 @@ tags = [
 ada_version = ["-gnat2022", "-gnatX"]
 
 [[depends-on]]
-clic = "~0.2.1"
+clic = "~0.3.0"
 curl = "^7.81.0"
-json = "^5.0.3"
+json = "^6.0.0"
 mold_lib = "^0.2.1"
 simple_logging = "^1.2.0"
 spdx = "~0.2.0"
