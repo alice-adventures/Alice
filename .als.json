@@ -1,4 +1,4 @@
 {
-     "ada.defaultCharset": "utf-8",
-     "ada.projectFile": "alice.gpr"
+     "defaultCharset": "utf-8",
+     "projectFile": "alice.gpr"
 }

@@ -1,5 +1,4 @@
 .github.json
-.vscode
 *.log
 export/
 

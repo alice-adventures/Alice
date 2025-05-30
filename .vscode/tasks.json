@@ -1,0 +1,38 @@
+{
+      // See https://go.microsoft.com/fwlink/?LinkId=733558
+      // for the documentation about the tasks.json format
+      "version": "2.0.0",
+      "tasks": [
+          {
+              "group": "build",
+              "type": "ada",
+              "label": "ada: Build current project",
+              "command": "alr",
+              "args": [
+                  "build",
+              ],
+              "problemMatcher": [
+                  "$ada-error",
+                  "$ada-warning",
+                  "$ada-info"
+              ],
+          },
+
+          {
+              "group": "build",
+              "type": "ada",
+              "label": "ada: Clean test suite",
+              "command": "git",
+              "args": [
+                  "clean",
+                  "-dfx",
+                  "suite/"
+              ],
+              "problemMatcher": [
+                  "$ada-error",
+                  "$ada-warning",
+                  "$ada-info"
+              ],
+          },
+      ]
+  }

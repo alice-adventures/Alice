@@ -1,0 +1,50 @@
+{
+   "version": "0.2.0",
+   "configurations": [
+      {
+         "type": "cppdbg",
+         "request": "launch",
+         "name": "Ada: Debugger Launch",
+         "program": "${workspaceFolder}/${command:ada.getOrAskForProgram}",
+         "args": [],
+         "cwd": "${workspaceFolder}",
+         "stopAtEntry": false,
+         "externalConsole": false,
+         "preLaunchTask": "ada: Build current project",
+         "setupCommands": [
+            {
+               "description": "Enable pretty-printing for gdb",
+               "text": "-enable-pretty-printing",
+               "ignoreFailures": true
+            },
+            {
+               "description": "Disable questions on multiple matches",
+               "text": "set multiple-symbols cancel",
+               "ignoreFailures": false
+            }
+         ]
+      },
+      {
+         "type": "cppdbg",
+         "request": "launch",
+         "name": "Ada - Build & Debug (unix)",
+         "program": "${workspaceFolder}/bin/mold_lib_tests",
+         "cwd": "${workspaceFolder}",
+         "stopAtEntry": false,
+         "externalConsole": false,
+         "preLaunchTask": "ada: Build current project",
+         "setupCommands": [
+            {
+               "description": "Enable pretty-printing for gdb",
+               "text": "-enable-pretty-printing",
+               "ignoreFailures": true
+            },
+            {
+               "description": "Disable questions on multiple matches",
+               "text": "set multiple-symbols cancel",
+               "ignoreFailures": false
+            }
+         ]
+      },
+   ]
+}
