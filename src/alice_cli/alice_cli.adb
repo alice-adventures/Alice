@@ -10,13 +10,18 @@ with Ada.Text_IO;    use Ada.Text_IO;
 with Ada.Exceptions; use Ada.Exceptions;
 
 with Alice;
+with Alice.Log;
 
 procedure Alice_CLI is
 begin
-   Alice.Log.Info ("Starting Alice CLI application...");
+   Alice.Log.Optimize_For_CLI;
+   Alice.Log.Set_Debug_Level;
+
+   Alice.Log.Trace_Begin ("Alice_CLI");
    Put_Line ("Welcome to the Alice " & Alice.Version & " CLI application!");
+   Alice.Log.Trace_End ("Alice_CLI");
 
 exception
    when E : others =>
-      Put_Line ("An error occurred: " & Exception_Information (E));
+      Alice.Log.Error ("Exception caught: " & Exception_Information (E));
 end Alice_CLI;
