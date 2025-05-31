@@ -41,14 +41,7 @@ ada_version = ["-gnat2022", "-gnatW8"]
 clic = "~0.3.0"
 curl = "*"
 json = "^6.0.0"
+mold_lib = "^2.3.1"
 simple_logging = "^1.2.0"
 spdx = "~0.2.0"
 sha1 = "^2.0.0"
-
-# public release:
-# mold_lib = "^2.3.1"
-
-# development only:
-mold_lib = "*"
-[[pins]]
-mold_lib = { path = '../../mold_lib' }
