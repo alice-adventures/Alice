@@ -11,16 +11,21 @@ with "alice_common.gpr";
 
 project Alice_CLI is
 
-   for Main use ("alice.adb");
+   for Main use ("alice_cli.adb");
 
    for Create_Missing_Dirs use "True";
    for Source_Dirs use (
       "../../config/",
-      "../alice_cli/**"
+      "../alice_cli/**",
+      "../alice_lib/**"
    );
    for Library_Dir use Alice_Common.Library_Dir;
    for Object_Dir  use Alice_Common.Object_Dir;
    for Exec_Dir    use Alice_Common.Exec_Dir;
+
+   package Builder is
+      for Executable ("alice_cli") use "alice";
+   end Builder;
 
    package Compiler is
       for Default_Switches ("Ada") use Alice_Config.Ada_Compiler_Switches;

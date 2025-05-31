@@ -6,14 +6,17 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Text_IO;    use Ada.Text_IO;
 with Ada.Exceptions; use Ada.Exceptions;
 
-procedure Alice is
+with Alice;
+
+procedure Alice_CLI is
 begin
-   Put_Line ("Welcome to the Alice CLI application!");
+   Alice.Log.Info ("Starting Alice CLI application...");
+   Put_Line ("Welcome to the Alice " & Alice.Version & " CLI application!");
 
 exception
    when E : others =>
       Put_Line ("An error occurred: " & Exception_Information (E));
-end Alice;
+end Alice_CLI;
