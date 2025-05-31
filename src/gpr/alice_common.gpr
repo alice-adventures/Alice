@@ -1,0 +1,43 @@
+-------------------------------------------------------------------------------
+--
+--  ALICE - Adventures for Learning and Inspiring Coding Excellence
+--  Copyright (c) 2023-2025 Francesc Rocher <francesc.rocher@gmail.com>
+--  SPDX-License-Identifier: MIT
+--
+-------------------------------------------------------------------------------
+
+with "../../config/alice_config.gpr";
+
+abstract project Alice_Common is
+
+   Library_Dir := "../../build/" & Alice_Config.Build_Profile & "/lib/";
+   Object_Dir  := "../../build/" & Alice_Config.Build_Profile & "/obj/";
+   Exec_Dir    := "../../build/" & Alice_Config.Build_Profile & "/bin/";
+
+   type Alice_Library_Kind is ("relocatable", "static", "static-pic");
+   Library_Kind : Alice_Library_Kind :=
+     external ("ALICE_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));
+
+   Ada_Compiler_Switches := ("-gnatW8");
+   case Alice_Config.Build_Profile is
+      when "release" =>
+         Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches &
+            ("-O2");
+
+      when "validation" =>
+         Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches;
+
+      when "development" =>
+         Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches &
+         (
+            "-O0",
+            "-fstack-check", -- Enable stack overflow checks
+            "-gnata",        -- Enable assertions and contracts
+            "-gnatc",        -- Enable coverage
+            "-gnatp",        -- Enable profiling
+            "-gnatf",        -- Enable flow analysis
+            "-gnatw.a"       -- Enable all warnings
+         );
+   end case;
+
+end Alice_Common;

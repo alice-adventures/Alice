@@ -1,0 +1,37 @@
+-------------------------------------------------------------------------------
+--
+--  ALICE - Adventures for Learning and Inspiring Coding Excellence
+--  Copyright (c) 2023-2025 Francesc Rocher <francesc.rocher@gmail.com>
+--  SPDX-License-Identifier: MIT
+--
+-------------------------------------------------------------------------------
+
+with "../../config/alice_config.gpr";
+with "alice_common.gpr";
+
+project Alice_CLI is
+
+   for Main use ("alice.adb");
+
+   for Create_Missing_Dirs use "True";
+   for Source_Dirs use (
+      "../../config/",
+      "../alice_cli/**"
+   );
+   for Library_Dir use Alice_Common.Library_Dir;
+   for Object_Dir  use Alice_Common.Object_Dir;
+   for Exec_Dir    use Alice_Common.Exec_Dir;
+
+   package Compiler is
+      for Default_Switches ("Ada") use Alice_Config.Ada_Compiler_Switches;
+   end Compiler;
+
+   package Binder is
+      for Switches ("Ada") use ("-Es"); --  Symbolic traceback
+   end Binder;
+
+   package Install is
+      for Artifacts (".") use ("share");
+   end Install;
+
+end Alice_CLI;

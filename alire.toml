@@ -1,5 +1,5 @@
 name = "alice"
-version = "0.1.6-dev"
+version = "0.2.0-dev"
 description = "Adventures for Learning and Inspiring Coding Excellence"
 website = "https://github.com/alice-adventures/Alice/wiki"
 
@@ -17,18 +17,38 @@ tags = [
    "challenges",
 ]
 
+project-files = [
+   "src/gpr/alice_lib.gpr",
+   "src/gpr/alice_cli.gpr",
+]
+
+[available.'case(os)']
+'linux' = true
+'...' = false
+
+[configuration.variables]
+Enable_Logs = { type = "boolean", default = false}
+Log_Level = { type = "Enum", values = ["Always", "Error", "Warning", "Info", "Detail", "Debug"], default = "Warning"}
+
 [build-profiles]
+# release, validation, development
 "alice" = "development"
 
 [build-switches."*"]
-ada_version = ["-gnat2022", "-gnatX"]
+ada_version = ["-gnat2022", "-gnatW8"]
 
 [[depends-on]]
 clic = "~0.3.0"
-curl = "^7.81.0"
+curl = "*"
 json = "^6.0.0"
-mold_lib = "^0.2.1"
 simple_logging = "^1.2.0"
 spdx = "~0.2.0"
-[[depends-on]]
 sha1 = "^2.0.0"
+
+# public release:
+# mold_lib = "^2.3.1"
+
+# development only:
+mold_lib = "*"
+[[pins]]
+mold_lib = { path = '../../mold_lib' }

@@ -1,3 +1,0 @@
-## Relevant tags
-
-[TAGS]

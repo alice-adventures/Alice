@@ -1,14 +1,12 @@
 .github.json
 *.log
-export/
 
 /.setup/
 /alire/
-/bin/
+/build/
 /config/
-/obj/
-/shared/
-/site/
-/venv/
+/docs/web/site/
+/platform/
+/tmp/
 
-/project_euler/
+/**/venv/

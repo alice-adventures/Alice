@@ -1,0 +1,81 @@
+Estic fent un projecte de software, anomenat Alice Adventures, centrat en el
+llenguatge de programació Ada. La finalitat del projecte és atraure nous
+usuaris que vulguin aprendre els llenguatge i programadors que vulguin
+participar en el projecte. El projecte consisteix a fer un conjunt d'eines per
+tal que els membres desenvolupin solucions per a plataformes de problemes
+públiques, com per exemple CodinGame, Advent of Code, Project Euler, Rosseta
+Code i altres. Per alguna d'aquestes plataformes es necessita una interfície
+gràfica, com a CodinGame, per altres una interfície de text és suficient, com
+a Rosseta Code, i per altres es poden crear noves interfícies gràfiques que
+resultin atractives i fàcils d'usar, com a Project Euler (per fer
+representacions gràfiques de funcions). Aquestes interfícies haurien de ser
+desenvolupades pels membres desenvolupadors. Tots els membres participants a
+Alice són programadors d'Ada (amb diferents nivells), perquè o bé fan
+solucions a problemes o bé participen en el desenvolupament d'Alice. Això vol
+dir que l'usuari d'Alice coneix certs aspectes d'enginyeria de software i no
+necessita massa explicacions (per exemple, no caldria explicar-li què és un
+repositori de codi).
+
+També hi ha plataformes que suporten Ada, com Rosseta Code, d'altres són
+independents del llenguatge de programació, com Project Euler i AoC, i
+d'altres no suporten Ada, com CodinGame. Alice agrupa totes aquestes fonts i
+les posa a disposició de la comunitat d'entusiastes d'Ada.
+
+Alice es basa en en un repositori de codi que conté el programa "alice", usat
+des de línia de comandes (programat en Ada, per descomptat). Un cop compilat,
+els membres poden configurar el seu compte de membre i baixar-se el repositori
+específic de la plataforma amb la que volen treballar (una o més). Aquest repo
+específic de la plataforma conté al interfície gràfica o la llibreria o les
+eines adequades a ella. Tota plataforma té com a mínim una interfície de
+comandes. També té accés als repositoris públics d'altres membres de la
+mateixa plataforma, per comparar-se o inspirar-se en altres solucions.
+
+Hi ha un registre d'events en el que queden enregistrats els esdeveniments
+bàsics d'Alice-core (nou membre, etc), i events per plataforma (nou problema
+disponible, nova solució disponible, etc). Aquests events queden en un
+repository de GitHub, de forma que cada commit és un event. Quan els membres
+fan un "sync", cada commit és un event que poden veure. A banda, com que el
+tindran clonat localment per poder fer un git pull, poden veure tota la
+història. La idea principal és que Alice és serverless i off-line first.
+
+Un tema interessant és per una GUI per a Alice. Però, com que els programadors
+són molt maniàtics amb l'entorn que usen, seria excessiu fer un IDE a Alice.
+En canvi, per una GUI per les eines bàsiques pot ser molt adequat, i més si a
+dins d'aquesta GUI es poden executar solucions que user interfícies gràfiques,
+com el Tron de CodinGame o representació de funcions de Project Euler.
+Llavors, el tema seria usar una arquitectura absolutament modular i escalable,
+que a partir d'una llibreria estructurada em Command/Query Separation of
+Concerns s'implementa l'Alice-core. Això genera una llibreria que és usada per
+la CLI i altres GUIs que es poden fer. Les dues més interessants que he vist
+són Godot, sobretot pel tema de jocs i CodinGame, i l'altra seria del mateix
+estil que el plugin Platform-IO que hi ha per a VSCode.
+
+Seguint amb el tema del software, el disseny i l'arquitectura d'Alice han de
+ser impecables. Per això vull aplicar els principis SOLID, la arquitectura
+CLEAN i el patró MVC pel tema de la TUI i les GUIs. Per exemple, en el nivell
+més intern de les entitats, hi ha membres, plataformes, problemes i solucions.
+Tot membre ha de tenir compte a GitHub (ja és un filtre). Les plataformes
+inicials poden ser Rosseta Code (amb contribucions upstream, si cal) i Project
+Euler amb TUI i GUI (un que tinc fet amb GNOGA, però molarà molt més un fet
+amb Godot, molt més cool). El problemes són enunciats d'una plataforma posats
+a disposició dels membres d'Alice. Això pot incloure un directory amb una
+plantilla de codi preparada per tal que els membres escriguin la seva solució.
+I finalment tenim les solucions, que són les contribucions que han fer els
+membres als problemes proposats.
+
+Per exemple, quan es tracta de verificar que el PAT d'un membre és vàlid usant
+l'API de GitHub, la implementació de l'Use Case de registrar membre ha d'usar
+una instància d'una interfície abstracta de la classe Alice.VCS (que serà la
+instància corresponent a GitHub) pel tema de la inversió de dependències. Si
+ho entenc bé, com que la capa d'Use Cases no pot saber res de l'exterior però
+necessita GitHub, pel principi SOLID se'l fa dependre s'una abstracció i no
+d'una concreció.
+
+Pel que fa al tema seguretat, cada membre necessita un GitHub PAT (Personal
+Access Token) per atacar els registres d'events. Paral·lelament, cada membre
+publica les seves solucions en un repository públic i personal seu (de forma
+automàtica a través d'Alice, per incloure l'event). Hi ha usuaris que no volen
+tenir els seus repositoris públics a GitHub, i per això se'ls pot donar
+l'opció d'usar altres servidors de Git, com GitLab i altres. Em preocupa que
+algú pugui fer trastades, i per això he de mirar encara com funciona el tema
+dels commits signats.

@@ -1,0 +1,183 @@
+site_name: Alice
+site_url: https://alice-adventures.github.io
+site_author: Francesc Rocher
+site_description: >-
+  Unlock the power of Ada and strive for coding excellence with Alice. This
+  comprehensive documentation is your gateway to tackling intriguing problems,
+  enhancing your programming skills, and joining a community of developers and
+  participants. Discover the possibilities, explore the resources, and embark on
+  a journey of coding mastery. Welcome to Alice, your gateway to coding
+  excellence.
+
+repo_name: alice-adventures/alice
+repo_url: https://github.com/orgs/alice-adventures/alice
+
+copyright:
+  Copyright &copy; - 2023-2025 Francesc Rocher
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/git-alt
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    # scheme: slate
+    # primary: custom
+  font:
+    text: Noto Sans
+    code: Fira Code
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - navigation.footer
+    - navigation.path
+#    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - toc.integrate
+    - toc.follow
+#  highlightjs: true
+#  hljs_style: xcode
+#  hljs_languages:
+#    - ada
+#    - bash
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - meta
+  - toc:
+      # permalink: "¶"
+      permalink: "🔗"
+      permalink_title: Anchor link to this section for reference
+  # PyMdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.snippets:
+      # base_path:
+      #   - docs/snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.critic
+  # - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  # - pymdownx.tilde
+
+extra_css:
+  - https://fonts.googleapis.com/css?family=Oswald:300,300i,400,400i,500,500i
+  - css/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - glightbox:
+      effect: none
+      touchNavigation: false
+      zoomable: false
+      width: 80%
+      draggable: false
+      skip_classes:
+        - skip-lightbox
+  - offline
+  - search
+  - mike
+#  - tags:
+#      tags_file: tags.md
+
+extra:
+  version:
+    provider: mike
+
+# extra:
+#   consent:
+#     title: Cookie consent
+#     description:
+#       We use cookies to recognize your repeated visits and preferences, as well
+#       as to measure the effectiveness of our documentation and whether users
+#       find what they're searching for. With your consent, you're helping us to
+#       make our documentation better.
+
+nav:
+  - HOME:
+      - Home: index.md
+      - About: about.md
+      - Test: test.md
+  - "&nbsp;For Participants&nbsp;":
+    - participant/index.md
+    - Project Euler: participant/Project_Euler.md
+    - CodinGame: participant/CodinGame.md
+    - Advent of Code : participant/Advent_of_code.md
+  - "&nbsp;For Developers&nbsp;":
+    - developer/index.md
+
+
+# nav:
+#   - ALICE:
+#       - Introduction: index.md
+#       - 'Map of Contents': map-of-contents.md
+#       - Resources: resources.md
+#       - 'Getting Started': getting-started.md
+#       - 'Collaboration Roles': collaboration-roles.md
+#       - 'Coding Excellence': coding-excellence.md
+# #      - About: about.md
+# #  - "&nbsp;For Participants&nbsp;":
+# #    - participant/index.md
+# #    - Project Euler: participant/Project_Euler.md
+# #    - CodinGame: participant/CodinGame.md
+# #    - Advent of Code : participant/Advent_of_code.md
+# #  - "&nbsp;For Developers&nbsp;":
+# #    - developer/index.md
+
+# SECTION - DOCS DEVELOPMENT
+#
+# NOTE - Environment installation
+#
+# In Linux:
+#
+#     python3 -m venv venv
+#     source venv/bin/activate
+#     pip install mkdocs
+#     pip install $(mkdocs get-deps)
+#
+# NOTE - Publish docs
+#
+#   • Locally develop and inspect with 'mkdocs serve'
+#   • Publish new version with 'mike deploy --push --update-aliases REL latest'
+#   • Update web default version with 'mike --set-default --push REL'
