@@ -17,7 +17,9 @@ project Alice_Lib is
    for Create_Missing_Dirs use "True";
    for Source_Dirs use (
       "../../config/",
-      "../alice_lib/**"
+      "../alice_lib/",
+      "../alice_lib/impl/**",
+      "../alice_lib/profile/" & Alice_Config.Build_Profile
    );
    for Library_Dir use Alice_Common.Library_Dir;
    for Object_Dir  use Alice_Common.Object_Dir;

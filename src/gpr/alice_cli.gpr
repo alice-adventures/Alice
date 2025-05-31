@@ -8,6 +8,7 @@
 
 with "../../config/alice_config.gpr";
 with "alice_common.gpr";
+with "alice_lib.gpr";
 
 project Alice_CLI is
 
@@ -15,9 +16,7 @@ project Alice_CLI is
 
    for Create_Missing_Dirs use "True";
    for Source_Dirs use (
-      "../../config/",
-      "../alice_cli/**",
-      "../alice_lib/**"
+      "../alice_cli/**"
    );
    for Library_Dir use Alice_Common.Library_Dir;
    for Object_Dir  use Alice_Common.Object_Dir;
