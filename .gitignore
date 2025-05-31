@@ -7,6 +7,6 @@
 /config/
 /docs/web/site/
 /platform/
-/tmp/
+/.tmp/
 
 /**/venv/
