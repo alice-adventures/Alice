@@ -11,36 +11,11 @@ with Ada.Exceptions; use Ada.Exceptions;
 
 with Alice;
 with Alice.Log;
-with Alice.Log.Activity;
 with Alice.Log.Activity.CLI;
 
+with Test.Activity;
+
 procedure Alice_CLI is
-
-   procedure Activity_Test
-     (Activity : in out Alice.Log.Activity.Object'Class;
-      Title    : String;
-      Length   : Integer) is
-   begin
-      Alice.Log.Trace_Begin ("Activity Test " & Title);
-
-      Activity.Start (Title);
-      for I in 1 .. Length loop
-         Activity.Step
-           (Title & Integer'Image (I) & " of " & Integer'Image (Length) & " ");
-
-         delay 1.0;  --  doing things ...
-
-         Activity.Message ("This is a message for step " & Integer'Image (I));
-         Alice.Log.Info
-           ("This is a verbose message for step " & Integer'Image (I));
-      end loop;
-      Activity.Stop;
-
-      Alice.Log.Debug ("Seen Finalize?");
-      delay 1.0;
-
-      Alice.Log.Trace_End ("Activity Test " & Title);
-   end Activity_Test;
 
 begin
    --  Alice.Log.Optimize_For_CLI (False);  --  no color
@@ -60,10 +35,13 @@ begin
    declare
       Activity : Alice.Log.Activity.CLI.Object_CLI;
    begin
-      Activity_Test (Activity, "Test number ONE ", 3);
+      Test.Activity.Success (Activity, "Test number ONE ", 3);
       Alice.Log.Warning ("Changing activity");
       delay 2.0;
-      Activity_Test (Activity, "Test number TWO ", 2);
+      Test.Activity.Success (Activity, "Test number TWO ", 2);
+      Alice.Log.Warning ("Changing activity");
+      delay 2.0;
+      Test.Activity.Fatal_Error (Activity);
    end;
 
    Alice.Log.Trace_End ("Alice_CLI");
