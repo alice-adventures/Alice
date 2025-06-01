@@ -31,6 +31,7 @@ abstract project Alice_Common is
          Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches &
          (
             "-O0",
+            "-g3",
             "-fstack-check", -- Enable stack overflow checks
             "-gnata",        -- Enable assertions and contracts
             "-gnatc",        -- Enable coverage
