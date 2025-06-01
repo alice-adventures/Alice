@@ -13,6 +13,19 @@ package body Alice.Log.Activity.CLI is
    procedure Free_Ongoing is new
      Ada.Unchecked_Deallocation (Simple_Logging.Ongoing'Class, Ongoing_Access);
 
+   -----------------
+   -- Fatal_Error --
+   -----------------
+
+   procedure Fatal_Error is
+   begin
+      Alice.Log.Error ("Ongoing activity is not started.", -1);
+   end Fatal_Error;
+
+   -----------
+   -- Start --
+   -----------
+
    overriding
    procedure Start (This : in out Object_CLI; Title : String) is
    begin
@@ -21,30 +34,46 @@ package body Alice.Log.Activity.CLI is
           (Simple_Logging.Activity (Title, Simple_Logging.Warning));
    end Start;
 
+   ----------
+   -- Step --
+   ----------
+
    overriding
    procedure Step (This : in out Object_CLI; Message : String := "") is
    begin
-      if This.Ongoing /= null then
-         Simple_Logging.Step (This.Ongoing.all, Message);
+      if This.Ongoing = null then
+         Fatal_Error;
       else
-         Alice.Log.Error ("Ongoing activity is not started.", -1);
+         Simple_Logging.Step (This.Ongoing.all, Message);
       end if;
    end Step;
+
+   -------------
+   -- Message --
+   -------------
 
    overriding
    procedure Message (This : in out Object_CLI; Message : String) is
    begin
-      if This.Ongoing /= null then
-         Simple_Logging.Always (Message);
+      if This.Ongoing = null then
+         Fatal_Error;
       else
-         Alice.Log.Error ("Ongoing activity is not started.", -1);
+         Simple_Logging.Always (Message);
       end if;
    end Message;
+
+   ----------
+   -- Stop --
+   ----------
 
    overriding
    procedure Stop (This : in out Object_CLI) is
    begin
-      Free_Ongoing (This.Ongoing);
+      if This.Ongoing = null then
+         Fatal_Error;
+      else
+         Free_Ongoing (This.Ongoing);
+      end if;
       This.Ongoing := null;
    end Stop;
 
