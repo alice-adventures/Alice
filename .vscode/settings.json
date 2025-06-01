@@ -2,5 +2,5 @@
    "ada.defaultCharset": "utf-8",
    "ada.documentationStyle": "gnat",
    "ada.enableIndexing": true,
-   "ada.projectFile": "src/gpr/alice_lib.gpr"
+   "ada.projectFile": "src/gpr/alice_cli.gpr"
 }
