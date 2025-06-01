@@ -18,7 +18,6 @@ project Alice_CLI is
    for Source_Dirs use (
       "../alice_cli/**"
    );
-   for Library_Dir use Alice_Common.Library_Dir;
    for Object_Dir  use Alice_Common.Object_Dir;
    for Exec_Dir    use Alice_Common.Exec_Dir;
 
