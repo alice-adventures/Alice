@@ -12,6 +12,9 @@
 --  applications, and the output is redirected to the standard output or
 --  standard error, depending on the optimization.
 --
+--  Typical usage of the library starts by selecting the optimization CLI/GUI,
+--  and then selecting the appropriate verbose/trace/debug level.
+--
 --  The logging levels are defined as follows:
 --
 --     * Error is used for errors that should not happen or exceptions caught
@@ -45,7 +48,7 @@ package Alice.Log is
    --  (verbose), uses the instance of the busy status spinner and redirects
    --  all messages to the standard error.
 
-   procedure Set_Verbose (Verbose : Boolean);
+   procedure Set_Verbose_Level (Verbose : Boolean);
    --  When True, set the logging level to Info, otherwise set it to Warning.
 
    procedure Set_Trace_Level (With_Location_Enabled : Boolean := True);

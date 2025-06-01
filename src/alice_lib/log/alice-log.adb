@@ -131,6 +131,7 @@ package body Alice.Log is
    begin
       GNAT.IO.Set_Output (GNAT.IO.Standard_Output);
       Enable_Color_Decorators (With_Color_Enabled);
+      Simple_Logging.Level := Simple_Logging.Warning;
       Simple_Logging.Is_TTY := True;
       Simple_Logging.ASCII_Only := False;
    end Optimize_For_CLI;
@@ -153,11 +154,11 @@ package body Alice.Log is
    -- Set_Verbose --
    -----------------
 
-   procedure Set_Verbose (Verbose : Boolean) is
+   procedure Set_Verbose_Level (Verbose : Boolean) is
    begin
       Simple_Logging.Level :=
         (if Verbose then Simple_Logging.Info else Simple_Logging.Warning);
-   end Set_Verbose;
+   end Set_Verbose_Level;
 
    ---------------------
    -- Set_Trace_Level --

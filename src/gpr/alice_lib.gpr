@@ -19,6 +19,7 @@ project Alice_Lib is
       "../../config/",
       "../alice_lib/",
       "../alice_lib/impl/**",
+      "../alice_lib/log/**",
       "../alice_lib/profile/" & Alice_Config.Build_Profile
    );
    for Library_Dir use Alice_Common.Library_Dir;
