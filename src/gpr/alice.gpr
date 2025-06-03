@@ -9,16 +9,29 @@
 with "../../config/alice_config.gpr";
 with "alice_common.gpr";
 
-project Alice_Lib is
+project Alice is
 
    for Library_Name use "alice";
    for Library_Kind use Alice_Common.Library_Kind;
+   for Library_Kind use "static";
+
+   Profile_Dir := "";
+   case Alice_Config.Build_Profile is
+      when "release" =>
+         Profile_Dir := "release";
+      when others =>
+         Profile_Dir := "other";
+   end case;
 
    for Create_Missing_Dirs use "True";
    for Source_Dirs use (
       "../../config/",
-      "../alice_lib/**",
-      "../alice_lib_profile/" & Alice_Config.Build_Profile & "/**"
+      "../alice/public/**",
+      "../alice/private/application/**",
+      "../alice/private/core/**",
+      "../alice/private/standard/logger/",
+      "../alice/private/standard/logger/profile/" & Profile_Dir & "/**",
+      "../alice/private/standard/logger/progress/**"
    );
    for Library_Dir use Alice_Common.Library_Dir;
    for Object_Dir  use Alice_Common.Object_Dir;
@@ -36,4 +49,4 @@ project Alice_Lib is
       for Artifacts (".") use ("share");
    end Install;
 
-end Alice_Lib;
+end Alice;

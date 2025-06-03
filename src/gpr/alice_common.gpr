@@ -18,7 +18,7 @@ abstract project Alice_Common is
    Library_Kind : Alice_Library_Kind :=
      external ("ALICE_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));
 
-   Ada_Compiler_Switches := ("-gnatW8");
+   Ada_Compiler_Switches := ();
    case Alice_Config.Build_Profile is
       when "release" =>
          Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches &
