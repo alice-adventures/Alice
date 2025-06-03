@@ -6,11 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice_Config;
+package Alice.App.Query is
 
-package body Alice is
-
-   function Version return String
-   is (Alice_Config.Crate_Version);
-
-end Alice;
+end Alice.App.Query;

@@ -19,7 +19,8 @@ package body Alice.Log.Activity.CLI is
 
    procedure Fatal_Error is
    begin
-      Alice.Log.Error ("Ongoing activity is not started.", -1);
+      raise Program_Error
+        with "Activity not started, call Start before using Step or Message";
    end Fatal_Error;
 
    -----------

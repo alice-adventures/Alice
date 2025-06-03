@@ -6,15 +6,11 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-
-package Alice is
-
-   subtype UString is Unbounded_String;
-
-   function U (Source : String) return Unbounded_String
-   renames To_Unbounded_String;
-
-   function Str (Source : Unbounded_String) return String renames To_String;
-
-end Alice;
+separate (Alice.Log)
+procedure Trace_Begin
+  (Msg      : String := "";
+   Entity   : String := Enclosing_Entity;
+   Location : String := Source_Location) is
+begin
+   null;
+end Trace_Begin;

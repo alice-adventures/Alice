@@ -48,7 +48,7 @@ package body Test.Activity is
    begin
       --  Using the Activity without previously calling Activity.Start
       --  produces a fatal error.
-      Activity.Step ("This is an error");
+      Activity.Step ("Call to Step with no previous call to Start");
    end Fatal_Error;
 
 end Test.Activity;

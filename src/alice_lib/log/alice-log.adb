@@ -7,7 +7,6 @@
 -------------------------------------------------------------------------------
 
 with GNAT.IO;
-with GNAT.OS_Lib;
 
 with AnsiAda;
 with Simple_Logging;
@@ -196,31 +195,6 @@ package body Alice.Log is
       end case;
    end Set_Debug_Level;
 
-   -----------
-   -- Error --
-   -----------
-
-   procedure Error
-     (Msg       : String;
-      Exit_Code : Integer := 0;
-      Entity    : String := Enclosing_Entity;
-      Location  : String := Source_Location) is
-   begin
-      Simple_Logging.Error (Msg, Entity, Location);
-      if Exit_Code /= 0 then
-         GNAT.OS_Lib.OS_Exit (Exit_Code);
-      end if;
-   end Error;
-
-   -------------
-   -- Warning --
-   -------------
-
-   procedure Warning
-     (Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) renames Simple_Logging.Warning;
-
    ----------
    -- Info --
    ----------
@@ -235,7 +209,7 @@ package body Alice.Log is
    -----------------
 
    procedure Trace_Begin
-     (Msg      : String;
+     (Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
    is separate;
@@ -250,12 +224,22 @@ package body Alice.Log is
       Location : String := Source_Location)
    is separate;
 
+   ------------------
+   -- Trace_Return --
+   ------------------
+
+   procedure Trace_Return
+     (Msg      : String := "";
+      Entity   : String := Enclosing_Entity;
+      Location : String := Source_Location)
+   is separate;
+
    ---------------
    -- Trace_End --
    ---------------
 
    procedure Trace_End
-     (Msg      : String;
+     (Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
    is separate;

@@ -8,9 +8,9 @@
 
 separate (Alice.Log)
 procedure Trace_End
-  (Msg      : String;
+  (Msg      : String := "";
    Entity   : String := Enclosing_Entity;
    Location : String := Source_Location) is
 begin
-   Simple_Logging.Detail ("END " & Msg, Entity, Location);
+   null;
 end Trace_End;

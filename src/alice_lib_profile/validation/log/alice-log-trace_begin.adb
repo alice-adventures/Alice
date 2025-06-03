@@ -7,10 +7,10 @@
 -------------------------------------------------------------------------------
 
 separate (Alice.Log)
-procedure Trace_End
-  (Msg      : String;
+procedure Trace_Begin
+  (Msg      : String := "";
    Entity   : String := Enclosing_Entity;
    Location : String := Source_Location) is
 begin
-   Simple_Logging.Detail ("END " & Msg, Entity, Location);
-end Trace_End;
+   Simple_Logging.Detail ("BEGIN_ " & Entity & " " & Msg, Entity, Location);
+end Trace_Begin;
