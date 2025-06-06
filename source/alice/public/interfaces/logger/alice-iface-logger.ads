@@ -117,7 +117,8 @@ package Alice.IFace.Logger is
       Location : String := Source_Location)
    is abstract;
    --  Log a trace end message: debugging information, usually not shown to
-   --  the user, but useful for developers. Should be a no-op in release builds.
+   --  the user, but useful for developers. Should be a no-op in release
+   --  builds.
 
    procedure Debug
      (Self     : Object;

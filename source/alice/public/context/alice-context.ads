@@ -6,7 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.IFace.Error_Handler;
+--  with Alice.IFace.Error_Handler;
 with Alice.IFace.Logger;
 
 package Alice.Context is

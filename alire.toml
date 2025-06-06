@@ -18,8 +18,8 @@ tags = [
 ]
 
 project-files = [
-   "src/gpr/alice.gpr",
-   "src/gpr/alice_cli.gpr",
+   "source/gpr/alice.gpr",
+   "source/gpr/alice_cli.gpr",
 ]
 
 [available.'case(os)']
