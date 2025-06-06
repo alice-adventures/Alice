@@ -21,7 +21,7 @@ package body Alice.App.Query.Version is
    is
       Version : constant Result :=
         (Status  => Alice.Result.Success,
-         Version => U (Alice_Config.Crate_Version));
+         Version => UStr (Alice_Config.Crate_Version));
    begin
       Ctx.Log.Trace_Begin;
       Ctx.Log.Trace_Return (Version'Image);
@@ -33,7 +33,7 @@ package body Alice.App.Query.Version is
             R : constant Result :=
               (Status  => Alice.Result.Error,
                Level   => Alice.Result.System,
-               Message => U (Ada.Exceptions.Exception_Message (E)));
+               Message => Alice.UStr (Ada.Exceptions.Exception_Message (E)));
    end Run;
 
 end Alice.App.Query.Version;
