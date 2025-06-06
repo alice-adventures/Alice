@@ -29,7 +29,7 @@ package Alice.App.Query.Version is
    function Run
      (Self : Use_Case; Ctx : Alice.Context.Object)
       return Alice.Result.Object'Class;
-   --  This function retrieves the version of the ALICE application.
+   --  This function retrieves the version of the Alice application.
    --  It returns a result with the version information.
 
 end Alice.App.Query.Version;

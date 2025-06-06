@@ -35,7 +35,7 @@ with GNAT.Source_Info; use GNAT.Source_Info;
 package Alice.IFace.Logger is
 
    type Object is interface;
-   --  This interface defines the contract for loggers in the ALICE
+   --  This interface defines the contract for loggers in the Alice
    --  application. It allows different implementations to log messages in a
    --  consistent manner.
 

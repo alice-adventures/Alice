@@ -7,7 +7,7 @@
 -------------------------------------------------------------------------------
 
 --  This package defines the Result type used to represent the outcome of
---  operations in the ALICE application. It includes a status type, error
+--  operations in the Alice application. It includes a status type, error
 --  context, and a tagged record to encapsulate the result of an operation,
 --  including success and error cases.
 

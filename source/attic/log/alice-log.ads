@@ -6,7 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
---  This package provides a simple logging interface for the ALICE library. It
+--  This package provides a simple logging interface for the Alice library. It
 --  allows logging messages at different levels, such as Info, Detail, and
 --  Debug. The logging can be optimized for CLI or GUI applications, and the
 --  output is redirected to the standard output or standard error, depending

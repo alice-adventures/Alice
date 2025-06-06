@@ -6,7 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
---  This package defines the interface for error handlers in the ALICE
+--  This package defines the interface for error handlers in the Alice
 --  application. It allows different implementations to handle errors in a
 --  consistent manner. The error handler is responsible for processing results
 --  of type Alice.Result.Object'Class, which encapsulates the outcome of an
@@ -17,7 +17,7 @@ with Alice.Result;
 package Alice.IFace.Error_Handler is
 
    type Object is interface;
-   --  This interface defines the contract for error handlers in the ALICE
+   --  This interface defines the contract for error handlers in the Alice
    --  application. It allows different implementations to handle errors in a
    --  consistent manner.
 
