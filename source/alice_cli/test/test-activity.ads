@@ -6,16 +6,13 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.Log.Activity;
+with Alice.Context;
 
 package Test.Activity is
 
    procedure Success
-     (Activity : in out Alice.Log.Activity.Object'Class;
-      Title    : String;
-      Length   : Integer);
+     (Ctx : Alice.Context.Object; Title : String; Length : Integer);
 
-   procedure Fatal_Error
-     (Activity : in out Alice.Log.Activity.Object'Class);
+   procedure Fatal_Error (Ctx : Alice.Context.Object);
 
 end Test.Activity;

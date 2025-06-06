@@ -25,8 +25,8 @@ package Alice.IFace.Logger.Progress is
    --  The interface for the progress logger interface. It provides methods
    --  to start, stop, and log steps in an ongoing progress activity.
 
-   type Object_Access is not null access all Object;
-   --  The class type for the progress logger object access.
+   type Object_Access is not null access all Object'Class;
+   --  The access type for the progress logger object.
 
    procedure Start (Self : in out Object; Title : String) is abstract;
    --  Start a new progress logging activity with the given title.

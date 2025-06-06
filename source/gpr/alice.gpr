@@ -30,6 +30,7 @@ project Alice is
       "../alice/private/application/**",
       "../alice/private/core/**",
       "../alice/private/standard/logger/",
+      "../alice/private/standard/logger/errors/**",
       "../alice/private/standard/logger/profile/" & Profile_Dir & "/**",
       "../alice/private/standard/logger/progress/**"
    );

@@ -14,25 +14,27 @@ with Alice.App.Query.Version;
 with Alice.Context;
 with Alice.Result;
 with Alice.Std.Log;
+with Alice.Std.Log.Progress;
 
---  with Test.Activity;
+with Test.Activity;
 
 procedure Alice_CLI is
 
    --  Log : Alice.IFace.Logger.Object := Alice.Std.Log.Object;
-   Ctx : constant Alice.Context.Object := (Log => new Alice.Std.Log.Object);
+   Ctx : constant Alice.Context.Object :=
+     (Log      => new Alice.Std.Log.Object,
+      Progress => new Alice.Std.Log.Progress.Object);
 
-   --  procedure Test_Activity is
-   --     Activity : Alice.Log.Activity.CLI.Object_CLI;
-   --  begin
-   --     Test.Activity.Success (Activity, "Test number ONE ", 3);
-   --     Alice.Log.Info ("Changing activity");
-   --     delay 2.0;
-   --     Test.Activity.Success (Activity, "Test number TWO ", 2);
-   --     Alice.Log.Info ("Changing activity");
-   --     delay 2.0;
-   --     Test.Activity.Fatal_Error (Activity);
-   --  end Test_Activity;
+   procedure Test_Activity is
+   begin
+      Test.Activity.Success (Ctx, "Test number ONE ", 3);
+      Ctx.Log.Info ("Changing activity");
+      delay 2.0;
+      Test.Activity.Success (Ctx, "Test number TWO ", 2);
+      Ctx.Log.Info ("Changing activity");
+      delay 2.0;
+      Test.Activity.Fatal_Error (Ctx);
+   end Test_Activity;
    --  pragma Unreferenced (Test_Activity);
 
 begin
@@ -51,6 +53,8 @@ begin
 
    --  Put_Line ("Welcome to the Alice " & Alice.Version & " CLI
    --  application!");
+
+   Test_Activity;
 
    declare
       Query_Version : Alice.App.Query.Version.Use_Case;

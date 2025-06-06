@@ -14,6 +14,7 @@
 
 --  with Alice.IFace.Error_Handler;
 with Alice.IFace.Logger;
+with Alice.IFace.Logger.Progress;
 
 package Alice.Context is
 
@@ -25,6 +26,10 @@ package Alice.Context is
       Log : Alice.IFace.Logger.Object_Access;
       --  The logger for the application context. It is used to log messages
       --  related to the execution of use cases and other application events.
+
+      Progress : Alice.IFace.Logger.Progress.Object_Access;
+      --  The progress logger for the application context. It is used to log
+      --  progress messages related to long-running operations or tasks.
    end record;
 
    type Object_Access is not null access all Object'Class;
