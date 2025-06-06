@@ -6,8 +6,9 @@
 --
 -------------------------------------------------------------------------------
 
---  This package provides a standard implementation for the Alice application,
---  which is enough for the CLI. It is implemented on top of Simple_Logging.
+--  This package provides the standard implementation for the Alice
+--  application, which is enough for the CLI. It is implemented on top of
+--  Simple_Logging.
 
 with GNAT.Source_Info; use GNAT.Source_Info;
 

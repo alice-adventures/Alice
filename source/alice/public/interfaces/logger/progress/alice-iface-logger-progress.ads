@@ -6,6 +6,19 @@
 --
 -------------------------------------------------------------------------------
 
+--  This package specifies the interface for a progress logger in the Alice
+--  application. It provides methods to start, stop, and log steps in an
+--  ongoing progress activity. The interface is designed to be implemented by
+--  different logging backends, allowing for flexibility in how progress is
+--  reported. The `Start` method initializes a new progress activity with a
+--  title, while the `Step` method logs a step in the progress with an
+--  optional message. The `Message` method allows for additional context to be
+--  logged, and the `Stop` method concludes the progress activity. This
+--  interface is useful for tracking the progress of long-running operations,
+--  providing feedback to users, and integrating with various logging systems.
+--  The interface is designed to be used in conjunction with the Alice
+--  application context, which provides the necessary logging infrastructure.
+
 package Alice.IFace.Logger.Progress is
 
    type Object is interface;

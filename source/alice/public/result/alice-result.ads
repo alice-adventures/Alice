@@ -45,26 +45,6 @@ package Alice.Result is
    --     * Invalid GitHub account (e.g., authentication failure, account
    --       suspension)
 
-   type Exit_Code_Value is (Bug, Error, Trap, System, External);
-   for Exit_Code_Value use
-     (Bug => -1, Error => 1, Trap => 2, System => 3, External => 4);
-   --  Exit_Code represents the exit code associated with an error or
-   --  exception. When Success, it is not set because is always 0.
-   --
-   --  Values are defined as follows:
-   --    * Bug: -1, indicates a bug in the code.
-   --    * Error: 1, indicates a general error, usually at Domain level.
-   --    * Trap: 2, indicates a trap or assertion failure.
-   --    * System: 3, indicates a system-level error.
-   --    * External: 4, indicates an external error, such as a network failure
-   --      or an external API error.
-   --
-   --  It is expected that the Error_Handler will use these exit codes when
-   --  stopping the application or when reporting an error to the user. The
-   --  exit codes are not mandatory to set for every error or exception, but
-   --  they can provide additional context for an error handler to understand
-   --  the nature of the error or exception.
-
    type Object (Status : Status_Type) is tagged record
       case Status is
          when Success =>
@@ -83,21 +63,14 @@ package Alice.Result is
    --        case Status is
    --           when Success =>
    --              Data : Integer;
+   --
    --           when others =>
    --              null;
    --        end case;
    --     end record;
    --
-   --  It is expected that the caller will check the status before accessing
-   --  the additional fields. Developers should ensure that extensions are
-   --  meaningful and consistent with the operation's outcome.
-   --
-   --  Exit_Code represents the exit code associated with the error or
-   --  exception. It can be a system exit code, an application-specific code,
-   --  or a custom code defined by the operation that encountered the error.
-   --  It is not mandatory to set Exit_Code for every error or exception, but
-   --  it can provide additional context for an error handler to understand
-   --  the nature of the error or exception.
+   --  Developers should ensure that extensions are meaningful and consistent
+   --  with the operation's outcome.
 
    type Object_Access is not null access all Object'Class;
 

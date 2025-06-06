@@ -11,6 +11,13 @@
 --  consistent manner. The error handler is responsible for processing results
 --  of type Alice.Result.Object'Class, which encapsulates the outcome of an
 --  operation, including any errors that may have occurred.
+--
+--  It is expected that the error handler will determine whether an error is
+--  recoverable or not. If the error is recoverable, the Handle_Error function
+--  should return True, indicating that the operation can be retried. If the
+--  error is not recoverable, the handler should return False, indicating that
+--  the operation cannot be retried and the application should take
+--  appropriate action, such as terminating or logging the error.
 
 with Alice.Result;
 
@@ -26,15 +33,48 @@ package Alice.IFace.Error_Handler is
    --  for dynamic dispatch and polymorphism, enabling different error handler
    --  implementations to be used interchangeably.
 
+   type Exit_Code_Value is (Trap, Bug, Error, System, External);
+   for Exit_Code_Value use
+     (Trap => -2, Bug => -1, Error => 1, System => 3, External => 4);
+   --  Exit_Code represents the exit code associated with an error or
+   --  exception. When Success, it is not set because is always 0.
+   --
+   --  Values are defined as follows:
+   --    * Trap:    -2, indicates a trap or assertion failure.
+   --    * Bug:     -1, indicates a bug in the code.
+   --    * Error:    1, indicates a general error, usually at Domain level.
+   --    * System:   2, indicates a system-level error.
+   --    * External: 3, indicates an external error, such as a network failure
+   --      or an external API error.
+   --
+   --  It is expected that the Error_Handler implementation will use these
+   --  exit codes when exiting the application or when reporting an error to
+   --  the user.
+
    function Handle_Error
-     (Self : Object; Result : Alice.Result.Object_Access)
-      return Boolean
+     (Self : Object; Result : Alice.Result.Object_Access) return Boolean
    is abstract;
-   --  This function is an abstract method that must be implemented by any
-   --  concrete error handler type. It is expected to handle the provided
-   --  error and, if the error is recoverable, return True to indicate that
-   --  the operation can be retried. If the error is not recoverable, it should
-   --  return False to indicate that the operation cannot be retried and the
-   --  application should terminate or take appropriate action.
+   --  Handle the provided error and, if the error is recoverable, return True
+   --  to indicate that the operation can be retried. If the error is not
+   --  recoverable, it should return False to indicate that the operation
+   --  cannot be retried and the application should terminate or take
+   --  appropriate action. Sometimes, the error handler may also terminate the
+   --  application if the error is not recoverable, in which case it should
+   --  call the Exit_Application procedure with the appropriate result.
+   --
+   --  Usually, Trap, Bug, and System errors are not recoverable, while
+   --  Domain and External errors may be recoverable depending on the context
+   --  and the specific error handler implementation.
+
+   procedure Exit_Application
+     (Self : Object; Result : Alice.Result.Object_Access)
+   is abstract;
+   --  Exit the application with the provided result. This procedure is called
+   --  when the application determines that should be terminated due to a
+   --  non-recoverable error. It allows the application to perform any
+   --  necessary cleanup or logging before exiting. Implementations of this
+   --  procedure will use the appropriate exit code based on the result
+   --  status, such as 0 for success or a non-zero value for errors, as
+   --  defined by Exit_Code_Value.
 
 end Alice.IFace.Error_Handler;

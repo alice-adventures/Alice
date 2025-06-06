@@ -6,10 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
---  This package contains the implementation of the version query use case. It
---  resolves the current version of the application and returns it as a
---  result.
-
 with Alice_Config;
 
 package body Alice.App.Query.Version is

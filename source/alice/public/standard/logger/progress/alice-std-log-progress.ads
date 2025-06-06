@@ -6,10 +6,9 @@
 --
 -------------------------------------------------------------------------------
 
---  This package provides a standard implementation for the Alice application,
---  which  is enough for the CLI and other simple applications. It defines the
---  interface for logging activities, allowing for structured logging of
---  ongoing activities with start, step, message, and stop functionality.
+--  This package provides the standard implementation of the Alice Progress
+--  Logger interface, which  is enough for the CLI and other simple
+--  applications.
 
 with Alice.IFace.Logger.Progress;
 

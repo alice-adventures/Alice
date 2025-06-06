@@ -6,6 +6,9 @@
 --
 -------------------------------------------------------------------------------
 
+--  This package implements the version query use case for the Alice
+--  application.
+
 package Alice.App.Query.Version is
 
    type Use_Case is new Alice.App.Use_Case with null record;

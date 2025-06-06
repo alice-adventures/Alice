@@ -6,6 +6,12 @@
 --
 -------------------------------------------------------------------------------
 
+--  This package defines the Context type used to represent the application
+--  context in the Alice application. It includes a logger for logging
+--  messages and an error handler for handling errors that occur during the
+--  execution of use cases. The context is used to pass information between
+--  use cases and to manage the application's state.
+
 --  with Alice.IFace.Error_Handler;
 with Alice.IFace.Logger;
 

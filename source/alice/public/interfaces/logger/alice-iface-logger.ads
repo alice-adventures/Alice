@@ -7,7 +7,7 @@
 -------------------------------------------------------------------------------
 
 --  This package defines the Logger interface used in the Alice application.
-
+--
 --  It allows logging messages at different levels, such as Info, Detail, and
 --  Debug. The logging can be optimized for CLI or GUI applications, and the
 --  output is redirected to the standard output or standard error, depending

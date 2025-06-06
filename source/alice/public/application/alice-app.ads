@@ -6,6 +6,17 @@
 --
 -------------------------------------------------------------------------------
 
+--  This package defines the interface for all use cases in the Alice
+--  application. It provides a common structure for running use cases and
+--  handling their results. Each use case must implement the `Run` method,
+--  which takes an application context and returns a result of type
+--  `Alice.Result.Object'Class`. This allows for a consistent way to execute
+--  use cases and handle their outcomes, whether they succeed or fail.
+--  According to the CQRS (Command Query Responsibility Segregation) pattern,
+--  use cases can be categorized into commands (which change state) and
+--  queries (which retrieve data). This package serves as the foundation for
+--  implementing both types of use cases in the Alice application.
+
 with Ada.Exceptions;
 pragma Unreferenced (Ada.Exceptions);
 
@@ -15,6 +26,9 @@ with Alice.Result;
 package Alice.App is
 
    type Use_Case is interface;
+   --  Use_Case is an interface that defines the structure for all use cases
+   --  in the Alice application. It is expected that use cases will extend
+   --  this interface to add additional parameters as needed.
 
    function Run
      (Self : Use_Case; Ctx : Alice.Context.Object)
