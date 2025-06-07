@@ -8,7 +8,7 @@
 
 --  This package defines the Result type used to represent the outcome of
 --  operations in the Alice application. It includes a status type, error
---  context, and a tagged record to encapsulate the result of an operation,
+--  level, and a tagged record to encapsulate the result of an operation,
 --  including success and error cases.
 
 package Alice.Result is
@@ -23,23 +23,23 @@ package Alice.Result is
    --      exceptions that were caught during the operation.
 
    type Error_Level is (Bug, Domain, System, External);
-   --  Context Bug refers to software errors like:
+   --  Level Bug refers to software errors like:
    --     * Null pointers
    --     * Invalid internal state
    --
-   --  Context Domain refers to errors like:
+   --  Level Domain refers to errors like:
    --     * Business rule violations
    --     * Invalid user input
    --     * Resource not found
    --     * Validation failures
    --
-   --  Context System refers to errors like:
+   --  Level System refers to errors like:
    --     * Exceptions raised by the Ada runtime
    --     * Permission denied (e.g. at filesystem level)
    --     * File not found
    --     * Unable to read/write file
    --
-   --  Context External refers to errors like:
+   --  Level External refers to errors like:
    --     * No network connection
    --     * External API error
    --     * Invalid GitHub account (e.g., authentication failure, account
