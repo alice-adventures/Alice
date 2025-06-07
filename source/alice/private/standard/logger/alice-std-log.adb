@@ -128,7 +128,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Optimize_For_CLI
-     (Self : Object; With_Color_Enabled : Boolean := True) is
+     (Self : in out Object; With_Color_Enabled : Boolean := True) is
    begin
       GNAT.IO.Set_Output (GNAT.IO.Standard_Output);
       Enable_Color_Decorators (With_Color_Enabled);
@@ -143,7 +143,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Optimize_For_GUI
-     (Self : Object) --  #TODO - Add an abstract Spinner parameter
+     (Self : in out Object) --  #TODO - Add an abstract Spinner parameter
    is
    begin
       Is_Optimized_For_GUI := True;
@@ -158,7 +158,7 @@ package body Alice.Std.Log is
    -----------------
 
    overriding
-   procedure Set_Verbose_Level (Self : Object; Verbose : Boolean) is
+   procedure Set_Verbose_Level (Self : in out Object; Verbose : Boolean) is
    begin
       Simple_Logging.Level :=
         (if Verbose then Simple_Logging.Info else Simple_Logging.Warning);
@@ -170,7 +170,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Set_Trace_Level
-     (Self : Object; With_Location_Enabled : Boolean := True) is
+     (Self : in out Object; With_Location_Enabled : Boolean := True) is
    begin
       case Alice_Config.Build_Profile is
 
@@ -190,7 +190,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Set_Debug_Level
-     (Self : Object; With_Location_Enabled : Boolean := True) is
+     (Self : in out Object; With_Location_Enabled : Boolean := True) is
    begin
       case Alice_Config.Build_Profile is
 
@@ -210,7 +210,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Info
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is
@@ -224,7 +224,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Warning
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is
@@ -238,7 +238,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Trace_Begin
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is separate;
@@ -249,7 +249,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Trace
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is separate;
@@ -260,7 +260,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Trace_Return
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is separate;
@@ -271,7 +271,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Trace_End
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is separate;
@@ -282,7 +282,7 @@ package body Alice.Std.Log is
 
    overriding
    procedure Debug
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is separate;

@@ -57,7 +57,7 @@ package Alice.IFace.Error_Handler is
    --  the user.
 
    function Handle_Error
-     (Self : Object; Result : Alice.Result.Object_Access) return Boolean
+     (Self : in out Object; Result : Alice.Result.Object_Access) return Boolean
    is abstract;
    --  Handle the provided error and, if the error is recoverable, return True
    --  to indicate that the operation can be retried. If the error is not
@@ -79,7 +79,7 @@ package Alice.IFace.Error_Handler is
    --  handler's implementation.
 
    procedure Exit_Application
-     (Self : Object; Result : Alice.Result.Object_Access)
+     (Self : in out Object; Result : Alice.Result.Object_Access)
    is abstract;
    --  Exit the application with the provided result. This procedure is called
    --  when the application determines that should be terminated due to a

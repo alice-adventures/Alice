@@ -20,11 +20,12 @@ package Alice.Std.Error_Handler is
 
    overriding
    function Handle_Error
-     (Self : Object; Result : Alice.Result.Object_Access) return Boolean;
+     (Self : in out Object; Result : Alice.Result.Object_Access)
+      return Boolean;
 
    overriding
    procedure Exit_Application
-     (Self : Object; Result : Alice.Result.Object_Access);
+     (Self : in out Object; Result : Alice.Result.Object_Access);
 
    pragma No_Return (Exit_Application);
 

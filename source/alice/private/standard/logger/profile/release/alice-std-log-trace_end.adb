@@ -9,7 +9,7 @@
 separate (Alice.Std.Log)
 overriding
 procedure Trace_End
-  (Self     : Object;
+  (Self     : in out Object;
    Msg      : String := "";
    Entity   : String := Enclosing_Entity;
    Location : String := Source_Location) is

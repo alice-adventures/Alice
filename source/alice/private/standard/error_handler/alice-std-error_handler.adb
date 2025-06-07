@@ -14,7 +14,8 @@ package body Alice.Std.Error_Handler is
 
    overriding
    function Handle_Error
-     (Self : Object; Result : Alice.Result.Object_Access) return Boolean is
+     (Self : in out Object; Result : Alice.Result.Object_Access) return Boolean
+   is
    begin
       Simple_Logging.Error (Alice.Str (Result.Message));
       case Result.Status is
@@ -35,7 +36,7 @@ package body Alice.Std.Error_Handler is
 
    overriding
    procedure Exit_Application
-     (Self : Object; Result : Alice.Result.Object_Access)
+     (Self : in out Object; Result : Alice.Result.Object_Access)
    is
       use Alice.IFace.Error_Handler;
       Exit_Code : Exit_Code_Value;
@@ -60,8 +61,7 @@ package body Alice.Std.Error_Handler is
             end case;
       end case;
 
-      GNAT.OS_Lib.OS_Exit
-        (Exit_Code_Value'Enum_Rep (Exit_Code));
+      GNAT.OS_Lib.OS_Exit (Exit_Code_Value'Enum_Rep (Exit_Code));
    end Exit_Application;
 
 end Alice.Std.Error_Handler;

@@ -20,35 +20,35 @@ package Alice.Std.Log is
 
    overriding
    procedure Optimize_For_CLI
-     (Self : Object; With_Color_Enabled : Boolean := True);
+     (Self : in out Object; With_Color_Enabled : Boolean := True);
    --  Optimize the logging for CLI applications. This sets the level to
    --  Warning, redirects all messages to the standard output and enables the
    --  busy status spinner for CLI.
 
    overriding
    procedure Optimize_For_GUI
-     (Self : Object); -- #TODO - Add an abstract Spinner parameter
+     (Self : in out Object); -- #TODO - Add an abstract Spinner parameter
    --  Optimize the logging for GUI applications. This sets the level to Info
    --  (verbose), uses the instance of the busy status spinner and redirects
    --  all messages to the standard error.
 
    overriding
-   procedure Set_Verbose_Level (Self : Object; Verbose : Boolean);
+   procedure Set_Verbose_Level (Self : in out Object; Verbose : Boolean);
    --  When True, set the logging level to Info, otherwise set it to Warning.
 
    overriding
    procedure Set_Trace_Level
-     (Self : Object; With_Location_Enabled : Boolean := True);
+     (Self : in out Object; With_Location_Enabled : Boolean := True);
    --  Set the logging level to Trace. This is a no-op in release builds.
 
    overriding
    procedure Set_Debug_Level
-     (Self : Object; With_Location_Enabled : Boolean := True);
+     (Self : in out Object; With_Location_Enabled : Boolean := True);
    --  Set the logging level to Debug. This is a no-op in release builds.
 
    overriding
    procedure Info
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location);
@@ -58,7 +58,7 @@ package Alice.Std.Log is
 
    overriding
    procedure Warning
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location);
@@ -67,7 +67,7 @@ package Alice.Std.Log is
 
    overriding
    procedure Trace_Begin
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location);
@@ -77,7 +77,7 @@ package Alice.Std.Log is
 
    overriding
    procedure Trace
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location);
@@ -87,7 +87,7 @@ package Alice.Std.Log is
 
    overriding
    procedure Trace_Return
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location);
@@ -97,7 +97,7 @@ package Alice.Std.Log is
 
    overriding
    procedure Trace_End
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location);
@@ -106,7 +106,7 @@ package Alice.Std.Log is
 
    overriding
    procedure Debug
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location);

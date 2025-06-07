@@ -45,33 +45,34 @@ package Alice.IFace.Logger is
    --  implementations to be used interchangeably.
 
    procedure Optimize_For_CLI
-     (Self : Object; With_Color_Enabled : Boolean := True)
+     (Self : in out Object; With_Color_Enabled : Boolean := True)
    is abstract;
    --  Optimize the logging for CLI applications. This sets the level to
    --  Warning, redirects all messages to the standard output and enables the
    --  busy status spinner for CLI.
 
-   procedure Optimize_For_GUI (Self : Object)
+   procedure Optimize_For_GUI (Self : in out Object)
    is abstract; -- #TODO - Add an abstract Spinner parameter
    --  Optimize the logging for GUI applications. This sets the level to Info
    --  (verbose), uses the instance of the busy status spinner and redirects
    --  all messages to the standard error.
 
-   procedure Set_Verbose_Level (Self : Object; Verbose : Boolean) is abstract;
+   procedure Set_Verbose_Level (Self : in out Object; Verbose : Boolean)
+   is abstract;
    --  When True, set the logging level to Info, otherwise set it to Warning.
 
    procedure Set_Trace_Level
-     (Self : Object; With_Location_Enabled : Boolean := True)
+     (Self : in out Object; With_Location_Enabled : Boolean := True)
    is abstract;
    --  Set the logging level to Trace. Must be a no-op in release builds.
 
    procedure Set_Debug_Level
-     (Self : Object; With_Location_Enabled : Boolean := True)
+     (Self : in out Object; With_Location_Enabled : Boolean := True)
    is abstract;
    --  Set the logging level to Debug. Must be a no-op in release builds.
 
    procedure Info
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
@@ -81,7 +82,7 @@ package Alice.IFace.Logger is
    --  the verbose level in release builds.
 
    procedure Warning
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
@@ -90,7 +91,7 @@ package Alice.IFace.Logger is
    --  situation that is not an error.
 
    procedure Trace_Begin
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
@@ -100,7 +101,7 @@ package Alice.IFace.Logger is
    --  standard error. Should be a no-op in release builds.
 
    procedure Trace
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
@@ -110,7 +111,7 @@ package Alice.IFace.Logger is
    --  builds.
 
    procedure Trace_Return
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
@@ -120,7 +121,7 @@ package Alice.IFace.Logger is
    --  release builds.
 
    procedure Trace_End
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String := "";
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
@@ -130,7 +131,7 @@ package Alice.IFace.Logger is
    --  builds.
 
    procedure Debug
-     (Self     : Object;
+     (Self     : in out Object;
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location)
