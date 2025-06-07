@@ -218,6 +218,20 @@ package body Alice.Std.Log is
       Simple_Logging.Info (Msg, Entity, Location);
    end Info;
 
+   -------------
+   -- Warning --
+   -------------
+
+   overriding
+   procedure Warning
+     (Self     : Object;
+      Msg      : String;
+      Entity   : String := Enclosing_Entity;
+      Location : String := Source_Location) is
+   begin
+      Simple_Logging.Warning (Msg, Entity, Location);
+   end Warning;
+
    -----------------
    -- Trace_Begin --
    -----------------

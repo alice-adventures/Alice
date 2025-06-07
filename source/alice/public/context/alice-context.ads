@@ -12,14 +12,14 @@
 --  execution of use cases. The context is used to pass information between
 --  use cases and to manage the application's state.
 
---  with Alice.IFace.Error_Handler;
+with Alice.IFace.Error_Handler;
 with Alice.IFace.Logger;
 with Alice.IFace.Logger.Progress;
 
 package Alice.Context is
 
    type Object is tagged record
-      --  Error_Handler : Alice.IFace.Error_Handler.Object_Access;
+      Error_Handler : Alice.IFace.Error_Handler.Object_Access;
       --  The error handler for the application context. It is responsible for
       --  handling errors that occur during the execution of use cases.
 

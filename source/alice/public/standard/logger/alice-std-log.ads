@@ -57,6 +57,15 @@ package Alice.Std.Log is
    --  the verbose level in release builds.
 
    overriding
+   procedure Warning
+     (Self     : Object;
+      Msg      : String;
+      Entity   : String := Enclosing_Entity;
+      Location : String := Source_Location);
+   --  Log a warning message: a condition that indicates a potential problem
+   --  or an unexpected situation that is not an error.
+
+   overriding
    procedure Trace_Begin
      (Self     : Object;
       Msg      : String := "";

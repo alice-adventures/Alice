@@ -80,6 +80,15 @@ package Alice.IFace.Logger is
    --  error or warning. The message is sent to the standard error. This is
    --  the verbose level in release builds.
 
+   procedure Warning
+     (Self     : Object;
+      Msg      : String;
+      Entity   : String := Enclosing_Entity;
+      Location : String := Source_Location)
+   is abstract;
+   --  Log a warning message: indicates a potential problem or an unexpected
+   --  situation that is not an error.
+
    procedure Trace_Begin
      (Self     : Object;
       Msg      : String := "";

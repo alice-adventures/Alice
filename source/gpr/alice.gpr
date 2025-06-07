@@ -29,8 +29,8 @@ project Alice is
       "../alice/public/**",
       "../alice/private/application/**",
       "../alice/private/core/**",
+      "../alice/private/standard/error_handler/",
       "../alice/private/standard/logger/",
-      "../alice/private/standard/logger/errors/**",
       "../alice/private/standard/logger/profile/" & Profile_Dir & "/**",
       "../alice/private/standard/logger/progress/**"
    );

@@ -13,6 +13,7 @@ with Alice;
 with Alice.App.Query.Version;
 with Alice.Context;
 with Alice.Result;
+with Alice.Std.Error_Handler;
 with Alice.Std.Log;
 with Alice.Std.Log.Progress;
 
@@ -22,8 +23,9 @@ procedure Alice_CLI is
 
    --  Log : Alice.IFace.Logger.Object := Alice.Std.Log.Object;
    Ctx : constant Alice.Context.Object :=
-     (Log      => new Alice.Std.Log.Object,
-      Progress => new Alice.Std.Log.Progress.Object);
+     (Error_Handler => new Alice.Std.Error_Handler.Object,
+      Log           => new Alice.Std.Log.Object,
+      Progress      => new Alice.Std.Log.Progress.Object);
 
    procedure Test_Activity is
    begin
@@ -34,6 +36,10 @@ procedure Alice_CLI is
       Ctx.Log.Info ("Changing activity");
       delay 2.0;
       Test.Activity.With_Exception (Ctx);
+
+   exception
+      when E : others =>
+         Ctx.Log.Info ("Exception caught: " & Exception_Information (E));
    end Test_Activity;
    --  pragma Unreferenced (Test_Activity);
 
@@ -79,8 +85,4 @@ begin
    end;
 
    Ctx.Log.Trace_End;
-
-exception
-   when E : others =>
-      Ctx.Log.Info ("Exception caught: " & Exception_Information (E));
 end Alice_CLI;

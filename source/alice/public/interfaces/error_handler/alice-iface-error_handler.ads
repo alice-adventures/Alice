@@ -33,9 +33,14 @@ package Alice.IFace.Error_Handler is
    --  for dynamic dispatch and polymorphism, enabling different error handler
    --  implementations to be used interchangeably.
 
-   type Exit_Code_Value is (Trap, Bug, Error, System, External);
+   type Exit_Code_Value is (Trap, Bug, Success, Error, System, External);
    for Exit_Code_Value use
-     (Trap => -2, Bug => -1, Error => 1, System => 3, External => 4);
+     (Trap     => -2,
+      Bug      => -1,
+      Success  => 0,
+      Error    => 1,
+      System   => 3,
+      External => 4);
    --  Exit_Code represents the exit code associated with an error or
    --  exception. When Success, it is not set because is always 0.
    --
@@ -58,13 +63,20 @@ package Alice.IFace.Error_Handler is
    --  to indicate that the operation can be retried. If the error is not
    --  recoverable, it should return False to indicate that the operation
    --  cannot be retried and the application should terminate or take
-   --  appropriate action. Sometimes, the error handler may also terminate the
-   --  application if the error is not recoverable, in which case it should
-   --  call the Exit_Application procedure with the appropriate result.
+   --  appropriate action.
+   --
+   --  Sometimes, the error handler may also terminate the application if the
+   --  error is a bug or is not recoverable, in which case it should call the
+   --  Exit_Application procedure with the appropriate result.
    --
    --  Usually, Trap, Bug, and System errors are not recoverable, while
    --  Domain and External errors may be recoverable depending on the context
    --  and the specific error handler implementation.
+   --
+   --  This method should log the error using the appropriate logging
+   --  mechanism, or logging the error to a file or external service,
+   --  depending on the application's logging configuration and the error
+   --  handler's implementation.
 
    procedure Exit_Application
      (Self : Object; Result : Alice.Result.Object_Access)
@@ -73,7 +85,7 @@ package Alice.IFace.Error_Handler is
    --  when the application determines that should be terminated due to a
    --  non-recoverable error. It allows the application to perform any
    --  necessary cleanup or logging before exiting. Implementations of this
-   --  procedure will use the appropriate exit code based on the result
+   --  procedure should use the appropriate exit code based on the result
    --  status, such as 0 for success or a non-zero value for errors, as
    --  defined by Exit_Code_Value.
 
