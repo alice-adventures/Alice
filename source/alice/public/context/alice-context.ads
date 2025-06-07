@@ -18,7 +18,7 @@ with Alice.IFace.Logger.Progress;
 
 package Alice.Context is
 
-   type Object is tagged record
+   type Object is record
       Error_Handler : Alice.IFace.Error_Handler.Object_Access;
       --  The error handler for the application context. It is responsible for
       --  handling errors that occur during the execution of use cases.
@@ -31,9 +31,5 @@ package Alice.Context is
       --  The progress logger for the application context. It is used to log
       --  progress messages related to long-running operations or tasks.
    end record;
-
-   type Object_Access is not null access all Object'Class;
-   --  The class type for the application context. It is used to define the
-   --  type of the application context object.
 
 end Alice.Context;

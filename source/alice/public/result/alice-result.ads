@@ -72,6 +72,14 @@ package Alice.Result is
    --  Developers should ensure that extensions are meaningful and consistent
    --  with the operation's outcome.
 
-   type Object_Access is not null access all Object'Class;
+   subtype Success_Object is Object (Success);
+   --  Success_Object is a subtype of Object that represents a successful
+   --  operation. It does not contain any additional fields, as it is used to
+   --  indicate that the operation completed successfully without any errors.
+
+   subtype Error_Object is Object (Error);
+   --  Error_Object is a subtype of Object that represents an operation that
+   --  encountered an error. It contains the Level and Message fields to
+   --  provide additional information about the error that occurred.
 
 end Alice.Result;

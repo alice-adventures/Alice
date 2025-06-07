@@ -14,29 +14,22 @@ package body Alice.Std.Error_Handler is
 
    overriding
    function Handle_Error
-     (Self : in out Object; Result : Alice.Result.Object_Access) return Boolean
-   is
+     (Self : in out Object; Result : Alice.Result.Error_Object'Class)
+      return Boolean is
    begin
       Simple_Logging.Error (Alice.Str (Result.Message));
-      case Result.Status is
-         when Alice.Result.Success =>
-            null;
+      case Result.Level is
+         when Alice.Result.Bug =>
+            Self.Exit_Application (Result);
 
-         when Alice.Result.Error =>
-            case Result.Level is
-               when Alice.Result.Bug =>
-                  Self.Exit_Application (Result);
-
-               when others =>
-                  return True;
-            end case;
+         when others =>
+            return True;
       end case;
-      return False;
    end Handle_Error;
 
    overriding
    procedure Exit_Application
-     (Self : in out Object; Result : Alice.Result.Object_Access)
+     (Self : in out Object; Result : Alice.Result.Object'Class)
    is
       use Alice.IFace.Error_Handler;
       Exit_Code : Exit_Code_Value;
