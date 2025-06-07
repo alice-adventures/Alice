@@ -14,10 +14,6 @@ abstract project Alice_Common is
    Object_Dir  := "../../build/" & Alice_Config.Build_Profile & "/obj/";
    Exec_Dir    := "../../build/" & Alice_Config.Build_Profile & "/bin/";
 
-   type Alice_Library_Kind is ("relocatable", "static", "static-pic");
-   Library_Kind : Alice_Library_Kind :=
-     external ("ALICE_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));
-
    Ada_Compiler_Switches := ();
    case Alice_Config.Build_Profile is
       when "release" =>
