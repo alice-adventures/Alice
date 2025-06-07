@@ -17,15 +17,15 @@ package body Alice.Std.Log.Progress is
    procedure Free_Ongoing is new
      Ada.Unchecked_Deallocation (Simple_Logging.Ongoing'Class, Ongoing_Access);
 
-   -----------------
-   -- Fatal_Error --
-   -----------------
+   ---------
+   -- Bug --
+   ---------
 
-   procedure Fatal_Error is
+   procedure Bug is
    begin
       raise Program_Error
-        with "Activity not started, call Start before using Step or Message";
-   end Fatal_Error;
+        with "Activity not started, call Start before using other methods";
+   end Bug;
 
    -----------
    -- Start --
@@ -47,7 +47,7 @@ package body Alice.Std.Log.Progress is
    procedure Step (Self : in out Object; Message : String := "") is
    begin
       if Self.Ongoing = null then
-         Fatal_Error;
+         Bug;
       else
          Simple_Logging.Step (Self.Ongoing.all, Message);
       end if;
@@ -61,7 +61,7 @@ package body Alice.Std.Log.Progress is
    procedure Message (Self : in out Object; Message : String) is
    begin
       if Self.Ongoing = null then
-         Fatal_Error;
+         Bug;
       else
          Simple_Logging.Always (Message);
       end if;
@@ -75,7 +75,7 @@ package body Alice.Std.Log.Progress is
    procedure Stop (Self : in out Object) is
    begin
       if Self.Ongoing = null then
-         Fatal_Error;
+         Bug;
       else
          Free_Ongoing (Self.Ongoing);
       end if;

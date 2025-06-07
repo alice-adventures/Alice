@@ -8,11 +8,11 @@
 
 package body Test.Activity is
 
-   -------------
-   -- Success --
-   -------------
+   ------------------
+   -- With_Success --
+   ------------------
 
-   procedure Success
+   procedure With_Success
      (Ctx : Alice.Context.Object; Title : String; Length : Integer) is
    begin
       Ctx.Log.Trace_Begin ("Activity Test: " & Title);
@@ -35,17 +35,27 @@ package body Test.Activity is
       delay 1.0;
 
       Ctx.Log.Trace_End ("Activity Test: " & Title);
-   end Success;
+   end With_Success;
 
-   -----------------
-   -- Fatal_Error --
-   -----------------
+   ----------------
+   -- With_Error --
+   ----------------
 
-   procedure Fatal_Error (Ctx : Alice.Context.Object) is
+   procedure With_Error
+     (Ctx : Alice.Context.Object; Title : String; Length : Integer) is
+   begin
+      null;
+   end With_Error;
+
+   --------------------
+   -- With_Exception --
+   --------------------
+
+   procedure With_Exception (Ctx : Alice.Context.Object) is
    begin
       --  Using the Activity without previously calling Activity.Start
       --  produces a fatal error.
       Ctx.Progress.Step ("Call to Step with no previous call to Start");
-   end Fatal_Error;
+   end With_Exception;
 
 end Test.Activity;

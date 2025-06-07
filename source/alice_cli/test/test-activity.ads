@@ -10,9 +10,12 @@ with Alice.Context;
 
 package Test.Activity is
 
-   procedure Success
+   procedure With_Success
      (Ctx : Alice.Context.Object; Title : String; Length : Integer);
 
-   procedure Fatal_Error (Ctx : Alice.Context.Object);
+   procedure With_Error
+     (Ctx : Alice.Context.Object; Title : String; Length : Integer);
+
+   procedure With_Exception (Ctx : Alice.Context.Object);
 
 end Test.Activity;

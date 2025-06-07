@@ -27,13 +27,13 @@ procedure Alice_CLI is
 
    procedure Test_Activity is
    begin
-      Test.Activity.Success (Ctx, "Test number ONE ", 3);
+      Test.Activity.With_Success (Ctx, "Test number ONE ", 3);
       Ctx.Log.Info ("Changing activity");
       delay 2.0;
-      Test.Activity.Success (Ctx, "Test number TWO ", 2);
+      Test.Activity.With_Success (Ctx, "Test number TWO ", 2);
       Ctx.Log.Info ("Changing activity");
       delay 2.0;
-      Test.Activity.Fatal_Error (Ctx);
+      Test.Activity.With_Exception (Ctx);
    end Test_Activity;
    --  pragma Unreferenced (Test_Activity);
 
@@ -46,8 +46,8 @@ begin
    --  Ctx.Log.Set_Verbose_Level (True);
    --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => False);
    --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => True);
-   --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
-   Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
+   Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
+   --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
 
    Ctx.Log.Trace_Begin;
 
