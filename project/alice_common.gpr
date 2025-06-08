@@ -6,13 +6,13 @@
 --
 -------------------------------------------------------------------------------
 
-with "../../config/alice_config.gpr";
+with "../config/alice_config.gpr";
 
 abstract project Alice_Common is
 
-   Library_Dir := "../../build/" & Alice_Config.Build_Profile & "/lib/";
-   Object_Dir  := "../../build/" & Alice_Config.Build_Profile & "/obj/";
-   Exec_Dir    := "../../build/" & Alice_Config.Build_Profile & "/bin/";
+   Library_Dir := "../build/" & Alice_Config.Build_Profile & "/lib/";
+   Object_Dir  := "../build/" & Alice_Config.Build_Profile & "/obj/";
+   Exec_Dir    := "../build/" & Alice_Config.Build_Profile & "/bin/";
 
    Ada_Compiler_Switches := ();
    case Alice_Config.Build_Profile is
