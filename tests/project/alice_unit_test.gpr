@@ -6,7 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
-with "../config/alice_config.gpr";
+with "../config/alice_tests_config.gpr";
 
 project Alice_Unit_Test is
 
@@ -18,7 +18,7 @@ project Alice_Unit_Test is
    for Exec_Dir    use "../build/bin";
 
    package Compiler is
-      for Default_Switches ("Ada") use Alice_Config.Ada_Compiler_Switches;
+      for Default_Switches ("Ada") use Alice_Tests_Config.Ada_Compiler_Switches;
    end Compiler;
 
    package Binder is
