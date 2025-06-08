@@ -1,0 +1,48 @@
+name = "alice_tests"
+version = "0.3.1-dev"
+description = "Adventures for Learning and Inspiring Coding Excellence"
+website = "https://github.com/alice-adventures/Alice/wiki"
+
+authors = ["Francesc Rocher"]
+maintainers = ["Francesc Rocher <francesc.rocher@gmail.com>"]
+maintainers-logins = ["rocher"]
+
+licenses = "MIT"
+tags = [
+   "alice",
+   "adventures",
+   "learning",
+   "mathematics",
+   "problems",
+   "challenges",
+]
+
+project-files = [
+   "project/alice_unit_test.gpr",
+]
+
+[available.'case(os)']
+'linux' = true
+'...' = false
+
+[configuration.variables]
+Enable_Logs = { type = "boolean", default = false}
+Log_Level = { type = "Enum", values = ["Always", "Error", "Warning", "Info", "Detail", "Debug"], default = "Warning"}
+
+[build-profiles]
+# release, validation, development
+"alice" = "development"
+
+[build-switches."*"]
+# ada_version = ["-gnat2022", "-gnatW8"]
+ada_version = ["-gnat2022"]
+
+[[depends-on]]
+alice = "*"
+aunit = "^23.0.0"
+gnat = ">=2021 | (>=12 & <2000)"
+gnatcov = "^22.0.1"
+simple_logging = "^1.2.0"
+
+[[pins]]
+alice = { path = '..' }
