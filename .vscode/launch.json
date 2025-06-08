@@ -28,7 +28,7 @@
          "type": "cppdbg",
          "request": "launch",
          "name": "Ada - Build & Debug (unix)",
-         "program": "${workspaceFolder}/bin/mold_lib_tests",
+         "program": "${workspaceFolder}/${command:ada.getOrAskForProgram}",
          "cwd": "${workspaceFolder}",
          "stopAtEntry": false,
          "externalConsole": false,
