@@ -32,6 +32,7 @@ project Alice is
       "../config/",
       "../source/alice/public/**",
       "../source/alice/private/application/**",
+      "../source/alice/private/context/**",
       "../source/alice/private/core/**",
       "../source/alice/private/standard/error_handler/",
       "../source/alice/private/standard/logger/",

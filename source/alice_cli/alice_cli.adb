@@ -23,9 +23,9 @@ procedure Alice_CLI is
 
    --  Log : Alice.IFace.Logger.Object := Alice.Std.Log.Object;
    Ctx : constant Alice.Context.Object :=
-     (Error_Handler => new Alice.Std.Error_Handler.Object,
-      Log           => new Alice.Std.Log.Object,
-      Progress      => new Alice.Std.Log.Progress.Object);
+     (Err      => new Alice.Std.Error_Handler.Object,
+      Log      => new Alice.Std.Log.Object,
+      Progress => new Alice.Std.Log.Progress.Object);
 
    procedure Test_Activity is
    begin
