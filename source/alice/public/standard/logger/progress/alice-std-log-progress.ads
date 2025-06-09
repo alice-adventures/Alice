@@ -10,13 +10,24 @@
 --  Logger interface, which  is enough for the CLI and other simple
 --  applications.
 
-with Alice.IFace.Logger.Progress;
-
 with Simple_Logging;
+
+with Alice.IFace.Logger.Progress;
+with Alice.Result;
 
 package Alice.Std.Log.Progress is
 
    type Object is new Alice.IFace.Logger.Progress.Object with private;
+
+   overriding
+   function Initialize (Self : in out Object) return Alice.Result.Object'Class;
+   --  Initializes the progress logger object. This must be called when the
+   --  logger is created.
+
+   overriding
+   procedure Finalize (Self : in out Object);
+   --  Finalizes the progress logger object. This should be called when the
+   --  logger is destroyed.
 
    overriding
    procedure Start (Self : in out Object; Title : String);

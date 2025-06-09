@@ -15,8 +15,12 @@ with Alice.Result;
 package Alice.Std.Error_Handler is
 
    type Object is new Alice.IFace.Error_Handler.Object with null record;
-   --  The class type for the error handler. It is used to define the type of
-   --  the error handler object.
+
+   overriding
+   function Initialize (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   procedure Finalize (Self : in out Object);
 
    overriding
    function Handle_Error

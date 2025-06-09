@@ -13,17 +13,29 @@
 with GNAT.Source_Info; use GNAT.Source_Info;
 
 with Alice.IFace.Logger;
+with Alice.Result;
 
 package Alice.Std.Log is
 
    type Object is new Alice.IFace.Logger.Object with null record;
 
    overriding
+   function Initialize
+     (Self : in out Object) return Alice.Result.Object'Class;
+   --  Initialize the logger object. This is called when the logger is
+   --  created. It sets the default logging level to Warning (verbose off) in
+   --  release builds and to Debug in development and validation builds.
+
+   overriding
+   procedure Finalize (Self : in out Object);
+   --  Finalize the logger object. This should be called when the logger is
+   --  destroyed.
+
+   overriding
    procedure Optimize_For_CLI
      (Self : in out Object; With_Color_Enabled : Boolean := True);
    --  Optimize the logging for CLI applications. This sets the level to
-   --  Warning, redirects all messages to the standard output and enables the
-   --  busy status spinner for CLI.
+   --  Warning and redirects all messages to the standard output.
 
    overriding
    procedure Optimize_For_GUI
@@ -39,12 +51,12 @@ package Alice.Std.Log is
    overriding
    procedure Set_Trace_Level
      (Self : in out Object; With_Location_Enabled : Boolean := True);
-   --  Set the logging level to Trace. This is a no-op in release builds.
+   --  Set the logging level to Trace.
 
    overriding
    procedure Set_Debug_Level
      (Self : in out Object; With_Location_Enabled : Boolean := True);
-   --  Set the logging level to Debug. This is a no-op in release builds.
+   --  Set the logging level to Debug.
 
    overriding
    procedure Info

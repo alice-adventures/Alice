@@ -12,6 +12,31 @@ with Simple_Logging;
 
 package body Alice.Std.Error_Handler is
 
+   ----------------
+   -- Initialize --
+   ----------------
+
+   overriding
+   function Initialize (Self : in out Object) return Alice.Result.Object'Class
+   is
+   begin
+      return Result : Alice.Result.Success_Object;
+   end Initialize;
+
+   --------------
+   -- Finalize --
+   --------------
+
+   overriding
+   procedure Finalize (Self : in out Object) is
+   begin
+      null;
+   end Finalize;
+
+   ------------------
+   -- Handle_Error --
+   ------------------
+
    overriding
    function Handle_Error
      (Self : in out Object; Result : Alice.Result.Error_Object'Class)
@@ -26,6 +51,10 @@ package body Alice.Std.Error_Handler is
             return True;
       end case;
    end Handle_Error;
+
+   ----------------------
+   -- Exit_Application --
+   ----------------------
 
    overriding
    procedure Exit_Application

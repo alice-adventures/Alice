@@ -102,6 +102,7 @@ package body Alice.Std.Log is
    -----------------------------
    -- Enable_Color_Decorators --
    -----------------------------
+
    procedure Enable_Color_Decorators (Yes : Boolean := True) is
    begin
       Simple_Logging.Decorators.Level_Decorator :=
@@ -121,6 +122,34 @@ package body Alice.Std.Log is
          then Simple_Logging.Decorators.Simple_Location_Decorator'Access
          else Simple_Logging.Decorators.No_Location_Decorator'Access);
    end Enable_Location_Decorator;
+
+   ----------------
+   -- Initialize --
+   ----------------
+
+   overriding
+   function Initialize (Self : in out Object) return Alice.Result.Object'Class
+   is
+   begin
+      case Alice_Config.Build_Profile is
+         when Alice_Config.release =>
+            Self.Set_Verbose_Level (False);
+
+         when others =>
+            Self.Set_Debug_Level (True);
+      end case;
+      return Result : Alice.Result.Success_Object;
+   end Initialize;
+
+   --------------
+   -- Finalize --
+   --------------
+
+   overriding
+   procedure Finalize (Self : in out Object) is
+   begin
+      null;
+   end Finalize;
 
    ----------------------
    -- Optimize_For_CLI --
