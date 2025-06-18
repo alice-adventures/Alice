@@ -11,7 +11,9 @@
 
 package Alice.App.Query.Version is
 
-   type Use_Case is new Alice.App.Use_Case with null record;
+   type Use_Case is new Alice.App.Use_Case with record
+      Full_Text : Boolean := False;
+   end record;
    --  This type represents the use case for querying the version of the Alice
    --  application. It inherits from the Alice.App.Use_Case interface.
 
@@ -30,7 +32,7 @@ package Alice.App.Query.Version is
 
    overriding
    function Run
-     (Self : Use_Case; Ctx : Alice.Context.Object)
+     (Self : in out Use_Case; Ctx : Alice.Context.Object)
       return Alice.Result.Object'Class;
    --  This function retrieves the version of the Alice application.
    --  It returns a result with the version information.

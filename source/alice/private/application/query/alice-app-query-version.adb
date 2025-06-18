@@ -10,14 +10,21 @@ with Alice_Config;
 
 package body Alice.App.Query.Version is
 
+   ---------
+   -- Run --
+   ---------
+
    overriding
    function Run
-     (Self : Use_Case; Ctx : Alice.Context.Object)
+     (Self : in out Use_Case; Ctx : Alice.Context.Object)
       return Alice.Result.Object'Class
    is
       Version : constant Result :=
         (Status  => Alice.Result.Success,
-         Version => UStr (Alice_Config.Crate_Version));
+         Version =>
+           (if Self.Full_Text
+            then UStr ("ALICE CRATE VERSION is " & Alice_Config.Crate_Version)
+            else UStr (Alice_Config.Crate_Version)));
    begin
       Ctx.Log.Trace_Begin;
       Ctx.Log.Trace_Return (Version'Image);

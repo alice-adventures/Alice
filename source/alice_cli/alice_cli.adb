@@ -12,20 +12,34 @@ with Ada.Exceptions; use Ada.Exceptions;
 with Alice;
 with Alice.App.Query.Version;
 with Alice.Context;
+with Alice.IFace.OS_Cmd;
+with Alice.OS_Context;
 with Alice.Result;
 with Alice.Std.Error_Handler;
 with Alice.Std.Log;
 with Alice.Std.Log.Progress;
+with Alice.Std.OS_Cmd;
 
 with Test.Activity;
 
 procedure Alice_CLI is
 
-   --  Log : Alice.IFace.Logger.Object := Alice.Std.Log.Object;
+   OS_Ctx : constant Alice.OS_Context.Object :=
+     (Err => new Alice.Std.Error_Handler.Object,
+      Log => new Alice.Std.Log.Object);
+
    Ctx : constant Alice.Context.Object :=
-     (Err      => new Alice.Std.Error_Handler.Object,
-      Log      => new Alice.Std.Log.Object,
-      Progress => new Alice.Std.Log.Progress.Object);
+     (Err      => OS_Ctx.Err,
+      Log      => OS_Ctx.Log,
+      Progress => new Alice.Std.Log.Progress.Object,
+      OS_Cmd   =>
+        (Alr  => Alice.Std.OS_Cmd.New_Object ("alr"),
+         Git  => Alice.Std.OS_Cmd.New_Object ("git"),
+         Curl => Alice.Std.OS_Cmd.New_Object ("curl")));
+
+   Result    : Alice.Result.Object'Class := Alice.Result.Null_Object;
+   OS_Result : Alice.IFace.OS_Cmd.Exit_Result'Class :=
+     Alice.IFace.OS_Cmd.Null_Exit_Result;
 
    procedure Test_Activity is
    begin
@@ -44,7 +58,6 @@ procedure Alice_CLI is
    --  pragma Unreferenced (Test_Activity);
 
 begin
-
    --  Ctx.Log.Optimize_For_CLI (With_Color_Enabled => False);
    Ctx.Log.Optimize_For_CLI (With_Color_Enabled => True);
 
@@ -57,13 +70,24 @@ begin
 
    Ctx.Log.Trace_Begin;
 
+   Result := Ctx.OS_Cmd.Alr.Initialize;
+   Ctx.Log.Debug ("Initialize Alr command " & Result'Image);
+   case Result.Status is
+      when Alice.Result.Success =>
+         OS_Result := Ctx.OS_Cmd.Alr.Run ("version", OS_Ctx);
+
+      when Alice.Result.Error =>
+         --  Ctx.Err.Handle_Error (Result);
+         null;
+   end case;
+
    --  Put_Line ("Welcome to the Alice " & Alice.Version & " CLI
    --  application!");
 
    Test_Activity;
 
    declare
-      Query_Version : Alice.App.Query.Version.Use_Case;
+      Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
       Result        : constant Alice.Result.Object'Class :=
         Query_Version.Run (Ctx);
    begin

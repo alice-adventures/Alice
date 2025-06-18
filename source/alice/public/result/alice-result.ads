@@ -72,14 +72,19 @@ package Alice.Result is
    --  Developers should ensure that extensions are meaningful and consistent
    --  with the operation's outcome.
 
-   subtype Success_Object is Object (Success);
+   subtype Success_Object is Object (Status => Success);
    --  Success_Object is a subtype of Object that represents a successful
    --  operation. It does not contain any additional fields, as it is used to
    --  indicate that the operation completed successfully without any errors.
 
-   subtype Error_Object is Object (Error);
+   subtype Error_Object is Object (Status => Error);
    --  Error_Object is a subtype of Object that represents an operation that
    --  encountered an error. It contains the Level and Message fields to
    --  provide additional information about the error that occurred.
+
+   Null_Object : constant Object'Class := Object'(Status => Success);
+   --  Null_Object is a constant representing a null result object with Status
+   --  set to Success. It is used as a default value when no result is
+   --  available or when an operation does not produce a meaningful result.
 
 end Alice.Result;

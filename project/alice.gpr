@@ -37,7 +37,8 @@ project Alice is
       "../source/alice/private/standard/error_handler/",
       "../source/alice/private/standard/logger/",
       "../source/alice/private/standard/logger/profile/" & Profile_Dir & "/**",
-      "../source/alice/private/standard/logger/progress/**"
+      "../source/alice/private/standard/logger/progress/**",
+      "../source/alice/private/standard/os_command/**"
    );
    for Library_Dir use Alice_Common.Library_Dir;
    for Object_Dir  use Alice_Common.Object_Dir;

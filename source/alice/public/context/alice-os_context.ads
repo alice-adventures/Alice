@@ -17,17 +17,20 @@ with Alice.IFace.Logger;
 
 package Alice.OS_Context is
 
-   type Object is tagged record
+   type Object is record
       Err : Alice.IFace.Error_Handler.Object_Access;
-      --  The error handler for the application context. It is responsible for
-      --  handling errors that occur during the execution of use cases.
+      --  The error handler for the OS commands. It is responsible for
+      --  handling errors that occur during the execution of external ODS
+      --  commands.
 
       Log : Alice.IFace.Logger.Object_Access;
-      --  The logger for the application context. It is used to log messages
-      --  related to the execution of use cases and other application events.
+      --  The logger for the OS commands. It is used to log messages related
+      --  to the execution of external OS commands.
    end record;
 
-   procedure Init (Self : in out Object'Class) is abstract;
+   type Object_Access is access all Object;
+
+   --  procedure Init (Self : in out Object'Class);
    --  Initialize the OS context. This procedure should be called before using
    --  any OS commands or logging functionality. It sets up the error handler
    --  and logger for the context.
