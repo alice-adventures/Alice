@@ -22,9 +22,9 @@ project Alice is
    Profile_Dir := "";
    case Alice_Config.Build_Profile is
       when "release" =>
-         Profile_Dir := "release";
+         Profile_Dir := "/build_profile/release/**";
       when others =>
-         Profile_Dir := "other";
+         Profile_Dir := "/build_profile/other/**";
    end case;
 
    for Create_Missing_Dirs use "True";
@@ -34,10 +34,9 @@ project Alice is
       "../source/alice/private/application/**",
       "../source/alice/private/context/**",
       "../source/alice/private/core/**",
-      "../source/alice/private/standard/error_handler/",
-      "../source/alice/private/standard/logger/",
-      "../source/alice/private/standard/logger/profile/" & Profile_Dir & "/**",
-      "../source/alice/private/standard/logger/progress/**",
+      "../source/alice/private/standard/error_handler/**",
+      "../source/alice/private/standard/logger",
+      "../source/alice/private/standard/logger" & Profile_Dir,
       "../source/alice/private/standard/os_command/**"
    );
    for Library_Dir use Alice_Common.Library_Dir;

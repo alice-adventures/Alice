@@ -15,7 +15,7 @@
 with Alice.IFace;
 with Alice.IFace.Error_Handler;
 with Alice.IFace.Logger;
-with Alice.IFace.Logger.Progress;
+with Alice.IFace.Progress_Tracker;
 with Alice.IFace.OS_Cmd;
 
 package Alice.Context is
@@ -35,7 +35,7 @@ package Alice.Context is
       --  The logger for the application context. It is used to log messages
       --  related to the execution of use cases and other application events.
 
-      Progress : Alice.IFace.Logger.Progress.Object_Access;
+      Progress : Alice.IFace.Progress_Tracker.Object_Access;
       --  The progress logger for the application context. It is used to log
       --  progress messages related to long-running operations or tasks.
 

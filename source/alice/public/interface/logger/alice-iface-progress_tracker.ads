@@ -10,16 +10,23 @@
 --  application. It provides methods to start, stop, and log steps in an
 --  ongoing progress activity. The interface is designed to be implemented by
 --  different logging backends, allowing for flexibility in how progress is
---  reported. The `Start` method initializes a new progress activity with a
---  title, while the `Step` method logs a step in the progress with an
---  optional message. The `Message` method allows for additional context to be
---  logged, and the `Stop` method concludes the progress activity. This
---  interface is useful for tracking the progress of long-running operations,
---  providing feedback to users, and integrating with various logging systems.
---  The interface is designed to be used in conjunction with the Alice
---  application context, which provides the necessary logging infrastructure.
+--  reported.
+--
+--  The interface includes the following methods:
+--
+--     * The Start method initializes a new progress activity with a title
+--
+--     * The Step method logs a step in the progress with an optional message
+--
+--     * The `Message` method allows for additional context to be logged
+--
+--     * The `Stop` method concludes the progress activity.
+--
+--  This interface is useful for tracking the progress of long-running
+--  operations, providing feedback to users, and integrating with various
+--  logging systems.
 
-package Alice.IFace.Logger.Progress is
+package Alice.IFace.Progress_Tracker is
 
    type Object is interface and Alice.IFace.Object;
    --  The interface for the progress logger interface. It provides methods
@@ -55,4 +62,4 @@ package Alice.IFace.Logger.Progress is
    procedure Stop (Self : in out Object) is abstract;
    --  Stop the current progress logging activity.
 
-end Alice.IFace.Logger.Progress;
+end Alice.IFace.Progress_Tracker;

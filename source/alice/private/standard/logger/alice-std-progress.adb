@@ -8,7 +8,7 @@
 
 with Ada.Unchecked_Deallocation;
 
-package body Alice.Std.Log.Progress is
+package body Alice.Std.Progress is
 
    ------------------
    -- Free_Ongoing --
@@ -103,4 +103,4 @@ package body Alice.Std.Log.Progress is
       Self.Ongoing := null;
    end Stop;
 
-end Alice.Std.Log.Progress;
+end Alice.Std.Progress;

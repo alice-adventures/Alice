@@ -17,7 +17,7 @@ with Alice.OS_Context;
 with Alice.Result;
 with Alice.Std.Error_Handler;
 with Alice.Std.Log;
-with Alice.Std.Log.Progress;
+with Alice.Std.Progress;
 with Alice.Std.OS_Cmd;
 
 with Test.Activity;
@@ -31,7 +31,7 @@ procedure Alice_CLI is
    Ctx : constant Alice.Context.Object :=
      (Err      => OS_Ctx.Err,
       Log      => OS_Ctx.Log,
-      Progress => new Alice.Std.Log.Progress.Object,
+      Progress => new Alice.Std.Progress.Object,
       OS_Cmd   =>
         (Alr  => Alice.Std.OS_Cmd.New_Object ("alr"),
          Git  => Alice.Std.OS_Cmd.New_Object ("git"),

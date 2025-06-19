@@ -12,12 +12,12 @@
 
 with Simple_Logging;
 
-with Alice.IFace.Logger.Progress;
+with Alice.IFace.Progress_Tracker;
 with Alice.Result;
 
-package Alice.Std.Log.Progress is
+package Alice.Std.Progress is
 
-   type Object is new Alice.IFace.Logger.Progress.Object with private;
+   type Object is new Alice.IFace.Progress_Tracker.Object with private;
 
    overriding
    function Initialize (Self : in out Object) return Alice.Result.Object'Class;
@@ -55,8 +55,8 @@ private
 
    type Ongoing_Access is access all Simple_Logging.Ongoing'Class;
 
-   type Object is new Alice.IFace.Logger.Progress.Object with record
+   type Object is new Alice.IFace.Progress_Tracker.Object with record
       Ongoing : Ongoing_Access := null;
    end record;
 
-end Alice.Std.Log.Progress;
+end Alice.Std.Progress;
