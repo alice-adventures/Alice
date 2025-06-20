@@ -1,22 +1,22 @@
-<diagram program="umletino" version="15.1"><zoom_level>11</zoom_level><element><id>UMLPackage</id><coordinates><x>836</x><y>11</y><w>231</w><h>165</h></coordinates><panel_attributes>Alice.IFace
+<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><element><id>UMLPackage</id><coordinates><x>635</x><y>135</y><w>105</w><h>75</h></coordinates><panel_attributes>Alice.IFace
 fg=gray
-group=group-0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>858</x><y>55</y><w>187</w><h>99</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+group=group-0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>645</x><y>155</y><w>85</w><h>45</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
 Alice.IFace.Object
 --
 /+ Initialize : Alice.Result'Class/
 /+ Finalize/
 style=autoresize
 group=group-0
-fg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>341</x><y>418</y><w>286</w><h>363</h></coordinates><panel_attributes>Alice.IFace.Logger
+fg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>410</x><y>320</y><w>130</w><h>165</h></coordinates><panel_attributes>Alice.IFace.Logger
 fg=gray
-group=group-3</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>99</x><y>11</y><w>231</w><h>165</h></coordinates><panel_attributes>Alice.IFace
-fg=gray</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>121</x><y>55</y><w>187</w><h>99</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+group=group-3</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>300</x><y>135</y><w>105</w><h>75</h></coordinates><panel_attributes>Alice.IFace
+fg=gray</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>155</y><w>85</w><h>45</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
 Alice.IFace.Object
 --
 /+ Initialize : Alice.Result'Class/
 /+ Finalize/
 style=autoresize
-fg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>363</x><y>462</y><w>242</w><h>297</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+fg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>340</y><w>110</w><h>135</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
 Alice.IFace.Logger.Object
 --
 /+ Initialize : Alice.Result'Class/
@@ -35,9 +35,9 @@ Alice.IFace.Logger.Object
 /+ Debug (String, Entity, Location)/
 style=autoresize
 fg=cyan
-group=group-3</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>462</x><y>143</y><w>440</w><h>341</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>380;10;10;290</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>660</x><y>418</y><w>231</w><h>231</h></coordinates><panel_attributes>Alice.IFace.Progress
+group=group-3</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>465</x><y>195</y><w>200</w><h>155</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>380;10;10;290</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>555</x><y>320</y><w>105</w><h>105</h></coordinates><panel_attributes>Alice.IFace.Progress
 fg=gray
-group=group-4</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>682</x><y>462</y><w>187</w><h>165</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+group=group-4</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>565</x><y>340</y><w>85</w><h>75</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
 Alice.IFace.Progress.Object
 --
 /+ Initialize : Alice.Result'Class/
@@ -48,9 +48,9 @@ Alice.IFace.Progress.Object
 /+ Stop/
 style=autoresize
 fg=cyan
-group=group-4</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>143</y><w>165</w><h>341</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>130;10;10;290</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>924</x><y>418</y><w>396</w><h>198</h></coordinates><panel_attributes>Alice.IFace.Error_Handler
+group=group-4</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>605</x><y>195</y><w>75</w><h>155</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>130;10;10;290</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>675</x><y>320</y><w>180</w><h>90</h></coordinates><panel_attributes>Alice.IFace.Error_Handler
 fg=gray
-group=group-5</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>946</x><y>462</y><w>352</w><h>132</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+group=group-5</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>685</x><y>340</y><w>160</w><h>60</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
 Alice.IFace.Error_Handler.Object
 --
 /+ Initialize : Alice.Result'Class/
@@ -59,9 +59,9 @@ Alice.IFace.Error_Handler.Object
 /+ Exit_Application (Alice.Result.Object'Class)/
 style=autoresize
 fg=cyan
-group=group-5</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>968</x><y>143</y><w>33</w><h>341</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;290</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1353</x><y>418</y><w>561</w><h>374</h></coordinates><panel_attributes>Alice.IFace.OS_Cmd
+group=group-5</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>695</x><y>195</y><w>15</w><h>155</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;290</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>870</x><y>320</y><w>255</w><h>170</h></coordinates><panel_attributes>Alice.IFace.OS_Cmd
 fg=gray
-group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1375</x><y>638</y><w>407</w><h>132</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>880</x><y>420</y><w>185</w><h>60</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
 Object
 --
 /+ Initialize : Alice.Result'Class/
@@ -70,7 +70,7 @@ Object
 /+ Run (Args : String; Ctx : Alice.OS_Context.Object) : Exit_Result'Class/
 style=autoresize
 fg=cyan
-group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1375</x><y>462</y><w>242</w><h>143</h></coordinates><panel_attributes>&lt;&lt;Discriminant Record&gt;&gt;
+group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>880</x><y>340</y><w>110</w><h>65</h></coordinates><panel_attributes>&lt;&lt;Discriminant Record&gt;&gt;
 Exit_Result (Alice.Result.Status_Type)
 --
 /when Success =&gt;/
@@ -80,18 +80,18 @@ Exit_Result (Alice.Result.Status_Type)
    null
 style=autoresize
 fg=green
-group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1232</x><y>0</y><w>715</w><h>242</h></coordinates><panel_attributes>Alice.Result
-fg=gray</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1309</x><y>44</y><w>99</w><h>77</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>815</x><y>130</y><w>325</w><h>110</h></coordinates><panel_attributes>Alice.Result
+fg=gray</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>850</x><y>150</y><w>45</w><h>35</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
 Status_Type
 --
 Success, Error
 style=autoresize
-fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1254</x><y>143</y><w>209</w><h>77</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>825</x><y>195</y><w>95</w><h>35</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
 Error_Level
 --
 Bug, Domain, System, External
 style=autoresize
-fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1485</x><y>44</y><w>198</w><h>165</h></coordinates><panel_attributes>&lt;&lt;Discriminant, Tagged&gt;&gt;
+fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>930</x><y>150</y><w>90</w><h>75</h></coordinates><panel_attributes>&lt;&lt;Discriminant, Tagged&gt;&gt;
 Object (Status : Status_Type)
 --
 /when Success =&gt;/
@@ -101,30 +101,30 @@ Object (Status : Status_Type)
    Level : Error_Level
    Message : UString
 style=autoresize
-fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1738</x><y>55</y><w>187</w><h>55</h></coordinates><panel_attributes>&lt;&lt;Subtype&gt;&gt;
+fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1045</x><y>155</y><w>85</w><h>25</h></coordinates><panel_attributes>&lt;&lt;Subtype&gt;&gt;
 Success_Object (Success)
 style=autoresize
-fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1672</x><y>66</y><w>88</w><h>44</h></coordinates><panel_attributes>lt=&lt;&lt;-
-</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1738</x><y>132</y><w>143</w><h>55</h></coordinates><panel_attributes>&lt;&lt;Subtype&gt;&gt;
+fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1015</x><y>160</y><w>40</w><h>20</h></coordinates><panel_attributes>lt=&lt;&lt;-
+</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1045</x><y>190</y><w>65</w><h>25</h></coordinates><panel_attributes>&lt;&lt;Subtype&gt;&gt;
 Error_Object (Error)
 style=autoresize
-fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1672</x><y>143</y><w>88</w><h>44</h></coordinates><panel_attributes>lt=&lt;&lt;-
-</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1551</x><y>198</y><w>33</w><h>286</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1705</x><y>462</y><w>187</w><h>77</h></coordinates><panel_attributes>_Null_Exit_Status: Exit_Result_
+fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1015</x><y>195</y><w>40</w><h>20</h></coordinates><panel_attributes>lt=&lt;&lt;-
+</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>Relation</id><coordinates><x>960</x><y>220</y><w>15</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1030</x><y>340</y><w>85</w><h>35</h></coordinates><panel_attributes>_Null_Exit_Status: Exit_Result_
 --
 Status =&gt; Success
 Return_Code =&gt; 0
 style=autoresize
 fg=red
-group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1606</x><y>473</y><w>121</w><h>33</h></coordinates><panel_attributes>lt=&lt;.
+group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>985</x><y>345</y><w>55</w><h>15</h></coordinates><panel_attributes>lt=&lt;.
 fg=white
-group=group-8</panel_attributes><additional_attributes>10;10;90;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1837</x><y>330</y><w>110</w><h>77</h></coordinates><panel_attributes>Default or Null
+group=group-8</panel_attributes><additional_attributes>10;10;90;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1090</x><y>280</y><w>50</w><h>35</h></coordinates><panel_attributes>Default or Null
 value for
 Exit_Result type
 style=autoresize
 fg=yellow
-group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1804</x><y>396</y><w>66</w><h>88</h></coordinates><panel_attributes>fg=yellow
-group=group-8</panel_attributes><additional_attributes>10;60;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1012</x><y>143</y><w>407</w><h>517</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;350;450</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>308</x><y>869</y><w>308</w><h>341</h></coordinates><panel_attributes>Alice.Std.Logger
-fg=gray</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>363</x><y>33</y><w>143</w><h>176</h></coordinates><panel_attributes>Alice.Std
+group=group-8</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1075</x><y>310</y><w>30</w><h>40</h></coordinates><panel_attributes>fg=yellow
+group=group-8</panel_attributes><additional_attributes>10;60;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>715</x><y>195</y><w>185</w><h>235</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;350;450</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>395</x><y>525</y><w>140</w><h>155</h></coordinates><panel_attributes>Alice.Std.Logger
+fg=gray</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>145</y><w>65</w><h>80</h></coordinates><panel_attributes>Alice.Std
 --
 -id: Long
 _-ClassAttribute: Long_
@@ -136,7 +136,7 @@ Responsibilities
 -- Resp1
 *-- Resp2*
 style=autoresize
-fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>330</x><y>913</y><w>264</w><h>275</h></coordinates><panel_attributes>Alice.Std.Object
+fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>405</x><y>545</y><w>120</w><h>125</h></coordinates><panel_attributes>Alice.Std.Object
 --
 + Initialize : Alice.Result'Class
 + Finalize
@@ -153,6 +153,6 @@ fg=green</panel_attributes><additional_attributes></additional_attributes></elem
 + Trace_End (String, Entity, Location)
 + Debug (String, Entity, Location)
 style=autoresize
-fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>451</x><y>748</y><w>33</w><h>187</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>836</y><w>176</w><h>66</h></coordinates><panel_attributes>GNAT.Source.Info
-fg=magenta</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>154</x><y>869</y><w>198</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>18;11;160;80</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>935</y><w>176</w><h>66</h></coordinates><panel_attributes>Alice.Result
-fg=magenta</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>154</x><y>968</y><w>198</w><h>44</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>18;11;160;10</additional_attributes></element><element><id>Relation</id><coordinates><x>583</x><y>198</y><w>935</w><h>781</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>828;11;10;690</additional_attributes></element></diagram>
+fg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>470</y><w>15</w><h>85</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>255</x><y>510</y><w>80</w><h>30</h></coordinates><panel_attributes>GNAT.Source.Info
+fg=magenta</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>325</x><y>525</y><w>90</w><h>50</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>18;11;160;80</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>255</x><y>555</y><w>80</w><h>30</h></coordinates><panel_attributes>Alice.Result
+fg=magenta</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>325</x><y>570</y><w>90</w><h>15</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>18;11;160;10</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>220</y><w>425</w><h>355</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>828;11;10;690</additional_attributes></element></diagram>

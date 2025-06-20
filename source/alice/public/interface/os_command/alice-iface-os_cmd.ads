@@ -47,9 +47,10 @@ package Alice.IFace.OS_Cmd is
             Return_Code : Integer;
             --  The command exited returning a code.
             Temp_FD     : GNAT.OS_Lib.File_Descriptor;
-            --  The file descriptor of the temporary file where the output is saved.
+            --  The file descriptor of the temporary file where the output is
+            --  saved.
             Temp_File   : GNAT.OS_Lib.String_Access;
-            --  The temporary file where the output is saved.
+            --  The temporary filename where the output is saved.
 
          when Alice.Result.Error =>
             null;
@@ -58,11 +59,13 @@ package Alice.IFace.OS_Cmd is
    --  A record to hold the exit code and the output of a command. This is
    --  used when the command output is saved to a temporary file.
 
-   --  type Run_Output_Type is record
-   --     Return_Code : Integer;
-   --     Temp_FD     : GNAT.OS_Lib.File_Descriptor;
-   --     Temp_File   : GNAT.OS_Lib.String_Access;
-   --  end record;
+   Null_Output_Result : constant Output_Result :=
+     (Status      => Alice.Result.Success,
+      Return_Code => 0,
+      Temp_FD     => GNAT.OS_Lib.Null_FD,
+      Temp_File   => null);
+   --  A null result for commands. It is used as default value for variables
+   --  of type Output_Result.
 
    overriding
    function Initialize
@@ -95,13 +98,21 @@ package Alice.IFace.OS_Cmd is
    --  Run the command with the given arguments and return the command exit
    --  code. The standard output and error streams are not saved.
 
-   --  function Run (Cmd : Cmd_Type; Args : String) return Run_Output_Type;
-   --  --  Run the command with the given arguments. Return the exit code and a
-   --  --  file with the output. The standard output and error streams are saved
-   --  --  to a temporary file.
+   function Run
+     (Self : in out Object; Args : String; Ctx : Alice.OS_Context.Object)
+      return Output_Result'Class
+   is abstract;
+   --  Run the command with the given arguments. Return the exit code and a
+   --  file with the output. The standard output and error streams are saved
+   --  to a temporary file.
 
-   --  procedure Finalize (Run_Output : in out Run_Output_Type);
-   --  --  Delete temporary files and free allocated memory by the command.
+   function Cleanup
+     (Self       : in out Object;
+      Out_Result : in out Output_Result'Class;
+      Ctx        : Alice.OS_Context.Object) return Alice.Result.Object'Class
+   is abstract;
+   --  Clean the output of a command. This is used to delete temporary files
+   --  and free allocated memory by the command output.
 
 private
 

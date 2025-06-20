@@ -10,6 +10,8 @@ with Ada.Directories;
 
 package body Alice.Std.OS_Cmd is
 
+   use all type GNAT.OS_Lib.File_Descriptor;
+
    ----------------
    -- New_OS_Cmd --
    ----------------
@@ -108,5 +110,126 @@ package body Alice.Std.OS_Cmd is
          end;
       end if;
    end Run;
+
+   ---------
+   -- Run --
+   ---------
+
+   overriding
+   function Run
+     (Self : in out Object; Args : String; Ctx : Alice.OS_Context.Object)
+      return Alice.IFace.OS_Cmd.Output_Result'Class is
+   begin
+      Ctx.Log.Trace_Begin;
+      if Self.OS_Cmd_Path = null then
+         return
+            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
+              (Status  => Alice.Result.Error,
+               Level   => Alice.Result.Bug,
+               Message =>
+                 Alice.UStr
+                   ("Command '"
+                    & Alice.Str (Self.OS_Cmd_Name)
+                    & "' not initialized"))
+         do
+            Ctx.Log.Trace_Return (Result'Image);
+         end return;
+      else
+         declare
+            Arg_List : GNAT.OS_Lib.Argument_List_Access :=
+              GNAT.OS_Lib.Argument_String_To_List (Args);
+         begin
+            Ctx.Log.Trace ("Run " & Alice.Str (Self.OS_Cmd_Name) & " " & Args);
+            return
+               Result :
+                 Alice.IFace.OS_Cmd.Output_Result
+                   (Status => Alice.Result.Success)
+            do
+               GNAT.OS_Lib.Create_Temp_File (Result.Temp_FD, Result.Temp_File);
+               GNAT.OS_Lib.Spawn
+                 (Self.OS_Cmd_Path.all,
+                  Arg_List.all,
+                  Result.Temp_FD,
+                  Result.Return_Code);
+               GNAT.OS_Lib.Free (Arg_List);
+               Ctx.Log.Trace_Return (Result'Image);
+            end return;
+         end;
+      end if;
+   end Run;
+
+   -------------
+   -- Cleanup --
+   -------------
+
+   overriding
+   function Cleanup
+     (Self       : in out Object;
+      Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
+      Ctx        : Alice.OS_Context.Object) return Alice.Result.Object'Class is
+   begin
+      Ctx.Log.Trace_Begin ("Cleanup of: " & Out_Result'Image);
+
+      case Out_Result.Status is
+         when Alice.Result.Success =>
+
+            if Out_Result.Temp_File = null
+              and then Out_Result.Temp_FD = GNAT.OS_Lib.Null_FD
+            then
+               return
+                  Result : constant Alice.Result.Success_Object :=
+                    (Status => Alice.Result.Success)
+               do
+                  Ctx.Log.Trace ("No temporary file to clean up");
+                  Ctx.Log.Trace_Return (Result'Image);
+               end return;
+            else
+               declare
+                  Success : Boolean;
+               begin
+                  Ctx.Log.Trace
+                    ("Deleting temporary file " & Out_Result.Temp_File.all);
+                  GNAT.OS_Lib.Delete_File (Out_Result.Temp_File.all, Success);
+                  GNAT.OS_Lib.Free (Out_Result.Temp_File);
+                  Out_Result :=
+                    Alice.IFace.OS_Cmd.Output_Result'Class
+                      (Alice.IFace.OS_Cmd.Null_Output_Result);
+                  if Success then
+                     return
+                        Result : constant Alice.Result.Success_Object :=
+                          (Status => Alice.Result.Success)
+                     do
+                        Ctx.Log.Trace_Return (Result'Image);
+                     end return;
+                  else
+                     return
+                        Result : constant Alice.Result.Error_Object :=
+                          (Status  => Alice.Result.Error,
+                           Level   => Alice.Result.System,
+                           Message =>
+                             Alice.UStr
+                               ("Failed to delete temporary file "
+                                & Alice.Str (Self.OS_Cmd_Name)))
+                     do
+                        Ctx.Log.Trace_Return (Result'Image);
+                     end return;
+                  end if;
+               end;
+            end if;
+
+         when Alice.Result.Error =>
+            return
+               Result : constant Alice.Result.Error_Object :=
+                 (Status  => Alice.Result.Error,
+                  Level   => Alice.Result.Bug,
+                  Message =>
+                    Alice.UStr
+                      ("Unexpected status in Cleanup: "
+                       & Out_Result.Status'Image))
+            do
+               Ctx.Log.Trace_Return (Result'Image);
+            end return;
+      end case;
+   end Cleanup;
 
 end Alice.Std.OS_Cmd;

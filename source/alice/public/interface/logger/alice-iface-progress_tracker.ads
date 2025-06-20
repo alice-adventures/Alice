@@ -18,9 +18,9 @@
 --
 --     * The Step method logs a step in the progress with an optional message
 --
---     * The `Message` method allows for additional context to be logged
+--     * The Message method allows for additional context to be logged
 --
---     * The `Stop` method concludes the progress activity.
+--     * The Stop method concludes the progress activity.
 --
 --  This interface is useful for tracking the progress of long-running
 --  operations, providing feedback to users, and integrating with various

@@ -19,12 +19,20 @@ project Alice is
      external ("ALICE_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));
    for Library_Kind use Library_Type;
 
-   Profile_Dir := "";
+   Build_Host_OS_Dir := "";
+   case Alice_Config.Alire_Host_OS is
+      when "windows" =>
+         Build_Host_OS_Dir := "/build_host_os/windows/**";
+      when others =>
+         Build_Host_OS_Dir := "/build_host_os/unix/**";
+   end case;
+
+   Build_Profile_Dir := "";
    case Alice_Config.Build_Profile is
       when "release" =>
-         Profile_Dir := "/build_profile/release/**";
+         Build_Profile_Dir := "/build_profile/release/**";
       when others =>
-         Profile_Dir := "/build_profile/other/**";
+         Build_Profile_Dir := "/build_profile/other/**";
    end case;
 
    for Create_Missing_Dirs use "True";
@@ -36,7 +44,7 @@ project Alice is
       "../source/alice/private/core/**",
       "../source/alice/private/standard/error_handler/**",
       "../source/alice/private/standard/logger",
-      "../source/alice/private/standard/logger" & Profile_Dir,
+      "../source/alice/private/standard/logger" & Build_Profile_Dir,
       "../source/alice/private/standard/os_command/**"
    );
    for Library_Dir use Alice_Common.Library_Dir;
