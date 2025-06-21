@@ -14,6 +14,41 @@ package body Alice.Std.OS_Cmd is
    use all type Ada.Directories.File_Size;
    use all type GNAT.OS_Lib.File_Descriptor;
 
+   -----------------------
+   -- Error_Exit_Result --
+   -----------------------
+
+   function Error_Exit_Result
+     (Self : in out Object; Level : Alice.Result.Error_Level; Message : String)
+      return Alice.IFace.OS_Cmd.Exit_Result
+   is (Status  => Alice.Result.Error,
+       Level   => Level,
+       Message =>
+         Alice.UStr
+           ("Error in command '"
+            & Alice.Str (Self.OS_Cmd_Name)
+            & "'': "
+            & Message));
+
+   -------------------------
+   -- Error_Output_Result --
+   -------------------------
+
+   function Error_Output_Result
+     (Self : in out Object; Level : Alice.Result.Error_Level; Message : String)
+      return Alice.IFace.OS_Cmd.Output_Result
+   is (Status      => Alice.Result.Error,
+       Level       => Level,
+       Message     =>
+         Alice.UStr
+           ("Error in command '"
+            & Alice.Str (Self.OS_Cmd_Name)
+            & "'': "
+            & Message),
+       Return_Code => -1,
+       Temp_FD     => GNAT.OS_Lib.Null_FD,
+       Temp_File   => null);
+
    ----------------
    -- New_OS_Cmd --
    ----------------
@@ -82,14 +117,9 @@ package body Alice.Std.OS_Cmd is
       Ctx.Log.Trace_Begin;
       if Self.OS_Cmd_Path = null then
          return
-            Result : constant Alice.IFace.OS_Cmd.Exit_Result :=
-              (Status  => Alice.Result.Error,
-               Level   => Alice.Result.Bug,
-               Message =>
-                 Alice.UStr
-                   ("Command '"
-                    & Alice.Str (Self.OS_Cmd_Name)
-                    & "' not initialized"))
+            Result : constant Alice.IFace.OS_Cmd.Exit_Result'Class :=
+              Self.Error_Exit_Result
+                (Alice.Result.Bug, "Command not initialized")
          do
             Ctx.Log.Trace_Return (Result'Image);
          end return;
@@ -125,17 +155,9 @@ package body Alice.Std.OS_Cmd is
       Ctx.Log.Trace_Begin;
       if Self.OS_Cmd_Path = null then
          return
-            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Status      => Alice.Result.Error,
-               Level       => Alice.Result.Bug,
-               Message     =>
-                 Alice.UStr
-                   ("Command '"
-                    & Alice.Str (Self.OS_Cmd_Name)
-                    & "' not initialized"),
-               Return_Code => -1,
-               Temp_FD     => GNAT.OS_Lib.Null_FD,
-               Temp_File   => null)
+            Result : constant Alice.IFace.OS_Cmd.Output_Result'Class :=
+              Self.Error_Output_Result
+                (Alice.Result.Bug, "command not initialized")
          do
             Ctx.Log.Trace_Return (Result'Image);
          end return;
@@ -152,16 +174,8 @@ package body Alice.Std.OS_Cmd is
             if Temp_FD = GNAT.OS_Lib.Null_FD then
                return
                   Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-                    (Status      => Alice.Result.Error,
-                     Level       => Alice.Result.System,
-                     Message     =>
-                       Alice.UStr
-                         ("Failed to create temporary file for command '"
-                          & Alice.Str (Self.OS_Cmd_Name)
-                          & "'"),
-                     Return_Code => -1,
-                     Temp_FD     => GNAT.OS_Lib.Null_FD,
-                     Temp_File   => null)
+                    Self.Error_Output_Result
+                      (Alice.Result.System, "failed to create temporary file")
                do
                   Ctx.Log.Trace_Return (Result'Image);
                end return;
@@ -184,17 +198,9 @@ package body Alice.Std.OS_Cmd is
             else
                return
                   Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-                    (Status      => Alice.Result.Error,
-                     Level       => Alice.Result.System,
-                     Message     =>
-                       Alice.UStr
-                         ("Command '"
-                          & Alice.Str (Self.OS_Cmd_Name)
-                          & "' returned an error: "
-                          & Return_Code'Image),
-                     Return_Code => Return_Code,
-                     Temp_FD     => Temp_FD,
-                     Temp_File   => Temp_File)
+                    Self.Error_Output_Result
+                      (Alice.Result.System,
+                       "command returned error" & Return_Code'Image)
                do
                   Ctx.Log.Trace_Return (Result'Image);
                end return;
