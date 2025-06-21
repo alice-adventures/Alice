@@ -58,6 +58,10 @@ procedure Alice_CLI is
    --  pragma Unreferenced (Test_Activity);
 
 begin
+   Result := Ctx.OS_Cmd.Alr.Initialize;
+   Result := Ctx.OS_Cmd.Curl.Initialize;
+   Result := Ctx.OS_Cmd.Git.Initialize;
+
    --  Ctx.Log.Optimize_For_CLI (With_Color_Enabled => False);
    Ctx.Log.Optimize_For_CLI (With_Color_Enabled => True);
 
@@ -106,6 +110,15 @@ begin
               ("Error retrieving Alice version: "
                & Alice.Str (Result.Message));
       end case;
+   end;
+
+   declare
+      Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
+        Ctx.OS_Cmd.Git.Run ("remote -v", OS_Ctx);
+      Result     : Alice.Result.Object'Class := Alice.Result.Null_Object;
+   begin
+      Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
+      Result := Ctx.OS_Cmd.Git.Cleanup (Out_Result, OS_Ctx);
    end;
 
    Ctx.Log.Trace_End;

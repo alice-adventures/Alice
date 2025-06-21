@@ -22,8 +22,8 @@ package Alice.Context is
 
    type OS_Commands is record
       Alr  : Alice.IFace.OS_Cmd.Object_Access;
-      Git  : Alice.IFace.OS_Cmd.Object_Access;
       Curl : Alice.IFace.OS_Cmd.Object_Access;
+      Git  : Alice.IFace.OS_Cmd.Object_Access;
    end record;
 
    type Object is record

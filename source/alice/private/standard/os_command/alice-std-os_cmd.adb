@@ -7,9 +7,11 @@
 -------------------------------------------------------------------------------
 
 with Ada.Directories;
+with Ada.Text_IO;
 
 package body Alice.Std.OS_Cmd is
 
+   use all type Ada.Directories.File_Size;
    use all type GNAT.OS_Lib.File_Descriptor;
 
    ----------------
@@ -124,36 +126,79 @@ package body Alice.Std.OS_Cmd is
       if Self.OS_Cmd_Path = null then
          return
             Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Status  => Alice.Result.Error,
-               Level   => Alice.Result.Bug,
-               Message =>
+              (Status      => Alice.Result.Error,
+               Level       => Alice.Result.Bug,
+               Message     =>
                  Alice.UStr
                    ("Command '"
                     & Alice.Str (Self.OS_Cmd_Name)
-                    & "' not initialized"))
+                    & "' not initialized"),
+               Return_Code => -1,
+               Temp_FD     => GNAT.OS_Lib.Null_FD,
+               Temp_File   => null)
          do
             Ctx.Log.Trace_Return (Result'Image);
          end return;
       else
          declare
-            Arg_List : GNAT.OS_Lib.Argument_List_Access :=
+            Return_Code : Integer;
+            Temp_FD     : GNAT.OS_Lib.File_Descriptor := GNAT.OS_Lib.Null_FD;
+            Temp_File   : GNAT.OS_Lib.String_Access := null;
+            Arg_List    : GNAT.OS_Lib.Argument_List_Access :=
               GNAT.OS_Lib.Argument_String_To_List (Args);
          begin
             Ctx.Log.Trace ("Run " & Alice.Str (Self.OS_Cmd_Name) & " " & Args);
-            return
-               Result :
-                 Alice.IFace.OS_Cmd.Output_Result
-                   (Status => Alice.Result.Success)
-            do
-               GNAT.OS_Lib.Create_Temp_File (Result.Temp_FD, Result.Temp_File);
-               GNAT.OS_Lib.Spawn
-                 (Self.OS_Cmd_Path.all,
-                  Arg_List.all,
-                  Result.Temp_FD,
-                  Result.Return_Code);
-               GNAT.OS_Lib.Free (Arg_List);
-               Ctx.Log.Trace_Return (Result'Image);
-            end return;
+            GNAT.OS_Lib.Create_Temp_File (Temp_FD, Temp_File);
+            if Temp_FD = GNAT.OS_Lib.Null_FD then
+               return
+                  Result : constant Alice.IFace.OS_Cmd.Output_Result :=
+                    (Status      => Alice.Result.Error,
+                     Level       => Alice.Result.System,
+                     Message     =>
+                       Alice.UStr
+                         ("Failed to create temporary file for command '"
+                          & Alice.Str (Self.OS_Cmd_Name)
+                          & "'"),
+                     Return_Code => -1,
+                     Temp_FD     => GNAT.OS_Lib.Null_FD,
+                     Temp_File   => null)
+               do
+                  Ctx.Log.Trace_Return (Result'Image);
+               end return;
+            end if;
+
+            GNAT.OS_Lib.Spawn
+              (Self.OS_Cmd_Path.all, Arg_List.all, Temp_FD, Return_Code);
+            GNAT.OS_Lib.Free (Arg_List);
+
+            if Return_Code = 0 then
+               return
+                  Result : constant Alice.IFace.OS_Cmd.Output_Result :=
+                    (Status      => Alice.Result.Success,
+                     Return_Code => Return_Code,
+                     Temp_FD     => Temp_FD,
+                     Temp_File   => Temp_File)
+               do
+                  Ctx.Log.Trace_Return (Result'Image);
+               end return;
+            else
+               return
+                  Result : constant Alice.IFace.OS_Cmd.Output_Result :=
+                    (Status      => Alice.Result.Error,
+                     Level       => Alice.Result.System,
+                     Message     =>
+                       Alice.UStr
+                         ("Command '"
+                          & Alice.Str (Self.OS_Cmd_Name)
+                          & "' returned an error: "
+                          & Return_Code'Image),
+                     Return_Code => Return_Code,
+                     Temp_FD     => Temp_FD,
+                     Temp_File   => Temp_File)
+               do
+                  Ctx.Log.Trace_Return (Result'Image);
+               end return;
+            end if;
          end;
       end if;
    end Run;
@@ -168,7 +213,7 @@ package body Alice.Std.OS_Cmd is
       Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
       Ctx        : Alice.OS_Context.Object) return Alice.Result.Object'Class is
    begin
-      Ctx.Log.Trace_Begin ("Cleanup of: " & Out_Result'Image);
+      Ctx.Log.Trace_Begin (Out_Result'Image);
 
       case Out_Result.Status is
          when Alice.Result.Success =>
@@ -231,5 +276,48 @@ package body Alice.Std.OS_Cmd is
             end return;
       end case;
    end Cleanup;
+
+   procedure Debug_Output_Result
+     (Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class;
+      Ctx        : Alice.OS_Context.Object)
+   is
+      use Ada.Directories;
+      use Ada.Text_IO;
+
+      Temp_File : File_Type;
+      Lines     : Natural := 0;
+   begin
+      Ctx.Log.Trace_Begin (Out_Result'Image);
+
+      if Out_Result.Temp_File = null then
+         Ctx.Log.Debug ("No output file to print");
+      else
+         Ctx.Log.Debug
+           ("Output file: "
+            & Out_Result.Temp_File.all
+            & " (FD: "
+            & Out_Result.Temp_FD'Image
+            & ")");
+
+         if Size (Out_Result.Temp_File.all) = File_Size (0) then
+            Ctx.Log.Debug ("Output file is empty");
+         else
+            Open (Temp_File, In_File, Out_Result.Temp_File.all);
+            loop
+               declare
+                  Line : constant String := Get_Line (Temp_File);
+               begin
+                  Ctx.Log.Debug (Line);
+                  Lines := Lines + 1;
+                  exit when End_Of_File (Temp_File);
+               end;
+            end loop;
+            Ctx.Log.Debug ("[EOF] Total of" & Lines'Image & " lines");
+            Close (Temp_File);
+         end if;
+      end if;
+
+      Ctx.Log.Trace_End;
+   end Debug_Output_Result;
 
 end Alice.Std.OS_Cmd;

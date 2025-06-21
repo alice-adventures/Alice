@@ -19,15 +19,6 @@ package Alice.Std.OS_Cmd is
 
    type Object_Access is access all Object'Class;
 
-   type Run_Output_Type is record
-      Return_Code : Integer := 0;
-      Temp_FD     : GNAT.OS_Lib.File_Descriptor := GNAT.OS_Lib.Null_FD;
-      Temp_File   : GNAT.OS_Lib.String_Access := null;
-   end record;
-
-   Null_Run_Output : constant Run_Output_Type :=
-     (Return_Code => 0, Temp_FD => GNAT.OS_Lib.Null_FD, Temp_File => null);
-
    function New_Object
      (OS_Cmd_Name : String) return Alice.IFace.OS_Cmd.Object_Access;
    --  Create a new OS command object with the given name. The OS command name
@@ -59,6 +50,10 @@ package Alice.Std.OS_Cmd is
      (Self       : in out Object;
       Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
       Ctx        : Alice.OS_Context.Object) return Alice.Result.Object'Class;
+
+   procedure Debug_Output_Result
+     (Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class;
+      Ctx        : Alice.OS_Context.Object);
 
 private
 

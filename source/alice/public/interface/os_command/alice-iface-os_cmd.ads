@@ -43,17 +43,16 @@ package Alice.IFace.OS_Cmd is
      new Alice.Result.Object (Status)
    with record
       case Status is
-         when Alice.Result.Success =>
+         when Alice.Result.Success | Alice.Result.Error =>
             Return_Code : Integer;
             --  The command exited returning a code.
+
             Temp_FD     : GNAT.OS_Lib.File_Descriptor;
             --  The file descriptor of the temporary file where the output is
             --  saved.
+
             Temp_File   : GNAT.OS_Lib.String_Access;
             --  The temporary filename where the output is saved.
-
-         when Alice.Result.Error =>
-            null;
       end case;
    end record;
    --  A record to hold the exit code and the output of a command. This is
@@ -61,7 +60,7 @@ package Alice.IFace.OS_Cmd is
 
    Null_Output_Result : constant Output_Result :=
      (Status      => Alice.Result.Success,
-      Return_Code => 0,
+      Return_Code => -1,
       Temp_FD     => GNAT.OS_Lib.Null_FD,
       Temp_File   => null);
    --  A null result for commands. It is used as default value for variables
