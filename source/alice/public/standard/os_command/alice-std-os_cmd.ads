@@ -20,7 +20,8 @@ package Alice.Std.OS_Cmd is
    type Object_Access is access all Object'Class;
 
    function New_Object
-     (OS_Cmd_Name : String) return Alice.IFace.OS_Cmd.Object_Access;
+     (OS_Cmd_Name : String) return Alice.IFace.OS_Cmd.Object_Access
+   with Pre => OS_Cmd_Name /= "";
    --  Create a new OS command object with the given name. The OS command name
    --  is the name of the executable file to run, without the path. The path
    --  is searched in the system PATH environment variable. If the command
@@ -33,17 +34,35 @@ package Alice.Std.OS_Cmd is
    procedure Finalize (Self : in out Object);
 
    overriding
+   function Is_Valid (Self : in out Object) return Boolean;
+
+   overriding
    function Path (Self : in out Object) return String;
 
    overriding
    function Run
-     (Self : in out Object; Args : String; Ctx : Alice.OS_Context.Object)
-      return Alice.IFace.OS_Cmd.Exit_Result'Class;
+     (Self        : in out Object;
+      Args        : String;
+      Ctx         : Alice.OS_Context.Object;
+      Exit_Status : Integer := 0) return Alice.IFace.OS_Cmd.Exit_Result'Class
+   with Pre'Class => Self.Is_Valid;
 
    overriding
    function Run
-     (Self : in out Object; Args : String; Ctx : Alice.OS_Context.Object)
-      return Alice.IFace.OS_Cmd.Output_Result'Class;
+     (Self        : in out Object;
+      Args        : String;
+      Ctx         : Alice.OS_Context.Object;
+      Exit_Status : Integer := 0) return Alice.IFace.OS_Cmd.Output_Result'Class
+   with Pre'Class => Self.Is_Valid;
+
+   overriding
+   function Timed_Run
+     (Self        : in out Object;
+      Args        : String;
+      Ctx         : Alice.OS_Context.Object;
+      Timeout     : Duration := 10.0;
+      Exit_Status : Integer := 0) return Alice.IFace.OS_Cmd.Output_Result'Class
+   with Pre'Class => Self.Is_Valid and then Timeout > 0.0;
 
    overriding
    function Cleanup
