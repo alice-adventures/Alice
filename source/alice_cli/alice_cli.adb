@@ -114,7 +114,7 @@ begin
 
    declare
       Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-        Ctx.OS_Cmd.Git.Timed_Run ("pull", OS_Ctx, 0.01);
+        Ctx.OS_Cmd.Git.Timed_Run ("pull", OS_Ctx, 0.0001);
       Result     : Alice.Result.Object'Class := Alice.Result.Null_Object;
    begin
       Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
