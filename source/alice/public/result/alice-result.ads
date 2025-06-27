@@ -22,7 +22,7 @@ package Alice.Result is
    --      This is used to distinguish between expected errors and unexpected
    --      exceptions that were caught during the operation.
 
-   type Error_Level is (Bug, Domain, System, External);
+   type Error_Level is (Bug, Domain, Timeout, System, External);
    --  Level Bug refers to software errors like:
    --     * Null pointers
    --     * Invalid internal state
@@ -32,6 +32,10 @@ package Alice.Result is
    --     * Invalid user input
    --     * Resource not found
    --     * Validation failures
+   --
+   --  Level Timeout refers to errors like:
+   --     * Operation took too long to complete
+   --     * External service did not respond in time
    --
    --  Level System refers to errors like:
    --     * Exceptions raised by the Ada runtime

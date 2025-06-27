@@ -75,7 +75,7 @@ package body Alice.Std.Error_Handler is
                when Alice.Result.Domain =>
                   Exit_Code := Error;
 
-               when Alice.Result.System =>
+               when Alice.Result.Timeout | Alice.Result.System =>
                   Exit_Code := System;
 
                when Alice.Result.External =>

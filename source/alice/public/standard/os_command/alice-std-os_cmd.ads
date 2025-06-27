@@ -57,12 +57,11 @@ package Alice.Std.OS_Cmd is
 
    overriding
    function Timed_Run
-     (Self        : in out Object;
-      Args        : String;
-      Ctx         : Alice.OS_Context.Object;
-      Timeout     : Duration := 10.0;
-      Exit_Status : Integer := 0) return Alice.IFace.OS_Cmd.Output_Result'Class
-   with Pre'Class => Self.Is_Valid and then Timeout > 0.0;
+     (Self    : in out Object;
+      Args    : String;
+      Ctx     : Alice.OS_Context.Object;
+      Timeout : Duration := 1.0) return Alice.IFace.OS_Cmd.Output_Result'Class
+   with Pre'Class => Self.Is_Valid and then Timeout >= 1.0;
 
    overriding
    function Cleanup

@@ -131,10 +131,9 @@ package Alice.IFace.OS_Cmd is
      (Self        : in out Object;
       Args        : String;
       Ctx         : Alice.OS_Context.Object;
-      Timeout     : Duration := 10.0;
-      Exit_Status : Integer := 0) return Output_Result'Class
+      Timeout     : Duration := 1.0) return Output_Result'Class
    is abstract
-   with Pre'Class => Self.Is_Valid and then Timeout > 0.0;
+   with Pre'Class => Self.Is_Valid and then Timeout >= 1.0;
    --  Run the command with the given arguments and a timeout. If the command
    --  does not finish within the timeout, it is killed and an error is
    --  returned. The standard output and error streams are saved to a

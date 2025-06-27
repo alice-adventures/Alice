@@ -88,37 +88,44 @@ begin
    --  Put_Line ("Welcome to the Alice " & Alice.Version & " CLI
    --  application!");
 
-   Test_Activity;
+   --  Test_Activity;
 
-   declare
-      Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
-      Result        : constant Alice.Result.Object'Class :=
-        Query_Version.Run (Ctx);
-   begin
-      case Result.Status is
-         when Alice.Result.Success =>
-            declare
-               R : constant Alice.App.Query.Version.Result :=
-                 Alice.App.Query.Version.Result (Result);
-            begin
-               Put_Line ("Alice version: " & R.Version'Image);
-            end;
+   --  declare
+   --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
+   --     Result        : constant Alice.Result.Object'Class :=
+   --       Query_Version.Run (Ctx);
+   --  begin
+   --     case Result.Status is
+   --        when Alice.Result.Success =>
+   --           declare
+   --              R : constant Alice.App.Query.Version.Result :=
+   --                Alice.App.Query.Version.Result (Result);
+   --           begin
+   --              Put_Line ("Alice version: " & R.Version'Image);
+   --           end;
 
-         when Alice.Result.Error =>
-            --  #FIXME - Handle error properly with an Error_Handler object
-            Ctx.Log.Info
-              ("Error retrieving Alice version: "
-               & Alice.Str (Result.Message));
-      end case;
-   end;
+   --        when Alice.Result.Error =>
+   --           --  #FIXME - Handle error properly with an Error_Handler object
+   --           Ctx.Log.Info
+   --             ("Error retrieving Alice version: "
+   --              & Alice.Str (Result.Message));
+   --     end case;
+   --  end;
 
    declare
       Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-        Ctx.OS_Cmd.Git.Timed_Run ("pull", OS_Ctx, 0.0001);
-      Result     : Alice.Result.Object'Class := Alice.Result.Null_Object;
+        Ctx.OS_Cmd.Curl.Timed_Run
+          ("https://ftp.funet.fi/pub/Linux/mirrors/ubuntu/releases/25.04/"
+           & "ubuntu-25.04-netboot-amd64.tar.gz",
+           OS_Ctx,
+           1.0);
+      --  Result     : Alice.Result.Object'Class := Alice.Result.Null_Object;
+      Result     : constant Alice.Result.Object'Class :=
+        Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
    begin
-      Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
-      Result := Ctx.OS_Cmd.Git.Cleanup (Out_Result, OS_Ctx);
+      null;
+   --  Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
+   --  Result := Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
    end;
 
    Ctx.Log.Trace_End;
