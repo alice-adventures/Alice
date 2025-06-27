@@ -8,14 +8,14 @@
 
 with Alice.Context;
 
-package Test.Activity is
+package Test.Logger_Progress is
 
-   procedure With_Success
+   procedure Activity_With_No_Messages
      (Ctx : Alice.Context.Object; Title : String; Length : Integer);
 
-   procedure With_Error
+   procedure Activity_With_Messages
      (Ctx : Alice.Context.Object; Title : String; Length : Integer);
 
-   procedure With_Exception (Ctx : Alice.Context.Object);
+   procedure Bug_That_Throw_Exception (Ctx : Alice.Context.Object);
 
-end Test.Activity;
+end Test.Logger_Progress;

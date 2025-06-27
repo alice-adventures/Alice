@@ -20,7 +20,7 @@ with Alice.Std.Log;
 with Alice.Std.Progress;
 with Alice.Std.OS_Cmd;
 
-with Test.Activity;
+with Test.Logger_Progress;
 
 procedure Alice_CLI is
 
@@ -41,21 +41,22 @@ procedure Alice_CLI is
    OS_Result : Alice.IFace.OS_Cmd.Exit_Result'Class :=
      Alice.IFace.OS_Cmd.Null_Exit_Result;
 
-   procedure Test_Activity is
+   procedure Test_Logger_Progress is
    begin
-      Test.Activity.With_Success (Ctx, "Test number ONE ", 3);
+      Test.Logger_Progress.Activity_With_No_Messages
+        (Ctx, "Test Activity With No Messages ", 5);
       Ctx.Log.Info ("Changing activity");
       delay 2.0;
-      Test.Activity.With_Success (Ctx, "Test number TWO ", 2);
+      Test.Logger_Progress.Activity_With_Messages
+        (Ctx, "Test Activity With Messages ", 3);
       Ctx.Log.Info ("Changing activity");
       delay 2.0;
-      Test.Activity.With_Exception (Ctx);
+      Test.Logger_Progress.Bug_That_Throw_Exception (Ctx);
 
    exception
       when E : others =>
          Ctx.Log.Info ("Exception caught: " & Exception_Information (E));
-   end Test_Activity;
-   --  pragma Unreferenced (Test_Activity);
+   end Test_Logger_Progress;
 
 begin
    Result := Ctx.OS_Cmd.Alr.Initialize;
@@ -85,10 +86,9 @@ begin
          null;
    end case;
 
-   --  Put_Line ("Welcome to the Alice " & Alice.Version & " CLI
-   --  application!");
+   Put_Line ("Welcome to the Alice CLI application!");
 
-   --  Test_Activity;
+   Test_Logger_Progress;
 
    --  declare
    --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
@@ -119,7 +119,6 @@ begin
            & "ubuntu-25.04-netboot-amd64.tar.gz",
            OS_Ctx,
            1.0);
-      --  Result     : Alice.Result.Object'Class := Alice.Result.Null_Object;
       Result     : constant Alice.Result.Object'Class :=
         Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
    begin
