@@ -6,8 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Text_IO;    use Ada.Text_IO;
-with Ada.Exceptions; use Ada.Exceptions;
+with Ada.Text_IO;
 
 with Alice;
 with Alice.App.Query.Version;
@@ -20,7 +19,8 @@ with Alice.Std.Log;
 with Alice.Std.Progress;
 with Alice.Std.OS_Cmd;
 
-with Test.Logger_Progress;
+with Test.Logger;
+with Test.Progress_Tracker;
 
 procedure Alice_CLI is
 
@@ -42,21 +42,21 @@ procedure Alice_CLI is
      Alice.IFace.OS_Cmd.Null_Exit_Result;
 
 begin
-   Result := Ctx.OS_Cmd.Alr.Initialize;
-   Result := Ctx.OS_Cmd.Curl.Initialize;
-   Result := Ctx.OS_Cmd.Git.Initialize;
-
+   --  SELECT LOG LEVEL -------------------------------------------------------
    --  Ctx.Log.Optimize_For_CLI (With_Color_Enabled => False);
    Ctx.Log.Optimize_For_CLI (With_Color_Enabled => True);
 
-   --  Ctx.Log.Set_Verbose_Level (False);
-   Ctx.Log.Set_Verbose_Level (True);
+   --  Ctx.Log.SetDefault_Level;
+   Ctx.Log.Set_Verbose_Level;
    --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => False);
    --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => True);
    --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
    --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
+   --  -------------------------------------------------------------------------
 
-   Ctx.Log.Trace_Begin;
+   Result := Ctx.OS_Cmd.Alr.Initialize;
+   Result := Ctx.OS_Cmd.Curl.Initialize;
+   Result := Ctx.OS_Cmd.Git.Initialize;
 
    Result := Ctx.OS_Cmd.Alr.Initialize;
    Ctx.Log.Debug ("Initialize Alr command " & Result'Image);
@@ -69,9 +69,13 @@ begin
          null;
    end case;
 
-   Put_Line ("Welcome to the Alice CLI application!");
+   Ada.Text_IO.Put_Line ("Welcome to the Alice CLI application!");
 
-   Test.Logger_Progress.Run (Ctx);
+   Ctx.Log.Save_State;
+   Test.Logger.Run (Ctx.Log);
+   Ctx.Log.Restore_State;
+
+   Test.Progress_Tracker.Run (Ctx.Log, Ctx.Progress);
 
    --  declare
    --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);

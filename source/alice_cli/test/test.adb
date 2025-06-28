@@ -20,7 +20,16 @@ package body Test is
         (ANSI.Wrap
            (" -- " & Title & " -- ",
             ANSI.Invert,
-            ANSI.Foreground (ANSI.Cyan)));
+            ANSI.Foreground (ANSI.Light_Cyan)));
    end Title;
+
+   procedure Subtitle (Subtitle : String) is
+   begin
+      Ada.Text_IO.Put_Line
+        (ANSI.Wrap
+           (" -- " & Subtitle & " -- ",
+            ANSI.Bright,
+            ANSI.Foreground (ANSI.Cyan)));
+   end Subtitle;
 
 end Test;

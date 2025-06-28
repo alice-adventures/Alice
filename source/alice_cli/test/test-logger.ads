@@ -6,11 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.Context;
+with Alice.IFace.Logger;
 
-package Test.Logger_Progress is
+package Test.Logger is
 
-   procedure Run (Ctx : Alice.Context.Object);
-   --  Run the logger progress tests.
+   procedure Run (Log : Alice.IFace.Logger.Object_Access);
 
-end Test.Logger_Progress;
+end Test.Logger;
