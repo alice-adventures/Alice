@@ -133,7 +133,7 @@ package body Alice.Std.Log is
    begin
       case Alice_Config.Build_Profile is
          when Alice_Config.release =>
-            Self.Set_Verbose_Level (False);
+            Self.Set_Verbose_Level;
 
          when others =>
             Self.Set_Debug_Level (True);
@@ -182,15 +182,26 @@ package body Alice.Std.Log is
       Simple_Logging.ASCII_Only := True;
    end Optimize_For_GUI;
 
+   -----------------------
+   -- Set_Default_Level --
+   -----------------------
+
+   overriding
+   procedure Set_Default_Level (Self : in out Object) is
+   begin
+      Simple_Logging.Level := Simple_Logging.Warning;
+      Enable_Location_Decorator (False);
+   end Set_Default_Level;
+
    -----------------
    -- Set_Verbose --
    -----------------
 
    overriding
-   procedure Set_Verbose_Level (Self : in out Object; Verbose : Boolean) is
+   procedure Set_Verbose_Level (Self : in out Object) is
    begin
-      Simple_Logging.Level :=
-        (if Verbose then Simple_Logging.Info else Simple_Logging.Warning);
+      Simple_Logging.Level := Simple_Logging.Info;
+      Enable_Location_Decorator (False);
    end Set_Verbose_Level;
 
    ---------------------
@@ -315,5 +326,38 @@ package body Alice.Std.Log is
       Msg      : String;
       Entity   : String := Enclosing_Entity;
       Location : String := Source_Location) is separate;
+
+   --  Private, package-local saved state
+
+   Saved_Level              : Simple_Logging.Levels;
+   Saved_Level_Decorator    :
+     access function
+       (Level : Simple_Logging.Levels; Message : String) return String;
+   Saved_Location_Decorator :
+     access function (Entity, Location, Message : String) return String;
+
+   ----------------
+   -- Save_State --
+   ----------------
+
+   overriding
+   procedure Save_State (Self : in out Object) is
+   begin
+      Saved_Level := Simple_Logging.Level;
+      Saved_Level_Decorator := Simple_Logging.Decorators.Level_Decorator;
+      Saved_Location_Decorator := Simple_Logging.Decorators.Location_Decorator;
+   end Save_State;
+
+   -------------------
+   -- Restore_State --
+   -------------------
+
+   overriding
+   procedure Restore_State (Self : in out Object) is
+   begin
+      Simple_Logging.Level := Saved_Level;
+      Simple_Logging.Decorators.Level_Decorator := Saved_Level_Decorator;
+      Simple_Logging.Decorators.Location_Decorator := Saved_Location_Decorator;
+   end Restore_State;
 
 end Alice.Std.Log;

@@ -68,9 +68,12 @@ package Alice.IFace.Logger is
    --  (verbose), uses the instance of the busy status spinner and redirects
    --  all messages to the standard error.
 
-   procedure Set_Verbose_Level (Self : in out Object; Verbose : Boolean)
-   is abstract;
-   --  When True, set the logging level to Info, otherwise set it to Warning.
+   procedure Set_Default_Level (Self : in out Object) is abstract;
+   --  Set the default logging level. In development and validation builds the
+   --  default level is Debug. In release builds the default level is Warning.
+
+   procedure Set_Verbose_Level (Self : in out Object) is abstract;
+   --  Set the logging level to Verbose (aka Info).
 
    procedure Set_Trace_Level
      (Self : in out Object; With_Location_Enabled : Boolean := True)
@@ -149,5 +152,14 @@ package Alice.IFace.Logger is
    is abstract;
    --  Log a debug message: debugging information, usually not shown to the
    --  user, but useful for developers. Should be a no-op in release builds.
+
+   procedure Save_State (Self : in out Object) is abstract;
+   --  Save the current state of the logger. This is useful for restoring the
+   --  logger state after a change in the logging level or optimization.
+
+   procedure Restore_State (Self : in out Object) is abstract;
+   --  Restore the state of the logger to the last saved state. This is useful
+   --  for reverting changes made to the logger, such as changing the logging
+   --  level or optimization.
 
 end Alice.IFace.Logger;
