@@ -6,11 +6,21 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.Context;
+with Ada.Text_IO;
 
-package Test.Logger_Progress is
+with AnsiAda;
 
-   procedure Run (Ctx : Alice.Context.Object);
-   --  Run the logger progress tests.
+package body Test is
 
-end Test.Logger_Progress;
+   package ANSI renames AnsiAda;
+
+   procedure Title (Title : String) is
+   begin
+      Ada.Text_IO.Put_Line
+        (ANSI.Wrap
+           (" -- " & Title & " -- ",
+            ANSI.Invert,
+            ANSI.Foreground (ANSI.Cyan)));
+   end Title;
+
+end Test;

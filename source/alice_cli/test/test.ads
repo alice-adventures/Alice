@@ -7,5 +7,8 @@
 -------------------------------------------------------------------------------
 
 package Test is
-   pragma Pure;
+
+   procedure Title (Title : String);
+   --  Print a title in the log.
+
 end Test;

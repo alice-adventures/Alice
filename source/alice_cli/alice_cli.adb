@@ -41,23 +41,6 @@ procedure Alice_CLI is
    OS_Result : Alice.IFace.OS_Cmd.Exit_Result'Class :=
      Alice.IFace.OS_Cmd.Null_Exit_Result;
 
-   procedure Test_Logger_Progress is
-   begin
-      Test.Logger_Progress.Activity_With_No_Messages
-        (Ctx, "Test Activity With No Messages ", 5);
-      Ctx.Log.Info ("Changing activity");
-      delay 2.0;
-      Test.Logger_Progress.Activity_With_Messages
-        (Ctx, "Test Activity With Messages ", 3);
-      Ctx.Log.Info ("Changing activity");
-      delay 2.0;
-      Test.Logger_Progress.Bug_That_Throw_Exception (Ctx);
-
-   exception
-      when E : others =>
-         Ctx.Log.Info ("Exception caught: " & Exception_Information (E));
-   end Test_Logger_Progress;
-
 begin
    Result := Ctx.OS_Cmd.Alr.Initialize;
    Result := Ctx.OS_Cmd.Curl.Initialize;
@@ -67,10 +50,10 @@ begin
    Ctx.Log.Optimize_For_CLI (With_Color_Enabled => True);
 
    --  Ctx.Log.Set_Verbose_Level (False);
-   --  Ctx.Log.Set_Verbose_Level (True);
+   Ctx.Log.Set_Verbose_Level (True);
    --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => False);
    --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => True);
-   Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
+   --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
    --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
 
    Ctx.Log.Trace_Begin;
@@ -88,7 +71,7 @@ begin
 
    Put_Line ("Welcome to the Alice CLI application!");
 
-   Test_Logger_Progress;
+   Test.Logger_Progress.Run (Ctx);
 
    --  declare
    --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
