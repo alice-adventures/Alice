@@ -21,6 +21,7 @@ with Alice.Std;
 with Alice.Std.OS_Cmd;
 
 with Test.Logger;
+with Test.OS_Cmd;
 with Test.Progress_Tracker;
 
 procedure Alice_CLI is
@@ -99,6 +100,8 @@ begin
    --  Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
    --  Result := Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
    end;
+
+   Test.OS_Cmd.Run_OS_Cmd_And_Return_Success (Ctx, Ctx.OS_Cmd.Alr);
 
    Ctx.Log.Trace_End;
 end Alice_CLI;
