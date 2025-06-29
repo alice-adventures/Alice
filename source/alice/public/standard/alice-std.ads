@@ -22,6 +22,20 @@
 --  applications to provide a consistent and reliable set of functionalities
 --  according to the Clean Architecture principles.
 
+with Alice.Context;
+with Alice.OS_Context;
+
 package Alice.Std is
+
+   function Get_OS_Context return Alice.OS_Context.Object;
+   --  Get_OS_Context returns a standard OS context object that can be used to
+   --  handle errors and log messages. It initializes the error handler and
+   --  logger for the OS context.
+
+   function Get_Context return Alice.Context.Object;
+   --  Get_Context returns a standard context object that can be used to
+   --  handle errors, log messages, and execute OS commands. It initializes
+   --  the error handler, logger, progress tracker, and OS commands for the
+   --  context. The OS commands include the Alr, Git, and Curl commands.
 
 end Alice.Std;

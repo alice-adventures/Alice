@@ -113,6 +113,10 @@ package body Alice.Std.OS_Cmd is
    function Is_Valid (Self : in out Object) return Boolean
    is (Self.Path /= "");
 
+   overriding
+   function Name (Self : in out Object) return String
+   is (Str (Self.OS_Cmd_Name));
+
    ----------
    -- Path --
    ----------

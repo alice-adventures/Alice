@@ -93,6 +93,11 @@ package Alice.IFace.OS_Cmd is
    --  avoid running commands that are not available on the system, such as
    --  when the command is not installed or the command is not found in PATH.
 
+   function Name (Self : in out Object) return String is abstract;
+   --  Return the name of the OS command. This is the name of the executable
+   --  file to run, without the path. The path is searched in the system PATH
+   --  environment variable.
+
    function Path (Self : in out Object) return String is abstract;
    --  Return the PATH where the OS command is found.
 
@@ -150,15 +155,5 @@ package Alice.IFace.OS_Cmd is
    is abstract;
    --  Clean the output of a command. This is used to delete temporary files
    --  and free allocated memory by the command output.
-
-private
-
-   --  type Cmd_Type is new Ada.Finalization.Limited_Controlled with record
-   --     OS_Path : aliased GNAT.OS_Lib.String_Access := null;
-   --  end record;
-
-   --  type Object is tagged record with
-   --     Cmd_Path : aliased GNAT.OS_Lib.String_Access := null;
-   --  end record;
 
 end Alice.IFace.OS_Cmd;

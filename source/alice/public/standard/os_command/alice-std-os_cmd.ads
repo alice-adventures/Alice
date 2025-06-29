@@ -37,6 +37,9 @@ package Alice.Std.OS_Cmd is
    function Is_Valid (Self : in out Object) return Boolean;
 
    overriding
+   function Name (Self : in out Object) return String;
+
+   overriding
    function Path (Self : in out Object) return String;
 
    overriding

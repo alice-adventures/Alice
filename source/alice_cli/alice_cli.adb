@@ -14,9 +14,10 @@ with Alice.Context;
 with Alice.IFace.OS_Cmd;
 with Alice.OS_Context;
 with Alice.Result;
-with Alice.Std.Error_Handler;
-with Alice.Std.Log;
-with Alice.Std.Progress;
+with Alice.Std;
+--  with Alice.Std.Error_Handler;
+--  with Alice.Std.Log;
+--  with Alice.Std.Progress;
 with Alice.Std.OS_Cmd;
 
 with Test.Logger;
@@ -24,18 +25,8 @@ with Test.Progress_Tracker;
 
 procedure Alice_CLI is
 
-   OS_Ctx : constant Alice.OS_Context.Object :=
-     (Err => new Alice.Std.Error_Handler.Object,
-      Log => new Alice.Std.Log.Object);
-
-   Ctx : constant Alice.Context.Object :=
-     (Err      => OS_Ctx.Err,
-      Log      => OS_Ctx.Log,
-      Progress => new Alice.Std.Progress.Object,
-      OS_Cmd   =>
-        (Alr  => Alice.Std.OS_Cmd.New_Object ("alr"),
-         Git  => Alice.Std.OS_Cmd.New_Object ("git"),
-         Curl => Alice.Std.OS_Cmd.New_Object ("curl")));
+   OS_Ctx : constant Alice.OS_Context.Object := Alice.Std.Get_OS_Context;
+   Ctx    : constant Alice.Context.Object := Alice.Std.Get_Context;
 
    Result    : Alice.Result.Object'Class := Alice.Result.Null_Object;
    OS_Result : Alice.IFace.OS_Cmd.Exit_Result'Class :=
@@ -54,11 +45,6 @@ begin
    --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
    --  -------------------------------------------------------------------------
 
-   Result := Ctx.OS_Cmd.Alr.Initialize;
-   Result := Ctx.OS_Cmd.Curl.Initialize;
-   Result := Ctx.OS_Cmd.Git.Initialize;
-
-   Result := Ctx.OS_Cmd.Alr.Initialize;
    Ctx.Log.Debug ("Initialize Alr command " & Result'Image);
    case Result.Status is
       when Alice.Result.Success =>
