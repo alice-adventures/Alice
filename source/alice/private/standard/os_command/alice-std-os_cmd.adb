@@ -75,7 +75,7 @@ package body Alice.Std.OS_Cmd is
    is
    begin
       Self.OS_Cmd_Path :=
-        GNAT.OS_Lib.Locate_Exec_On_Path (Str (Self.OS_Cmd_Name));
+        GNAT.OS_Lib.Locate_Exec_On_Path (Alice.Str (Self.OS_Cmd_Name));
 
       if Self.OS_Cmd_Path = null then
          return
@@ -115,7 +115,7 @@ package body Alice.Std.OS_Cmd is
 
    overriding
    function Name (Self : in out Object) return String
-   is (Str (Self.OS_Cmd_Name));
+   is (Alice.Str (Self.OS_Cmd_Name));
 
    ----------
    -- Path --
@@ -141,7 +141,7 @@ package body Alice.Std.OS_Cmd is
         GNAT.OS_Lib.Argument_String_To_List (Args);
    begin
       Ctx.Log.Trace_Begin
-        (Str (Self.OS_Cmd_Name)
+        (Alice.Str (Self.OS_Cmd_Name)
          & ", args: '"
          & Args
          & "', expect exit status:"
@@ -189,7 +189,7 @@ package body Alice.Std.OS_Cmd is
       Temp_File     : GNAT.OS_Lib.String_Access := null;
    begin
       Ctx.Log.Trace_Begin
-        (Str (Self.OS_Cmd_Name)
+        (Alice.Str (Self.OS_Cmd_Name)
          & ", args: '"
          & Args
          & "', expect exit status:"
@@ -265,7 +265,7 @@ package body Alice.Std.OS_Cmd is
 
    begin
       Ctx.Log.Trace_Begin
-        (Str (Self.OS_Cmd_Name)
+        (Alice.Str (Self.OS_Cmd_Name)
          & ", args: '"
          & Args
          & "', max timeout: "

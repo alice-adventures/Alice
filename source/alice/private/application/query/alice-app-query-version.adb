@@ -23,8 +23,10 @@ package body Alice.App.Query.Version is
         (Status  => Alice.Result.Success,
          Version =>
            (if Self.Full_Text
-            then UStr ("ALICE CRATE VERSION is " & Alice_Config.Crate_Version)
-            else UStr (Alice_Config.Crate_Version)));
+            then
+              Alice.UStr
+                ("ALICE CRATE VERSION is " & Alice_Config.Crate_Version)
+            else Alice.UStr (Alice_Config.Crate_Version)));
    begin
       Ctx.Log.Trace_Begin;
       Ctx.Log.Trace_Return (Version'Image);

@@ -29,7 +29,10 @@ package Alice.Std.Error_Handler is
 
    overriding
    procedure Exit_Application
-     (Self : in out Object; Result : Alice.Result.Object'Class);
+     (Self    : in out Object;
+      Result  : Alice.Result.Object'Class;
+      Explain : Alice.UString := Alice.UStr (""))
+   with No_Return;
 
    pragma No_Return (Exit_Application);
 

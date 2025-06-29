@@ -42,13 +42,23 @@ package body Alice.Std.Error_Handler is
      (Self : in out Object; Result : Alice.Result.Error_Object'Class)
       return Boolean is
    begin
-      Simple_Logging.Error (Alice.Str (Result.Message));
-      case Result.Level is
-         when Alice.Result.Bug =>
-            Self.Exit_Application (Result);
+      case Result.Status is
+         when Alice.Result.Success =>
+            return False;
 
-         when others =>
-            return True;
+         when Alice.Result.Error =>
+            case Result.Level is
+               when Alice.Result.Bug =>
+                  Self.Exit_Application
+                    (Result,
+                     Alice.UStr
+                       ("A bug has been detected in the code. "
+                        & "Please report it to the developers."));
+
+               when others =>
+                  Simple_Logging.Error (Alice.Str (Result.Message));
+                  return True;
+            end case;
       end case;
    end Handle_Error;
 
@@ -58,7 +68,9 @@ package body Alice.Std.Error_Handler is
 
    overriding
    procedure Exit_Application
-     (Self : in out Object; Result : Alice.Result.Object'Class)
+     (Self    : in out Object;
+      Result  : Alice.Result.Object'Class;
+      Explain : Alice.UString := Alice.UStr (""))
    is
       use Alice.IFace.Error_Handler;
       Exit_Code : Exit_Code_Value;
@@ -68,6 +80,8 @@ package body Alice.Std.Error_Handler is
             Exit_Code := Success;
 
          when Alice.Result.Error =>
+            Simple_Logging.Error (Alice.Str (Result.Message));
+            Simple_Logging.Error (Alice.Str (Explain));
             case Result.Level is
                when Alice.Result.Bug =>
                   Exit_Code := Bug;

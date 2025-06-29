@@ -65,15 +65,13 @@ package body Alice.Std is
             Result : constant Alice.Result.Object'Class := Cmd.Initialize;
          begin
             if Result.Status = Alice.Result.Error then
-               --  #FIXME - Handle the error properly, Ctx.Err.Handle_Error
-               --  (Result); For now, we raise an exception to stop the
-               --  execution of the program. This is a temporary solution
-               --  until we have a proper error handling mechanism in place.
-               --  This is needed to avoid running commands that are not
-               --  available on the system, such as when the command is not
-               --  installed or the command is not found in PATH.
-               raise Program_Error
-                 with "Invalid OS command: " & Str (Result.Message);
+               Std_Err.Exit_Application
+                 (Result,
+                  Alice.UStr
+                    ("Make sure the command "
+                     & Cmd.Name
+                     & " is installed "
+                     & "and available in your PATH."));
             end if;
          end;
       end if;
@@ -93,7 +91,6 @@ package body Alice.Std is
             OS_Cmd   =>
               (Alr => Std_Alr_Cmd, Curl => Std_Curl_Cmd, Git => Std_Git_Cmd))
       do
-         -- Initialize the OS commands
          Init_OS_Cmd (Ctx.OS_Cmd.Alr);
          Init_OS_Cmd (Ctx.OS_Cmd.Curl);
          Init_OS_Cmd (Ctx.OS_Cmd.Git);

@@ -56,7 +56,7 @@ package Alice.Result is
 
          when Error =>
             Level   : Error_Level;
-            Message : UString;
+            Message : Alice.UString;
       end case;
    end record;
    --  If the status is Success, no additional fields are present. Alice

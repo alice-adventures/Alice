@@ -96,7 +96,9 @@ package Alice.IFace.Error_Handler is
    --  handler's implementation.
 
    procedure Exit_Application
-     (Self : in out Object; Result : Alice.Result.Object'Class)
+     (Self    : in out Object;
+      Result  : Alice.Result.Object'Class;
+      Explain : Alice.UString := Alice.UStr (""))
    is abstract;
    --  Exit the application with the provided result. This procedure is called
    --  when the application determines that should be terminated due to a

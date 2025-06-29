@@ -22,7 +22,7 @@ package Alice.App.Query.Version is
    with record
       case Status is
          when Alice.Result.Success =>
-            Version : UString;
+            Version : Alice.UString;
 
          when others =>
             null;
