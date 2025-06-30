@@ -104,7 +104,7 @@ package Alice.IFace.OS_Cmd is
    function Run
      (Self        : in out Object;
       Args        : String;
-      Ctx         : Alice.OS_Context.Object;
+      OS_Ctx      : Alice.OS_Context.Object;
       Exit_Status : Integer := 0) return Exit_Result'Class
    is abstract
    with Pre'Class => Self.Is_Valid;
@@ -123,7 +123,7 @@ package Alice.IFace.OS_Cmd is
    function Run
      (Self        : in out Object;
       Args        : String;
-      Ctx         : Alice.OS_Context.Object;
+      OS_Ctx      : Alice.OS_Context.Object;
       Exit_Status : Integer := 0) return Output_Result'Class
    is abstract
    with Pre'Class => Self.Is_Valid;
@@ -133,10 +133,10 @@ package Alice.IFace.OS_Cmd is
    --  the Exit_Status parameter, the command is considered successful.
 
    function Timed_Run
-     (Self        : in out Object;
-      Args        : String;
-      Ctx         : Alice.OS_Context.Object;
-      Timeout     : Duration := 1.0) return Output_Result'Class
+     (Self    : in out Object;
+      Args    : String;
+      OS_Ctx  : Alice.OS_Context.Object;
+      Timeout : Duration := 1.0) return Output_Result'Class
    is abstract
    with Pre'Class => Self.Is_Valid and then Timeout >= 1.0;
    --  Run the command with the given arguments and a timeout. If the command
@@ -151,7 +151,7 @@ package Alice.IFace.OS_Cmd is
    function Cleanup
      (Self       : in out Object;
       Out_Result : in out Output_Result'Class;
-      Ctx        : Alice.OS_Context.Object) return Alice.Result.Object'Class
+      OS_Ctx     : Alice.OS_Context.Object) return Alice.Result.Object'Class
    is abstract;
    --  Clean the output of a command. This is used to delete temporary files
    --  and free allocated memory by the command output.

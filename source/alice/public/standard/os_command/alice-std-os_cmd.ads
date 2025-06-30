@@ -19,9 +19,8 @@ package Alice.Std.OS_Cmd is
 
    type Object_Access is access all Object'Class;
 
-   function New_Object
-     (OS_Cmd_Name : String) return Alice.IFace.OS_Cmd.Object_Access
-   with Pre => OS_Cmd_Name /= "";
+   function New_Object (Name : String) return Alice.IFace.OS_Cmd.Object_Access
+   with Pre => Name /= "";
    --  Create a new OS command object with the given name. The OS command name
    --  is the name of the executable file to run, without the path. The path
    --  is searched in the system PATH environment variable. If the command
@@ -46,7 +45,7 @@ package Alice.Std.OS_Cmd is
    function Run
      (Self        : in out Object;
       Args        : String;
-      Ctx         : Alice.OS_Context.Object;
+      OS_Ctx      : Alice.OS_Context.Object;
       Exit_Status : Integer := 0) return Alice.IFace.OS_Cmd.Exit_Result'Class
    with Pre'Class => Self.Is_Valid;
 
@@ -54,7 +53,7 @@ package Alice.Std.OS_Cmd is
    function Run
      (Self        : in out Object;
       Args        : String;
-      Ctx         : Alice.OS_Context.Object;
+      OS_Ctx      : Alice.OS_Context.Object;
       Exit_Status : Integer := 0) return Alice.IFace.OS_Cmd.Output_Result'Class
    with Pre'Class => Self.Is_Valid;
 
@@ -62,7 +61,7 @@ package Alice.Std.OS_Cmd is
    function Timed_Run
      (Self    : in out Object;
       Args    : String;
-      Ctx     : Alice.OS_Context.Object;
+      OS_Ctx  : Alice.OS_Context.Object;
       Timeout : Duration := 1.0) return Alice.IFace.OS_Cmd.Output_Result'Class
    with Pre'Class => Self.Is_Valid and then Timeout >= 1.0;
 
@@ -70,17 +69,17 @@ package Alice.Std.OS_Cmd is
    function Cleanup
      (Self       : in out Object;
       Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
-      Ctx        : Alice.OS_Context.Object) return Alice.Result.Object'Class;
+      OS_Ctx     : Alice.OS_Context.Object) return Alice.Result.Object'Class;
 
    procedure Debug_Output_Result
      (Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class;
-      Ctx        : Alice.OS_Context.Object);
+      OS_Ctx     : Alice.OS_Context.Object);
 
 private
 
    type Object is new Alice.IFace.OS_Cmd.Object with record
-      OS_Cmd_Name : Alice.UString;
-      OS_Cmd_Path : GNAT.OS_Lib.String_Access := null;
+      Name : Alice.UString;
+      Path : GNAT.OS_Lib.String_Access := null;
    end record;
 
 end Alice.Std.OS_Cmd;
