@@ -9,7 +9,7 @@
 with Ada.Text_IO;
 
 with Alice;
-with Alice.App.Query.Version;
+--  with Alice.App.Query.Version;
 with Alice.Context;
 with Alice.IFace.OS_Cmd;
 with Alice.OS_Context;
@@ -18,7 +18,7 @@ with Alice.Std;
 --  with Alice.Std.Error_Handler;
 --  with Alice.Std.Log;
 --  with Alice.Std.Progress;
-with Alice.Std.OS_Cmd;
+--  with Alice.Std.OS_Cmd;
 
 with Test.Logger;
 with Test.OS_Cmd;
@@ -64,6 +64,8 @@ begin
 
    Test.Progress_Tracker.Run (Ctx.Log, Ctx.Progress);
 
+   Test.OS_Cmd.Run (OS_Ctx);
+
    --  declare
    --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
    --     Result        : constant Alice.Result.Object'Class :=
@@ -100,8 +102,6 @@ begin
    --  Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
    --  Result := Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
    end;
-
-   Test.OS_Cmd.Run_OS_Cmd_And_Return_Success (Ctx, Ctx.OS_Cmd.Alr);
 
    Ctx.Log.Trace_End;
 end Alice_CLI;
