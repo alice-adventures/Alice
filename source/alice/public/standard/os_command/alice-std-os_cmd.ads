@@ -71,8 +71,10 @@ package Alice.Std.OS_Cmd is
       Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
       OS_Ctx     : Alice.OS_Context.Object) return Alice.Result.Object'Class;
 
+   overriding
    procedure Debug_Output_Result
-     (Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class;
+     (Self       : in out Object;
+      Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
       OS_Ctx     : Alice.OS_Context.Object);
 
 private

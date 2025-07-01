@@ -384,6 +384,7 @@ package body Alice.Std.OS_Cmd is
                end if;
             end if;
 
+            --  #FIXME - Handle this case properly
             --  when Alice.Result.Error =>
             --     return
             --        Result : constant Alice.Result.Error_Object :=
@@ -403,8 +404,10 @@ package body Alice.Std.OS_Cmd is
    -- Debug_Output_Result --
    -------------------------
 
+   overriding
    procedure Debug_Output_Result
-     (Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class;
+     (Self       : in out Object;
+      Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
       OS_Ctx     : Alice.OS_Context.Object)
    is
       use Ada.Directories;
@@ -413,7 +416,7 @@ package body Alice.Std.OS_Cmd is
       Temp_File : File_Type;
       Lines     : Natural := 0;
    begin
-      OS_Ctx.Log.Trace_Begin (Out_Result'Image);
+      --  OS_Ctx.Log.Trace_Begin (Out_Result'Image);
 
       if Out_Result.Temp_File = null then
          OS_Ctx.Log.Debug ("No output file to print");
@@ -441,7 +444,7 @@ package body Alice.Std.OS_Cmd is
          end if;
       end if;
 
-      OS_Ctx.Log.Trace_End;
+      --  OS_Ctx.Log.Trace_End;
    end Debug_Output_Result;
 
 end Alice.Std.OS_Cmd;

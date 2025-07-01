@@ -156,4 +156,13 @@ package Alice.IFace.OS_Cmd is
    --  Clean the output of a command. This is used to delete temporary files
    --  and free allocated memory by the command output.
 
+   procedure Debug_Output_Result
+     (Self       : in out Object;
+      Out_Result : in out Output_Result'Class;
+      OS_Ctx     : Alice.OS_Context.Object)
+   is abstract;
+   --  Debug the output of a command. This is used to print the output of the
+   --  command to the log. It is useful for debugging purposes to see the
+   --  output of the command and check if it is correct. The output is printed
+   --  to the log with the debug level.
 end Alice.IFace.OS_Cmd;

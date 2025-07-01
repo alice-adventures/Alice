@@ -95,9 +95,8 @@ package body Test.Progress is
          Test.Pass;
 
       when E : others =>
-         Log.Warning
+         Test.Fail
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
-         Test.Fail;
    end Bug_That_Throw_Exception;
 
    ---------
