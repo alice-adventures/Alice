@@ -26,18 +26,16 @@ package body Test.OS_Cmd is
       use all type Alice.Result.Status_Type;
    begin
       Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
-      declare
-         Result : constant Alice.IFace.OS_Cmd.Exit_Result'Class :=
-           OS_Cmd.Run (Args, OS_Ctx);
-      begin
-         if Result.Status = Expect then
-            OS_Ctx.Log.Info
-              ("Success, exit status:" & Result.Exit_Status'Image);
-         else
-            OS_Ctx.Log.Warning
-              ("Failed, exit status:" & Result.Exit_Status'Image);
-         end if;
-      end;
+
+      Result : constant Alice.IFace.OS_Cmd.Exit_Result'Class :=
+        OS_Cmd.Run (Args, OS_Ctx);
+
+      if Result.Status = Expect then
+         OS_Ctx.Log.Info ("Success, exit status:" & Result.Exit_Status'Image);
+      else
+         OS_Ctx.Log.Warning
+           ("Failed, exit status:" & Result.Exit_Status'Image);
+      end if;
    end Run_OS_Cmd_With_Exit_Result;
 
    procedure Run_OS_Cmd_With_Output_Result
@@ -49,18 +47,16 @@ package body Test.OS_Cmd is
       use all type Alice.Result.Status_Type;
    begin
       Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
-      declare
-         Result : constant Alice.IFace.OS_Cmd.Output_Result'Class :=
-           OS_Cmd.Run (Args, OS_Ctx);
-      begin
-         if Result.Status = Expect then
-            OS_Ctx.Log.Info
-              ("Success, exit status:" & Result.Exit_Status'Image);
-         else
-            OS_Ctx.Log.Warning
-              ("Failed, exit status:" & Result.Exit_Status'Image);
-         end if;
-      end;
+
+      Result : constant Alice.IFace.OS_Cmd.Output_Result'Class :=
+        OS_Cmd.Run (Args, OS_Ctx);
+
+      if Result.Status = Expect then
+         OS_Ctx.Log.Info ("Success, exit status:" & Result.Exit_Status'Image);
+      else
+         OS_Ctx.Log.Warning
+           ("Failed, exit status:" & Result.Exit_Status'Image);
+      end if;
    end Run_OS_Cmd_With_Output_Result;
 
    -----------------------------------
@@ -107,12 +103,10 @@ package body Test.OS_Cmd is
       OS_Ctx : Alice.OS_Context.Object) is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
-      declare
-         Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-           OS_Cmd.Timed_Run ("--version", OS_Ctx, 5.0);
-      begin
-         null;
-      end;
+
+      Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
+        OS_Cmd.Timed_Run ("--version", OS_Ctx, 5.0);
+
    end Timed_Run_Os_Cmd_And_Finish_In_Time;
 
    ----------------------------------
@@ -125,15 +119,13 @@ package body Test.OS_Cmd is
       OS_Ctx : Alice.OS_Context.Object) is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
-      declare
-         -- This command is expected to sleep for 10 seconds, which is longer
-         -- than the timeout of 5 seconds.
-         -- The command should return an error due to timeout.
-         Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-           OS_Cmd.Timed_Run ("--sleep=10", OS_Ctx, 5.0);
-      begin
-         null;
-      end;
+
+      -- This command is expected to sleep for 10 seconds, which is longer
+      -- than the timeout of 5 seconds. The command should return an error due
+      -- to timeout.
+      Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
+        OS_Cmd.Timed_Run ("--sleep=10", OS_Ctx, 5.0);
+
    end Timed_Run_Os_Cmd_And_Timeout;
 
    ---------

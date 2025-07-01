@@ -277,28 +277,28 @@ package body Alice.Std.OS_Cmd is
         GNAT.OS_Lib.Non_Blocking_Spawn
           (Self.Path.all, Arg_List.all, Temp_FD, True);
 
-      declare
-         Finished       : Boolean := False;
-         Remaining_Time : Duration := Timeout;
-         Δ_Time         : constant Duration := Timeout / 10.0;
-      begin
-         loop
-            exit when Remaining_Time <= 0.0 or else Finished;
-            delay Δ_Time;
-            Remaining_Time := @ - Δ_Time;
+      Finished : Boolean := False;
+      Remaining_Time : Duration := Timeout;
+      Δ_Time : constant Duration := Timeout / 10.0;
 
-            GNAT.OS_Lib.Non_Blocking_Wait_Process (PID, Success);
+      loop
+         exit when Remaining_Time <= 0.0 or else Finished;
+         delay Δ_Time;
+         Remaining_Time := @ - Δ_Time;
 
-            if PID = Spawned_PID then
-               OS_Ctx.Log.Trace ("Process finished with PID: " & PID'Image);
-               Finished := True;
-            end if;
-         end loop;
-         if not Finished then
-            Is_Timeout := True;
-            GNAT.OS_Lib.Kill_Process_Tree (Spawned_PID);
+         GNAT.OS_Lib.Non_Blocking_Wait_Process (PID, Success);
+
+         if PID = Spawned_PID then
+            OS_Ctx.Log.Trace ("Process finished with PID: " & PID'Image);
+            Finished := True;
          end if;
-      end;
+      end loop;
+
+      if not Finished then
+         Is_Timeout := True;
+         GNAT.OS_Lib.Kill_Process_Tree (Spawned_PID);
+      end if;
+
       GNAT.OS_Lib.Free (Arg_List);
 
       if Is_Timeout then
@@ -351,39 +351,37 @@ package body Alice.Std.OS_Cmd is
                   OS_Ctx.Log.Trace_Return (Result'Image);
                end return;
             else
-               declare
-                  Success : Boolean;
-               begin
-                  OS_Ctx.Log.Trace
-                    ("Deleting temporary file " & Out_Result.Temp_File.all);
-                  GNAT.OS_Lib.Delete_File (Out_Result.Temp_File.all, Success);
-                  GNAT.OS_Lib.Free (Out_Result.Temp_File);
-                  Out_Result.Exit_Status := -1;
-                  Out_Result.Temp_FD := GNAT.OS_Lib.Null_FD;
-                  Out_Result.Temp_File := null;
-                  --    Alice.IFace.OS_Cmd.Output_Result'Class
-                  --      (Alice.IFace.OS_Cmd.Null_Output_Result);
-                  if Success then
-                     return
-                        Result : constant Alice.Result.Success_Object :=
-                          (Status => Alice.Result.Success)
-                     do
-                        OS_Ctx.Log.Trace_Return (Result'Image);
-                     end return;
-                  else
-                     return
-                        Result : constant Alice.Result.Error_Object :=
-                          (Status  => Alice.Result.Error,
-                           Level   => Alice.Result.System,
-                           Message =>
-                             Alice.UStr
-                               ("Failed to delete temporary file "
-                                & Alice.Str (Self.Name)))
-                     do
-                        OS_Ctx.Log.Trace_Return (Result'Image);
-                     end return;
-                  end if;
-               end;
+               Success : Boolean;
+
+               OS_Ctx.Log.Trace
+                 ("Deleting temporary file " & Out_Result.Temp_File.all);
+               GNAT.OS_Lib.Delete_File (Out_Result.Temp_File.all, Success);
+               GNAT.OS_Lib.Free (Out_Result.Temp_File);
+               Out_Result.Exit_Status := -1;
+               Out_Result.Temp_FD := GNAT.OS_Lib.Null_FD;
+               Out_Result.Temp_File := null;
+               --    Alice.IFace.OS_Cmd.Output_Result'Class
+               --      (Alice.IFace.OS_Cmd.Null_Output_Result);
+               if Success then
+                  return
+                     Result : constant Alice.Result.Success_Object :=
+                       (Status => Alice.Result.Success)
+                  do
+                     OS_Ctx.Log.Trace_Return (Result'Image);
+                  end return;
+               else
+                  return
+                     Result : constant Alice.Result.Error_Object :=
+                       (Status  => Alice.Result.Error,
+                        Level   => Alice.Result.System,
+                        Message =>
+                          Alice.UStr
+                            ("Failed to delete temporary file "
+                             & Alice.Str (Self.Name)))
+                  do
+                     OS_Ctx.Log.Trace_Return (Result'Image);
+                  end return;
+               end if;
             end if;
 
             --  when Alice.Result.Error =>
@@ -432,13 +430,11 @@ package body Alice.Std.OS_Cmd is
          else
             Open (Temp_File, In_File, Out_Result.Temp_File.all);
             loop
-               declare
-                  Line : constant String := Get_Line (Temp_File);
-               begin
-                  OS_Ctx.Log.Debug (Line);
-                  Lines := Lines + 1;
-                  exit when End_Of_File (Temp_File);
-               end;
+               Line : constant String := Get_Line (Temp_File);
+
+               OS_Ctx.Log.Debug (Line);
+               Lines := Lines + 1;
+               exit when End_Of_File (Temp_File);
             end loop;
             OS_Ctx.Log.Debug ("[EOF] Total of" & Lines'Image & " lines");
             Close (Temp_File);

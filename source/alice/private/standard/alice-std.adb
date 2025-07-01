@@ -61,19 +61,17 @@ package body Alice.Std is
    procedure Init_OS_Cmd (Cmd : Alice.IFace.OS_Cmd.Object_Access) is
    begin
       if not Cmd.Is_Valid then
-         declare
-            Result : constant Alice.Result.Object'Class := Cmd.Initialize;
-         begin
-            if Result.Status = Alice.Result.Error then
-               Std_Err.Exit_Application
-                 (Result,
-                  Alice.UStr
-                    ("Make sure the command "
-                     & Cmd.Name
-                     & " is installed "
-                     & "and available in your PATH."));
-            end if;
-         end;
+         Result : constant Alice.Result.Object'Class := Cmd.Initialize;
+
+         if Result.Status = Alice.Result.Error then
+            Std_Err.Exit_Application
+              (Result,
+               Alice.UStr
+                 ("Make sure the command "
+                  & Cmd.Name
+                  & " is installed "
+                  & "and available in your PATH."));
+         end if;
       end if;
    end Init_OS_Cmd;
 
