@@ -20,6 +20,7 @@ tags = [
 project-files = [
    "project/alice.gpr",
    "project/alice_cli.gpr",
+   "project/alice_cli_test.gpr",
 ]
 
 [available.'case(os)']
