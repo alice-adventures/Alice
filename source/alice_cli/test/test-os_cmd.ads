@@ -7,9 +7,11 @@
 -------------------------------------------------------------------------------
 
 with Alice.Context;
+with Alice.OS_Context;
 
 package Test.OS_Cmd is
 
-   procedure Run (Ctx : Alice.Context.Object);
+   procedure Run
+     (Ctx : Alice.Context.Object; OS_Ctx : Alice.OS_Context.Object);
 
 end Test.OS_Cmd;

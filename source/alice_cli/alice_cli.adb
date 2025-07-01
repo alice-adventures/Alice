@@ -64,7 +64,7 @@ begin
 
    Test.Progress_Tracker.Run (Ctx.Log, Ctx.Progress);
 
-   Test.OS_Cmd.Run (OS_Ctx);
+   Test.OS_Cmd.Run (Ctx, OS_Ctx);
 
    --  declare
    --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
@@ -88,20 +88,20 @@ begin
    --     end case;
    --  end;
 
-   declare
-      Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-        Ctx.OS_Cmd.Curl.Timed_Run
-          ("https://ftp.funet.fi/pub/Linux/mirrors/ubuntu/releases/25.04/"
-           & "ubuntu-25.04-netboot-amd64.tar.gz",
-           OS_Ctx,
-           1.0);
-      Result     : constant Alice.Result.Object'Class :=
-        Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
-   begin
-      null;
-   --  Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
-   --  Result := Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
-   end;
+   --  declare
+   --     Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
+   --       Ctx.OS_Cmd.Curl.Timed_Run
+   --         ("https://ftp.funet.fi/pub/Linux/mirrors/ubuntu/releases/25.04/"
+   --          & "ubuntu-25.04-netboot-amd64.tar.gz",
+   --          OS_Ctx,
+   --          1.0);
+   --     Result     : constant Alice.Result.Object'Class :=
+   --       Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
+   --  begin
+   --     null;
+   --  --  Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
+   --  --  Result := Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
+   --  end;
 
    Ctx.Log.Trace_End;
 end Alice_CLI;
