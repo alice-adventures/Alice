@@ -6,25 +6,23 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
+
+with AnsiAda;
 
 with Alice;
 --  with Alice.App.Query.Version;
 with Alice.Context;
-with Alice.IFace.OS_Cmd;
 with Alice.OS_Context;
-with Alice.Result;
 with Alice.Std;
---  with Alice.Std.Error_Handler;
---  with Alice.Std.Log;
---  with Alice.Std.Progress;
---  with Alice.Std.OS_Cmd;
 
-with Test.Logger;
+with Test.Log;
 with Test.OS_Cmd;
-with Test.Progress_Tracker;
+with Test.Progress;
 
 procedure Alice_CLI_Test is
+
+   package ANSI renames AnsiAda;
 
    OS_Ctx : constant Alice.OS_Context.Object := Alice.Std.Get_OS_Context;
    Ctx    : constant Alice.Context.Object := Alice.Std.Get_Context;
@@ -42,13 +40,26 @@ begin
    --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
    --  -------------------------------------------------------------------------
 
-   Ada.Text_IO.Put_Line ("Welcome to the Alice CLI application!");
+   Put (ANSI.Reset_All);
+   Put (ANSI.Foreground (ANSI.Green));
+   --  Put_Line (ANSI.Clear_To_Beginning_Of_Screen);
+   Put_Line
+     (" --------------------------------------------------------------------");
+   Put_Line
+     (" --                                                                --");
+   Put_Line
+     (" --        Welcome to the Alice CLI Test application               --");
+   Put_Line
+     (" --                                                                --");
+   Put_Line
+     (" --------------------------------------------------------------------");
+   Put (ANSI.Reset);
 
    Ctx.Log.Save_State;
-   Test.Logger.Run (Ctx.Log);
+   Test.Log.Run (Ctx.Log);
    Ctx.Log.Restore_State;
 
-   Test.Progress_Tracker.Run (Ctx.Log, Ctx.Progress);
+   Test.Progress.Run (Ctx.Log, Ctx.Progress);
    Test.OS_Cmd.Run (Ctx, OS_Ctx);
 
    --  declare

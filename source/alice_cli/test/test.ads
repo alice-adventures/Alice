@@ -24,4 +24,15 @@ package Test is
    --  section of the code. Typically, the subtitle is printed in a different
    --  color and with a special format to make it stand out in the log output.
 
+   procedure Pass;
+   --  Print a success message in the log. Use it to indicate that a test or a
+   --  section of the code has completed successfully. Typically, the message
+   --  is printed in a different color to make it stand out in the log output.
+
+   procedure Fail (Message : String := "");
+   --  Print a failure message in the log. Use it to indicate that a test or a
+   --  section of the code has failed. Typically, the message is printed in a
+   --  different color to make it stand out in the log output. This procedure
+   --  should be called when an assertion fails or when an unexpected
+   --  condition is encountered in the code.
 end Test;

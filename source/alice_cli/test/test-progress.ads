@@ -9,10 +9,10 @@
 with Alice.IFace.Logger;
 with Alice.IFace.Progress_Tracker;
 
-package Test.Progress_Tracker is
+package Test.Progress is
 
    procedure Run
      (Log      : Alice.IFace.Logger.Object_Access;
       Progress : Alice.IFace.Progress_Tracker.Object_Access);
 
-end Test.Progress_Tracker;
+end Test.Progress;

@@ -6,9 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Exceptions;
 with GNAT.Source_Info;
 
-package body Test.Logger is
+package body Test.Log is
 
    --------------------
    -- Log_All_Levels --
@@ -23,6 +24,13 @@ package body Test.Logger is
       Log.Trace_Return ("This is a Trace_Return message");
       Log.Trace_End ("This is a Trace_End message");
       Log.Debug ("This is a Debug message");
+
+      Test.Pass;
+
+   exception
+      when E : others =>
+         Test.Fail
+           ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
    end Log_All_Levels;
 
    ---------------------
@@ -92,4 +100,4 @@ package body Test.Logger is
       Optimized_For_CLI_Without_Color (Log);
    end Run;
 
-end Test.Logger;
+end Test.Log;

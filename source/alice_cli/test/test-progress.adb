@@ -9,7 +9,7 @@
 with Ada.Exceptions;
 with GNAT.Source_Info;
 
-package body Test.Progress_Tracker is
+package body Test.Progress is
 
    -------------------------------
    -- Activity_With_No_Messages --
@@ -23,20 +23,23 @@ package body Test.Progress_Tracker is
       Title : constant String := "Activity with no messages: ";
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
-      Log.Trace_Begin;
 
       Progress.Start (Title);
       for I in 1 .. Length loop
          Progress.Step
            (Title & Integer'Image (I) & " of " & Integer'Image (Length) & " ");
 
-         delay 0.1;  --  doing things ...
+         delay 0.01;  --  doing things ...
 
       end loop;
       Progress.Stop;
-      Log.Info ("Activity completed successfully");
 
-      Log.Trace_End;
+      Test.Pass;
+
+   exception
+      when E : others =>
+         Test.Fail
+           ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
    end Activity_With_No_Messages;
 
    ----------------------------
@@ -51,22 +54,25 @@ package body Test.Progress_Tracker is
       Title : constant String := "Activity with messages: ";
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
-      Log.Trace_Begin;
 
       Progress.Start (Title);
       for I in 1 .. Length loop
          Progress.Step
            (Title & Integer'Image (I) & " of " & Integer'Image (Length) & " ");
 
-         delay 0.1;  --  doing things ...
+         delay 0.01;  --  doing things ...
 
          Progress.Message ("This is a message for step " & Integer'Image (I));
          Log.Info ("This is a verbose message for step " & Integer'Image (I));
       end loop;
       Progress.Stop;
-      Log.Info ("Activity completed successfully");
 
-      Log.Trace_End;
+      Test.Pass;
+
+   exception
+      when E : others =>
+         Test.Fail
+           ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
    end Activity_With_Messages;
 
    ------------------------------
@@ -74,12 +80,24 @@ package body Test.Progress_Tracker is
    ------------------------------
 
    procedure Bug_That_Throw_Exception
-     (Progress : Alice.IFace.Progress_Tracker.Object_Access) is
+     (Log      : Alice.IFace.Logger.Object_Access;
+      Progress : Alice.IFace.Progress_Tracker.Object_Access) is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
       --  Using the Activity without previously calling Activity.Start
       --  produces a fatal error.
       Progress.Step ("Call to Step with no previous call to Start");
+
+   exception
+      when E : Program_Error =>
+         Log.Warning
+           ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
+         Test.Pass;
+
+      when E : others =>
+         Log.Warning
+           ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
+         Test.Fail;
    end Bug_That_Throw_Exception;
 
    ---------
@@ -92,12 +110,6 @@ package body Test.Progress_Tracker is
    begin
       Activity_With_No_Messages (Log, Progress, 5);
       Activity_With_Messages (Log, Progress, 3);
-
-      Bug_That_Throw_Exception (Progress);
-   exception
-      when E : others =>
-         Log.Info
-           ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
+      Bug_That_Throw_Exception (Log, Progress);
    end Run;
-
-end Test.Progress_Tracker;
+end Test.Progress;

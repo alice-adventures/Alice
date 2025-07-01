@@ -31,10 +31,9 @@ package body Test.OS_Cmd is
         OS_Cmd.Run (Args, OS_Ctx);
 
       if Result.Status = Expect then
-         OS_Ctx.Log.Info ("Success, exit status:" & Result.Exit_Status'Image);
+         Test.Pass;
       else
-         OS_Ctx.Log.Warning
-           ("Failed, exit status:" & Result.Exit_Status'Image);
+         Test.Fail ("Exit status:" & Result.Exit_Status'Image);
       end if;
    end Run_OS_Cmd_With_Exit_Result;
 
@@ -52,10 +51,9 @@ package body Test.OS_Cmd is
         OS_Cmd.Run (Args, OS_Ctx);
 
       if Result.Status = Expect then
-         OS_Ctx.Log.Info ("Success, exit status:" & Result.Exit_Status'Image);
+         Test.Pass;
       else
-         OS_Ctx.Log.Warning
-           ("Failed, exit status:" & Result.Exit_Status'Image);
+         Fail ("Exit status:" & Result.Exit_Status'Image);
       end if;
    end Run_OS_Cmd_With_Output_Result;
 

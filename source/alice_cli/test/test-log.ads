@@ -8,8 +8,8 @@
 
 with Alice.IFace.Logger;
 
-package Test.Logger is
+package Test.Log is
 
    procedure Run (Log : Alice.IFace.Logger.Object_Access);
 
-end Test.Logger;
+end Test.Log;
