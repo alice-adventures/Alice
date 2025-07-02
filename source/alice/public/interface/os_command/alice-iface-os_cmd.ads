@@ -63,16 +63,6 @@ package Alice.IFace.OS_Cmd is
    --  Finalize an OS command. Delete temporary files and free allocated
    --  memory by the command.
 
-   --  Ctx.OS_Cmd.Alr.Init (Ctx.Error_Handler, Ctx.Log);
-   --  Ctx.OS_Cmd.Git.Run (Ctx.Core, "log --oneline --graph --decorate");
-
-   --  function Check
-   --    (Self : in out Object; Ctx : Alice.OS_Context.Object)
-   --     return Boolean
-   --  is abstract;
-   --  Initialize an OS command by trying to find the executable file in PATH.
-   --  Return True if the OS command can be used.
-
    function Is_Valid (Self : in out Object) return Boolean is abstract;
    --  Check if the OS command has been initialized and is valid. This is used
    --  to check if the command can be run before running it. If the command is
@@ -80,16 +70,19 @@ package Alice.IFace.OS_Cmd is
    --  avoid running commands that are not available on the system, such as
    --  when the command is not installed or the command is not found in PATH.
 
-   function Name (Self : in out Object) return String is abstract;
+   function Name (Self : in out Object) return String is abstract
+   with Pre'Class => Self.Is_Valid;
    --  Return the name of the OS command. This is the name of the executable
    --  file to run, without the path. The path is searched in the system PATH
    --  environment variable.
 
-   function Path (Self : in out Object) return String is abstract;
+   function Path (Self : in out Object) return String is abstract
+   with Pre'Class => Self.Is_Valid;
    --  Return the PATH where the OS command is found.
 
-   function Ctx (Self : in out Object)
-      return Alice.OS_Context.Object_Access is abstract;
+   function Ctx (Self : in out Object) return Alice.OS_Context.Object_Access
+   is abstract
+   with Pre'Class => Self.Is_Valid;
    --  Return the OS context where the command is run. This is used to access
    --  the error handler and logger for the command. It is useful to log
    --  messages and handle errors that occur during the command execution.
@@ -122,7 +115,7 @@ package Alice.IFace.OS_Cmd is
    --  the Exit_Status parameter, the command is considered successful.
 
    function Timed_Run
-     (Self : in out Object; Args : String; Timeout : Duration := 1.0)
+     (Self : in out Object; Args : String; Timeout : Duration)
       return Output_Result'Class
    is abstract
    with Pre'Class => Self.Is_Valid and then Timeout > 0.0;
@@ -136,14 +129,14 @@ package Alice.IFace.OS_Cmd is
    --  and blocking the application.
 
    function Cleanup
-     (Self : in out Object; Out_Result : in out Output_Result'Class)
+     (Self : in out Object; Result : in out Output_Result'Class)
       return Alice.Result.Object'Class
    is abstract;
    --  Clean the output of a command. This is used to delete temporary files
    --  and free allocated memory by the command output.
 
    procedure Debug_Output_Result
-     (Self : in out Object; Out_Result : in out Output_Result'Class)
+     (Self : in out Object; Result : in out Output_Result'Class)
    is abstract;
    --  Debug the output of a command. This is used to print the output of the
    --  command to the log. It is useful for debugging purposes to see the

@@ -28,6 +28,6 @@ package Alice.OS_Context is
       --  to the execution of external OS commands.
    end record;
 
-   type Object_Access is access all Object;
+   type Object_Access is not null access all Object;
 
 end Alice.OS_Context;

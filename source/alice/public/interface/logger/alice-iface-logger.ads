@@ -60,12 +60,12 @@ package Alice.IFace.Logger is
    is abstract;
    --  Optimize the logging for CLI applications. This sets the level to
    --  Warning, redirects all messages to the standard output and enables the
-   --  busy status spinner for CLI.
+   --  progress tracker for CLI.
 
    procedure Optimize_For_GUI (Self : in out Object)
-   is abstract; -- #TODO - Add an abstract Spinner parameter
+   is abstract; -- #TODO - Add an abstract Status Spinner parameter
    --  Optimize the logging for GUI applications. This sets the level to Info
-   --  (verbose), uses the instance of the busy status spinner and redirects
+   --  (verbose), uses the instance of the busy Status spinner and redirects
    --  all messages to the standard error.
 
    procedure Set_Default_Level (Self : in out Object) is abstract;

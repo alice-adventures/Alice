@@ -34,17 +34,20 @@ package Alice.Std.OS_Cmd is
    procedure Finalize (Self : in out Object);
 
    overriding
-   function Is_Valid (Self : in out Object) return Boolean;
+   function Is_Valid (Self : in out Object) return Boolean
+   with Inline;
 
    overriding
-   function Name (Self : in out Object) return String;
+   function Name (Self : in out Object) return String
+   with Inline;
 
    overriding
-   function Path (Self : in out Object) return String;
+   function Path (Self : in out Object) return String
+   with Inline;
 
    overriding
-   function Ctx
-     (Self : in out Object) return Alice.OS_Context.Object_Access;
+   function Ctx (Self : in out Object) return Alice.OS_Context.Object_Access
+   with Inline;
 
    overriding
    function Run
@@ -67,13 +70,13 @@ package Alice.Std.OS_Cmd is
    overriding
    function Cleanup
      (Self       : in out Object;
-      Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
+      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
       return Alice.Result.Object'Class;
 
    overriding
    procedure Debug_Output_Result
      (Self       : in out Object;
-      Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class);
+      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class);
 
 private
 

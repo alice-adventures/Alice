@@ -57,7 +57,7 @@ begin
    Test.Log.Run (Ctx.Log);
    Ctx.Log.Restore_State;
 
-   Test.Progress.Run (Ctx.Log, Ctx.Progress);
+   Test.Progress.Run (Ctx.Log, Ctx.Prog);
    Test.OS_Cmd.Run (Ctx);
 
    --  declare

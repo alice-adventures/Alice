@@ -347,15 +347,15 @@ package body Alice.Std.OS_Cmd is
    overriding
    function Cleanup
      (Self       : in out Object;
-      Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
+      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
       return Alice.Result.Object'Class is
    begin
-      Self.Ctx.Log.Trace_Begin (Out_Result'Image);
+      Self.Ctx.Log.Trace_Begin (Result'Image);
 
-      case Out_Result.Status is
+      case Result.Status is
          when Alice.Result.Success | Alice.Result.Error =>
-            if Out_Result.Temp_File = null
-              and then Out_Result.Temp_FD = GNAT.OS_Lib.Null_FD
+            if Result.Temp_File = null
+              and then Result.Temp_FD = GNAT.OS_Lib.Null_FD
             then
                return
                   Result : constant Alice.Result.Success_Object :=
@@ -368,12 +368,12 @@ package body Alice.Std.OS_Cmd is
                Success : Boolean;
 
                Self.Ctx.Log.Trace
-                 ("Deleting temporary file " & Out_Result.Temp_File.all);
-               GNAT.OS_Lib.Delete_File (Out_Result.Temp_File.all, Success);
-               GNAT.OS_Lib.Free (Out_Result.Temp_File);
-               Out_Result.Exit_Status := -1;
-               Out_Result.Temp_FD := GNAT.OS_Lib.Null_FD;
-               Out_Result.Temp_File := null;
+                 ("Deleting temporary file " & Result.Temp_File.all);
+               GNAT.OS_Lib.Delete_File (Result.Temp_File.all, Success);
+               GNAT.OS_Lib.Free (Result.Temp_File);
+               Result.Exit_Status := -1;
+               Result.Temp_FD := GNAT.OS_Lib.Null_FD;
+               Result.Temp_File := null;
                --    Alice.IFace.OS_Cmd.Output_Result'Class
                --      (Alice.IFace.OS_Cmd.Null_Output_Result);
                if Success then
@@ -421,7 +421,7 @@ package body Alice.Std.OS_Cmd is
    overriding
    procedure Debug_Output_Result
      (Self       : in out Object;
-      Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
+      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
    is
       use Ada.Directories;
       use Ada.Text_IO;
@@ -429,20 +429,20 @@ package body Alice.Std.OS_Cmd is
       Temp_File : File_Type;
       Lines     : Natural := 0;
    begin
-      if Out_Result.Temp_File = null then
+      if Result.Temp_File = null then
          Self.Ctx.Log.Debug ("No output file to print");
       else
          Self.Ctx.Log.Debug
            ("Output file: "
-            & Out_Result.Temp_File.all
+            & Result.Temp_File.all
             & " (FD: "
-            & Out_Result.Temp_FD'Image
+            & Result.Temp_FD'Image
             & ")");
 
-         if Size (Out_Result.Temp_File.all) = File_Size (0) then
+         if Size (Result.Temp_File.all) = File_Size (0) then
             Self.Ctx.Log.Debug ("Output file is empty");
          else
-            Open (Temp_File, In_File, Out_Result.Temp_File.all);
+            Open (Temp_File, In_File, Result.Temp_File.all);
             loop
                Line : constant String := Get_Line (Temp_File);
 

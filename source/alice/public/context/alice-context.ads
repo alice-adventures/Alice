@@ -25,6 +25,11 @@ package Alice.Context is
       Curl : Alice.IFace.OS_Cmd.Object_Access;
       Git  : Alice.IFace.OS_Cmd.Object_Access;
    end record;
+   --  The OS_Commands record contains references to the command objects for
+   --  various OS commands used in the application, such as Alr, Git, and
+   --  Curl. These commands are used to interact with the operating system and
+   --  perform tasks such as building the project, managing dependencies, and
+   --  executing external commands.
 
    type Object is record
       Err : Alice.IFace.Error_Handler.Object_Access;
@@ -35,7 +40,7 @@ package Alice.Context is
       --  The logger for the application context. It is used to log messages
       --  related to the execution of use cases and other application events.
 
-      Progress : Alice.IFace.Progress_Tracker.Object_Access;
+      Prog : Alice.IFace.Progress_Tracker.Object_Access;
       --  The progress logger for the application context. It is used to log
       --  progress messages related to long-running operations or tasks.
 

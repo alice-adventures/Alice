@@ -34,6 +34,4 @@ package Alice.Std.Error_Handler is
       Explain : Alice.UString := Alice.UStr (""))
    with No_Return;
 
-   pragma No_Return (Exit_Application);
-
 end Alice.Std.Error_Handler;

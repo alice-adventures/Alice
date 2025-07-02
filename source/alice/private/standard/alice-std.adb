@@ -47,7 +47,7 @@ package body Alice.Std is
      new Alice.Context.Object'
        (Err      => Std_Err,
         Log      => Std_Log,
-        Progress => Std_Progress,
+        Prog => Std_Progress,
         OS_Cmd   =>
           (Alr => Std_Alr_Cmd, Curl => Std_Curl_Cmd, Git => Std_Git_Cmd));
 
