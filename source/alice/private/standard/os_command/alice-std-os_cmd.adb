@@ -13,6 +13,7 @@ package body Alice.Std.OS_Cmd is
 
    use all type Ada.Directories.File_Size;
    use all type GNAT.OS_Lib.File_Descriptor;
+   use all type Alice.OS_Context.Object_Access;
 
    -----------------------
    -- Error_Exit_Result --
@@ -105,7 +106,10 @@ package body Alice.Std.OS_Cmd is
 
    overriding
    function Is_Valid (Self : in out Object) return Boolean
-   is (Self.Path /= null and then Self.Path.all /= "");
+   is (Self.Name /= Alice.UStr ("")
+       and then Self.Path /= null
+       and then Self.Path.all /= ""
+       and then Self.OS_Ctx /= null);
 
    ----------
    -- Name --
@@ -128,7 +132,7 @@ package body Alice.Std.OS_Cmd is
    -------------
 
    overriding
-   function Context
+   function Ctx
      (Self : in out Object) return Alice.OS_Context.Object_Access
    is (Self.OS_Ctx);
 
@@ -145,13 +149,13 @@ package body Alice.Std.OS_Cmd is
       Arg_List      : GNAT.OS_Lib.Argument_List_Access :=
         GNAT.OS_Lib.Argument_String_To_List (Args);
    begin
-      Self.OS_Ctx.Log.Trace_Begin
+      Self.Ctx.Log.Trace_Begin
         (Alice.Str (Self.Name)
          & ", args: '"
          & Args
          & "', expect exit status:"
          & Exit_Status'Image);
-      Self.OS_Ctx.Log.Trace ("Run " & Alice.Str (Self.Name) & " " & Args);
+      Self.Ctx.Log.Trace ("Run " & Alice.Str (Self.Name) & " " & Args);
 
       Returned_Code := GNAT.OS_Lib.Spawn (Self.Path.all, Arg_List.all);
       GNAT.OS_Lib.Free (Arg_List);
@@ -161,7 +165,7 @@ package body Alice.Std.OS_Cmd is
             Result : constant Alice.IFace.OS_Cmd.Exit_Result :=
               (Status => Alice.Result.Success, Exit_Status => Returned_Code)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       else
          return
@@ -171,7 +175,7 @@ package body Alice.Std.OS_Cmd is
                  "command exit status is" & Returned_Code'Image,
                  Returned_Code)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       end if;
    end Run;
@@ -191,13 +195,13 @@ package body Alice.Std.OS_Cmd is
       Temp_FD       : GNAT.OS_Lib.File_Descriptor := GNAT.OS_Lib.Null_FD;
       Temp_File     : GNAT.OS_Lib.String_Access := null;
    begin
-      Self.OS_Ctx.Log.Trace_Begin
+      Self.Ctx.Log.Trace_Begin
         (Alice.Str (Self.Name)
          & ", args: '"
          & Args
          & "', expect exit status:"
          & Exit_Status'Image);
-      Self.OS_Ctx.Log.Trace ("Run " & Alice.Str (Self.Name) & " " & Args);
+      Self.Ctx.Log.Trace ("Run " & Alice.Str (Self.Name) & " " & Args);
 
       GNAT.OS_Lib.Create_Temp_File (Temp_FD, Temp_File);
       if Temp_FD = GNAT.OS_Lib.Null_FD then
@@ -206,7 +210,7 @@ package body Alice.Std.OS_Cmd is
               Self.Error_Output_Result
                 (Alice.Result.System, "failed to create temporary file", 1)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       end if;
 
@@ -221,7 +225,7 @@ package body Alice.Std.OS_Cmd is
                Temp_FD     => Temp_FD,
                Temp_File   => Temp_File)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       else
          return
@@ -238,7 +242,7 @@ package body Alice.Std.OS_Cmd is
                Temp_FD     => Temp_FD,
                Temp_File   => Temp_File)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       end if;
    end Run;
@@ -264,7 +268,7 @@ package body Alice.Std.OS_Cmd is
       Success     : Boolean;
 
    begin
-      Self.OS_Ctx.Log.Trace_Begin
+      Self.Ctx.Log.Trace_Begin
         (Alice.Str (Self.Name)
          & ", args: '"
          & Args
@@ -279,7 +283,7 @@ package body Alice.Std.OS_Cmd is
               Self.Error_Output_Result
                 (Alice.Result.System, "failed to create temporary file", 1)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       end if;
 
@@ -299,7 +303,7 @@ package body Alice.Std.OS_Cmd is
          GNAT.OS_Lib.Non_Blocking_Wait_Process (PID, Success);
 
          if PID = Spawned_PID then
-            Self.OS_Ctx.Log.Trace ("Process finished with PID: " & PID'Image);
+            Self.Ctx.Log.Trace ("Process finished with PID: " & PID'Image);
             Finished := True;
          end if;
       end loop;
@@ -321,7 +325,7 @@ package body Alice.Std.OS_Cmd is
                  Temp_FD,
                  Temp_File)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       else
          return
@@ -331,7 +335,7 @@ package body Alice.Std.OS_Cmd is
                Temp_FD     => Temp_FD,
                Temp_File   => Temp_File)
          do
-            Self.OS_Ctx.Log.Trace_Return (Result'Image);
+            Self.Ctx.Log.Trace_Return (Result'Image);
          end return;
       end if;
    end Timed_Run;
@@ -346,7 +350,7 @@ package body Alice.Std.OS_Cmd is
       Out_Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
       return Alice.Result.Object'Class is
    begin
-      Self.OS_Ctx.Log.Trace_Begin (Out_Result'Image);
+      Self.Ctx.Log.Trace_Begin (Out_Result'Image);
 
       case Out_Result.Status is
          when Alice.Result.Success | Alice.Result.Error =>
@@ -357,13 +361,13 @@ package body Alice.Std.OS_Cmd is
                   Result : constant Alice.Result.Success_Object :=
                     (Status => Alice.Result.Success)
                do
-                  Self.OS_Ctx.Log.Trace ("No temporary file to clean up");
-                  Self.OS_Ctx.Log.Trace_Return (Result'Image);
+                  Self.Ctx.Log.Trace ("No temporary file to clean up");
+                  Self.Ctx.Log.Trace_Return (Result'Image);
                end return;
             else
                Success : Boolean;
 
-               Self.OS_Ctx.Log.Trace
+               Self.Ctx.Log.Trace
                  ("Deleting temporary file " & Out_Result.Temp_File.all);
                GNAT.OS_Lib.Delete_File (Out_Result.Temp_File.all, Success);
                GNAT.OS_Lib.Free (Out_Result.Temp_File);
@@ -377,7 +381,7 @@ package body Alice.Std.OS_Cmd is
                      Result : constant Alice.Result.Success_Object :=
                        (Status => Alice.Result.Success)
                   do
-                     Self.OS_Ctx.Log.Trace_Return (Result'Image);
+                     Self.Ctx.Log.Trace_Return (Result'Image);
                   end return;
                else
                   return
@@ -389,7 +393,7 @@ package body Alice.Std.OS_Cmd is
                             ("Failed to delete temporary file "
                              & Alice.Str (Self.Name)))
                   do
-                     Self.OS_Ctx.Log.Trace_Return (Result'Image);
+                     Self.Ctx.Log.Trace_Return (Result'Image);
                   end return;
                end if;
             end if;
@@ -426,9 +430,9 @@ package body Alice.Std.OS_Cmd is
       Lines     : Natural := 0;
    begin
       if Out_Result.Temp_File = null then
-         Self.OS_Ctx.Log.Debug ("No output file to print");
+         Self.Ctx.Log.Debug ("No output file to print");
       else
-         Self.OS_Ctx.Log.Debug
+         Self.Ctx.Log.Debug
            ("Output file: "
             & Out_Result.Temp_File.all
             & " (FD: "
@@ -436,17 +440,17 @@ package body Alice.Std.OS_Cmd is
             & ")");
 
          if Size (Out_Result.Temp_File.all) = File_Size (0) then
-            Self.OS_Ctx.Log.Debug ("Output file is empty");
+            Self.Ctx.Log.Debug ("Output file is empty");
          else
             Open (Temp_File, In_File, Out_Result.Temp_File.all);
             loop
                Line : constant String := Get_Line (Temp_File);
 
-               Self.OS_Ctx.Log.Debug (Line);
+               Self.Ctx.Log.Debug (Line);
                Lines := Lines + 1;
                exit when End_Of_File (Temp_File);
             end loop;
-            Self.OS_Ctx.Log.Debug ("[EOF] Total of" & Lines'Image & " lines");
+            Self.Ctx.Log.Debug ("[EOF] Total of" & Lines'Image & " lines");
             Close (Temp_File);
          end if;
       end if;

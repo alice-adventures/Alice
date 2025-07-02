@@ -88,7 +88,7 @@ package Alice.IFace.OS_Cmd is
    function Path (Self : in out Object) return String is abstract;
    --  Return the PATH where the OS command is found.
 
-   function Context (Self : in out Object)
+   function Ctx (Self : in out Object)
       return Alice.OS_Context.Object_Access is abstract;
    --  Return the OS context where the command is run. This is used to access
    --  the error handler and logger for the command. It is useful to log

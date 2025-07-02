@@ -43,7 +43,7 @@ package Alice.Std.OS_Cmd is
    function Path (Self : in out Object) return String;
 
    overriding
-   function Context
+   function Ctx
      (Self : in out Object) return Alice.OS_Context.Object_Access;
 
    overriding

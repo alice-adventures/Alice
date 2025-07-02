@@ -38,7 +38,7 @@ package body Test.OS_Cmd is
 
    exception
       when E : others =>
-         OS_Cmd.Context.Log.Warning
+         OS_Cmd.Ctx.Log.Warning
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
          Test.Fail;
    end Run_OS_Cmd_With_Exit_Result;
@@ -53,10 +53,10 @@ package body Test.OS_Cmd is
       Expect : Alice.Result.Status_Type) is
    begin
       if Result.Status = Expect then
-         OS_Cmd.Context.Log.Save_State;
-         OS_Cmd.Context.Log.Set_Debug_Level (With_Location_Enabled => False);
+         OS_Cmd.Ctx.Log.Save_State;
+         OS_Cmd.Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
          OS_Cmd.Debug_Output_Result (Result);
-         OS_Cmd.Context.Log.Restore_State;
+         OS_Cmd.Ctx.Log.Restore_State;
 
          Clean_Result : constant Alice.Result.Object'Class :=
            OS_Cmd.Cleanup (Result);
@@ -72,7 +72,7 @@ package body Test.OS_Cmd is
 
    exception
       when E : others =>
-         OS_Cmd.Context.Log.Warning
+         OS_Cmd.Ctx.Log.Warning
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
          Test.Fail;
    end Check_Result_Output;
@@ -94,7 +94,7 @@ package body Test.OS_Cmd is
 
    exception
       when E : others =>
-         OS_Cmd.Context.Log.Warning
+         OS_Cmd.Ctx.Log.Warning
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
          Test.Fail;
    end Run_OS_Cmd_With_Output_Result;
@@ -117,7 +117,7 @@ package body Test.OS_Cmd is
 
    exception
       when E : others =>
-         OS_Cmd.Context.Log.Warning
+         OS_Cmd.Ctx.Log.Warning
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
          Test.Fail;
    end Run_OS_Cmd_With_Timeout_Result;
