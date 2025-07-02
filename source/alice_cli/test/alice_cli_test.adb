@@ -13,7 +13,6 @@ with AnsiAda;
 with Alice;
 --  with Alice.App.Query.Version;
 with Alice.Context;
-with Alice.OS_Context;
 with Alice.Std;
 
 with Test.Log;
@@ -24,8 +23,7 @@ procedure Alice_CLI_Test is
 
    package ANSI renames AnsiAda;
 
-   OS_Ctx : constant Alice.OS_Context.Object := Alice.Std.Get_OS_Context;
-   Ctx    : constant Alice.Context.Object := Alice.Std.Get_Context;
+   Ctx : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
 
 begin
    --  SELECT LOG LEVEL -------------------------------------------------------
@@ -38,7 +36,7 @@ begin
    --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => True);
    --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
    --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
-   --  -------------------------------------------------------------------------
+   --  ------------------------------------------------------------------------
 
    Put (ANSI.Reset_All);
    Put (ANSI.Foreground (ANSI.Green));
@@ -60,7 +58,7 @@ begin
    Ctx.Log.Restore_State;
 
    Test.Progress.Run (Ctx.Log, Ctx.Progress);
-   Test.OS_Cmd.Run (Ctx, OS_Ctx);
+   Test.OS_Cmd.Run (Ctx);
 
    --  declare
    --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);

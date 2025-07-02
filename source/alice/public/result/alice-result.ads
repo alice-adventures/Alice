@@ -86,9 +86,4 @@ package Alice.Result is
    --  encountered an error. It contains the Level and Message fields to
    --  provide additional information about the error that occurred.
 
-   Null_Object : constant Object'Class := Object'(Status => Success);
-   --  Null_Object is a constant representing a null result object with Status
-   --  set to Success. It is used as a default value when no result is
-   --  available or when an operation does not produce a meaningful result.
-
 end Alice.Result;

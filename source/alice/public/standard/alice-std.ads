@@ -27,12 +27,12 @@ with Alice.OS_Context;
 
 package Alice.Std is
 
-   function Get_OS_Context return Alice.OS_Context.Object;
+   function Get_OS_Context return Alice.OS_Context.Object_Access;
    --  Get_OS_Context returns a standard OS context object that can be used to
    --  handle errors and log messages. It initializes the error handler and
    --  logger for the OS context.
 
-   function Get_Context return Alice.Context.Object;
+   function Get_Context return Alice.Context.Object_Access;
    --  Get_Context returns a standard context object that can be used to
    --  handle errors, log messages, and execute OS commands. It initializes
    --  the error handler, logger, progress tracker, and OS commands for the

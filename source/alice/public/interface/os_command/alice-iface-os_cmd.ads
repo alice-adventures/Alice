@@ -34,11 +34,6 @@ package Alice.IFace.OS_Cmd is
    --  successfully, but in some cases other values can be considered also a
    --  success.
 
-   Null_Exit_Result : constant Exit_Result :=
-     (Status => Alice.Result.Success, Exit_Status => 0);
-   --  A null result for commands. It is used as default value for variables
-   --  of type Exit_Result.
-
    type Output_Result (Status : Alice.Result.Status_Type) is
      new Alice.Result.Object (Status)
    with record
@@ -56,14 +51,6 @@ package Alice.IFace.OS_Cmd is
    end record;
    --  A record to hold the exit code and the output of a command. This is
    --  used when the command output is saved to a temporary file.
-
-   Null_Output_Result : constant Output_Result :=
-     (Status      => Alice.Result.Success,
-      Exit_Status => -1,
-      Temp_FD     => GNAT.OS_Lib.Null_FD,
-      Temp_File   => null);
-   --  A null result for commands. It is used as default value for variables
-   --  of type Output_Result.
 
    overriding
    function Initialize
@@ -101,11 +88,15 @@ package Alice.IFace.OS_Cmd is
    function Path (Self : in out Object) return String is abstract;
    --  Return the PATH where the OS command is found.
 
+   function Context (Self : in out Object)
+      return Alice.OS_Context.Object_Access is abstract;
+   --  Return the OS context where the command is run. This is used to access
+   --  the error handler and logger for the command. It is useful to log
+   --  messages and handle errors that occur during the command execution.
+
    function Run
-     (Self        : in out Object;
-      Args        : String;
-      OS_Ctx      : Alice.OS_Context.Object;
-      Exit_Status : Integer := 0) return Exit_Result'Class
+     (Self : in out Object; Args : String; Exit_Status : Integer := 0)
+      return Exit_Result'Class
    is abstract
    with Pre'Class => Self.Is_Valid;
    --  Run the command with the given arguments and return the command exit
@@ -121,10 +112,8 @@ package Alice.IFace.OS_Cmd is
    --  successful.
 
    function Run
-     (Self        : in out Object;
-      Args        : String;
-      OS_Ctx      : Alice.OS_Context.Object;
-      Exit_Status : Integer := 0) return Output_Result'Class
+     (Self : in out Object; Args : String; Exit_Status : Integer := 0)
+      return Output_Result'Class
    is abstract
    with Pre'Class => Self.Is_Valid;
    --  Run the command with the given arguments. Return the exit code and a
@@ -133,12 +122,10 @@ package Alice.IFace.OS_Cmd is
    --  the Exit_Status parameter, the command is considered successful.
 
    function Timed_Run
-     (Self    : in out Object;
-      Args    : String;
-      OS_Ctx  : Alice.OS_Context.Object;
-      Timeout : Duration := 1.0) return Output_Result'Class
+     (Self : in out Object; Args : String; Timeout : Duration := 1.0)
+      return Output_Result'Class
    is abstract
-   with Pre'Class => Self.Is_Valid and then Timeout >= 1.0;
+   with Pre'Class => Self.Is_Valid and then Timeout > 0.0;
    --  Run the command with the given arguments and a timeout. If the command
    --  does not finish within the timeout, it is killed and an error is
    --  returned. The standard output and error streams are saved to a
@@ -149,17 +136,14 @@ package Alice.IFace.OS_Cmd is
    --  and blocking the application.
 
    function Cleanup
-     (Self       : in out Object;
-      Out_Result : in out Output_Result'Class;
-      OS_Ctx     : Alice.OS_Context.Object) return Alice.Result.Object'Class
+     (Self : in out Object; Out_Result : in out Output_Result'Class)
+      return Alice.Result.Object'Class
    is abstract;
    --  Clean the output of a command. This is used to delete temporary files
    --  and free allocated memory by the command output.
 
    procedure Debug_Output_Result
-     (Self       : in out Object;
-      Out_Result : in out Output_Result'Class;
-      OS_Ctx     : Alice.OS_Context.Object)
+     (Self : in out Object; Out_Result : in out Output_Result'Class)
    is abstract;
    --  Debug the output of a command. This is used to print the output of the
    --  command to the log. It is useful for debugging purposes to see the

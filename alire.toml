@@ -36,7 +36,7 @@ Log_Level = { type = "Enum", values = ["Always", "Error", "Warning", "Info", "De
 "alice" = "development"
 
 [build-switches."*"]
-ada_version = ["-gnat2022", "-gnatX"]
+ada_version = ["-gnat2022", "-gnatX", "-gnata"]
 
 [[depends-on]]
 clic = "~0.3.0"

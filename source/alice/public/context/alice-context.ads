@@ -45,6 +45,6 @@ package Alice.Context is
       --  application, such as Alr, Git, and Curl.
    end record;
 
-   --  procedure Init (Self : in out Object'Class);
+   type Object_Access is not null access all Object;
 
 end Alice.Context;

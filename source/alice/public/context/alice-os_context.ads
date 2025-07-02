@@ -30,9 +30,4 @@ package Alice.OS_Context is
 
    type Object_Access is access all Object;
 
-   --  procedure Init (Self : in out Object'Class);
-   --  Initialize the OS context. This procedure should be called before using
-   --  any OS commands or logging functionality. It sets up the error handler
-   --  and logger for the context.
-
 end Alice.OS_Context;

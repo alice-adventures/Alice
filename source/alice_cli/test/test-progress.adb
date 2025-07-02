@@ -16,8 +16,7 @@ package body Test.Progress is
    -------------------------------
 
    procedure Activity_With_No_Messages
-     (Log      : Alice.IFace.Logger.Object_Access;
-      Progress : Alice.IFace.Progress_Tracker.Object_Access;
+     (Progress : Alice.IFace.Progress_Tracker.Object_Access;
       Length   : Integer)
    is
       Title : constant String := "Activity with no messages: ";
@@ -107,7 +106,7 @@ package body Test.Progress is
      (Log      : Alice.IFace.Logger.Object_Access;
       Progress : Alice.IFace.Progress_Tracker.Object_Access) is
    begin
-      Activity_With_No_Messages (Log, Progress, 5);
+      Activity_With_No_Messages (Progress, 5);
       Activity_With_Messages (Log, Progress, 3);
       Bug_That_Throw_Exception (Log, Progress);
    end Run;

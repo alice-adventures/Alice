@@ -31,28 +31,34 @@ package body Alice.Std is
    Std_Progress : constant Alice.IFace.Progress_Tracker.Object_Access :=
      new Alice.Std.Progress.Object;
 
+   Std_OS_Ctx : constant Alice.OS_Context.Object_Access :=
+     new Alice.OS_Context.Object'(Err => Std_Err, Log => Std_Log);
+
    Std_Alr_Cmd : constant Alice.IFace.OS_Cmd.Object_Access :=
-     Alice.Std.OS_Cmd.New_Object ("alr");
+     Alice.Std.OS_Cmd.New_Object ("alr", Std_OS_Ctx);
 
    Std_Curl_Cmd : constant Alice.IFace.OS_Cmd.Object_Access :=
-     Alice.Std.OS_Cmd.New_Object ("curl");
+     Alice.Std.OS_Cmd.New_Object ("curl", Std_OS_Ctx);
 
    Std_Git_Cmd : constant Alice.IFace.OS_Cmd.Object_Access :=
-     Alice.Std.OS_Cmd.New_Object ("git");
+     Alice.Std.OS_Cmd.New_Object ("git", Std_OS_Ctx);
+
+   Std_Ctx : constant Alice.Context.Object_Access :=
+     new Alice.Context.Object'
+       (Err      => Std_Err,
+        Log      => Std_Log,
+        Progress => Std_Progress,
+        OS_Cmd   =>
+          (Alr => Std_Alr_Cmd, Curl => Std_Curl_Cmd, Git => Std_Git_Cmd));
+
+   Std_Ctx_Initialized : Boolean := False;
 
    --------------------
    -- Get_OS_Context --
    --------------------
 
-   function Get_OS_Context return Alice.OS_Context.Object is
-   begin
-      return
-         OS_Ctx : constant Alice.OS_Context.Object :=
-           (Err => Std_Err, Log => Std_Log)
-      do
-         null;
-      end return;
-   end Get_OS_Context;
+   function Get_OS_Context return Alice.OS_Context.Object_Access
+   is (Std_OS_Ctx);
 
    -----------------
    -- Init_OS_Cmd --
@@ -79,20 +85,15 @@ package body Alice.Std is
    -- Get_Context --
    -----------------
 
-   function Get_Context return Alice.Context.Object is
+   function Get_Context return Alice.Context.Object_Access is
    begin
-      return
-         Ctx : constant Alice.Context.Object :=
-           (Err      => Std_Err,
-            Log      => Std_Log,
-            Progress => Std_Progress,
-            OS_Cmd   =>
-              (Alr => Std_Alr_Cmd, Curl => Std_Curl_Cmd, Git => Std_Git_Cmd))
-      do
-         Init_OS_Cmd (Ctx.OS_Cmd.Alr);
-         Init_OS_Cmd (Ctx.OS_Cmd.Curl);
-         Init_OS_Cmd (Ctx.OS_Cmd.Git);
-      end return;
+      if not Std_Ctx_Initialized then
+         Init_OS_Cmd (Std_Ctx.OS_Cmd.Alr);
+         Init_OS_Cmd (Std_Ctx.OS_Cmd.Curl);
+         Init_OS_Cmd (Std_Ctx.OS_Cmd.Git);
+         Std_Ctx_Initialized := True;
+      end if;
+      return Std_Ctx;
    end Get_Context;
 
 end Alice.Std;
