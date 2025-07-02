@@ -16,29 +16,15 @@ package body Alice.App.Query.Version is
 
    overriding
    function Run
-     (Self : in out Use_Case; Ctx : Alice.Context.Object)
-      return Alice.Result.Object'Class
-   is
-      Version : constant Result :=
-        (Status  => Alice.Result.Success,
-         Version =>
-           (if Self.Full_Text
-            then
-              Alice.UStr
-                ("ALICE CRATE VERSION is " & Alice_Config.Crate_Version)
-            else Alice.UStr (Alice_Config.Crate_Version)));
+     (Self : in out Object; Args : String := "")
+      return Alice.Result.Object'Class is
    begin
-      Ctx.Log.Trace_Begin;
-      Ctx.Log.Trace_Return (Version'Image);
-      return Version;
-
-   exception
-      when E : others =>
-         return
-            R : constant Result :=
-              (Status  => Alice.Result.Error,
-               Level   => Alice.Result.System,
-               Message => Alice.UStr (Ada.Exceptions.Exception_Message (E)));
+      Self.Context.Log.Trace_Begin;
+      Self.Answer (Alice.UStr (Alice_Config.Crate_Version));
+      return Result : Alice.Result.Success_Object do
+         Self.Context.Log.Trace_Return
+           (Result'Image & " with version " & Self.Answer'Image);
+      end return;
    end Run;
 
 end Alice.App.Query.Version;

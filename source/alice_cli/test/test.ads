@@ -35,4 +35,5 @@ package Test is
    --  different color to make it stand out in the log output. This procedure
    --  should be called when an assertion fails or when an unexpected
    --  condition is encountered in the code.
+
 end Test;

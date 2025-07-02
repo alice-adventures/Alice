@@ -9,32 +9,18 @@
 --  This package implements the version query use case for the Alice
 --  application.
 
+with Alice.App.Query.Use_Case;
+with Alice.Result;
+
 package Alice.App.Query.Version is
 
-   type Use_Case is new Alice.App.Use_Case with record
-      Full_Text : Boolean := False;
-   end record;
-   --  This type represents the use case for querying the version of the Alice
-   --  application. It inherits from the Alice.App.Use_Case interface.
-
-   type Result (Status : Alice.Result.Status_Type) is
-     new Alice.Result.Object (Status)
-   with record
-      case Status is
-         when Alice.Result.Success =>
-            Version : Alice.UString;
-
-         when others =>
-            null;
-      end case;
-   end record;
-   --  This type represents the result of the version query.
+   type Object is new Alice.App.Query.Use_Case.Object with null record;
 
    overriding
    function Run
-     (Self : in out Use_Case; Ctx : Alice.Context.Object)
+     (Self : in out Object; Args : String := "")
       return Alice.Result.Object'Class;
-   --  This function retrieves the version of the Alice application.
-   --  It returns a result with the version information.
+   --  This function retrieves the version of the Alice application. It
+   --  returns a result with the version information.
 
 end Alice.App.Query.Version;

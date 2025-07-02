@@ -80,12 +80,23 @@ package Alice.IFace.OS_Cmd is
    with Pre'Class => Self.Is_Valid;
    --  Return the PATH where the OS command is found.
 
-   function Ctx (Self : in out Object) return Alice.OS_Context.Object_Access
+   function Context
+     (Self : in out Object) return Alice.OS_Context.Object_Access
    is abstract
    with Pre'Class => Self.Is_Valid;
    --  Return the OS context where the command is run. This is used to access
    --  the error handler and logger for the command. It is useful to log
    --  messages and handle errors that occur during the command execution.
+
+   procedure Context
+     (Self : in out Object; Ctx : Alice.OS_Context.Object_Access)
+   is abstract
+   with Pre'Class => Self.Is_Valid;
+   --  Set the OS context where the command is run. This is used to set the
+   --  error handler and logger for the command. It is useful to log messages
+   --  and handle errors that occur during the command execution. The context
+   --  is usually set when the command is created, but it can be changed later
+   --  if needed.
 
    function Run
      (Self : in out Object; Args : String; Exit_Status : Integer := 0)
@@ -142,4 +153,5 @@ package Alice.IFace.OS_Cmd is
    --  command to the log. It is useful for debugging purposes to see the
    --  output of the command and check if it is correct. The output is printed
    --  to the log with the debug level.
+
 end Alice.IFace.OS_Cmd;

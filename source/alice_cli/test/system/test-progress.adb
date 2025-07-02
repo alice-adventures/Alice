@@ -110,4 +110,5 @@ package body Test.Progress is
       Activity_With_Messages (Log, Progress, 3);
       Bug_That_Throw_Exception (Log, Progress);
    end Run;
+
 end Test.Progress;

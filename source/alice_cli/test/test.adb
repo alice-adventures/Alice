@@ -71,4 +71,5 @@ package body Test is
         (ANSI.Wrap ("[ FAIL ]", ANSI.Invert, ANSI.Foreground (ANSI.Red)));
       Alice.Std.Get_OS_Context.Log.Warning (Message);
    end Fail;
+
 end Test;

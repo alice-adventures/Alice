@@ -46,7 +46,13 @@ package Alice.Std.OS_Cmd is
    with Inline;
 
    overriding
-   function Ctx (Self : in out Object) return Alice.OS_Context.Object_Access
+   function Context
+     (Self : in out Object) return Alice.OS_Context.Object_Access
+   with Inline;
+
+   overriding
+   procedure Context
+     (Self : in out Object; OS_Ctx : Alice.OS_Context.Object_Access)
    with Inline;
 
    overriding
@@ -69,21 +75,21 @@ package Alice.Std.OS_Cmd is
 
    overriding
    function Cleanup
-     (Self       : in out Object;
+     (Self   : in out Object;
       Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
       return Alice.Result.Object'Class;
 
    overriding
    procedure Debug_Output_Result
-     (Self       : in out Object;
+     (Self   : in out Object;
       Result : in out Alice.IFace.OS_Cmd.Output_Result'Class);
 
 private
 
    type Object is new Alice.IFace.OS_Cmd.Object with record
-      Name   : Alice.UString;
-      Path   : GNAT.OS_Lib.String_Access := null;
-      OS_Ctx : Alice.OS_Context.Object_Access;
+      Name       : Alice.UString;
+      Path       : GNAT.OS_Lib.String_Access := null;
+      OS_Context : Alice.OS_Context.Object_Access;
    end record;
 
 end Alice.Std.OS_Cmd;

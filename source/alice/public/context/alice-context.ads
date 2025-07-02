@@ -31,7 +31,7 @@ package Alice.Context is
    --  perform tasks such as building the project, managing dependencies, and
    --  executing external commands.
 
-   type Object is record
+   type Object is tagged record
       Err : Alice.IFace.Error_Handler.Object_Access;
       --  The error handler for the application context. It is responsible for
       --  handling errors that occur during the execution of use cases.
@@ -50,6 +50,6 @@ package Alice.Context is
       --  application, such as Alr, Git, and Curl.
    end record;
 
-   type Object_Access is not null access all Object;
+   type Object_Access is not null access all Object'Class;
 
 end Alice.Context;

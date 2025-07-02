@@ -6,8 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
---  This package defines the top-level package for the Alice application.
+package Test.Query.Version is
 
-package Alice.App is
+   procedure Run (Log : Alice.IFace.Logger.Object_Access);
+   --  This procedure runs the test for the version query use case. It logs
+   --  the results of the test.
 
-end Alice.App;
+end Test.Query.Version;

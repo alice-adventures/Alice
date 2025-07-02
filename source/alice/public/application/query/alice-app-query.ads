@@ -6,9 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
---  This package is the top-level package for the query use cases in the Alice
---  application.
-
 package Alice.App.Query is
 
 end Alice.App.Query;

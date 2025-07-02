@@ -17,7 +17,7 @@ with Alice.IFace.Logger;
 
 package Alice.OS_Context is
 
-   type Object is record
+   type Object is tagged record
       Err : Alice.IFace.Error_Handler.Object_Access;
       --  The error handler for the OS commands. It is responsible for
       --  handling errors that occur during the execution of external ODS
@@ -28,6 +28,6 @@ package Alice.OS_Context is
       --  to the execution of external OS commands.
    end record;
 
-   type Object_Access is not null access all Object;
+   type Object_Access is not null access all Object'Class;
 
 end Alice.OS_Context;
