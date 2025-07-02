@@ -223,7 +223,7 @@ package body Test.OS_Cmd is
          "https://distrib-coffee.ipsl.jussieu.fr"
          & "/pub/linux/ubuntu-releases/25.04/ubuntu-25.04-desktop-amd64.iso "
          & "--output /dev/null",
-         1.0,
+         0.05,
          Expect);
 
       Run_OS_Cmd_With_Timeout_Result

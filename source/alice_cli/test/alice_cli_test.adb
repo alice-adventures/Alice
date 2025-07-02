@@ -54,6 +54,8 @@ begin
      (" --------------------------------------------------------------------");
    Put (ANSI.Reset);
 
+   Test.Section ("SYSTEM COMPONENTS", ANSI.Light_Cyan);
+
    Context.Log.Save_State;
    Test.Log.Run (Context.Log);
    Context.Log.Restore_State;
@@ -61,6 +63,7 @@ begin
    Test.Progress.Run (Context.Log, Context.Prog);
    Test.OS_Cmd.Run (Context);
 
+   Test.Section ("APP QUERIES", ANSI.Yellow);
    Test.Query.Version.Run;
 
    Context.Log.Trace_End;

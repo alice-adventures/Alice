@@ -8,15 +8,46 @@
 
 with Ada.Text_IO;
 
-with AnsiAda;
-
 with Alice.Std;
 
 package body Test is
 
-   package ANSI renames AnsiAda;
-
+   Main_Color : ANSI.Colors := ANSI.Light_Cyan;
    Last_Title : Boolean := False;
+
+   -------------
+   -- Section --
+   -------------
+
+   procedure Section (Section : String; Color : ANSI.Colors) is
+      Spaces : constant String :=
+        "                                                               ";
+   begin
+      Main_Color := Color;
+
+      Ada.Text_IO.New_Line;
+
+      Ada.Text_IO.Put_Line
+        (ANSI.Wrap
+           (" ----------------------------------"
+            & "---------------------------------- ",
+            ANSI.Invert,
+            ANSI.Foreground (Main_Color)));
+      Ada.Text_IO.Put_Line
+        (ANSI.Wrap
+           (" --  "
+            & Section
+            & Spaces (2 .. Spaces'Length - Section'Length)
+            & "-- ",
+            ANSI.Invert,
+            ANSI.Foreground (Main_Color)));
+      Ada.Text_IO.Put_Line
+        (ANSI.Wrap
+           (" ----------------------------------"
+            & "---------------------------------- ",
+            ANSI.Invert,
+            ANSI.Foreground (Main_Color)));
+   end Section;
 
    -----------
    -- Title --
@@ -29,7 +60,7 @@ package body Test is
         (ANSI.Wrap
            (" -- " & Title & " -- ",
             ANSI.Invert,
-            ANSI.Foreground (ANSI.Light_Cyan)));
+            ANSI.Foreground (Main_Color)));
       Last_Title := True;
    end Title;
 
@@ -46,9 +77,7 @@ package body Test is
 
       Ada.Text_IO.Put_Line
         (ANSI.Wrap
-           ("-- " & Subtitle,
-            ANSI.Bright,
-            ANSI.Foreground (ANSI.Cyan)));
+           ("-- " & Subtitle, ANSI.Bright, ANSI.Foreground (Main_Color)));
    end Subtitle;
 
    -------------

@@ -6,7 +6,17 @@
 --
 -------------------------------------------------------------------------------
 
+with AnsiAda;
+
 package Test is
+
+   package ANSI renames AnsiAda;
+
+   procedure Section (Section : String; Color : ANSI.Colors);
+   --  Print a section header in the log. Use it to mark the beginning of a
+   --  test or a section of the code. Typically, the section header is printed
+   --  in a different color and with a special format to make it stand out in
+   --  the log output.
 
    procedure Title (Title : String);
    --  Print a title in the log. Use it to mark the beginning of a test or a
