@@ -12,10 +12,11 @@
 with Alice.Context;
 with Alice.IFace.Use_Case;
 with Alice.Result;
+with Alice.Std;
 
 package Alice.App.Use_Case is
 
-   type Object is new Alice.IFace.Use_Case.Object with private;
+   type Object is abstract new Alice.IFace.Use_Case.Object with private;
 
    overriding
    function Initialize (Self : in out Object) return Alice.Result.Object'Class;
@@ -37,7 +38,7 @@ package Alice.App.Use_Case is
 private
 
    type Object is new Alice.IFace.Use_Case.Object with record
-      Context : Alice.Context.Object_Access;
+      Context : Alice.Context.Object_Access := Alice.Std.Get_Context;
    end record;
 
 end Alice.App.Use_Case;

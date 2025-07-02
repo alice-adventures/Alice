@@ -6,10 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-package Test.Query.Version is
+package Test.Query is
 
-   procedure Run;
-   --  This procedure runs the test for the version query use case. It logs
-   --  the results of the test.
-
-end Test.Query.Version;
+end Test.Query;

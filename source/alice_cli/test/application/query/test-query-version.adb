@@ -6,18 +6,40 @@
 --
 -------------------------------------------------------------------------------
 
+with GNAT.Source_Info;
+
 with Alice.App.Query.Version;
+with Alice.Result;
 
 package body Test.Query.Version is
 
-   procedure Run (Log : Alice.IFace.Logger.Object_Access) is
-      --  Local variables
-      Use_Case : Use_Case;
-      Result   : Alice.Result.Object'Class;
-      --  This procedure runs the test for the version query use case. It logs
-      --  the results of the test.
-   begin
+   --------------------
+   -- Return_Success --
+   --------------------
 
+   procedure Return_Success is
+      Use_Case : Alice.App.Query.Version.Object;
+   begin
+      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+
+      Result : constant Alice.Result.Object'Class := Use_Case.Run;
+      case Result.Status is
+         when Alice.Result.Success =>
+            Use_Case.Context.Log.Info (Alice.Str (Use_Case.Answer));
+            Test.Pass;
+
+         when Alice.Result.Error =>
+            Test.Fail (Alice.Str (Result.Message));
+      end case;
+   end Return_Success;
+
+   ---------
+   -- Run --
+   ---------
+
+   procedure Run is
+   begin
+      Return_Success;
    end Run;
 
 end Test.Query.Version;

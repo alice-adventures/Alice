@@ -18,24 +18,25 @@ with Alice.Std;
 with Test.Log;
 with Test.OS_Cmd;
 with Test.Progress;
+with Test.Query.Version;
 
 procedure Alice_CLI_Test is
 
    package ANSI renames AnsiAda;
 
-   Ctx : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
+   Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
 
 begin
    --  SELECT LOG LEVEL -------------------------------------------------------
-   --  Ctx.Log.Optimize_For_CLI (With_Color_Enabled => False);
-   Ctx.Log.Optimize_For_CLI (With_Color_Enabled => True);
+   --  Context.Log.Optimize_For_CLI (With_Color_Enabled => False);
+   Context.Log.Optimize_For_CLI (With_Color_Enabled => True);
 
-   --  Ctx.Log.SetDefault_Level;
-   Ctx.Log.Set_Verbose_Level;
-   --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => False);
-   --  Ctx.Log.Set_Trace_Level (With_Location_Enabled => True);
-   --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => False);
-   --  Ctx.Log.Set_Debug_Level (With_Location_Enabled => True);
+   --  Context.Log.SetDefault_Level;
+   Context.Log.Set_Verbose_Level;
+   --  Context.Log.Set_Trace_Level (With_Location_Enabled => False);
+   --  Context.Log.Set_Trace_Level (With_Location_Enabled => True);
+   --  Context.Log.Set_Debug_Level (With_Location_Enabled => False);
+   --  Context.Log.Set_Debug_Level (With_Location_Enabled => True);
    --  ------------------------------------------------------------------------
 
    Put (ANSI.Reset_All);
@@ -53,49 +54,14 @@ begin
      (" --------------------------------------------------------------------");
    Put (ANSI.Reset);
 
-   Ctx.Log.Save_State;
-   Test.Log.Run (Ctx.Log);
-   Ctx.Log.Restore_State;
+   Context.Log.Save_State;
+   Test.Log.Run (Context.Log);
+   Context.Log.Restore_State;
 
-   Test.Progress.Run (Ctx.Log, Ctx.Prog);
-   Test.OS_Cmd.Run (Ctx);
+   Test.Progress.Run (Context.Log, Context.Prog);
+   Test.OS_Cmd.Run (Context);
 
-   --  declare
-   --     Query_Version : Alice.App.Query.Version.Use_Case := (Full_Text => False);
-   --     Result        : constant Alice.Result.Object'Class :=
-   --       Query_Version.Run (Ctx);
-   --  begin
-   --     case Result.Status is
-   --        when Alice.Result.Success =>
-   --           declare
-   --              R : constant Alice.App.Query.Version.Result :=
-   --                Alice.App.Query.Version.Result (Result);
-   --           begin
-   --              Put_Line ("Alice version: " & R.Version'Image);
-   --           end;
+   Test.Query.Version.Run;
 
-   --        when Alice.Result.Error =>
-   --           --  #FIXME - Handle error properly with an Error_Handler object
-   --           Ctx.Log.Info
-   --             ("Error retrieving Alice version: "
-   --              & Alice.Str (Result.Message));
-   --     end case;
-   --  end;
-
-   --  declare
-   --     Out_Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-   --       Ctx.OS_Cmd.Curl.Timed_Run
-   --         ("https://ftp.funet.fi/pub/Linux/mirrors/ubuntu/releases/25.04/"
-   --          & "ubuntu-25.04-netboot-amd64.tar.gz",
-   --          OS_Ctx,
-   --          1.0);
-   --     Result     : constant Alice.Result.Object'Class :=
-   --       Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
-   --  begin
-   --     null;
-   --  --  Alice.Std.OS_Cmd.Debug_Output_Result (Out_Result, OS_Ctx);
-   --  --  Result := Ctx.OS_Cmd.Curl.Cleanup (Out_Result, OS_Ctx);
-   --  end;
-
-   Ctx.Log.Trace_End;
+   Context.Log.Trace_End;
 end Alice_CLI_Test;
