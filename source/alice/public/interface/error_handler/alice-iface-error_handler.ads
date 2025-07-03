@@ -56,22 +56,6 @@ package Alice.IFace.Error_Handler is
    --  exit codes when exiting the application or when reporting an error to
    --  the user.
 
-   overriding
-   function Initialize
-     (Self : in out Object) return Alice.Result.Object'Class is abstract;
-   --  Initialize the error handler object. This is a no-op in this interface,
-   --  but it can be overridden in derived classes to perform any necessary
-   --  initialization. It should return a result indicating success or failure
-   --  of the initialization. If the initialization fails, it should return an
-   --  error result that can be handled by the application.
-
-   overriding
-   procedure Finalize (Self : in out Object) is abstract;
-   --  Finalize the error handler object. This is a no-op in this interface,
-   --  but it can be overridden in derived classes to perform any necessary
-   --  cleanup. It is called when the application is shutting down to clean up
-   --  resources or perform any final logging or error handling.
-
    function Handle_Error
      (Self : in out Object; Result : Alice.Result.Error_Object'Class)
       return Boolean

@@ -28,7 +28,7 @@ package Alice.Std.OS_Cmd is
    --  cannot be found, an error is returned.
 
    overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class;
+   procedure Initialize (Self : in out Object);
 
    overriding
    procedure Finalize (Self : in out Object);
@@ -87,7 +87,7 @@ package Alice.Std.OS_Cmd is
 private
 
    type Object is new Alice.IFace.OS_Cmd.Object with record
-      Name       : Alice.UString;
+      Name       : Alice.UString := Alice.UStr ("");
       Path       : GNAT.OS_Lib.String_Access := null;
       OS_Context : Alice.OS_Context.Object_Access;
    end record;

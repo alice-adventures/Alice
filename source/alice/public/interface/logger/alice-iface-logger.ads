@@ -32,8 +32,6 @@
 
 with GNAT.Source_Info; use GNAT.Source_Info;
 
-with Alice.Result;
-
 package Alice.IFace.Logger is
 
    type Object is interface and Alice.IFace.Object;
@@ -45,15 +43,6 @@ package Alice.IFace.Logger is
    --  Object_Access is an access type for the Object interface. It allows
    --  for dynamic dispatch and polymorphism, enabling different logger
    --  implementations to be used interchangeably.
-
-   overriding
-   function Initialize
-     (Self : in out Object) return Alice.Result.Object'Class is abstract;
-   --  Initialize the logger object.
-
-   overriding
-   procedure Finalize (Self : in out Object) is abstract;
-   --  Finalize the logger object.
 
    procedure Optimize_For_CLI
      (Self : in out Object; With_Color_Enabled : Boolean := True)

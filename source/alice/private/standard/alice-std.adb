@@ -45,10 +45,10 @@ package body Alice.Std is
 
    Std_Ctx : constant Alice.Context.Object_Access :=
      new Alice.Context.Object'
-       (Err      => Std_Err,
-        Log      => Std_Log,
-        Prog => Std_Progress,
-        OS_Cmd   =>
+       (Err    => Std_Err,
+        Log    => Std_Log,
+        Prog   => Std_Progress,
+        OS_Cmd =>
           (Alr => Std_Alr_Cmd, Curl => Std_Curl_Cmd, Git => Std_Git_Cmd));
 
    Std_Ctx_Initialized : Boolean := False;
@@ -67,18 +67,24 @@ package body Alice.Std is
    procedure Init_OS_Cmd (Cmd : Alice.IFace.OS_Cmd.Object_Access) is
    begin
       if not Cmd.Is_Valid then
-         Result : constant Alice.Result.Object'Class := Cmd.Initialize;
-
-         if Result.Status = Alice.Result.Error then
-            Std_Err.Exit_Application
-              (Result,
-               Alice.UStr
-                 ("Make sure the command "
-                  & Cmd.Name
-                  & " is installed "
-                  & "and available in your PATH."));
-         end if;
+         Cmd.Initialize;
       end if;
+
+   exception
+      when Program_Error =>
+         Result : constant Alice.Result.Error_Object :=
+           (Status  => Alice.Result.Error,
+            Level   => Alice.Result.System,
+            Message =>
+              Alice.UStr ("Failed to initialize OS command: " & Cmd.Name));
+
+         Std_Err.Exit_Application
+           (Result,
+            Alice.UStr
+              ("Make sure the command "
+               & Cmd.Name
+               & " is installed "
+               & "and available in your PATH."));
    end Init_OS_Cmd;
 
    -----------------

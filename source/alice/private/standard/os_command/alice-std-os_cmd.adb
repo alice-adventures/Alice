@@ -67,23 +67,13 @@ package body Alice.Std.OS_Cmd is
    ----------------
 
    overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class
-   is
+   procedure Initialize (Self : in out Object) is
    begin
       Self.Path := GNAT.OS_Lib.Locate_Exec_On_Path (Alice.Str (Self.Name));
 
       if Self.Path = null then
-         return
-            Result : constant Alice.Result.Error_Object :=
-              (Status  => Alice.Result.Error,
-               Level   => Alice.Result.System,
-               Message =>
-                 Alice.UStr
-                   ("Command '"
-                    & Alice.Str (Self.Name)
-                    & "' not found in PATH"));
-      else
-         return Result : Alice.Result.Success_Object;
+         raise Program_Error
+           with "Command '" & Alice.Str (Self.Name) & "' not found in PATH";
       end if;
    end Initialize;
 
@@ -106,8 +96,7 @@ package body Alice.Std.OS_Cmd is
 
    overriding
    function Is_Valid (Self : in out Object) return Boolean
-   is (Self.Name /= Alice.UStr ("")
-       and then Self.Path /= null
+   is (Self.Path /= null
        and then Self.Path.all /= ""
        and then Self.OS_Context /= null);
 

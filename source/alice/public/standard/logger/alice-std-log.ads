@@ -13,22 +13,16 @@
 with GNAT.Source_Info; use GNAT.Source_Info;
 
 with Alice.IFace.Logger;
-with Alice.Result;
 
 package Alice.Std.Log is
 
    type Object is new Alice.IFace.Logger.Object with null record;
 
    overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class;
+   procedure Initialize (Self : in out Object);
    --  Initialize the logger object. This is called when the logger is
    --  created. It sets the default logging level to Warning (verbose off) in
    --  release builds and to Debug in development and validation builds.
-
-   overriding
-   procedure Finalize (Self : in out Object);
-   --  Finalize the logger object. This should be called when the logger is
-   --  destroyed.
 
    overriding
    procedure Optimize_For_CLI

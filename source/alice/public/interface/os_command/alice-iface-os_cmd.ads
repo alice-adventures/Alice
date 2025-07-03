@@ -53,8 +53,7 @@ package Alice.IFace.OS_Cmd is
    --  used when the command output is saved to a temporary file.
 
    overriding
-   function Initialize
-     (Self : in out Object) return Alice.Result.Object'Class is abstract;
+   procedure Initialize (Self : in out Object) is abstract;
    --  Initialize an OS command, or raise an exception if the command cannot
    --  be found in PATH.
 
@@ -70,8 +69,7 @@ package Alice.IFace.OS_Cmd is
    --  avoid running commands that are not available on the system, such as
    --  when the command is not installed or the command is not found in PATH.
 
-   function Name (Self : in out Object) return String is abstract
-   with Pre'Class => Self.Is_Valid;
+   function Name (Self : in out Object) return String is abstract;
    --  Return the name of the OS command. This is the name of the executable
    --  file to run, without the path. The path is searched in the system PATH
    --  environment variable.

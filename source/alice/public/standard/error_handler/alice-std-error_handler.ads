@@ -17,12 +17,6 @@ package Alice.Std.Error_Handler is
    type Object is new Alice.IFace.Error_Handler.Object with null record;
 
    overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class;
-
-   overriding
-   procedure Finalize (Self : in out Object);
-
-   overriding
    function Handle_Error
      (Self : in out Object; Result : Alice.Result.Error_Object'Class)
       return Boolean;

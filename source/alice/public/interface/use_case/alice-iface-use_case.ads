@@ -28,21 +28,6 @@ package Alice.IFace.Use_Case is
    --  expected that use cases will extend this interface to add additional
    --  parameters as needed.
 
-   overriding
-   function Initialize
-     (Self : in out Object) return Alice.Result.Object'Class is abstract;
-   --  This function is an abstract method that must be implemented by any
-   --  concrete use case type. It is expected to initialize the use case and
-   --  return a result of type Alice.Result.Object'Class. This is typically
-   --  used to set up any necessary context or parameters for the use case.
-
-   overriding
-   procedure Finalize (Self : in out Object) is abstract;
-   --  This procedure is an abstract method that must be implemented by any
-   --  concrete use case type. It is expected to clean up any resources or
-   --  state associated with the use case. This is typically called when the
-   --  use case is no longer needed, allowing for proper resource management.
-
    function Context (Self : in out Object) return Alice.Context.Object_Access
    is abstract;
    --  This function returns the context associated with the use case. The

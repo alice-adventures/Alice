@@ -35,15 +35,6 @@ package Alice.IFace.Progress_Tracker is
    type Object_Access is not null access all Object'Class;
    --  The access type for the progress logger object.
 
-   overriding
-   function Initialize
-     (Self : in out Object) return Alice.Result.Object'Class is abstract;
-   --  Initialize the progress logger object.
-
-   overriding
-   procedure Finalize (Self : in out Object) is abstract;
-   --  Finalize the progress logger object.
-
    procedure Start (Self : in out Object; Title : String) is abstract;
    --  Start a new progress logging activity with the given title.
 

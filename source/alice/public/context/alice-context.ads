@@ -20,7 +20,7 @@ with Alice.IFace.OS_Cmd;
 
 package Alice.Context is
 
-   type OS_Commands is record
+   type OS_Commands is tagged record
       Alr  : Alice.IFace.OS_Cmd.Object_Access;
       Curl : Alice.IFace.OS_Cmd.Object_Access;
       Git  : Alice.IFace.OS_Cmd.Object_Access;
@@ -50,6 +50,6 @@ package Alice.Context is
       --  application, such as Alr, Git, and Curl.
    end record;
 
-   type Object_Access is not null access all Object'Class;
+   type Object_Access is not null access all Alice.Context.Object'Class;
 
 end Alice.Context;

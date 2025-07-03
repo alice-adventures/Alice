@@ -16,13 +16,6 @@ package Alice.App.Query.Use_Case is
 
    type Object is new Alice.App.Use_Case.Object with private;
 
-   overriding
-   function Initialize
-     (Self : in out Object) return Alice.Result.Object'Class;
-
-   overriding
-   procedure Finalize (Self : in out Object);
-
    function Answer (Self : Object) return Alice.UString;
 
    procedure Answer

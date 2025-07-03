@@ -128,8 +128,7 @@ package body Alice.Std.Log is
    ----------------
 
    overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class
-   is
+   procedure Initialize (Self : in out Object) is
    begin
       case Alice_Config.Build_Profile is
          when Alice_Config.release =>
@@ -138,18 +137,7 @@ package body Alice.Std.Log is
          when others =>
             Self.Set_Debug_Level (True);
       end case;
-      return Result : Alice.Result.Success_Object;
    end Initialize;
-
-   --------------
-   -- Finalize --
-   --------------
-
-   overriding
-   procedure Finalize (Self : in out Object) is
-   begin
-      null;
-   end Finalize;
 
    ----------------------
    -- Optimize_For_CLI --

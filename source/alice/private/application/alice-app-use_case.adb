@@ -8,24 +8,6 @@
 
 package body Alice.App.Use_Case is
 
-   ----------------
-   -- Initialize --
-   ----------------
-
-   overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class
-   is
-   begin
-      return Result : Alice.Result.Success_Object;
-   end Initialize;
-
-   --------------
-   -- Finalize --
-   --------------
-
-   overriding
-   procedure Finalize (Self : in out Object) is null;
-
    -------------
    -- Context --
    -------------

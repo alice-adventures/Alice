@@ -27,27 +27,6 @@ package body Alice.Std.Progress is
         with "Activity not started, call Start before using other methods";
    end Bug;
 
-   ----------------
-   -- Initialize --
-   ----------------
-
-   overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class
-   is
-   begin
-      return Result : Alice.Result.Success_Object;
-   end Initialize;
-
-   --------------
-   -- Finalize --
-   --------------
-
-   overriding
-   procedure Finalize (Self : in out Object) is
-   begin
-      null;
-   end Finalize;
-
    -----------
    -- Start --
    -----------

@@ -19,12 +19,6 @@ package Alice.App.Use_Case is
    type Object is abstract new Alice.IFace.Use_Case.Object with private;
 
    overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class;
-
-   overriding
-   procedure Finalize (Self : in out Object);
-
-   overriding
    function Context (Self : in out Object) return Alice.Context.Object_Access;
 
    overriding

@@ -13,21 +13,10 @@
 with Simple_Logging;
 
 with Alice.IFace.Progress_Tracker;
-with Alice.Result;
 
 package Alice.Std.Progress is
 
    type Object is new Alice.IFace.Progress_Tracker.Object with private;
-
-   overriding
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class;
-   --  Initializes the progress logger object. This must be called when the
-   --  logger is created.
-
-   overriding
-   procedure Finalize (Self : in out Object);
-   --  Finalizes the progress logger object. This should be called when the
-   --  logger is destroyed.
 
    overriding
    procedure Start (Self : in out Object; Title : String);

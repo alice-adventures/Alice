@@ -6,25 +6,25 @@
 --
 -------------------------------------------------------------------------------
 
---  This package is the top-level package for the Alice interfaces. According
---  to the Ada 2022 standard, it is recommended to use a single package for
---  all interfaces in a project. This package serves as the main entry point
---  for all interfaces in the Alice application.
-
-with Alice.Result;
+--  This package serves as the main entry point for all interfaces in the
+--  Alice application.
 
 package Alice.IFace is
 
    type Object is interface;
 
-   function Initialize (Self : in out Object) return Alice.Result.Object'Class
-   is abstract;
+   procedure Initialize (Self : in out Object) is null;
    --  This procedure should be called before using any other procedures or
    --  functions in the interface. It sets up the necessary context and
    --  resources for the interface implementation to function correctly.
+   --  Default implementation does nothing, but can be overridden by specific
+   --  implementations.
+   --
+   --  In case of error in an overridden implementation, an exception should
+   --  be raised to indicate the failure to initialize the interface.
 
-   procedure Finalize (Self : in out Object) is abstract;
+   procedure Finalize (Self : in out Object) is null;
    --  This procedure should be called when the application is shutting down
-   --  to clean up resources.
+   --  to clean up interface resources.
 
 end Alice.IFace;
