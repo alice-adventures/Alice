@@ -29,6 +29,7 @@ package Alice.Std.OS_Cmd is
 
    overriding
    procedure Initialize (Self : in out Object);
+   --  Raise Program_Error if the command cannot be found in PATH.
 
    overriding
    procedure Finalize (Self : in out Object);
