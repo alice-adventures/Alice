@@ -1,0 +1,58 @@
+-------------------------------------------------------------------------------
+--
+--  ALICE - Adventures for Learning and Inspiring Coding Excellence
+--  Copyright (c) 2023-2025 Francesc Rocher <francesc.rocher@gmail.com>
+--  SPDX-License-Identifier: MIT
+--
+-------------------------------------------------------------------------------
+
+--  This package provides the Profile type for operations related to VCS
+--  profiles in the Alice application. It defines a tagged record that
+--  encapsulates the user profile information, including name, email, login,
+--  avatar, token, and SPDX ID. It also provides functions to access and
+--  manipulate these fields, as well as a procedure to save the profile to a
+--  file.
+
+with Alice.Result;
+
+package Alice.Core.VCS.Profile is
+
+   type Object is new Alice.Controlled with private;
+
+   type Object_Access is access Object;
+
+   function Get_User_Name (Self : Object) return String
+   with Inline;
+
+   function Get_User_Email (Self : Object) return String
+   with Inline;
+
+   function Get_User_Login (Self : Object) return String
+   with Inline;
+
+   function Get_User_Avatar (Self : Object) return String
+   with Inline;
+
+   function Get_User_Token (Self : Object) return String
+   with Inline;
+
+   function Get_SPDX_Id (Self : Object) return String
+   with Inline;
+
+   procedure Set_SPDX_Id (Self : in out Object; SPDX : String);
+
+   function Save_To_File
+     (Self : Object; File : String) return Alice.Result.Object'Class;
+
+private
+
+   type Object is new Alice.Controlled with record
+      User_Name   : Alice.UString := Alice.UStr ("");
+      User_Email  : Alice.UString := Alice.UStr ("");
+      User_Login  : Alice.UString := Alice.UStr ("");
+      User_Avatar : Alice.UString := Alice.UStr ("");
+      User_Token  : Alice.UString := Alice.UStr ("");
+      SPDX_Id     : Alice.UString := Alice.UStr ("");
+   end record;
+
+end Alice.Core.VCS.Profile;
