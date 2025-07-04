@@ -52,16 +52,6 @@ package Alice.IFace.OS_Cmd is
    --  A record to hold the exit code and the output of a command. This is
    --  used when the command output is saved to a temporary file.
 
-   overriding
-   procedure Initialize (Self : in out Object) is abstract;
-   --  Initialize an OS command, or raise an exception if the command cannot
-   --  be found in PATH.
-
-   overriding
-   procedure Finalize (Self : in out Object) is abstract;
-   --  Finalize an OS command. Delete temporary files and free allocated
-   --  memory by the command.
-
    function Is_Valid (Self : in out Object) return Boolean is abstract;
    --  Check if the OS command has been initialized and is valid. This is used
    --  to check if the command can be run before running it. If the command is

@@ -58,9 +58,20 @@ package body Alice.Std.OS_Cmd is
 
    function New_Object
      (Name : String; OS_Ctx : Alice.OS_Context.Object_Access)
-      return Alice.IFace.OS_Cmd.Object_Access
-   is (new Alice.Std.OS_Cmd.Object'
-         (Name => Alice.UStr (Name), Path => null, OS_Context => OS_Ctx));
+      return Alice.IFace.OS_Cmd.Object_Access is
+   begin
+      return
+         Instance : constant Alice.IFace.OS_Cmd.Object_Access :=
+           new Alice.Std.OS_Cmd.Object'
+             (Ada.Finalization.Controlled
+              with
+                Name       => Alice.UStr (Name),
+                Path       => null,
+                OS_Context => OS_Ctx)
+      do
+         Instance.Initialize;
+      end return;
+   end New_Object;
 
    ----------------
    -- Initialize --
@@ -72,8 +83,15 @@ package body Alice.Std.OS_Cmd is
       Self.Path := GNAT.OS_Lib.Locate_Exec_On_Path (Alice.Str (Self.Name));
 
       if Self.Path = null then
-         raise Program_Error
-           with "Command '" & Alice.Str (Self.Name) & "' not found in PATH";
+         Self.OS_Context.Err.Exit_Application
+           (Alice.Result.Error_Object'
+              (Status  => Alice.Result.Error,
+               Level   => Alice.Result.System,
+               Message => Alice.UStr ("Initialization failed")),
+            "Make sure the command """
+            & Self.Name
+            & """ is installed "
+            & "and available in your PATH.");
       end if;
    end Initialize;
 
@@ -84,6 +102,7 @@ package body Alice.Std.OS_Cmd is
    overriding
    procedure Finalize (Self : in out Object) is
    begin
+      Self.Context.Log.Trace_Begin (Alice.Str (Self.Name));
       if Self.Path /= null then
          GNAT.OS_Lib.Free (Self.Path);
          Self.Path := null;

@@ -6,15 +6,19 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Finalization;
 with GNAT.OS_Lib;
-use all type GNAT.OS_Lib.String_Access;
 
 with Alice.IFace.OS_Cmd;
 with Alice.Result;
 
 package Alice.Std.OS_Cmd is
 
-   type Object is new Alice.IFace.OS_Cmd.Object with private;
+   use all type GNAT.OS_Lib.String_Access;
+
+   type Object is
+     new Ada.Finalization.Controlled
+     and Alice.IFace.OS_Cmd.Object with private;
 
    type Object_Access is not null access all Object'Class;
 
@@ -29,7 +33,6 @@ package Alice.Std.OS_Cmd is
 
    overriding
    procedure Initialize (Self : in out Object);
-   --  Raise Program_Error if the command cannot be found in PATH.
 
    overriding
    procedure Finalize (Self : in out Object);
@@ -87,10 +90,11 @@ package Alice.Std.OS_Cmd is
 
 private
 
-   type Object is new Alice.IFace.OS_Cmd.Object with record
+   type Object is new Ada.Finalization.Controlled and Alice.IFace.OS_Cmd.Object
+   with record
       Name       : Alice.UString := Alice.UStr ("");
       Path       : GNAT.OS_Lib.String_Access := null;
-      OS_Context : Alice.OS_Context.Object_Access;
+      OS_Context : Alice.OS_Context.Object_Access := Alice.Std.Get_OS_Context;
    end record;
 
 end Alice.Std.OS_Cmd;

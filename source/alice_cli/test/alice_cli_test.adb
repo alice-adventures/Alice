@@ -66,5 +66,8 @@ begin
    Test.Section ("APP QUERIES", ANSI.Yellow);
    Test.Query.Version.Run;
 
-   Context.Log.Trace_End;
+   Context.Log.Set_Trace_Level (With_Location_Enabled => False);
+   New_Line;
+   Context.Log.Trace ("Finalization of Controlled Objects");
+   New_Line;
 end Alice_CLI_Test;
