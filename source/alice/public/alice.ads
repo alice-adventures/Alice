@@ -12,9 +12,14 @@
 --  allowing for flexible string manipulation without worrying about fixed
 --  sizes.
 
+with Ada.Finalization;
+
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package Alice is
+
+   subtype Controlled is Ada.Finalization.Controlled;
+   --  A subtype of `Ada.Finalization.Controlled` for convenience.
 
    subtype UString is Unbounded_String;
    --  A subtype of `Unbounded_String` for convenience.

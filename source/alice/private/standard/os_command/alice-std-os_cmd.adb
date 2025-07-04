@@ -24,12 +24,14 @@ package body Alice.Std.OS_Cmd is
       Level       : Alice.Result.Error_Level;
       Message     : String;
       Exit_Status : Integer) return Alice.IFace.OS_Cmd.Exit_Result
-   is (Status      => Alice.Result.Error,
-       Level       => Level,
-       Message     =>
-         Alice.UStr
-           ("Error in command '" & Alice.Str (Self.Name) & "'': " & Message),
-       Exit_Status => Exit_Status);
+   is (Alice.Controlled
+       with
+         Status      => Alice.Result.Error,
+         Level       => Level,
+         Message     =>
+           Alice.UStr
+             ("Error in command '" & Alice.Str (Self.Name) & "'': " & Message),
+         Exit_Status => Exit_Status);
 
    -------------------------
    -- Error_Output_Result --
@@ -43,14 +45,16 @@ package body Alice.Std.OS_Cmd is
       Temp_FD     : GNAT.OS_Lib.File_Descriptor := GNAT.OS_Lib.Null_FD;
       Temp_File   : GNAT.OS_Lib.String_Access := null)
       return Alice.IFace.OS_Cmd.Output_Result
-   is (Status      => Alice.Result.Error,
-       Level       => Level,
-       Message     =>
-         Alice.UStr
-           ("Error in command '" & Alice.Str (Self.Name) & "': " & Message),
-       Exit_Status => Exit_Status,
-       Temp_FD     => Temp_FD,
-       Temp_File   => Temp_File);
+   is (Alice.Controlled
+       with
+         Status      => Alice.Result.Error,
+         Level       => Level,
+         Message     =>
+           Alice.UStr
+             ("Error in command '" & Alice.Str (Self.Name) & "': " & Message),
+         Exit_Status => Exit_Status,
+         Temp_FD     => Temp_FD,
+         Temp_File   => Temp_File);
 
    ----------------
    -- New_OS_Cmd --
@@ -63,7 +67,7 @@ package body Alice.Std.OS_Cmd is
       return
          Instance : constant Alice.IFace.OS_Cmd.Object_Access :=
            new Alice.Std.OS_Cmd.Object'
-             (Ada.Finalization.Controlled
+             (Alice.Controlled
               with
                 Name       => Alice.UStr (Name),
                 Path       => null,
@@ -85,9 +89,11 @@ package body Alice.Std.OS_Cmd is
       if Self.Path = null then
          Self.OS_Context.Err.Exit_Application
            (Alice.Result.Error_Object'
-              (Status  => Alice.Result.Error,
-               Level   => Alice.Result.System,
-               Message => Alice.UStr ("Initialization failed")),
+              (Alice.Controlled
+               with
+                 Status  => Alice.Result.Error,
+                 Level   => Alice.Result.System,
+                 Message => Alice.UStr ("Initialization failed")),
             "Make sure the command """
             & Self.Name
             & """ is installed "
@@ -182,7 +188,10 @@ package body Alice.Std.OS_Cmd is
       if Returned_Code = Exit_Status then
          return
             Result : constant Alice.IFace.OS_Cmd.Exit_Result :=
-              (Status => Alice.Result.Success, Exit_Status => Returned_Code)
+              (Alice.Controlled
+               with
+                 Status      => Alice.Result.Success,
+                 Exit_Status => Returned_Code)
          do
             Self.Context.Log.Trace_Return (Result'Image);
          end return;
@@ -239,27 +248,31 @@ package body Alice.Std.OS_Cmd is
       if Returned_Code = Exit_Status then
          return
             Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Status      => Alice.Result.Success,
-               Exit_Status => Returned_Code,
-               Temp_FD     => Temp_FD,
-               Temp_File   => Temp_File)
+              (Alice.Controlled
+               with
+                 Status      => Alice.Result.Success,
+                 Exit_Status => Returned_Code,
+                 Temp_FD     => Temp_FD,
+                 Temp_File   => Temp_File)
          do
             Self.Context.Log.Trace_Return (Result'Image);
          end return;
       else
          return
             Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Status      => Alice.Result.Error,
-               Level       => Alice.Result.System,
-               Message     =>
-                 Alice.UStr
-                   ("command exit status is "
-                    & Returned_Code'Image
-                    & ", expected "
-                    & Exit_Status'Image),
-               Exit_Status => Returned_Code,
-               Temp_FD     => Temp_FD,
-               Temp_File   => Temp_File)
+              (Alice.Controlled
+               with
+                 Status      => Alice.Result.Error,
+                 Level       => Alice.Result.System,
+                 Message     =>
+                   Alice.UStr
+                     ("command exit status is "
+                      & Returned_Code'Image
+                      & ", expected "
+                      & Exit_Status'Image),
+                 Exit_Status => Returned_Code,
+                 Temp_FD     => Temp_FD,
+                 Temp_File   => Temp_File)
          do
             Self.Context.Log.Trace_Return (Result'Image);
          end return;
@@ -349,10 +362,12 @@ package body Alice.Std.OS_Cmd is
       else
          return
             Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Status      => Alice.Result.Success,
-               Exit_Status => 0,
-               Temp_FD     => Temp_FD,
-               Temp_File   => Temp_File)
+              (Alice.Controlled
+               with
+                 Status      => Alice.Result.Success,
+                 Exit_Status => 0,
+                 Temp_FD     => Temp_FD,
+                 Temp_File   => Temp_File)
          do
             Self.Context.Log.Trace_Return (Result'Image);
          end return;
@@ -378,7 +393,8 @@ package body Alice.Std.OS_Cmd is
             then
                return
                   Result : constant Alice.Result.Success_Object :=
-                    (Status => Alice.Result.Success)
+                    (Alice.Controlled
+                     with Status => Alice.Result.Success)
                do
                   Self.Context.Log.Trace ("No temporary file to clean up");
                   Self.Context.Log.Trace_Return (Result'Image);
@@ -397,19 +413,22 @@ package body Alice.Std.OS_Cmd is
                if Success then
                   return
                      Result : constant Alice.Result.Success_Object :=
-                       (Status => Alice.Result.Success)
+                       (Alice.Controlled
+                        with Status => Alice.Result.Success)
                   do
                      Self.Context.Log.Trace_Return (Result'Image);
                   end return;
                else
                   return
                      Result : constant Alice.Result.Error_Object :=
-                       (Status  => Alice.Result.Error,
-                        Level   => Alice.Result.System,
-                        Message =>
-                          Alice.UStr
-                            ("Failed to delete temporary file "
-                             & Alice.Str (Self.Name)))
+                       (Alice.Controlled
+                        with
+                          Status  => Alice.Result.Error,
+                          Level   => Alice.Result.System,
+                          Message =>
+                            Alice.UStr
+                              ("Failed to delete temporary file "
+                               & Alice.Str (Self.Name)))
                   do
                      Self.Context.Log.Trace_Return (Result'Image);
                   end return;
