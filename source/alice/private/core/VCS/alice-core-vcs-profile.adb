@@ -6,6 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
+with SPDX;
+
 package body Alice.Core.VCS.Profile is
 
    -------------------
@@ -54,9 +56,16 @@ package body Alice.Core.VCS.Profile is
    -- Set_SPDX_Id --
    -----------------
 
-   procedure Set_SPDX_Id (Self : in out Object; SPDX : String) is
+   procedure Set_SPDX_Id (Self : in out Object; SPDX_Id : String) is
+      --  #FIXME - Set the default SPDX ID in the config file.
+      Default_SPDX_Id : constant String := "MIT";
+      Expression      : constant SPDX.Expression := SPDX.Parse (SPDX_Id);
    begin
-      Self.SPDX_Id := Alice.UStr (SPDX);
+      if Expression.Valid then
+         Self.SPDX_Id := Alice.UStr (SPDX_Id);
+      else
+         Self.SPDX_Id := Alice.UStr (Default_SPDX_Id);
+      end if;
    end Set_SPDX_Id;
 
    ------------------

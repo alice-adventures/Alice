@@ -39,10 +39,19 @@ package Alice.Core.VCS.Profile is
    function Get_SPDX_Id (Self : Object) return String
    with Inline;
 
-   procedure Set_SPDX_Id (Self : in out Object; SPDX : String);
+   procedure Set_SPDX_Id (Self : in out Object; SPDX_Id : String);
+   --  Set_SPDX_Id sets the SPDX ID for the VCS profile object. It updates the
+   --  User_SPDX_Id field with the provided SPDX string. This allows the
+   --  profile to include the SPDX ID, which is useful for licensing and
+   --  compliance purposes. If the SPDX string is not valid, a default SPDX ID
+   --  will be set, depending on the default SPDX ID defined in the
+   --  implementation.
 
    function Save_To_File
      (Self : Object; File : String) return Alice.Result.Object'Class;
+   --  Saves the VCS profile to a file. The implementation should write the
+   --  profile information to the specified file in a format that can be
+   --  easily read back later.
 
 private
 
