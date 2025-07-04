@@ -20,7 +20,7 @@ package body Alice.App.Query.Version is
       return Alice.Result.Object'Class is
    begin
       Self.Context.Log.Trace_Begin;
-      Self.Answer (Alice.UStr (Alice_Config.Crate_Version));
+      Self.Answer (Alice_Config.Crate_Version);
       return Result : Alice.Result.Success_Object do
          Self.Context.Log.Trace_Return
            (Result'Image & " with version " & Self.Answer'Image);

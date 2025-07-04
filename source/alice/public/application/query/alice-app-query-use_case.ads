@@ -16,10 +16,10 @@ package Alice.App.Query.Use_Case is
 
    type Object is new Alice.App.Use_Case.Object with private;
 
-   function Answer (Self : Object) return Alice.UString;
+   function Answer (Self : Object) return String;
 
    procedure Answer
-     (Self : in out Object; Value : Alice.UString);
+     (Self : in out Object; Value : String);
 
    overriding
    function Run

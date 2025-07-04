@@ -1,0 +1,15 @@
+   --  type Result (Status : Alice.Result.Status_Type) is
+   --    new Alice.Result.Object (Status)
+   --  with record
+   --     case Status is
+   --        when Alice.Result.Success =>
+   --           User_Name  : Alice.UString;
+   --           User_Email : Alice.UString;
+   --           User_Login : Alice.UString;
+   --           User_Token : Alice.UString;
+   --           SPDX_ID    : Alice.UString;
+
+   --        when Alice.Result.Error =>
+   --           null;
+   --     end case;
+   --  end record;

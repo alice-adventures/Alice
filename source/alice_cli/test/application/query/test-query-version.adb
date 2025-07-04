@@ -25,7 +25,7 @@ package body Test.Query.Version is
       Result : constant Alice.Result.Object'Class := Use_Case.Run;
       case Result.Status is
          when Alice.Result.Success =>
-            Use_Case.Context.Log.Info (Alice.Str (Use_Case.Answer));
+            Use_Case.Context.Log.Info (Use_Case.Answer);
             Test.Pass;
 
          when Alice.Result.Error =>

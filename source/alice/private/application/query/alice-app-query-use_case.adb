@@ -15,16 +15,16 @@ package body Alice.App.Query.Use_Case is
    -- Answer --
    ------------
 
-   function Answer (Self : Object) return Alice.UString
-   is (Self.Answer);
+   function Answer (Self : Object) return String
+   is (Alice.Str (Self.Answer));
 
    ------------
    -- Answer --
    ------------
 
-   procedure Answer (Self : in out Object; Value : Alice.UString) is
+   procedure Answer (Self : in out Object; Value : String) is
    begin
-      Self.Answer := Value;
+      Self.Answer := Alice.UStr (Value);
    end Answer;
 
    ---------

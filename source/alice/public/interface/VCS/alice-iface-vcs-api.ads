@@ -32,7 +32,7 @@ with Alice.IFace.VCS.Profile;
 
 package Alice.IFace.VCS.API is
 
-   type Object is interface;
+   type Object is interface and Alice.IFace.Object;
 
    function Get_User
      (Self : in out Object; Name : String) return Alice.Result.Object'Class
