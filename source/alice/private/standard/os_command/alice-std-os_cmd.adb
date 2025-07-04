@@ -393,8 +393,7 @@ package body Alice.Std.OS_Cmd is
             then
                return
                   Result : constant Alice.Result.Success_Object :=
-                    (Alice.Controlled
-                     with Status => Alice.Result.Success)
+                    (Alice.Controlled with Status => Alice.Result.Success)
                do
                   Self.Context.Log.Trace ("No temporary file to clean up");
                   Self.Context.Log.Trace_Return (Result'Image);
@@ -413,8 +412,7 @@ package body Alice.Std.OS_Cmd is
                if Success then
                   return
                      Result : constant Alice.Result.Success_Object :=
-                       (Alice.Controlled
-                        with Status => Alice.Result.Success)
+                       (Alice.Controlled with Status => Alice.Result.Success)
                   do
                      Self.Context.Log.Trace_Return (Result'Image);
                   end return;

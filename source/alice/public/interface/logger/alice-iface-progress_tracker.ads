@@ -38,14 +38,12 @@ package Alice.IFace.Progress_Tracker is
    procedure Start (Self : in out Object; Title : String) is abstract;
    --  Start a new progress logging activity with the given title.
 
-   procedure Step (Self : in out Object; Message : String := "")
-   is abstract;
+   procedure Step (Self : in out Object; Message : String := "") is abstract;
    --  Log a step in the progress with the given message. Can be used to
    --  indicate progress or milestones in the activity. If the message is not
    --  provided, it defaults to an empty string.
 
-   procedure Message (Self : in out Object; Message : String)
-   is abstract;
+   procedure Message (Self : in out Object; Message : String) is abstract;
    --  Write a message in the progress logging activity that is not
    --  specifically a step in the progress. Use it to provide additional
    --  information or context about the progress.

@@ -18,8 +18,7 @@ package Alice.App.Query.Use_Case is
 
    function Answer (Self : Object) return String;
 
-   procedure Answer
-     (Self : in out Object; Value : String);
+   procedure Answer (Self : in out Object; Value : String);
 
    overriding
    function Run

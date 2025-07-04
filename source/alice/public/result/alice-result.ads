@@ -49,8 +49,7 @@ package Alice.Result is
    --     * Invalid GitHub account (e.g., authentication failure, account
    --       suspension)
 
-   type Object (Status : Status_Type) is new Alice.Controlled
-   with record
+   type Object (Status : Status_Type) is new Alice.Controlled with record
       case Status is
          when Success =>
             null;
