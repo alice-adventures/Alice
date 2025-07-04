@@ -6,7 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Finalization;
 with GNAT.OS_Lib;
 
 with Alice.IFace.OS_Cmd;
@@ -17,7 +16,7 @@ package Alice.Std.OS_Cmd is
    use all type GNAT.OS_Lib.String_Access;
 
    type Object is
-     new Ada.Finalization.Controlled
+     new Alice.Controlled
      and Alice.IFace.OS_Cmd.Object with private;
 
    type Object_Access is not null access all Object'Class;
@@ -90,7 +89,7 @@ package Alice.Std.OS_Cmd is
 
 private
 
-   type Object is new Ada.Finalization.Controlled and Alice.IFace.OS_Cmd.Object
+   type Object is new Alice.Controlled and Alice.IFace.OS_Cmd.Object
    with record
       Name       : Alice.UString := Alice.UStr ("");
       Path       : GNAT.OS_Lib.String_Access := null;
