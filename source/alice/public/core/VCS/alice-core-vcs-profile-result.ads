@@ -17,6 +17,19 @@ package Alice.Core.VCS.Profile.Result is
    type Object (Status : Alice.Result.Status_Type) is
      new Alice.Result.Object with private;
 
+   function Create
+     (Status  : Alice.Result.Status_Type;
+      Profile : Alice.Core.VCS.Profile.Object_Access := null)
+      return Object'Class;
+   --  Create function constructs a new Object of type
+   --  Alice.Core.VCS.Profile.Result.Object. It takes a status indicating the
+   --  result of the operation and an optional Profile object. If the
+   --  operation was successful, the Profile parameter should contain a valid
+   --  reference to the VCS profile object. If the operation failed, the
+   --  Profile member is null. This function allows the caller to create a
+   --  result object that encapsulates the outcome of the operation, making it
+   --  easy to handle success and error cases in a consistent manner.
+
 private
 
    type Object (Status : Alice.Result.Status_Type) is

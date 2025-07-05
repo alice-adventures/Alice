@@ -14,6 +14,27 @@ with Ada.Unchecked_Deallocation;
 
 package body Alice.Core.VCS.Profile.Result is
 
+   ------------
+   -- Create --
+   ------------
+
+   function Create
+     (Status  : Alice.Result.Status_Type;
+      Profile : Alice.Core.VCS.Profile.Object_Access := null)
+      return Object'Class
+   is
+   begin
+      return Result : Object (Status) do
+         case Status is
+            when Alice.Result.Success =>
+               Result.Profile := Profile;
+
+            when Alice.Result.Error =>
+               null;
+         end case;
+      end return;
+   end Create;
+
    ----------
    -- Free --
    ----------

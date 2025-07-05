@@ -36,6 +36,14 @@ package Alice.Core.VCS.Profile is
    function Get_User_Token (Self : Object) return String
    with Inline;
 
+   --  #FIXME - Get the VCS Provider with which the profile is associated. It
+   --  is used to determine the specific VCS provider required to retrieve the
+   --  profile form the token.
+   --
+   --  function Get_VCS_Provider (Self : Object)
+   --  return Alice.Core.VCS.Provider.Result.Object
+   --  with Inline;
+
    function Get_SPDX_Id (Self : Object) return String
    with Inline;
 
