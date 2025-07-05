@@ -22,30 +22,25 @@ project Alice is
    Build_Host_OS_Dir := "";
    case Alice_Config.Alire_Host_OS is
       when "windows" =>
-         Build_Host_OS_Dir := "/build_host_os/windows/**";
+         Build_Host_OS_Dir := "windows/**";
       when others =>
-         Build_Host_OS_Dir := "/build_host_os/unix/**";
+         Build_Host_OS_Dir := "unix/**";
    end case;
 
    Build_Profile_Dir := "";
    case Alice_Config.Build_Profile is
       when "release" =>
-         Build_Profile_Dir := "/build_profile/release/**";
+         Build_Profile_Dir := "release/**";
       when others =>
-         Build_Profile_Dir := "/build_profile/other/**";
+         Build_Profile_Dir := "other/**";
    end case;
 
    for Create_Missing_Dirs use "True";
    for Source_Dirs use (
       "../config/",
       "../source/alice/public/**",
-      "../source/alice/private/application/**",
-      "../source/alice/private/core/**",
-      "../source/alice/private/standard",
-      "../source/alice/private/standard/error_handler/**",
-      "../source/alice/private/standard/logger",
-      "../source/alice/private/standard/logger" & Build_Profile_Dir,
-      "../source/alice/private/standard/os_command/**"
+      "../source/alice/private/**",
+      "../source/alice/build_profile/" & Build_Profile_Dir
    );
    for Library_Dir use Alice_Common.Library_Dir;
    for Object_Dir  use Alice_Common.Object_Dir;
