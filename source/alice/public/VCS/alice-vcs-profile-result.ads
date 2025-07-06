@@ -12,17 +12,17 @@
 
 with Alice.Result;
 
-package Alice.Core.VCS.Profile.Result is
+package Alice.VCS.Profile.Result is
 
    type Object (Status : Alice.Result.Status_Type) is
      new Alice.Result.Object with private;
 
    function Create
      (Status  : Alice.Result.Status_Type;
-      Profile : Alice.Core.VCS.Profile.Object_Access := null)
+      Profile : Alice.VCS.Profile.Object_Access := null)
       return Object'Class;
    --  Create function constructs a new Object of type
-   --  Alice.Core.VCS.Profile.Result.Object. It takes a status indicating the
+   --  Alice.VCS.Profile.Result.Object. It takes a status indicating the
    --  result of the operation and an optional Profile object. If the
    --  operation was successful, the Profile parameter should contain a valid
    --  reference to the VCS profile object. If the operation failed, the
@@ -37,7 +37,7 @@ private
    with record
       case Status is
          when Alice.Result.Success =>
-            Profile : Alice.Core.VCS.Profile.Object_Access;
+            Profile : Alice.VCS.Profile.Object_Access;
 
          when Alice.Result.Error =>
             null;
@@ -57,4 +57,4 @@ private
    --  the Status is Alice.Result.Error, it does nothing as there is no
    --  Profile to deallocate.
 
-end Alice.Core.VCS.Profile.Result;
+end Alice.VCS.Profile.Result;

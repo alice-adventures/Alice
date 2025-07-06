@@ -8,7 +8,7 @@
 
 with SPDX;
 
-package body Alice.Core.VCS.Profile is
+package body Alice.VCS.Profile is
 
    -------------------
    -- Get_User_Name --
@@ -86,4 +86,4 @@ package body Alice.Core.VCS.Profile is
       return Result : Alice.Result.Success_Object;
    end Save_To_File;
 
-end Alice.Core.VCS.Profile;
+end Alice.VCS.Profile;

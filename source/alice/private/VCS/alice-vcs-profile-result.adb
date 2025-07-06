@@ -12,7 +12,7 @@
 
 with Ada.Unchecked_Deallocation;
 
-package body Alice.Core.VCS.Profile.Result is
+package body Alice.VCS.Profile.Result is
 
    ------------
    -- Create --
@@ -20,7 +20,7 @@ package body Alice.Core.VCS.Profile.Result is
 
    function Create
      (Status  : Alice.Result.Status_Type;
-      Profile : Alice.Core.VCS.Profile.Object_Access := null)
+      Profile : Alice.VCS.Profile.Object_Access := null)
       return Object'Class
    is
    begin
@@ -41,8 +41,8 @@ package body Alice.Core.VCS.Profile.Result is
 
    procedure Free is new
      Ada.Unchecked_Deallocation
-       (Alice.Core.VCS.Profile.Object,
-        Alice.Core.VCS.Profile.Object_Access);
+       (Alice.VCS.Profile.Object,
+        Alice.VCS.Profile.Object_Access);
 
    --------------
    -- Finalize --
@@ -60,4 +60,4 @@ package body Alice.Core.VCS.Profile.Result is
       end case;
    end Finalize;
 
-end Alice.Core.VCS.Profile.Result;
+end Alice.VCS.Profile.Result;

@@ -6,6 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-package Alice.Core.VCS is
+package Alice.VCS is
 
-end Alice.Core.VCS;
+end Alice.VCS;

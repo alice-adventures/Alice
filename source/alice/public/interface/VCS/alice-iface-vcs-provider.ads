@@ -16,7 +16,7 @@
 --  provider can be also different Git service, such as GitHub, GitLab, or
 --  Bitbucket.
 
-with Alice.Core.VCS.Profile.Result;
+with Alice.VCS.Profile.Result;
 
 package Alice.IFace.VCS.Provider is
 
@@ -24,7 +24,7 @@ package Alice.IFace.VCS.Provider is
 
    function Get_Profile_From_Token
      (Self : in out Object; Token : String)
-      return Alice.Core.VCS.Profile.Result.Object'Class
+      return Alice.VCS.Profile.Result.Object'Class
    is abstract;
    --  Retrieves a VCS profile using the provided token. The implementation
    --  should return the profile associated with the given token by connecting
@@ -33,7 +33,7 @@ package Alice.IFace.VCS.Provider is
 
    function Get_Profile_From_VCS_Config_File
      (Self : in out Object; Token : String)
-      return Alice.Core.VCS.Profile.Result.Object'Class
+      return Alice.VCS.Profile.Result.Object'Class
    is abstract;
    --  Retrieves a VCS profile using the provided token from a VCS
    --  configuration file (e.g. '~/.gitconfig'). The implementation should
@@ -43,7 +43,7 @@ package Alice.IFace.VCS.Provider is
 
    function Get_Profile_From_Alice_Config_File
      (Self : in out Object; File : String)
-      return Alice.Core.VCS.Profile.Result.Object'Class
+      return Alice.VCS.Profile.Result.Object'Class
    is abstract;
    --  Retrieves a VCS profile from the Alice configuration file. The
    --  implementation should read the specified configuration file and extract

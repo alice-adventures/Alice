@@ -15,7 +15,7 @@
 
 with Alice.Result;
 
-package Alice.Core.VCS.Profile is
+package Alice.VCS.Profile is
 
    type Object is new Alice.Controlled with private;
 
@@ -40,9 +40,8 @@ package Alice.Core.VCS.Profile is
    --  is used to determine the specific VCS provider required to retrieve the
    --  profile form the token.
    --
-   --  function Get_VCS_Provider (Self : Object)
-   --  return Alice.Core.VCS.Provider.Result.Object
-   --  with Inline;
+   --  function Get_VCS_Provider (Self : Object) return
+   --  Alice.VCS.Provider.Result.Object with Inline;
 
    function Get_SPDX_Id (Self : Object) return String
    with Inline;
@@ -72,4 +71,4 @@ private
       SPDX_Id     : Alice.UString := Alice.UStr ("");
    end record;
 
-end Alice.Core.VCS.Profile;
+end Alice.VCS.Profile;

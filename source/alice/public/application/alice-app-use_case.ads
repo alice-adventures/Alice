@@ -7,7 +7,10 @@
 -------------------------------------------------------------------------------
 
 --  This package defines the top-level package for the implementation of Alice
---  use case.
+--  Use Cases. It provides an abstract type for Use Cases, which can be
+--  extended to create specific Use Case implementations. The package also
+--  defines the context in which the Use Cases operate, allowing them to
+--  access shared resources and configurations.
 
 with Alice.Context;
 with Alice.IFace.Use_Case;

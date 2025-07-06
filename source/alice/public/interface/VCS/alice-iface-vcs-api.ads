@@ -28,7 +28,7 @@
 --  occur during the process.
 
 with Alice.Result;
-with Alice.Core.VCS.Profile;
+with Alice.VCS.Profile;
 
 package Alice.IFace.VCS.API is
 
@@ -57,7 +57,7 @@ package Alice.IFace.VCS.API is
 
    function Get_Owner_Repository
      (Self    : in out Object;
-      Profile : Alice.Core.VCS.Profile.Object'Class;
+      Profile : Alice.VCS.Profile.Object'Class;
       Name    : String) return Alice.Result.Object'Class
    is abstract;
    --  Retrieves the owner repository by Name. The implementation should
@@ -66,7 +66,7 @@ package Alice.IFace.VCS.API is
 
    function Create_Owner_Repository
      (Self        : in out Object;
-      Profile     : Alice.Core.VCS.Profile.Object'Class;
+      Profile     : Alice.VCS.Profile.Object'Class;
       Name        : String;
       Description : String) return Alice.Result.Object'Class
    is abstract;
@@ -75,7 +75,7 @@ package Alice.IFace.VCS.API is
 
    function Create_Owner_Repository_From_Template
      (Self        : in out Object;
-      Profile     : Alice.Core.VCS.Profile.Object'Class;
+      Profile     : Alice.VCS.Profile.Object'Class;
       Template    : String;
       Name        : String;
       Description : String) return Alice.Result.Object'Class
@@ -87,7 +87,7 @@ package Alice.IFace.VCS.API is
 
    --  #FIXME - Needed?
    --  function Get_Owner_Repository_List
-   --    (Self : in out Object; Profile : Alice.Core.VCS.Profile.Object'Class)
+   --    (Self : in out Object; Profile : Alice.VCS.Profile.Object'Class)
    --     return Alice.Result.Object'Class
    --  is abstract;
    --  Retrieves a list of owner repositories associated with the profile. If

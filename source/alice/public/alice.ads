@@ -31,4 +31,6 @@ package Alice is
    function Str (Source : Unbounded_String) return String renames To_String;
    --  Convert an `Unbounded_String` to a `String`.
 
+   Null_UString : constant UString := Null_Unbounded_String;
+
 end Alice;

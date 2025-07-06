@@ -6,11 +6,11 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.Core.VCS.Profile;
-with Alice.Core.VCS.Profile.Result;
+with Alice.VCS.Profile;
+with Alice.VCS.Profile.Result;
 with Alice.IFace.VCS.Provider;
 
-package Alice.Core.VCS.Provider.GitHub is
+package Alice.VCS.Provider.GitHub is
 
    type Object is new Alice.Controlled and Alice.IFace.VCS.Provider.Object
    with null record;
@@ -20,16 +20,16 @@ package Alice.Core.VCS.Provider.GitHub is
    overriding
    function Get_Profile_From_Token
      (Self : in out Object; Token : String)
-      return Alice.Core.VCS.Profile.Result.Object'Class;
+      return Alice.VCS.Profile.Result.Object'Class;
 
    overriding
    function Get_Profile_From_VCS_Config_File
      (Self : in out Object; Token : String)
-      return Alice.Core.VCS.Profile.Result.Object'Class;
+      return Alice.VCS.Profile.Result.Object'Class;
 
    overriding
    function Get_Profile_From_Alice_Config_File
      (Self : in out Object; File : String)
-      return Alice.Core.VCS.Profile.Result.Object'Class;
+      return Alice.VCS.Profile.Result.Object'Class;
 
-end Alice.Core.VCS.Provider.GitHub;
+end Alice.VCS.Provider.GitHub;
