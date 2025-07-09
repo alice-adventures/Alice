@@ -6,6 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-package Alice.VCS.Provider is
+package Alice.VCS.Service is
 
-end Alice.VCS.Provider;
+end Alice.VCS.Service;

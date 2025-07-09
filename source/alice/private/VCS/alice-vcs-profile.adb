@@ -80,6 +80,7 @@ package body Alice.VCS.Profile is
       --  specified file in a format that can be read later. For now, it
       --  simply returns a success result.
    begin
+      --  #FIXME - Provide a proper implementation
       --  Here you would implement the logic to save the profile to a file.
       --  For example, you could write the profile data to a JSON or YAML
       --  file. This is a stub implementation.

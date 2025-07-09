@@ -17,6 +17,8 @@ package Alice.IFace.VCS.Repository is
 
    type Object is interface and Alice.IFace.Object;
 
+   type Object_Access is not null access all Object'Class;
+
    function Create
      (Self : in out Object; Name : String := ""; URL : String := "";
       Provider : String := "") return Alice.Result.Object'Class is abstract;
