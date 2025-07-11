@@ -8,6 +8,11 @@
 
 package body Alice.VCS.Service.GitHub is
 
+   Base_URL : constant String := "https://api.github.com/";
+   --  The base URL for the GitHub API. This is used to construct API
+   --  endpoints for various operations such as fetching user profiles,
+   --  repositories, etc.
+
    -----------------------------------
    -- Get_Member_Profile_From_Token --
    -----------------------------------
@@ -106,9 +111,41 @@ package body Alice.VCS.Service.GitHub is
    overriding
    function Get_User
      (Self : in out Object; Name : String) return Alice.Result.Object'Class
-   is (Alice.Result.Success_Object'
-         (Alice.Controlled with Status => Alice.Result.Success));
-   --  #FIXME - Provide a proper implementation
+   is
+      HTTP_Code : Natural;
+   begin
+      HTTP_Code :=
+        Send_Request
+          (Request  =>
+             " -s -L"
+             & " -w %{http_code}\\n"
+             & " -o .github.json"
+             & " -H Accept:\ application/vnd.github+json"
+             & " -H Authorization:\ Bearer\ " -- #FIXME - Use the token here
+             & Base_URL
+             & "users/"
+             & Name,
+           Contents => "");
+
+      if HTTP_Code = 200 then
+         return
+           Alice.Result.Success_Object'
+             (Alice.Controlled with Status => Alice.Result.Success);
+      else
+         return
+           Alice.Result.Error_Object'
+             (Alice.Controlled
+              with
+                Status  => Alice.Result.Error,
+                Level   => Alice.Result.Timeout,
+                Message =>
+                  Alice.UStr
+                    ("Error fetching user profile: HTTP code "
+                     & Natural'Image (HTTP_Code)));
+      end if;
+   end Get_User;
+   --  #FIXME - Provide a proper implementation - should return a profile
+   --  result
 
    -------------------------
    -- Get_User_Repository --
