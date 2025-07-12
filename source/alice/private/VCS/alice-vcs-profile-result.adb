@@ -18,22 +18,24 @@ package body Alice.VCS.Profile.Result is
    -- Create --
    ------------
 
-   function Create
-     (Status  : Alice.Result.Status_Type;
-      Profile : Alice.VCS.Profile.Object_Access := null)
-      return Object'Class
+   function Create_Object
+     (Status        : Alice.Result.Status_Type;
+      Profile       : Alice.VCS.Profile.Object_Access := null;
+      Error_Level   : Alice.Result.Error_Level := Alice.Result.External;
+      Error_Message : Alice.UString := Alice.Null_UString) return Object'Class
    is
    begin
-      return Result : Object (Status) do
+      return Result : Alice.VCS.Profile.Result.Object (Status) do
          case Status is
             when Alice.Result.Success =>
                Result.Profile := Profile;
 
             when Alice.Result.Error =>
-               null;
+               Result.Level := Error_Level;
+               Result.Message := Error_Message;
          end case;
       end return;
-   end Create;
+   end Create_Object;
 
    ----------
    -- Free --

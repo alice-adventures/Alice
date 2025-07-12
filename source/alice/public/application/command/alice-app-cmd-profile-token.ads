@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+--
+--  ALICE - Adventures for Learning and Inspiring Coding Excellence
+--  Copyright (c) 2023-2025 Francesc Rocher <francesc.rocher@gmail.com>
+--  SPDX-License-Identifier: MIT
+--
+-------------------------------------------------------------------------------
+
+with Alice.App.Use_Case;
+with Alice.VCS.Profile.Result;
+
+package Alice.App.Cmd.Profile.Token is
+
+   type Object is new Alice.App.Use_Case.Object with null record;
+
+   function Run
+     (Self : in out Object; Args : String := "")
+      return Alice.VCS.Profile.Result.Object'Class;
+
+end Alice.App.Cmd.Profile.Token;

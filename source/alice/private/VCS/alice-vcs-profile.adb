@@ -57,7 +57,7 @@ package body Alice.VCS.Profile is
    -----------------
 
    procedure Set_SPDX_Id (Self : in out Object; SPDX_Id : String) is
-      --  #FIXME - Set the default SPDX ID in the config file.
+      --  #TODO - Set the default SPDX ID in the config file.
       Default_SPDX_Id : constant String := "MIT";
       Expression      : constant SPDX.Expression := SPDX.Parse (SPDX_Id);
    begin
@@ -80,7 +80,7 @@ package body Alice.VCS.Profile is
       --  specified file in a format that can be read later. For now, it
       --  simply returns a success result.
    begin
-      --  #FIXME - Provide a proper implementation
+      --  #TODO - Provide a proper implementation
       --  Here you would implement the logic to save the profile to a file.
       --  For example, you could write the profile data to a JSON or YAML
       --  file. This is a stub implementation.

@@ -17,9 +17,13 @@ package Alice.VCS.Profile.Result is
    type Object (Status : Alice.Result.Status_Type) is
      new Alice.Result.Object with private;
 
-   function Create
-     (Status  : Alice.Result.Status_Type;
-      Profile : Alice.VCS.Profile.Object_Access := null)
+   function Create_Object
+     (Status        : Alice.Result.Status_Type;
+      Profile       : Alice.VCS.Profile.Object_Access := null;
+      Error_Level   : Alice.Result.Error_Level := Alice.Result.External;
+      Error_Message : Alice.UString := Alice.Null_UString)
+     --  #FIXME - Should include Level and Message parameters for detailed
+     --  error reporting?
       return Object'Class;
    --  Create function constructs a new Object of type
    --  Alice.VCS.Profile.Result.Object. It takes a status indicating the

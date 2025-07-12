@@ -18,7 +18,7 @@ package body Alice.Env is
 
    function Is_Alice_Repository (Report_Error : Boolean := True) return Boolean
    is (True);
-   --  #FIXME - Implement the actual check to determine if the current working
+   --  #TODO - Implement the actual check to determine if the current working
    --  directory is a clone of the Alice repository. This function should
    --  check for the presence of a specific file or directory that indicates
    --  the presence of the Alice repository. If Report_Error is True, it
@@ -30,7 +30,7 @@ package body Alice.Env is
 
    function Is_Alice_Root_Dir (Report_Error : Boolean := True) return Boolean
    is (True);
-   --  #FIXME - Implement the actual check to determine if the current working
+   --  #TODO - Implement the actual check to determine if the current working
    --  directory is the root of the Alice repository. This function should
    --  check for the presence of specific files or directories that are only
    --  found at the root of the Alice repository. If Report_Error is True, it
@@ -44,7 +44,7 @@ package body Alice.Env is
 
    function Get_Alice_Root_Dir return String
    is ("");
-   --  #FIXME - Implement the actual retrieval of the Alice root directory.
+   --  #TODO - Implement the actual retrieval of the Alice root directory.
    --  This function should return the absolute path to the root directory of
    --  the Alice repository. If called before confirming that the current
    --  directory is the root of the Alice repository using Is_Alice_Root_Dir,

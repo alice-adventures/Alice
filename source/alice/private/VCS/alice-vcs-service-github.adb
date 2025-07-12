@@ -8,6 +8,26 @@
 
 package body Alice.VCS.Service.GitHub is
 
+   Output_JSON_File : constant String := ".github.json";
+   --  The output file where the response from the GitHub API will be stored.
+
+   Accept_Header : constant String := "Accept:\ application/vnd.github+json";
+   --  The header to specify the desired response format from the GitHub API.
+
+   Auth_Header : constant String :=
+     "Authorization:\ Bearer\ "; --  Use the token here
+   --  The header to include the authorization token for accessing the GitHub
+   --  API.
+
+   Common_Curl_Args : constant String :=
+     " -s -L -w %{http_code}\\n "
+     & " -o "
+     & Output_JSON_File
+     & " -H "
+     & Accept_Header
+     & " -H "
+     & Auth_Header; --  Use the token here
+
    Base_URL : constant String := "https://api.github.com/";
    --  The base URL for the GitHub API. This is used to construct API
    --  endpoints for various operations such as fetching user profiles,
@@ -21,13 +41,29 @@ package body Alice.VCS.Service.GitHub is
    function Get_Member_Profile_From_Token
      (Self : in out Object; Token : String)
       return Alice.VCS.Profile.Result.Object'Class
-   is (Alice.VCS.Profile.Result.Create (Alice.Result.Success, null));
-   --  #FIXME - Provide a proper implementation to retrieve the profile from
-   --  the token. This function should interact with the GitHub API to fetch
-   --  the user profile associated with the provided token. The implementation
-   --  should handle the API request, parse the response, and return a valid
-   --  profile object. If the token is invalid or the request fails, it should
-   --  return an error result.
+   is
+      HTTP_Code : Natural;
+   begin
+      HTTP_Code :=
+        Send_Request
+          (Request  => Common_Curl_Args & Token & " " & Base_URL,
+           Contents => "");
+
+      if HTTP_Code = 200 then
+         return
+           Alice.VCS.Profile.Result.Create_Object (Alice.Result.Success, null);
+           --  #TODO - Parse the JSON response and create a profile object
+      else
+         return
+           Alice.VCS.Profile.Result.Create_Object
+             (Alice.Result.Error,
+              null,
+              Alice.Result.External,
+              Alice.UStr
+                ("Error fetching member profile: HTTP code "
+                 & Natural'Image (HTTP_Code)));
+      end if;
+   end Get_Member_Profile_From_Token;
 
    ---------------------------------------------
    -- Get_Member_Profile_From_VCS_Config_File --
@@ -37,8 +73,8 @@ package body Alice.VCS.Service.GitHub is
    function Get_Member_Profile_From_VCS_Config_File
      (Self : in out Object; Token : String)
       return Alice.VCS.Profile.Result.Object'Class
-   is (Alice.VCS.Profile.Result.Create (Alice.Result.Success, null));
-   --  #FIXME - Provide a proper implementation to retrieve the profile from
+   is (Alice.VCS.Profile.Result.Create_Object (Alice.Result.Success, null));
+   --  #TODO - Provide a proper implementation to retrieve the profile from
    --  the VCS configuration file. This function should read the VCS
    --  configuration file (e.g., '~/.gitconfig') and extract the profile
    --  information associated with the provided token. The implementation
@@ -54,8 +90,8 @@ package body Alice.VCS.Service.GitHub is
    function Get_Member_Profile_From_Alice_Config_File
      (Self : in out Object; File : String)
       return Alice.VCS.Profile.Result.Object'Class
-   is (Alice.VCS.Profile.Result.Create (Alice.Result.Success, null));
-   --  #FIXME - Provide a proper implementation to retrieve the profile from
+   is (Alice.VCS.Profile.Result.Create_Object (Alice.Result.Success, null));
+   --  #TODO - Provide a proper implementation to retrieve the profile from
    --  the Alice configuration file. This function should read the specified
    --  configuration file and extract the profile information. The
    --  implementation should handle file reading, parsing the configuration,
@@ -73,7 +109,7 @@ package body Alice.VCS.Service.GitHub is
       Name    : String) return Alice.Result.Object'Class
    is (Alice.Result.Success_Object'
          (Alice.Controlled with Status => Alice.Result.Success));
-   --  #FIXME - Provide a proper implementation
+   --  #TODO - Provide a proper implementation
 
    ------------------------------
    -- Create_Member_Repository --
@@ -87,7 +123,7 @@ package body Alice.VCS.Service.GitHub is
       Description : String) return Alice.Result.Object'Class
    is (Alice.Result.Success_Object'
          (Alice.Controlled with Status => Alice.Result.Success));
-   --  #FIXME - Provide a proper implementation
+   --  #TODO - Provide a proper implementation
 
    --------------------------------------------
    -- Create_Member_Repository_From_Template --
@@ -102,7 +138,7 @@ package body Alice.VCS.Service.GitHub is
       Description : String) return Alice.Result.Object'Class
    is (Alice.Result.Success_Object'
          (Alice.Controlled with Status => Alice.Result.Success));
-   --  #FIXME - Provide a proper implementation
+   --  #TODO - Provide a proper implementation
 
    --------------
    -- Get_User --
@@ -121,7 +157,7 @@ package body Alice.VCS.Service.GitHub is
              & " -w %{http_code}\\n"
              & " -o .github.json"
              & " -H Accept:\ application/vnd.github+json"
-             & " -H Authorization:\ Bearer\ " -- #FIXME - Use the token here
+             & " -H Authorization:\ Bearer\ " -- #TODO - Use the token here
              & Base_URL
              & "users/"
              & Name,
@@ -144,7 +180,7 @@ package body Alice.VCS.Service.GitHub is
                      & Natural'Image (HTTP_Code)));
       end if;
    end Get_User;
-   --  #FIXME - Provide a proper implementation - should return a profile
+   --  #TODO - Provide a proper implementation - should return a profile
    --  result
 
    -------------------------
@@ -156,6 +192,6 @@ package body Alice.VCS.Service.GitHub is
      (Self : in out Object; Token : String) return Alice.Result.Object'Class
    is (Alice.Result.Success_Object'
          (Alice.Controlled with Status => Alice.Result.Success));
-   --  #FIXME - Provide a proper implementation
+   --  #TODO - Provide a proper implementation
 
 end Alice.VCS.Service.GitHub;
