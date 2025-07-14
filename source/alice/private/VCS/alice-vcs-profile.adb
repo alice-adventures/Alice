@@ -10,6 +10,23 @@ with SPDX;
 
 package body Alice.VCS.Profile is
 
+   function Create_Profile
+     (User_Name   : Alice.UString := Alice.Null_UString;
+      User_Email  : Alice.UString := Alice.Null_UString;
+      User_Login  : Alice.UString := Alice.Null_UString;
+      User_Avatar : Alice.UString := Alice.Null_UString;
+      User_Token  : Alice.UString := Alice.Null_UString;
+      SPDX_Id     : Alice.UString := Alice.Null_UString) return Object_Access
+   is (new Object'
+         (Alice.Controlled
+          with
+            User_Name   => User_Name,
+            User_Email  => User_Email,
+            User_Login  => User_Login,
+            User_Avatar => User_Avatar,
+            User_Token  => User_Token,
+            SPDX_Id     => SPDX_Id));
+
    -------------------
    -- Get_User_Name --
    -------------------

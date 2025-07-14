@@ -36,13 +36,13 @@ Log_Level = { type = "Enum", values = ["Always", "Error", "Warning", "Info", "De
 "alice" = "development"
 
 [build-switches."*"]
-ada_version = ["-gnat2022", "-gnatX", "-gnata"]
+ada_version = ["-gnat2022", "-gnatX0", "-gnata"]
 
 [[depends-on]]
 clic = "~0.3.0"
 curl = "*"
-gnat = ">=2021 | (>=12 & <2000)"
-# json = "^6.0.0"
+gnat = ">=2021 | (>=12 & <15)"
+json = "^6.0.0"
 mold_lib = "^2.3.1"
 simple_logging = "^1.2.0"
 spdx = "~0.2.0"

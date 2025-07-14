@@ -17,7 +17,7 @@ package body Alice.VCS.Service is
 
    function Send_Request
      (Request  : String;
-      Contents : String;
+      Contents : String := "";
       Timeout  : Duration := 5.0;
       Context  : Alice.Context.Object_Access := Alice.Std.Get_Context)
       return Natural

@@ -21,6 +21,15 @@ package Alice.VCS.Profile is
 
    type Object_Access is access Object;
 
+   function Create_Profile
+     (User_Name   : Alice.UString := Alice.Null_UString;
+      User_Email  : Alice.UString := Alice.Null_UString;
+      User_Login  : Alice.UString := Alice.Null_UString;
+      User_Avatar : Alice.UString := Alice.Null_UString;
+      User_Token  : Alice.UString := Alice.Null_UString;
+      SPDX_Id     : Alice.UString := Alice.Null_UString)
+     return Object_Access;
+
    function Get_User_Name (Self : Object) return String
    with Inline;
 
@@ -63,12 +72,12 @@ package Alice.VCS.Profile is
 private
 
    type Object is new Alice.Controlled with record
-      User_Name   : Alice.UString := Alice.UStr ("");
-      User_Email  : Alice.UString := Alice.UStr ("");
-      User_Login  : Alice.UString := Alice.UStr ("");
-      User_Avatar : Alice.UString := Alice.UStr ("");
-      User_Token  : Alice.UString := Alice.UStr ("");
-      SPDX_Id     : Alice.UString := Alice.UStr ("");
+      User_Name   : Alice.UString := Alice.Null_UString;
+      User_Email  : Alice.UString := Alice.Null_UString;
+      User_Login  : Alice.UString := Alice.Null_UString;
+      User_Avatar : Alice.UString := Alice.Null_UString;
+      User_Token  : Alice.UString := Alice.Null_UString;
+      SPDX_Id     : Alice.UString := Alice.Null_UString;
    end record;
 
 end Alice.VCS.Profile;

@@ -27,14 +27,16 @@ package body Test.OS_Cmd is
    begin
       Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
 
-      Result : constant Alice.IFace.OS_Cmd.Exit_Result'Class :=
-        OS_Cmd.Run (Args);
-
-      if Result.Status = Expect then
-         Test.Pass;
-      else
-         Test.Fail ("Exit status:" & Result.Exit_Status'Image);
-      end if;
+      declare
+         Result : constant Alice.IFace.OS_Cmd.Exit_Result'Class :=
+           OS_Cmd.Run (Args);
+      begin
+         if Result.Status = Expect then
+            Test.Pass;
+         else
+            Test.Fail ("Exit status:" & Result.Exit_Status'Image);
+         end if;
+      end;
 
    exception
       when E : others =>
@@ -88,9 +90,11 @@ package body Test.OS_Cmd is
    begin
       Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
 
-      Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-        OS_Cmd.Run (Args);
-      Check_Result_Output (OS_Cmd, Result, Expect);
+      declare
+         Result : Alice.IFace.OS_Cmd.Output_Result'Class := OS_Cmd.Run (Args);
+      begin
+         Check_Result_Output (OS_Cmd, Result, Expect);
+      end;
 
    exception
       when E : others =>
@@ -111,9 +115,12 @@ package body Test.OS_Cmd is
    begin
       Test.Subtitle ("Timed Run '" & OS_Cmd.Name & " " & Args & "'");
 
-      Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
-        OS_Cmd.Timed_Run (Args, Timeout);
-      Check_Result_Output (OS_Cmd, Result, Expect);
+      declare
+         Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
+           OS_Cmd.Timed_Run (Args, Timeout);
+      begin
+         Check_Result_Output (OS_Cmd, Result, Expect);
+      end;
 
    exception
       when E : others =>
@@ -208,8 +215,7 @@ package body Test.OS_Cmd is
    -- Timed_Run_Os_Cmd_And_Timeout --
    ----------------------------------
 
-   procedure Timed_Run_Os_Cmd_And_Timeout
-     (OS_Cmd : Alice.Context.OS_Commands)
+   procedure Timed_Run_Os_Cmd_And_Timeout (OS_Cmd : Alice.Context.OS_Commands)
    is
       Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
    begin

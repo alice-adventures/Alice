@@ -6,6 +6,9 @@
 --
 -------------------------------------------------------------------------------
 
+with JSON.Types;
+with JSON.Parsers;
+
 package body Alice.VCS.Service.GitHub is
 
    Output_JSON_File : constant String := ".github.json";
@@ -14,24 +17,96 @@ package body Alice.VCS.Service.GitHub is
    Accept_Header : constant String := "Accept:\ application/vnd.github+json";
    --  The header to specify the desired response format from the GitHub API.
 
-   Auth_Header : constant String :=
-     "Authorization:\ Bearer\ "; --  Use the token here
+   Auth_Header : constant String := "Authorization:\ Bearer\ ";
    --  The header to include the authorization token for accessing the GitHub
    --  API.
 
-   Common_Curl_Args : constant String :=
-     " -s -L -w %{http_code}\\n "
-     & " -o "
-     & Output_JSON_File
-     & " -H "
-     & Accept_Header
-     & " -H "
-     & Auth_Header; --  Use the token here
+   Version_Header : constant String := "X-GitHub-Api-Version:\ 2022-11-28";
+   --  The header to specify the version of the GitHub API being used.
 
    Base_URL : constant String := "https://api.github.com/";
    --  The base URL for the GitHub API. This is used to construct API
    --  endpoints for various operations such as fetching user profiles,
    --  repositories, etc.
+
+   ---------------
+   -- Curl_Args --
+   ---------------
+
+   function Curl_Args (Token : String; Endpoint : String) return String
+   is (" -s -L -w %{http_code}\\n "
+       & " -o "
+       & Output_JSON_File
+       & " -H "
+       & Accept_Header
+       & " -H "
+       & Auth_Header
+       & Token
+       & " -H "
+       & Version_Header
+       & " "
+       & Base_URL
+       & Endpoint);
+
+   ------------------------------------
+   -- Get_Profile_From_Response_File --
+   ------------------------------------
+
+   function Get_Profile_From_Output_JSON_File (Token : String)
+      return Alice.VCS.Profile.Result.Object'Class
+   is
+      package JSON_Types is new JSON.Types (Integer, Float);
+      package JSON_Parsers is new JSON.Parsers (JSON_Types);
+
+      use JSON_Types;
+
+      Profile_Parser : JSON_Parsers.Parser :=
+        JSON_Parsers.Create_From_File (File_Name => Output_JSON_File);
+      JSON_Object    : constant JSON_Value := Profile_Parser.Parse;
+
+      -------------
+      -- Has_Key --
+      -------------
+
+      function Has_Key (Key : String) return Boolean
+      is (JSON_Object.Contains (Key));
+
+      -----------
+      -- Value --
+      -----------
+
+      function Value (Key : String) return String
+      is (JSON_Types.Value (JSON_Object.Get (Key)));
+
+   begin
+
+      if not Has_Key ("login")
+        or else Value ("type") /= "User"
+        or else Value ("user_view_type") /= "public"
+      then
+         return
+           Alice.VCS.Profile.Result.Create_Object
+             (Status        => Alice.Result.Error,
+              Profile       => null,
+              Error_Level   => Alice.Result.External,
+              Error_Message =>
+                Alice.UStr
+                  ("Error fetching member profile: Invalid profile"
+                   & ", must be of type User and public view type."));
+      end if;
+
+      return
+        Alice.VCS.Profile.Result.Create_Object
+          (Status  => Alice.Result.Success,
+           Profile =>
+             Alice.VCS.Profile.Create_Profile
+               (User_Name   => Alice.UStr (Value ("name")),
+                User_Email  => Alice.UStr (Value ("email")),
+                User_Login  => Alice.UStr (Value ("login")),
+                User_Avatar => Alice.UStr (Value ("avatar_url")),
+                User_Token  => Alice.UStr (Token),
+                SPDX_Id     => Alice.UStr (Value ("spdx_id"))));
+   end Get_Profile_From_Output_JSON_File;
 
    -----------------------------------
    -- Get_Member_Profile_From_Token --
@@ -40,28 +115,28 @@ package body Alice.VCS.Service.GitHub is
    overriding
    function Get_Member_Profile_From_Token
      (Self : in out Object; Token : String)
-      return Alice.VCS.Profile.Result.Object'Class
-   is
-      HTTP_Code : Natural;
+      return Alice.VCS.Profile.Result.Object'Class is
    begin
-      HTTP_Code :=
-        Send_Request
-          (Request  => Common_Curl_Args & Token & " " & Base_URL,
-           Contents => "");
+      HTTP_Code : constant Natural := Send_Request (Curl_Args (Token, "user"));
 
       if HTTP_Code = 200 then
-         return
-           Alice.VCS.Profile.Result.Create_Object (Alice.Result.Success, null);
-           --  #TODO - Parse the JSON response and create a profile object
+         return Get_Profile_From_Output_JSON_File (Token);
+
       else
          return
            Alice.VCS.Profile.Result.Create_Object
-             (Alice.Result.Error,
-              null,
-              Alice.Result.External,
-              Alice.UStr
-                ("Error fetching member profile: HTTP code "
-                 & Natural'Image (HTTP_Code)));
+             (Status        => Alice.Result.Error,
+              Profile       => null,
+              Error_Level   => Alice.Result.External,
+              Error_Message =>
+                Alice.UStr
+                  ("Error fetching member profile: HTTP status code"
+                   & Natural'Image (HTTP_Code)
+                   & (case HTTP_Code is
+                        when 304 => " - Not modified.",
+                        when 401 => " - Unauthorized.",
+                        when 403 => " - Forbidden.",
+                        when others => " - Unexpected error occurred.")));
       end if;
    end Get_Member_Profile_From_Token;
 

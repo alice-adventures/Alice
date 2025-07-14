@@ -11,12 +11,12 @@ with Alice.VCS.Service.GitHub;
 package body Alice.App.Cmd.Profile.Token is
 
    function Run
-     (Self : in out Object; Args : String := "")
+     (Self : in out Object; Token : String)
       return Alice.VCS.Profile.Result.Object'Class
    is
       GitHub_Service : Alice.VCS.Service.GitHub.Object;
    begin
-      return GitHub_Service.Get_Member_Profile_From_Token (Args);
+      return GitHub_Service.Get_Member_Profile_From_Token (Token);
    end Run;
 
 end Alice.App.Cmd.Profile.Token;
