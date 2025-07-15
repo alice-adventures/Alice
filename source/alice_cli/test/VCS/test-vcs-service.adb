@@ -19,10 +19,16 @@ package body Test.VCS.Service is
    GitHub_Token_Test_File : constant String :=
      "source/alice_cli/test/file/github-token";
 
-   procedure Run (Ctx : Alice.Context.Object_Access) is
+   ----------------------------------------------
+   -- Get_Profile_From_Token_Ends_With_Success --
+   ----------------------------------------------
+
+   procedure Get_Profile_From_Token_Ends_With_Success
+     (Ctx : Alice.Context.Object_Access)
+   is
       GitHub : Alice.VCS.Service.GitHub.Object;
    begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      Subtitle ("Get_Member_Profile_From_Token ends with success");
 
       if Ada.Directories.Exists (GitHub_Token_Test_File) then
          Token_File : Ada.Text_IO.File_Type;
@@ -48,8 +54,46 @@ package body Test.VCS.Service is
       else
          Fail
            ("Token file not found: provide a valid GitHub token in file '"
-            & GitHub_Token_Test_File & "' to run this test");
+            & GitHub_Token_Test_File
+            & "' to run this test");
       end if;
+   end Get_Profile_From_Token_Ends_With_Success;
+
+   --------------------------------------------
+   -- Get_Profile_From_Token_Ends_With_Error --
+   --------------------------------------------
+
+   procedure Get_Profile_From_Token_Ends_With_Error
+     (Ctx : Alice.Context.Object_Access)
+   is
+      GitHub : Alice.VCS.Service.GitHub.Object;
+   begin
+      Subtitle ("Get_Member_Profile_From_Token ends with error");
+
+      Result : constant Alice.VCS.Profile.Result.Object'Class :=
+        GitHub.Get_Member_Profile_From_Token ("invalid-token");
+
+      case Result.Status is
+         when Alice.Result.Success =>
+            Fail ("Expected an error, but got success");
+
+         when Alice.Result.Error =>
+            Ctx.Log.Info
+              ("Received expected error: " & Alice.Str (Result.Message));
+            Pass;
+      end case;
+   end Get_Profile_From_Token_Ends_With_Error;
+
+   ---------
+   -- Run --
+   ---------
+
+   procedure Run (Ctx : Alice.Context.Object_Access) is
+   begin
+      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+
+      Get_Profile_From_Token_Ends_With_Success (Ctx);
+      Get_Profile_From_Token_Ends_With_Error (Ctx);
    end Run;
 
 end Test.VCS.Service;
