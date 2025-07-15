@@ -6,10 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.Context;
+package Test.VCS is
 
-package Test.VCS_Service is
-
-   procedure Run (Ctx : Alice.Context.Object_Access);
-
-end Test.VCS_Service;
+end Test.VCS;

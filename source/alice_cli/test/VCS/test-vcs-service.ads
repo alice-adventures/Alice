@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+--
+--  ALICE - Adventures for Learning and Inspiring Coding Excellence
+--  Copyright (c) 2023-2025 Francesc Rocher <francesc.rocher@gmail.com>
+--  SPDX-License-Identifier: MIT
+--
+-------------------------------------------------------------------------------
+
+with Alice.Context;
+
+package Test.VCS.Service is
+
+   procedure Run (Ctx : Alice.Context.Object_Access);
+
+end Test.VCS.Service;

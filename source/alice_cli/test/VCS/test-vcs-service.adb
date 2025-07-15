@@ -14,7 +14,7 @@ with Alice.Result;
 with Alice.VCS.Profile.Result;
 with Alice.VCS.Service.GitHub;
 
-package body Test.VCS_Service is
+package body Test.VCS.Service is
 
    GitHub_Token_Test_File : constant String :=
      "source/alice_cli/test/file/github-token";
@@ -52,4 +52,4 @@ package body Test.VCS_Service is
       end if;
    end Run;
 
-end Test.VCS_Service;
+end Test.VCS.Service;
