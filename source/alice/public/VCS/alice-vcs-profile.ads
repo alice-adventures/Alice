@@ -13,6 +13,8 @@
 --  manipulate these fields, as well as a procedure to save the profile to a
 --  file.
 
+with Ada.Strings.Text_Buffers;
+
 with Alice.Result;
 
 package Alice.VCS.Profile is
@@ -27,8 +29,10 @@ package Alice.VCS.Profile is
       User_Login  : Alice.UString := Alice.Null_UString;
       User_Avatar : Alice.UString := Alice.Null_UString;
       User_Token  : Alice.UString := Alice.Null_UString;
-      SPDX_Id     : Alice.UString := Alice.Null_UString)
-     return Object_Access;
+      SPDX_Id     : Alice.UString := Alice.Null_UString) return Object_Access;
+
+   --  function Is_Owner_Profile (Self : Object) return Boolean
+   --  with Inline;
 
    function Get_User_Name (Self : Object) return String
    with Inline;
@@ -71,6 +75,10 @@ package Alice.VCS.Profile is
 
 private
 
+   procedure Profile_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : Object);
+
    type Object is new Alice.Controlled with record
       User_Name   : Alice.UString := Alice.Null_UString;
       User_Email  : Alice.UString := Alice.Null_UString;
@@ -78,6 +86,7 @@ private
       User_Avatar : Alice.UString := Alice.Null_UString;
       User_Token  : Alice.UString := Alice.Null_UString;
       SPDX_Id     : Alice.UString := Alice.Null_UString;
-   end record;
+   end record
+   with Put_Image => Profile_Image;
 
 end Alice.VCS.Profile;

@@ -34,6 +34,15 @@ package Alice.VCS.Profile.Result is
    --  result object that encapsulates the outcome of the operation, making it
    --  easy to handle success and error cases in a consistent manner.
 
+   function Get_Profile
+     (Self : in out Object) return Alice.VCS.Profile.Object_Access
+   with Inline;
+   --  Get_Profile retrieves the VCS profile object from the result object. If
+   --  the operation was successful, it returns a valid reference to the
+   --  profile. If the operation failed, it returns null. This function is
+   --  useful for accessing the profile information after an operation has
+   --  been performed, allowing the caller to check the result and handle it
+
 private
 
    type Object (Status : Alice.Result.Status_Type) is

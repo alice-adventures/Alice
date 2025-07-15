@@ -7,7 +7,6 @@
 -------------------------------------------------------------------------------
 
 with Alice.Context;
-with Alice.VCS.Service;
 
 package Test.VCS_Service is
 

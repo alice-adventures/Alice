@@ -29,6 +29,13 @@ package body Alice.VCS.Service.GitHub is
    --  endpoints for various operations such as fetching user profiles,
    --  repositories, etc.
 
+   Key_Avatar_URL     : constant String := "avatar_url";
+   Key_Email          : constant String := "email";
+   Key_Login          : constant String := "login";
+   Key_Name           : constant String := "name";
+   Key_Type           : constant String := "type";
+   Key_User_View_Type : constant String := "user_view_type";
+
    ---------------
    -- Curl_Args --
    ---------------
@@ -52,8 +59,8 @@ package body Alice.VCS.Service.GitHub is
    -- Get_Profile_From_Response_File --
    ------------------------------------
 
-   function Get_Profile_From_Output_JSON_File (Token : String)
-      return Alice.VCS.Profile.Result.Object'Class
+   function Get_Profile_From_Output_JSON_File
+     (Token : String) return Alice.VCS.Profile.Result.Object'Class
    is
       package JSON_Types is new JSON.Types (Integer, Float);
       package JSON_Parsers is new JSON.Parsers (JSON_Types);
@@ -71,19 +78,44 @@ package body Alice.VCS.Service.GitHub is
       function Has_Key (Key : String) return Boolean
       is (JSON_Object.Contains (Key));
 
+      ---------------
+      -- Is_String --
+      ---------------
+
+      function Is_String (Key : String) return Boolean
+      is (JSON_Object.Get (Key).Kind = String_Kind)
+      with Pre => Has_Key (Key);
+
       -----------
       -- Value --
       -----------
 
       function Value (Key : String) return String
-      is (JSON_Types.Value (JSON_Object.Get (Key)));
+      is (if Is_String (Key)
+          then JSON_Types.Value (JSON_Object.Get (Key))
+          else "");
 
    begin
-
-      if not Has_Key ("login")
-        or else Value ("type") /= "User"
-        or else Value ("user_view_type") /= "public"
+      if Has_Key (Key_Login)
+        and then Is_String (Key_Login)
+        and then Has_Key (Key_Type)
+        and then Is_String (Key_Type)
+        and then Value (Key_Type) = "User"
+        and then Has_Key (Key_User_View_Type)
+        and then Is_String (Key_User_View_Type)
+        and then Value (Key_User_View_Type) = "public"
       then
+         return
+           Alice.VCS.Profile.Result.Create_Object
+             (Status  => Alice.Result.Success,
+              Profile =>
+                Alice.VCS.Profile.Create_Profile
+                  (User_Name   => Alice.UStr (Value (Key_Name)),
+                   User_Email  => Alice.UStr (Value (Key_Email)),
+                   User_Login  => Alice.UStr (Value (Key_Login)),
+                   User_Avatar => Alice.UStr (Value (Key_Avatar_URL)),
+                   User_Token  => Alice.UStr (Token)));
+      else
          return
            Alice.VCS.Profile.Result.Create_Object
              (Status        => Alice.Result.Error,
@@ -91,21 +123,9 @@ package body Alice.VCS.Service.GitHub is
               Error_Level   => Alice.Result.External,
               Error_Message =>
                 Alice.UStr
-                  ("Error fetching member profile: Invalid profile"
-                   & ", must be of type User and public view type."));
+                  ("Error fetching member profile: Invalid login"
+                   & ", type or public view type."));
       end if;
-
-      return
-        Alice.VCS.Profile.Result.Create_Object
-          (Status  => Alice.Result.Success,
-           Profile =>
-             Alice.VCS.Profile.Create_Profile
-               (User_Name   => Alice.UStr (Value ("name")),
-                User_Email  => Alice.UStr (Value ("email")),
-                User_Login  => Alice.UStr (Value ("login")),
-                User_Avatar => Alice.UStr (Value ("avatar_url")),
-                User_Token  => Alice.UStr (Token),
-                SPDX_Id     => Alice.UStr (Value ("spdx_id"))));
    end Get_Profile_From_Output_JSON_File;
 
    -----------------------------------
@@ -149,6 +169,8 @@ package body Alice.VCS.Service.GitHub is
      (Self : in out Object; Token : String)
       return Alice.VCS.Profile.Result.Object'Class
    is (Alice.VCS.Profile.Result.Create_Object (Alice.Result.Success, null));
+   --  #REVIEW - Really needed?
+   --
    --  #TODO - Provide a proper implementation to retrieve the profile from
    --  the VCS configuration file. This function should read the VCS
    --  configuration file (e.g., '~/.gitconfig') and extract the profile

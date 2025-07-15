@@ -10,6 +10,7 @@
 --  profiles in the Alice application. It defines a tagged record that
 --  encapsulates the result of operations, including success and error cases.
 
+   with Alice.Std;
 with Ada.Unchecked_Deallocation;
 
 package body Alice.VCS.Profile.Result is
@@ -37,6 +38,22 @@ package body Alice.VCS.Profile.Result is
       end return;
    end Create_Object;
 
+   -----------------
+   -- Get_Profile --
+   -----------------
+
+   function Get_Profile
+     (Self : in out Object) return Alice.VCS.Profile.Object_Access is
+   begin
+      case Self.Status is
+         when Alice.Result.Success =>
+            return Self.Profile;
+
+         when Alice.Result.Error =>
+            return null;
+      end case;
+   end Get_Profile;
+
    ----------
    -- Free --
    ----------
@@ -53,6 +70,7 @@ package body Alice.VCS.Profile.Result is
    overriding
    procedure Finalize (Self : in out Object) is
    begin
+      Alice.Std.Get_OS_Context.Log.Trace_Begin;
       case Self.Status is
          when Alice.Result.Success =>
             Free (Self.Profile);

@@ -10,6 +10,10 @@ with SPDX;
 
 package body Alice.VCS.Profile is
 
+   --------------------
+   -- Create_Profile --
+   --------------------
+
    function Create_Profile
      (User_Name   : Alice.UString := Alice.Null_UString;
       User_Email  : Alice.UString := Alice.Null_UString;
@@ -103,5 +107,29 @@ package body Alice.VCS.Profile is
       --  file. This is a stub implementation.
       return Result : Alice.Result.Success_Object;
    end Save_To_File;
+
+   procedure Profile_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Value  : Object) is
+   begin
+      Output.New_Line;
+      Output.Put ("(Alice.VCS.Profile.Object with");
+      Output.New_Line;
+      Output.Increase_Indent;
+      Output.Put ("   User_Name   => " & Alice.Str (Value.User_Name));
+      Output.New_Line;
+      Output.Put ("   User_Email  => " & Alice.Str (Value.User_Email));
+      Output.New_Line;
+      Output.Put ("   User_Login  => " & Alice.Str (Value.User_Login));
+      Output.New_Line;
+      Output.Put ("   User_Avatar => " & Alice.Str (Value.User_Avatar));
+      Output.New_Line;
+      Output.Put ("   User_Token  => " & Alice.Str (Value.User_Token));
+      Output.New_Line;
+      Output.Put ("   SPDX_Id     => " & Alice.Str (Value.SPDX_Id));
+      Output.Put (")");
+      Output.Decrease_Indent;
+      Output.New_Line;
+   end Profile_Image;
 
 end Alice.VCS.Profile;
