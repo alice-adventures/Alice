@@ -11,9 +11,13 @@ with Alice.Std;
 
 package Alice.VCS.Service is
 
-   type Provider_Name is (Provider_GitHub);
-   --  #NOTE - Other VCS providers can be added later, e.g., GitLab,
-   --  Bitbucket, etc.
+   package Name is
+
+      type Enum is (GitHub);
+      --  #NOTE - Other VCS providers can be added later, e.g., GitLab,
+      --  Bitbucket, etc.
+
+   end Name;
 
    function Send_Request
      (Request  : String;

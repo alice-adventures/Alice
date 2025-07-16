@@ -20,10 +20,9 @@ package body Alice.VCS.Profile is
    --------------------
 
    function Create_Profile
-     (Provider   : Alice.VCS.Service.Provider_Name :=
-        Alice.VCS.Service.Provider_GitHub;
-      Token      : Alice.UString := Alice.Null_UString;
-      Login      : Alice.UString := Alice.Null_UString;
+     (Service    : Alice.VCS.Service.Name.Enum;
+      Token      : Alice.UString;
+      Login      : Alice.UString;
       Avatar_URL : Alice.UString := Alice.Null_UString;
       Name       : Alice.UString := Alice.Null_UString;
       Email      : Alice.UString := Alice.Null_UString;
@@ -31,7 +30,7 @@ package body Alice.VCS.Profile is
    is (new Object'
          (Alice.Controlled
           with
-            Provider   => Alice.UStr (Provider'Image),
+            Service    => Alice.UStr (Service'Image),
             Token      => Token,
             Login      => Login,
             Avatar_URL => Avatar_URL,
@@ -39,18 +38,18 @@ package body Alice.VCS.Profile is
             Email      => Email,
             SPDX_Id    => SPDX_Id));
 
-   ------------------
-   -- Get_Provider --
-   ------------------
+   -----------------
+   -- Get_Service --
+   -----------------
 
-   function Get_Provider (Self : Object) return Alice.VCS.Service.Provider_Name
+   function Get_Service (Self : Object) return Alice.VCS.Service.Name.Enum
    is
    begin
       --  #TODO - Review error handling for invalid provider names. In theory
       --  no bad names should be found, but if they are, we should handle them
       --  gracefully.
-      return Alice.VCS.Service.Provider_Name'Value (Alice.Str (Self.Provider));
-   end Get_Provider;
+      return Alice.VCS.Service.Name.Enum'Value (Alice.Str (Self.Service));
+   end Get_Service;
 
    ---------------
    -- Get_Token --
@@ -126,7 +125,7 @@ package body Alice.VCS.Profile is
               and then TOML_Result.Value.Has (Key_Name)
               and then TOML_Result.Value.Has (Key_Token)
             then
-               Self.Provider :=
+               Self.Service :=
                  TOML_Result.Value.Get (Key_Provider).As_Unbounded_String;
                Self.Token :=
                  TOML_Result.Value.Get (Key_Token).As_Unbounded_String;
@@ -175,7 +174,7 @@ package body Alice.VCS.Profile is
       Table      : constant TOML.TOML_Value := TOML.Create_Table;
       Profile_FD : Ada.Text_IO.File_Type;
    begin
-      Table.Set (Key_Provider, TOML.Create_String (Self.Provider));
+      Table.Set (Key_Provider, TOML.Create_String (Self.Service));
       Table.Set (Key_Token, TOML.Create_String (Self.Token));
       Table.Set (Key_Login, TOML.Create_String (Self.Login));
       Table.Set (Key_Avatar_URL, TOML.Create_String (Self.Avatar_URL));

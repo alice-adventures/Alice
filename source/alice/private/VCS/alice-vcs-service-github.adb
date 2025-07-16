@@ -103,7 +103,8 @@ package body Alice.VCS.Service.GitHub is
              (Status  => Alice.Result.Success,
               Profile =>
                 Alice.VCS.Profile.Create_Profile
-                  (Token      => Alice.UStr (Token),
+                  (Service    => Alice.VCS.Service.Name.GitHub,
+                   Token      => Alice.UStr (Token),
                    Login      => Alice.UStr (Value (Key_Login)),
                    Avatar_URL => Alice.UStr (Value (Key_Avatar_URL)),
                    Name       => Alice.UStr (Value (Key_Name)),

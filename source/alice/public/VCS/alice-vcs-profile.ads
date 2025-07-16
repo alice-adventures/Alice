@@ -25,16 +25,15 @@ package Alice.VCS.Profile is
    type Object_Access is access Object;
 
    function Create_Profile
-     (Provider   : Alice.VCS.Service.Provider_Name :=
-        Alice.VCS.Service.Provider_GitHub;
-      Token      : Alice.UString := Alice.Null_UString;
-      Login      : Alice.UString := Alice.Null_UString;
+     (Service    : Alice.VCS.Service.Name.Enum;
+      Token      : Alice.UString;
+      Login      : Alice.UString;
       Avatar_URL : Alice.UString := Alice.Null_UString;
       Name       : Alice.UString := Alice.Null_UString;
       Email      : Alice.UString := Alice.Null_UString;
       SPDX_Id    : Alice.UString := Alice.Null_UString) return Object_Access;
 
-   function Get_Provider (Self : Object) return Alice.VCS.Service.Provider_Name
+   function Get_Service (Self : Object) return Alice.VCS.Service.Name.Enum
    with Inline;
 
    function Get_Token (Self : Object) return String
@@ -83,7 +82,7 @@ private
       Value  : Object);
 
    type Object is new Alice.Controlled with record
-      Provider   : Alice.UString := Alice.Null_UString;
+      Service    : Alice.UString := Alice.Null_UString;
       Token      : Alice.UString := Alice.Null_UString;
       Login      : Alice.UString := Alice.Null_UString;
       Avatar_URL : Alice.UString := Alice.Null_UString;
