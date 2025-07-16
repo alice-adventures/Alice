@@ -266,15 +266,11 @@ package body Alice.VCS.Service.GitHub is
              (Alice.Controlled with Status => Alice.Result.Success);
       else
          return
-           Alice.Result.Error_Object'
-             (Alice.Controlled
-              with
-                Status  => Alice.Result.Error,
-                Level   => Alice.Result.Timeout,
-                Message =>
-                  Alice.UStr
-                    ("Error fetching user profile: HTTP code "
-                     & Natural'Image (HTTP_Code)));
+           Alice.Result.Create_Error
+             (Alice.Result.Timeout,
+              Alice.UStr
+                ("Error fetching user profile: HTTP code "
+                 & Natural'Image (HTTP_Code)));
       end if;
    end Get_User;
    --  #TODO - Provide a proper implementation - should return a profile

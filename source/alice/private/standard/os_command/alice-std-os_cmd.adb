@@ -88,12 +88,8 @@ package body Alice.Std.OS_Cmd is
 
       if Self.Path = null then
          Self.OS_Context.Err.Exit_Application
-           (Alice.Result.Error_Object'
-              (Alice.Controlled
-               with
-                 Status  => Alice.Result.Error,
-                 Level   => Alice.Result.System,
-                 Message => Alice.UStr ("Initialization failed")),
+           (Alice.Result.Create_Error
+              (Alice.Result.System, Alice.UStr ("Initialization failed")),
             "Make sure the command """
             & Self.Name
             & """ is installed "
@@ -391,10 +387,7 @@ package body Alice.Std.OS_Cmd is
             if Result.Temp_File = null
               and then Result.Temp_FD = GNAT.OS_Lib.Null_FD
             then
-               return
-                  Result : constant Alice.Result.Success_Object :=
-                    (Alice.Controlled with Status => Alice.Result.Success)
-               do
+               return Result : Alice.Result.Success_Object do
                   Self.Context.Log.Trace ("No temporary file to clean up");
                   Self.Context.Log.Trace_Return (Result'Image);
                end return;
@@ -410,23 +403,17 @@ package body Alice.Std.OS_Cmd is
                Result.Temp_File := null;
 
                if Success then
-                  return
-                     Result : constant Alice.Result.Success_Object :=
-                       (Alice.Controlled with Status => Alice.Result.Success)
-                  do
+                  return Result : Alice.Result.Success_Object do
                      Self.Context.Log.Trace_Return (Result'Image);
                   end return;
                else
                   return
-                     Result : constant Alice.Result.Error_Object :=
-                       (Alice.Controlled
-                        with
-                          Status  => Alice.Result.Error,
-                          Level   => Alice.Result.System,
-                          Message =>
-                            Alice.UStr
-                              ("Failed to delete temporary file "
-                               & Alice.Str (Self.Name)))
+                     Result : constant Alice.Result.Error_Object'Class :=
+                       Alice.Result.Create_Error
+                         (Alice.Result.System,
+                          Alice.UStr
+                            ("Failed to delete temporary file "
+                             & Alice.Str (Self.Name)))
                   do
                      Self.Context.Log.Trace_Return (Result'Image);
                   end return;

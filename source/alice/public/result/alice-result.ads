@@ -86,4 +86,10 @@ package Alice.Result is
    --  encountered an error. It contains the Level and Message fields to
    --  provide additional information about the error that occurred.
 
+   function Create_Error
+     (Level : Error_Level; Message : Alice.UString) return Error_Object'Class;
+   --  Convenience function to create an Error_Object with the specified error
+   --  level and message. This function is useful for creating error results
+   --  in a consistent manner throughout the application.
+
 end Alice.Result;
