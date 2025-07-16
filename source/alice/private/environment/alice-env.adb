@@ -6,11 +6,11 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Directories;
+--  with Ada.Directories;
 
 package body Alice.Env is
 
-   Alice_Root_Dir : Alice.UString := Alice.Null_UString;
+   --  Alice_Root_Dir : Alice.UString := Alice.Null_UString;
 
    -------------------------
    -- Is_Alice_Repository --
