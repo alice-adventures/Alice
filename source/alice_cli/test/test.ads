@@ -46,4 +46,11 @@ package Test is
    --  should be called when an assertion fails or when an unexpected
    --  condition is encountered in the code.
 
+   procedure Error (Message : String);
+   --  Print an error message in the log. Use it to indicate that an error has
+   --  occurred in the test code. Typically, the message is printed in a
+   --  different color to make it stand out in the log output. This procedure
+   --  should be called when an unexpected error occurs in the code that is
+   --  not related to a specific test or section of the code.
+
 end Test;

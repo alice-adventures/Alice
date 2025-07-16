@@ -101,4 +101,19 @@ package body Test is
       Alice.Std.Get_OS_Context.Log.Warning (Message);
    end Fail;
 
+   -----------
+   -- Error --
+   -----------
+
+   procedure Error (Message : String) is
+   begin
+      Ada.Text_IO.Put_Line
+        (ANSI.Wrap
+           ("[ ERROR ]",
+            ANSI.Default,
+            ANSI.Palette_Fg (5, 5, 5),
+            ANSI.Palette_Bg (3, 0, 0)));
+      Alice.Std.Get_OS_Context.Log.Warning (Message & " (?)");
+   end Error;
+
 end Test;

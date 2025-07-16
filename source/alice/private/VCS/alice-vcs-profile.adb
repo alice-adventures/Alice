@@ -42,8 +42,7 @@ package body Alice.VCS.Profile is
    -- Get_Service --
    -----------------
 
-   function Get_Service (Self : Object) return Alice.VCS.Service.Name.Enum
-   is
+   function Get_Service (Self : Object) return Alice.VCS.Service.Name.Enum is
    begin
       --  #TODO - Review error handling for invalid provider names. In theory
       --  no bad names should be found, but if they are, we should handle them
@@ -126,7 +125,7 @@ package body Alice.VCS.Profile is
               and then TOML_Result.Value.Has (Key_Token)
             then
                Self.Service :=
-                 TOML_Result.Value.Get (Key_Provider).As_Unbounded_String;
+                 TOML_Result.Value.Get (Key_Service).As_Unbounded_String;
                Self.Token :=
                  TOML_Result.Value.Get (Key_Token).As_Unbounded_String;
                Self.Login :=
@@ -162,6 +161,14 @@ package body Alice.VCS.Profile is
              (Alice.Result.Domain,
               Alice.UStr ("Profile file does not exist: " & File));
       end if;
+
+   --  exception
+   --     when others =>
+   --        return
+   --          Alice.Result.Create_Error
+   --            (Alice.Result.System,
+   --             Alice.UStr
+   --               ("Unexpected error while loading profile from file: " & File));
    end Load_From_File;
 
    ------------------
@@ -174,7 +181,7 @@ package body Alice.VCS.Profile is
       Table      : constant TOML.TOML_Value := TOML.Create_Table;
       Profile_FD : Ada.Text_IO.File_Type;
    begin
-      Table.Set (Key_Provider, TOML.Create_String (Self.Service));
+      Table.Set (Key_Service, TOML.Create_String (Self.Service));
       Table.Set (Key_Token, TOML.Create_String (Self.Token));
       Table.Set (Key_Login, TOML.Create_String (Self.Login));
       Table.Set (Key_Avatar_URL, TOML.Create_String (Self.Avatar_URL));
@@ -214,17 +221,19 @@ package body Alice.VCS.Profile is
       Output.Put ("(Alice.VCS.Profile.Object with");
       Output.New_Line;
       Output.Increase_Indent;
-      Output.Put ("   User_Name   => " & Alice.Str (Value.Name));
+      Output.Put (Key_Service & "    => " & Alice.Str (Value.Service));
       Output.New_Line;
-      Output.Put ("   User_Email  => " & Alice.Str (Value.Email));
+      Output.Put (Key_Token & "      => " & Alice.Str (Value.Token));
       Output.New_Line;
-      Output.Put ("   User_Login  => " & Alice.Str (Value.Login));
+      Output.Put (Key_Login & "      => " & Alice.Str (Value.Login));
       Output.New_Line;
-      Output.Put ("   User_Avatar => " & Alice.Str (Value.Avatar_URL));
+      Output.Put (Key_Avatar_URL & " => " & Alice.Str (Value.Avatar_URL));
       Output.New_Line;
-      Output.Put ("   User_Token  => " & Alice.Str (Value.Token));
+      Output.Put (Key_Name & "       => " & Alice.Str (Value.Name));
       Output.New_Line;
-      Output.Put ("   SPDX_Id     => " & Alice.Str (Value.SPDX_Id));
+      Output.Put (Key_Email & "      => " & Alice.Str (Value.Email));
+      Output.New_Line;
+      Output.Put (Key_SPDX_Id & "    => " & Alice.Str (Value.SPDX_Id));
       Output.Put (")");
       Output.Decrease_Indent;
       Output.New_Line;

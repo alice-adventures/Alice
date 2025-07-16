@@ -6,8 +6,6 @@
 --
 -------------------------------------------------------------------------------
 
-with Ada.Directories;
-with Ada.Text_IO;
 with GNAT.Source_Info;
 
 with Alice.Result;
@@ -15,9 +13,6 @@ with Alice.VCS.Profile.Result;
 with Alice.VCS.Service.GitHub;
 
 package body Test.VCS.Service is
-
-   GitHub_Token_Test_File : constant String :=
-     "source/alice_cli/test/file/github-token";
 
    ----------------------------------------------
    -- Get_Profile_From_Token_Ends_With_Success --
@@ -27,16 +22,11 @@ package body Test.VCS.Service is
      (Ctx : Alice.Context.Object_Access)
    is
       GitHub : Alice.VCS.Service.GitHub.Object;
+      Token  : constant String := Get_Github_Token_From_Test_File;
    begin
       Subtitle ("Get_Member_Profile_From_Token ends with success");
 
-      if Ada.Directories.Exists (GitHub_Token_Test_File) then
-         Token_File : Ada.Text_IO.File_Type;
-         Ada.Text_IO.Open
-           (Token_File, Ada.Text_IO.In_File, GitHub_Token_Test_File);
-         Token : constant String := Ada.Text_IO.Get_Line (Token_File);
-         Ada.Text_IO.Close (Token_File);
-
+      if Token'Length > 0 then
          Result : Alice.VCS.Profile.Result.Object'Class :=
            GitHub.Get_Member_Profile_From_Token (Token);
 
@@ -53,7 +43,8 @@ package body Test.VCS.Service is
          end case;
       else
          Fail
-           ("Token file not found: provide a valid GitHub token in file '"
+           ("Token file not found or is empty:"
+            & " provide a valid GitHub token in file '"
             & GitHub_Token_Test_File
             & "' to run this test");
       end if;

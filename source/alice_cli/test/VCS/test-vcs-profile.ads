@@ -6,15 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
-package Test.VCS is
+with Alice.Context;
 
-   GitHub_Token_Test_File : constant String :=
-     "source/alice_cli/test/file/github-token";
+package Test.VCS.Profile is
 
-   GitHub_Profile_Test_File : constant String :=
-     "source/alice_cli/test/file/github-profile.toml";
+   procedure Run (Ctx : Alice.Context.Object_Access);
 
-   function Get_Github_Token_From_Test_File return String;
-   --  Reads the GitHub token from a test file.
-
-end Test.VCS;
+end Test.VCS.Profile;

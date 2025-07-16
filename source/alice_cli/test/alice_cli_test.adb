@@ -19,6 +19,7 @@ with Test.Log;
 with Test.OS_Cmd;
 with Test.Progress;
 with Test.Query.Version;
+with Test.VCS.Profile;
 with Test.VCS.Service;
 
 procedure Alice_CLI_Test is
@@ -66,6 +67,7 @@ begin
 
    Context.Log.Save_State;
    Context.Log.Set_Debug_Level (With_Location_Enabled => True);
+   Test.VCS.Profile.Run (Context);
    Test.VCS.Service.Run (Context);
    Context.Log.Restore_State;
 
