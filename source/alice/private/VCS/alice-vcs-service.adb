@@ -15,6 +15,10 @@ with Alice.Result;
 
 package body Alice.VCS.Service is
 
+   ------------------
+   -- Send_Request --
+   ------------------
+
    function Send_Request
      (Request  : String;
       Contents : String := "";

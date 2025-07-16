@@ -39,6 +39,7 @@ Log_Level = { type = "Enum", values = ["Always", "Error", "Warning", "Info", "De
 ada_version = ["-gnat2022", "-gnatX0", "-gnata"]
 
 [[depends-on]]
+ada_toml = "*"
 clic = "~0.3.0"
 curl = "*"
 gnat = ">=2021 | (>=12 & <15)"

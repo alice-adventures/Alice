@@ -10,6 +10,17 @@ package Alice.Env is
 
    Environment_Error : exception;
 
+   Config_File : constant String := "config/alice_config.toml";
+   --  The file where the Alice configuration is stored. This file contains
+   --  various settings and parameters that define the behavior of the Alice
+   --  application, such as paths, user preferences, and other configuration
+   --  options. It is typically located in the user's home directory or a
+   --  specific configuration directory. The file is expected to be in TOML
+   --  format.
+
+   Profile_File : constant String := "config/member_profile.toml";
+   --  The file where the Alice member profile is stored.
+
    function Is_Alice_Repository
      (Report_Error : Boolean := True) return Boolean;
    --  Check if the current working directory belongs to the Alice repository.

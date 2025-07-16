@@ -24,16 +24,6 @@ package Alice.VCS.Service.GitHub is
       return Alice.VCS.Profile.Result.Object'Class;
 
    overriding
-   function Get_Member_Profile_From_VCS_Config_File
-     (Self : in out Object; Token : String)
-      return Alice.VCS.Profile.Result.Object'Class;
-
-   overriding
-   function Get_Member_Profile_From_Alice_Config_File
-     (Self : in out Object; File : String)
-      return Alice.VCS.Profile.Result.Object'Class;
-
-   overriding
    function Get_Member_Repository
      (Self    : in out Object;
       Profile : Alice.VCS.Profile.Object'Class;

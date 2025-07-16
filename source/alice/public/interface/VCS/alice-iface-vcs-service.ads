@@ -46,25 +46,6 @@ package Alice.IFace.VCS.Service is
    --  to a remote service (e.g., GitHub). If the token is invalid or the
    --  profile does not exist, it should return an error result.
 
-   function Get_Member_Profile_From_VCS_Config_File
-     (Self : in out Object; Token : String)
-      return Alice.VCS.Profile.Result.Object'Class
-   is abstract;
-   --  Retrieves a VCS profile using the provided token from a VCS
-   --  configuration file (e.g. '~/.gitconfig'). The implementation should
-   --  read the configuration file and extract the profile information
-   --  associated with the given token. If the token is invalid or the profile
-   --  does not exist, it should return an error result.
-
-   function Get_Member_Profile_From_Alice_Config_File
-     (Self : in out Object; File : String)
-      return Alice.VCS.Profile.Result.Object'Class
-   is abstract;
-   --  Retrieves a VCS profile from the Alice configuration file. The
-   --  implementation should read the specified configuration file and extract
-   --  the profile information. If the file does not exist or the profile is
-   --  not found, it should return an error result.
-
    function Get_Member_Repository
      (Self    : in out Object;
       Profile : Alice.VCS.Profile.Object'Class;

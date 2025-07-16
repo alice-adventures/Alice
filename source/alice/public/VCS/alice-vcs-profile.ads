@@ -67,8 +67,15 @@ package Alice.VCS.Profile is
    --  will be set, depending on the default SPDX ID defined in the
    --  implementation.
 
+   function Load_From_File
+     (Self : in out Object; File : String) return Alice.Result.Object'Class;
+   --  Loads the profile from a specified file. It reads the file and extracts
+   --  the profile information, returning an object that contains the profile
+   --  details. If the file does not exist or the profile is not found, it
+   --  returns an error result.
+
    function Save_To_File
-     (Self : Object; File : String) return Alice.Result.Object'Class;
+     (Self : in out Object; File : String) return Alice.Result.Object'Class;
    --  Saves the VCS profile to a file. The implementation should write the
    --  profile information to the specified file in a format that can be
    --  easily read back later.

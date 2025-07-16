@@ -29,13 +29,6 @@ package body Alice.VCS.Service.GitHub is
    --  endpoints for various operations such as fetching user profiles,
    --  repositories, etc.
 
-   Key_Avatar_URL     : constant String := "avatar_url";
-   Key_Email          : constant String := "email";
-   Key_Login          : constant String := "login";
-   Key_Name           : constant String := "name";
-   Key_Type           : constant String := "type";
-   Key_User_View_Type : constant String := "user_view_type";
-
    ---------------
    -- Curl_Args --
    ---------------
@@ -159,41 +152,6 @@ package body Alice.VCS.Service.GitHub is
                         when others => " - Unexpected error occurred.")));
       end if;
    end Get_Member_Profile_From_Token;
-
-   ---------------------------------------------
-   -- Get_Member_Profile_From_VCS_Config_File --
-   ---------------------------------------------
-
-   overriding
-   function Get_Member_Profile_From_VCS_Config_File
-     (Self : in out Object; Token : String)
-      return Alice.VCS.Profile.Result.Object'Class
-   is (Alice.VCS.Profile.Result.Create_Object (Alice.Result.Success, null));
-   --  #REVIEW - Really needed?
-   --
-   --  #TODO - Provide a proper implementation to retrieve the profile from
-   --  the VCS configuration file. This function should read the VCS
-   --  configuration file (e.g., '~/.gitconfig') and extract the profile
-   --  information associated with the provided token. The implementation
-   --  should handle file reading, parsing the configuration, and returning a
-   --  valid profile object. If the token is invalid or the profile does not
-   --  exist, it should return an error result.
-
-   -----------------------------------------------
-   -- Get_Member_Profile_From_Alice_Config_File --
-   -----------------------------------------------
-
-   overriding
-   function Get_Member_Profile_From_Alice_Config_File
-     (Self : in out Object; File : String)
-      return Alice.VCS.Profile.Result.Object'Class
-   is (Alice.VCS.Profile.Result.Create_Object (Alice.Result.Success, null));
-   --  #TODO - Provide a proper implementation to retrieve the profile from
-   --  the Alice configuration file. This function should read the specified
-   --  configuration file and extract the profile information. The
-   --  implementation should handle file reading, parsing the configuration,
-   --  and returning a valid profile object. If the file does not exist or the
-   --  profile is not found, it should return an error result.
 
    ---------------------------
    -- Get_Member_Repository --

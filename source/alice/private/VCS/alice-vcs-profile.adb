@@ -6,7 +6,12 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Directories;
+with Ada.Text_IO;
+
 with SPDX;
+with TOML;
+with TOML.File_IO;
 
 package body Alice.VCS.Profile is
 
@@ -89,24 +94,99 @@ package body Alice.VCS.Profile is
       end if;
    end Set_SPDX_Id;
 
+   --------------------
+   -- Load_From_File --
+   --------------------
+
+   function Load_From_File
+     (Self : in out Object; File : String) return Alice.Result.Object'Class is
+   begin
+      if Ada.Directories.Exists (File) then
+         TOML_Result : constant TOML.Read_Result :=
+           TOML.File_IO.Load_File (File);
+
+         if TOML_Result.Success then
+            if TOML_Result.Value.Has (Key_Login)
+              and then TOML_Result.Value.Has (Key_Name)
+              and then TOML_Result.Value.Has (Key_Token)
+            then
+               Self.User_Name :=
+                 TOML_Result.Value.Get (Key_Name).As_Unbounded_String;
+               Self.User_Email :=
+                 TOML_Result.Value.Get (Key_Email).As_Unbounded_String;
+               Self.User_Login :=
+                 TOML_Result.Value.Get (Key_Login).As_Unbounded_String;
+               Self.User_Avatar :=
+                 TOML_Result.Value.Get (Key_Avatar_URL).As_Unbounded_String;
+               Self.User_Token :=
+                 TOML_Result.Value.Get (Key_Token).As_Unbounded_String;
+               Self.SPDX_Id :=
+                 TOML_Result.Value.Get (Key_SPDX_Id).As_Unbounded_String;
+               return Result : Alice.Result.Success_Object;
+            else
+               return
+                 Alice.Result.Create_Error
+                   (Alice.Result.Domain,
+                    Alice.UStr
+                      ("Profile file does not contain "
+                       & "a valid VCS profile."));
+            end if;
+         else
+            return
+              Alice.Result.Create_Error
+                (Alice.Result.Domain,
+                 Alice.UStr
+                   ("Error loading profile file: "
+                    & Alice.Str (TOML_Result.Message)));
+         end if;
+      else
+         return
+           Alice.Result.Create_Error
+             (Alice.Result.Domain,
+              Alice.UStr ("Profile file does not exist: " & File));
+      end if;
+   end Load_From_File;
+
    ------------------
    -- Save_To_File --
    ------------------
 
    function Save_To_File
-     (Self : Object; File : String) return Alice.Result.Object'Class
+     (Self : in out Object; File : String) return Alice.Result.Object'Class
    is
-      --  This function is a placeholder for saving the profile to a file. The
-      --  actual implementation would involve writing the profile data to the
-      --  specified file in a format that can be read later. For now, it
-      --  simply returns a success result.
+      Table      : constant TOML.TOML_Value := TOML.Create_Table;
+      Profile_FD : Ada.Text_IO.File_Type;
    begin
-      --  #TODO - Provide a proper implementation
-      --  Here you would implement the logic to save the profile to a file.
-      --  For example, you could write the profile data to a JSON or YAML
-      --  file. This is a stub implementation.
+      Table.Set (Key_Name, TOML.Create_String (Self.User_Name));
+      Table.Set (Key_Email, TOML.Create_String (Self.User_Email));
+      Table.Set (Key_Login, TOML.Create_String (Self.User_Login));
+      Table.Set (Key_Token, TOML.Create_String (Self.User_Avatar));
+      Table.Set (Key_Token, TOML.Create_String (Self.User_Token));
+      Table.Set (Key_SPDX_Id, TOML.Create_String (Self.SPDX_Id));
+
+      Profile_FD.Create (Ada.Text_IO.Out_File, File);
+      TOML.File_IO.Dump_To_File (Table, Profile_FD);
+      Profile_FD.Close;
+
       return Result : Alice.Result.Success_Object;
+
+   exception
+      when Ada.Text_IO.Name_Error =>
+         return
+           Alice.Result.Create_Error
+             (Alice.Result.System,
+              Alice.UStr ("Could not create profile file: " & File));
+      when others =>
+         return
+           Alice.Result.Create_Error
+             (Alice.Result.System,
+              Alice.UStr ("Unexpected error while saving profile to file: "
+                           & File));
    end Save_To_File;
+
+   -------------------
+   -- Profile_Image --
+   -------------------
 
    procedure Profile_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
