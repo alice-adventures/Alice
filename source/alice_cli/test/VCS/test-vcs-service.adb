@@ -92,8 +92,8 @@ package body Test.VCS.Service is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-      Get_Profile_From_Token_Ends_With_Success (Ctx);
       Get_Profile_From_Token_Ends_With_Error (Ctx);
+      Get_Profile_From_Token_Ends_With_Success (Ctx);
    end Run;
 
 end Test.VCS.Service;

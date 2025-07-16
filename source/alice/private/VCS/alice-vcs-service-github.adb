@@ -103,11 +103,11 @@ package body Alice.VCS.Service.GitHub is
              (Status  => Alice.Result.Success,
               Profile =>
                 Alice.VCS.Profile.Create_Profile
-                  (User_Name   => Alice.UStr (Value (Key_Name)),
-                   User_Email  => Alice.UStr (Value (Key_Email)),
-                   User_Login  => Alice.UStr (Value (Key_Login)),
-                   User_Avatar => Alice.UStr (Value (Key_Avatar_URL)),
-                   User_Token  => Alice.UStr (Token)));
+                  (Token      => Alice.UStr (Token),
+                   Login      => Alice.UStr (Value (Key_Login)),
+                   Avatar_URL => Alice.UStr (Value (Key_Avatar_URL)),
+                   Name       => Alice.UStr (Value (Key_Name)),
+                   Email      => Alice.UStr (Value (Key_Email))));
       else
          return
            Alice.VCS.Profile.Result.Create_Object

@@ -12,6 +12,7 @@ package Alice.VCS is
    Key_Email          : constant String := "email";
    Key_Login          : constant String := "login";
    Key_Name           : constant String := "name";
+   Key_Provider       : constant String := "provider";  --  Service provider
    Key_SPDX_Id        : constant String := "spdx_id";
    Key_Token          : constant String := "token";
    Key_Type           : constant String := "type";

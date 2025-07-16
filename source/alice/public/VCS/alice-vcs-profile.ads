@@ -16,6 +16,7 @@
 with Ada.Strings.Text_Buffers;
 
 with Alice.Result;
+with Alice.VCS.Service;
 
 package Alice.VCS.Profile is
 
@@ -24,37 +25,32 @@ package Alice.VCS.Profile is
    type Object_Access is access Object;
 
    function Create_Profile
-     (User_Name   : Alice.UString := Alice.Null_UString;
-      User_Email  : Alice.UString := Alice.Null_UString;
-      User_Login  : Alice.UString := Alice.Null_UString;
-      User_Avatar : Alice.UString := Alice.Null_UString;
-      User_Token  : Alice.UString := Alice.Null_UString;
-      SPDX_Id     : Alice.UString := Alice.Null_UString) return Object_Access;
+     (Provider   : Alice.VCS.Service.Provider_Name :=
+        Alice.VCS.Service.Provider_GitHub;
+      Token      : Alice.UString := Alice.Null_UString;
+      Login      : Alice.UString := Alice.Null_UString;
+      Avatar_URL : Alice.UString := Alice.Null_UString;
+      Name       : Alice.UString := Alice.Null_UString;
+      Email      : Alice.UString := Alice.Null_UString;
+      SPDX_Id    : Alice.UString := Alice.Null_UString) return Object_Access;
 
-   --  function Is_Owner_Profile (Self : Object) return Boolean
-   --  with Inline;
-
-   function Get_User_Name (Self : Object) return String
+   function Get_Provider (Self : Object) return Alice.VCS.Service.Provider_Name
    with Inline;
 
-   function Get_User_Email (Self : Object) return String
+   function Get_Token (Self : Object) return String
    with Inline;
 
-   function Get_User_Login (Self : Object) return String
+   function Get_Login (Self : Object) return String
    with Inline;
 
-   function Get_User_Avatar (Self : Object) return String
+   function Get_Avatar_URL (Self : Object) return String
    with Inline;
 
-   function Get_User_Token (Self : Object) return String
+   function Get_Name (Self : Object) return String
    with Inline;
 
-   --  #FIXME - Get the VCS Provider with which the profile is associated. It
-   --  is used to determine the specific VCS provider required to retrieve the
-   --  profile form the token.
-   --
-   --  function Get_VCS_Provider (Self : Object) return
-   --  Alice.VCS.Provider.Result.Object with Inline;
+   function Get_Email (Self : Object) return String
+   with Inline;
 
    function Get_SPDX_Id (Self : Object) return String
    with Inline;
@@ -87,12 +83,13 @@ private
       Value  : Object);
 
    type Object is new Alice.Controlled with record
-      User_Name   : Alice.UString := Alice.Null_UString;
-      User_Email  : Alice.UString := Alice.Null_UString;
-      User_Login  : Alice.UString := Alice.Null_UString;
-      User_Avatar : Alice.UString := Alice.Null_UString;
-      User_Token  : Alice.UString := Alice.Null_UString;
-      SPDX_Id     : Alice.UString := Alice.Null_UString;
+      Provider   : Alice.UString := Alice.Null_UString;
+      Token      : Alice.UString := Alice.Null_UString;
+      Login      : Alice.UString := Alice.Null_UString;
+      Avatar_URL : Alice.UString := Alice.Null_UString;
+      Name       : Alice.UString := Alice.Null_UString;
+      Email      : Alice.UString := Alice.Null_UString;
+      SPDX_Id    : Alice.UString := Alice.Null_UString;
    end record
    with Put_Image => Profile_Image;
 
