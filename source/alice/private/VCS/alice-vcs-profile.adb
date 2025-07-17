@@ -15,6 +15,8 @@ with TOML.File_IO;
 
 package body Alice.VCS.Profile is
 
+   use all type Alice.VCS.Service.Name.Enum;
+
    --------------------
    -- Create_Profile --
    --------------------
@@ -44,10 +46,12 @@ package body Alice.VCS.Profile is
 
    function Get_Service (Self : Object) return Alice.VCS.Service.Name.Enum is
    begin
-      --  #TODO - Review error handling for invalid provider names. In theory
-      --  no bad names should be found, but if they are, we should handle them
-      --  gracefully.
-      return Alice.VCS.Service.Name.Enum'Value (Alice.Str (Self.Service));
+      return
+         Name : constant Alice.VCS.Service.Name.Enum :=
+           Alice.VCS.Service.Name.Enum'Value (Alice.Str (Self.Service));
+   exception
+      when Constraint_Error =>
+         return Alice.VCS.Service.Name.None;
    end Get_Service;
 
    ---------------
@@ -120,12 +124,28 @@ package body Alice.VCS.Profile is
            TOML.File_IO.Load_File (File);
 
          if TOML_Result.Success then
-            if TOML_Result.Value.Has (Key_Login)
-              and then TOML_Result.Value.Has (Key_Name)
+            if TOML_Result.Value.Has (Key_Service)
               and then TOML_Result.Value.Has (Key_Token)
+              and then TOML_Result.Value.Has (Key_Login)
+              and then TOML_Result.Value.Has (Key_Avatar_URL)
+              and then TOML_Result.Value.Has (Key_Name)
+              and then TOML_Result.Value.Has (Key_Email)
+              and then TOML_Result.Value.Has (Key_SPDX_Id)
             then
                Self.Service :=
                  TOML_Result.Value.Get (Key_Service).As_Unbounded_String;
+               if Self.Get_Service = Alice.VCS.Service.Name.None then
+                  return
+                    Alice.Result.Create_Error
+                      (Alice.Result.Domain,
+                       Alice.UStr
+                         ("Invalid service name '"
+                          & Alice.Str (Self.Service)
+                          & "' in file '"
+                          & File
+                          & "'"));
+               end if;
+
                Self.Token :=
                  TOML_Result.Value.Get (Key_Token).As_Unbounded_String;
                Self.Login :=
@@ -144,31 +164,33 @@ package body Alice.VCS.Profile is
                  Alice.Result.Create_Error
                    (Alice.Result.Domain,
                     Alice.UStr
-                      ("Profile file does not contain "
-                       & "a valid VCS profile."));
+                      ("Invalid profile, some keys missing in file '"
+                       & File
+                       & "'"));
             end if;
          else
             return
               Alice.Result.Create_Error
                 (Alice.Result.Domain,
                  Alice.UStr
-                   ("Error loading profile file: "
-                    & Alice.Str (TOML_Result.Message)));
+                   ("Error '"
+                    & Alice.Str (TOML_Result.Message)
+                    & "' in file '"
+                    & File
+                    & "'"));
          end if;
       else
          return
            Alice.Result.Create_Error
              (Alice.Result.Domain,
-              Alice.UStr ("Profile file does not exist: " & File));
+              Alice.UStr ("Profile file '" & File & "' does not exist"));
       end if;
 
-   --  exception
-   --     when others =>
-   --        return
-   --          Alice.Result.Create_Error
-   --            (Alice.Result.System,
-   --             Alice.UStr
-   --               ("Unexpected error while loading profile from file: " & File));
+   exception
+      when E : others =>
+         return
+           Alice.Result.Create_Error
+             (Alice.Result.System, Alice.UStr (E.Exception_Message));
    end Load_From_File;
 
    ------------------

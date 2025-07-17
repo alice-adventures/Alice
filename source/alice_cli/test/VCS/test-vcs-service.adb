@@ -42,10 +42,10 @@ package body Test.VCS.Service is
                Fail ("Failed to get member profile from token");
          end case;
       else
-         Fail
+         Warning
            ("Token file not found or is empty:"
             & " provide a valid GitHub token in file '"
-            & GitHub_Token_Test_File
+            & GitHub_Token_File
             & "' to run this test");
       end if;
    end Get_Profile_From_Token_Ends_With_Success;

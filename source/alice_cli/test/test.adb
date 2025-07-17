@@ -12,6 +12,8 @@ with Alice.Std;
 
 package body Test is
 
+   use all type Alice.Result.Status_Type;
+
    Main_Color : ANSI.Colors := ANSI.Light_Cyan;
    Last_Title : Boolean := False;
 
@@ -80,40 +82,66 @@ package body Test is
            ("-- " & Subtitle, ANSI.Bright, ANSI.Foreground (Main_Color)));
    end Subtitle;
 
-   -------------
-   -- Success --
-   -------------
+   ----------
+   -- Pass --
+   ----------
 
    procedure Pass is
    begin
       Ada.Text_IO.Put_Line
-        (ANSI.Wrap ("[ PASS ]", ANSI.Invert, ANSI.Foreground (ANSI.Green)));
+        (ANSI.Wrap
+           (" PASS ",
+            ANSI.Default,
+            ANSI.Palette_Fg (5, 5, 5),
+            ANSI.Palette_Bg (0, 2, 0)));
    end Pass;
 
-   -------------
-   -- Failure --
-   -------------
+   ----------
+   -- Fail --
+   ----------
 
    procedure Fail (Message : String := "") is
    begin
       Ada.Text_IO.Put_Line
-        (ANSI.Wrap ("[ FAIL ]", ANSI.Invert, ANSI.Foreground (ANSI.Red)));
-      Alice.Std.Get_OS_Context.Log.Warning (Message);
+        (ANSI.Wrap
+           (" FAIL ",
+            ANSI.Default,
+            ANSI.Palette_Fg (5, 5, 5),
+            ANSI.Palette_Bg (2, 0, 0)));
+      Alice.Std.Get_OS_Context.Err.Log (Message);
    end Fail;
+
+   -------------
+   -- Warning --
+   -------------
+
+   procedure Warning (Message : String) is
+   begin
+      Ada.Text_IO.Put_Line
+        (ANSI.Wrap
+           (" WARNING ",
+            ANSI.Default,
+            ANSI.Palette_Fg (5, 5, 5),
+            ANSI.Palette_Bg (3, 1, 0)));
+      Alice.Std.Get_OS_Context.Log.Warning (Message);
+   end Warning;
 
    -----------
    -- Error --
    -----------
 
-   procedure Error (Message : String) is
+   procedure Error (Status : Alice.Result.Status_Type) is
    begin
       Ada.Text_IO.Put_Line
         (ANSI.Wrap
-           ("[ ERROR ]",
+           (" ERROR ",
             ANSI.Default,
             ANSI.Palette_Fg (5, 5, 5),
-            ANSI.Palette_Bg (3, 0, 0)));
-      Alice.Std.Get_OS_Context.Log.Warning (Message & " (?)");
+            ANSI.Palette_Bg (2, 0, 0)));
+      Alice.Std.Get_OS_Context.Err.Log
+        ("This test should have "
+         & (if Status = Alice.Result.Success then "failed" else "succeeded")
+         & " (?)");
    end Error;
 
 end Test;

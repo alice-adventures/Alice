@@ -13,7 +13,7 @@ package Alice.VCS.Service is
 
    package Name is
 
-      type Enum is (GitHub);
+      type Enum is (None, GitHub);
       --  #NOTE - Other VCS providers can be added later, e.g., GitLab,
       --  Bitbucket, etc.
 

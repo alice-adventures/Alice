@@ -1,0 +1,5 @@
+service = "GITHUB"
+token = "invalid-token"
+name = "Test User"
+email = "test@example.com"
+spdx_id = "MIT"

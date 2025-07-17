@@ -1,3 +1,4 @@
 # Ignore files that could contain sensitive information such as GitHub tokens
 # or other credentials. These files should not be committed to the repository.
+*~
 github-token

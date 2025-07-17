@@ -17,10 +17,10 @@ package body Test.VCS is
 
    function Get_Github_Token_From_Test_File return String is
    begin
-      if Ada.Directories.Exists (GitHub_Token_Test_File) then
+      if Ada.Directories.Exists (GitHub_Token_File) then
          Token_File : Ada.Text_IO.File_Type;
          Ada.Text_IO.Open
-           (Token_File, Ada.Text_IO.In_File, GitHub_Token_Test_File);
+           (Token_File, Ada.Text_IO.In_File, GitHub_Token_File);
          Token : constant String := Ada.Text_IO.Get_Line (Token_File);
          Ada.Text_IO.Close (Token_File);
          return Token;

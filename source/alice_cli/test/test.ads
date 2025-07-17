@@ -8,6 +8,8 @@
 
 with AnsiAda;
 
+with Alice.Result;
+
 package Test is
 
    package ANSI renames AnsiAda;
@@ -31,26 +33,32 @@ package Test is
 
    procedure Subtitle (Subtitle : String);
    --  Print a subtitle in the log. Use it to mark a subsection of a test or a
-   --  section of the code. Typically, the subtitle is printed in a different
-   --  color and with a special format to make it stand out in the log output.
+   --  section of the code.
 
    procedure Pass;
    --  Print a success message in the log. Use it to indicate that a test or a
-   --  section of the code has completed successfully. Typically, the message
-   --  is printed in a different color to make it stand out in the log output.
+   --  section of the code has completed successfully.
 
    procedure Fail (Message : String := "");
    --  Print a failure message in the log. Use it to indicate that a test or a
-   --  section of the code has failed. Typically, the message is printed in a
-   --  different color to make it stand out in the log output. This procedure
-   --  should be called when an assertion fails or when an unexpected
-   --  condition is encountered in the code.
+   --  section of the code has failed. This procedure should be called when an
+   --  assertion fails or when an unexpected condition is encountered in the
+   --  code.
 
-   procedure Error (Message : String);
+   procedure Warning (Message : String);
+   --  Print a warning message in the log. Use it to indicate that a test
+   --  cannot be run or that a condition has been encountered that is not
+   --  critical but should be noted.
+
+   procedure Error (Status : Alice.Result.Status_Type);
    --  Print an error message in the log. Use it to indicate that an error has
-   --  occurred in the test code. Typically, the message is printed in a
-   --  different color to make it stand out in the log output. This procedure
-   --  should be called when an unexpected error occurs in the code that is
-   --  not related to a specific test or section of the code.
+   --  occurred in the test code itself.
+   --
+   --  If Status is Alice.Result.Success, it means that the test has
+   --  erroneously succeeded when it was expected to fail. In this case, the
+   --  message should indicate that the test has failed unexpectedly. And vice
+   --  versa, if Status is Alice.Result.Error, it means that the test has
+   --  erroneously failed when it was expected to succeed. In this case, the
+   --  message should indicate that the test has succeeded unexpectedly.
 
 end Test;

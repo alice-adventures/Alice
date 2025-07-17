@@ -1,0 +1,7 @@
+service = "GitHAP"
+token = "invalid-token"
+login = "test-user"
+avatar_url = "https://example.com/avatar.png"
+name = "Test User"
+email = "test@example.com"
+spdx_id = "MIT"
