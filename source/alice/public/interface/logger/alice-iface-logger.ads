@@ -30,7 +30,7 @@
 --  In development and validation builds the default level is Debug. In
 --  release builds the default level is Warning.
 
-with GNAT.Source_Info; use GNAT.Source_Info;
+with GNAT.Source_Info;
 
 package Alice.IFace.Logger is
 
@@ -76,9 +76,9 @@ package Alice.IFace.Logger is
 
    procedure Info
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location)
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log an info message: additional or verbose information that is not an
    --  error or warning. The message is sent to the standard error. This is
@@ -86,18 +86,18 @@ package Alice.IFace.Logger is
 
    procedure Warning
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location)
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a warning message: indicates a potential problem or an unexpected
    --  situation that is not an error.
 
    procedure Trace_Begin
      (Self     : in out Object;
-      Msg      : String := "";
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location)
+      Message  : String := "";
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a trace begin message: debugging information, usually not shown to
    --  the user, but useful for developers. The message is sent to the
@@ -105,9 +105,9 @@ package Alice.IFace.Logger is
 
    procedure Trace
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location)
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a trace message: observability, such as performance or traceability
    --  information, usually not shown to the user. Should be a no-op in release
@@ -115,9 +115,9 @@ package Alice.IFace.Logger is
 
    procedure Trace_Return
      (Self     : in out Object;
-      Msg      : String := "";
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location)
+      Message  : String := "";
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a trace return message: indicates the return from a function,
    --  usually with the return value as a parameter. Should be a no-op in
@@ -125,9 +125,9 @@ package Alice.IFace.Logger is
 
    procedure Trace_End
      (Self     : in out Object;
-      Msg      : String := "";
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location)
+      Message  : String := "";
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a trace end message: debugging information, usually not shown to
    --  the user, but useful for developers. Should be a no-op in release
@@ -135,9 +135,9 @@ package Alice.IFace.Logger is
 
    procedure Debug
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location)
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a debug message: debugging information, usually not shown to the
    --  user, but useful for developers. Should be a no-op in release builds.

@@ -10,9 +10,9 @@ separate (Alice.Std.Log)
 overriding
 procedure Debug
   (Self     : in out Object;
-   Msg      : String;
-   Entity   : String := Enclosing_Entity;
-   Location : String := Source_Location) is
+   Message  : String;
+   Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+   Location : String := GNAT.Source_Info.Source_Location) is
 begin
-   Simple_Logging.Debug (Msg, Entity, Location);
+   Simple_Logging.Debug (Message, Entity, Location);
 end Debug;

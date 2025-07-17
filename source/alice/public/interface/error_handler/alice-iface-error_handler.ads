@@ -19,6 +19,8 @@
 --  the operation cannot be retried and the application should take
 --  appropriate action, such as terminating or logging the error.
 
+with GNAT.Source_Info;
+
 with Alice.Result;
 
 package Alice.IFace.Error_Handler is
@@ -55,6 +57,19 @@ package Alice.IFace.Error_Handler is
    --  It is expected that the Error_Handler implementation will use these
    --  exit codes when exiting the application or when reporting an error to
    --  the user.
+
+   procedure Log
+     (Self     : in out Object;
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location)
+   is abstract;
+   --  Log a message using the error handler's logging mechanism. This method
+   --  is expected to log the message in a way that is appropriate for the
+   --  error handler's implementation, such as writing to a file or console.
+   --  Prefer handling the error using the Handle_Error function instead of
+   --  logging it directly, as the error handler may have specific logic for
+   --  handling different types of errors.
 
    function Handle_Error
      (Self : in out Object; Result : Alice.Result.Error_Object'Class)

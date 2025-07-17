@@ -10,9 +10,9 @@ separate (Alice.Std.Log)
 overriding
 procedure Trace_End
   (Self     : in out Object;
-   Msg      : String := "";
-   Entity   : String := Enclosing_Entity;
-   Location : String := Source_Location) is
+   Message  : String := "";
+   Entity   : GNAT.Source_Info.String := Enclosing_Entity;
+   Location : GNAT.Source_Info.String := Source_Location) is
 begin
    null;
 end Trace_End;

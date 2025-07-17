@@ -12,6 +12,20 @@ with Simple_Logging;
 
 package body Alice.Std.Error_Handler is
 
+   ---------
+   -- Log --
+   ---------
+
+   overriding
+   procedure Log
+     (Self     : in out Object;
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is
+   begin
+      Simple_Logging.Error (Message);
+   end Log;
+
    ------------------
    -- Handle_Error --
    ------------------

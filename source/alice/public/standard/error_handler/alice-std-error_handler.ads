@@ -9,12 +9,21 @@
 --  This package implements the standard error handler for the Alice
 --  application.
 
+with GNAT.Source_Info;
+
 with Alice.IFace.Error_Handler;
 with Alice.Result;
 
 package Alice.Std.Error_Handler is
 
    type Object is new Alice.IFace.Error_Handler.Object with null record;
+
+   overriding
+   procedure Log
+     (Self     : in out Object;
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location);
 
    overriding
    function Handle_Error

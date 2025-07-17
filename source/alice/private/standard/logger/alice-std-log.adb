@@ -239,11 +239,11 @@ package body Alice.Std.Log is
    overriding
    procedure Info
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) is
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is
    begin
-      Simple_Logging.Info (Msg, Entity, Location);
+      Simple_Logging.Info (Message, Entity, Location);
    end Info;
 
    -------------
@@ -253,11 +253,11 @@ package body Alice.Std.Log is
    overriding
    procedure Warning
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) is
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is
    begin
-      Simple_Logging.Warning (Msg, Entity, Location);
+      Simple_Logging.Warning (Message, Entity, Location);
    end Warning;
 
    -----------------
@@ -267,9 +267,9 @@ package body Alice.Std.Log is
    overriding
    procedure Trace_Begin
      (Self     : in out Object;
-      Msg      : String := "";
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) is separate;
+      Message  : String := "";
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is separate;
 
    -----------
    -- Trace --
@@ -278,9 +278,9 @@ package body Alice.Std.Log is
    overriding
    procedure Trace
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) is separate;
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is separate;
 
    ------------------
    -- Trace_Return --
@@ -289,9 +289,9 @@ package body Alice.Std.Log is
    overriding
    procedure Trace_Return
      (Self     : in out Object;
-      Msg      : String := "";
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) is separate;
+      Message  : String := "";
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is separate;
 
    ---------------
    -- Trace_End --
@@ -300,9 +300,9 @@ package body Alice.Std.Log is
    overriding
    procedure Trace_End
      (Self     : in out Object;
-      Msg      : String := "";
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) is separate;
+      Message  : String := "";
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is separate;
 
    -----------
    -- Debug --
@@ -311,9 +311,9 @@ package body Alice.Std.Log is
    overriding
    procedure Debug
      (Self     : in out Object;
-      Msg      : String;
-      Entity   : String := Enclosing_Entity;
-      Location : String := Source_Location) is separate;
+      Message  : String;
+      Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+      Location : String := GNAT.Source_Info.Source_Location) is separate;
 
    --  Private, package-local saved state
 
