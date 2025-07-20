@@ -12,7 +12,7 @@ with "alice.gpr";
 
 project Alice_CLI is
 
-   for Main use ("alice_cli.adb");
+   for Main use ("alice_cmd.adb");
 
    for Create_Missing_Dirs use "True";
    for Source_Dirs use ("../source/alice_cli/**");
@@ -28,7 +28,7 @@ project Alice_CLI is
    end Binder;
 
    package Builder is
-      for Executable ("alice_cli") use "alice";
+      for Executable ("alice_cmd") use "alice";
    end Builder;
 
    package Install is
