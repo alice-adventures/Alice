@@ -81,8 +81,7 @@ package Alice.IFace.Logger is
       Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log an info message: additional or verbose information that is not an
-   --  error or warning. The message is sent to the standard error. This is
-   --  the verbose level in release builds.
+   --  error or warning. This is the verbose level in release builds.
 
    procedure Warning
      (Self     : in out Object;
@@ -91,7 +90,8 @@ package Alice.IFace.Logger is
       Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a warning message: indicates a potential problem or an unexpected
-   --  situation that is not an error.
+   --  situation that is not an error. This is the quiet level in release
+   --  builds.
 
    procedure Trace_Begin
      (Self     : in out Object;
@@ -100,8 +100,8 @@ package Alice.IFace.Logger is
       Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a trace begin message: debugging information, usually not shown to
-   --  the user, but useful for developers. The message is sent to the
-   --  standard error. Should be a no-op in release builds.
+   --  the user, but useful for developers. Should be a no-op in release
+   --  builds.
 
    procedure Trace
      (Self     : in out Object;
@@ -110,8 +110,8 @@ package Alice.IFace.Logger is
       Location : String := GNAT.Source_Info.Source_Location)
    is abstract;
    --  Log a trace message: observability, such as performance or traceability
-   --  information, usually not shown to the user. Should be a no-op in release
-   --  builds.
+   --  information, usually not shown to the user. Should be a no-op in
+   --  release builds.
 
    procedure Trace_Return
      (Self     : in out Object;

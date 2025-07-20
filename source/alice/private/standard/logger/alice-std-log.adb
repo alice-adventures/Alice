@@ -132,7 +132,7 @@ package body Alice.Std.Log is
    begin
       case Alice_Config.Build_Profile is
          when Alice_Config.release =>
-            Self.Set_Verbose_Level;
+            Self.Set_Default_Level;
 
          when others =>
             Self.Set_Debug_Level (True);
@@ -179,6 +179,7 @@ package body Alice.Std.Log is
    begin
       Simple_Logging.Level := Simple_Logging.Warning;
       Enable_Location_Decorator (False);
+      Enable_Color_Decorators (True);
    end Set_Default_Level;
 
    -----------------
@@ -201,14 +202,12 @@ package body Alice.Std.Log is
      (Self : in out Object; With_Location_Enabled : Boolean := True) is
    begin
       case Alice_Config.Build_Profile is
-
          when Alice_Config.release =>
             Enable_Location_Decorator (False);
 
          when others =>
             Simple_Logging.Level := Simple_Logging.Detail;
             Enable_Location_Decorator (With_Location_Enabled);
-
       end case;
    end Set_Trace_Level;
 
@@ -221,14 +220,12 @@ package body Alice.Std.Log is
      (Self : in out Object; With_Location_Enabled : Boolean := True) is
    begin
       case Alice_Config.Build_Profile is
-
          when Alice_Config.release =>
             Enable_Location_Decorator (False);
 
          when others =>
             Simple_Logging.Level := Simple_Logging.Debug;
             Enable_Location_Decorator (With_Location_Enabled);
-
       end case;
    end Set_Debug_Level;
 
