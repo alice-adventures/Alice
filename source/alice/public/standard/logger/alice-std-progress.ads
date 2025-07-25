@@ -48,6 +48,7 @@ private
 
    type Object is new Alice.IFace.Progress_Tracker.Object with record
       Ongoing : Ongoing_Access := null;
+      Message : Alice.UString := Alice.Null_UString;
    end record
    with Put_Image => Progress_Put_Image;
 

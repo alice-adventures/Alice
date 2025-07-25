@@ -12,6 +12,8 @@ with Alice.Env;
 
 package body Alice.Std.Progress is
 
+   use all type Simple_Logging.Levels;
+
    ------------------
    -- Free_Ongoing --
    ------------------
@@ -39,6 +41,7 @@ package body Alice.Std.Progress is
       Self.Ongoing :=
         new Simple_Logging.Ongoing'
           (Simple_Logging.Activity (Title, Simple_Logging.Warning));
+      Self.Message := Alice.UStr (Title);
    end Start;
 
    ----------
@@ -52,6 +55,7 @@ package body Alice.Std.Progress is
          Bug;
       else
          Simple_Logging.Step (Self.Ongoing.all, Message);
+         Self.Message := Alice.UStr (Message);
       end if;
    end Step;
 
@@ -80,6 +84,9 @@ package body Alice.Std.Progress is
          Bug;
       else
          Free_Ongoing (Self.Ongoing);
+         if Simple_Logging.Level >= Simple_Logging.Info then
+            Simple_Logging.Always ("o " & Alice.Str (Self.Message));
+         end if;
       end if;
       Self.Ongoing := null;
    end Stop;
