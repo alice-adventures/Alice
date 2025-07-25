@@ -14,7 +14,7 @@ package body Alice.OS_Context is
    -- OS_Context_Image --
    ----------------------
 
-   procedure OS_Context_Image
+   procedure OS_Context_Put_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object) is
    begin
@@ -29,6 +29,6 @@ package body Alice.OS_Context is
 
       Alice.Env.Decrease_Indent (Output);
       Output.Put (")");
-   end OS_Context_Image;
+   end OS_Context_Put_Image;
 
 end Alice.OS_Context;

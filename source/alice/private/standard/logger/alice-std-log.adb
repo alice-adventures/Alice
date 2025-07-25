@@ -347,7 +347,7 @@ package body Alice.Std.Log is
    -- Logger_Image --
    ------------------
 
-   procedure Logger_Image
+   procedure Logger_Put_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object) is
    begin
@@ -362,6 +362,6 @@ package body Alice.Std.Log is
       Output.New_Line;
       Alice.Env.Decrease_Indent (Output);
       Output.Put (")");
-   end Logger_Image;
+   end Logger_Put_Image;
 
 end Alice.Std.Log;

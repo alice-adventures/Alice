@@ -18,7 +18,7 @@ with Alice.IFace.Logger;
 package Alice.Std.Log is
 
    type Object is new Alice.IFace.Logger.Object with null record
-   with Put_Image => Logger_Image;
+   with Put_Image => Logger_Put_Image;
 
    overriding
    procedure Initialize (Self : in out Object);
@@ -136,7 +136,7 @@ package Alice.Std.Log is
    --  for reverting changes made to the logger, such as changing the logging
    --  level or optimization.
 
-   procedure Logger_Image
+   procedure Logger_Put_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object);
 

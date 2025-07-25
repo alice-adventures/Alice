@@ -49,9 +49,9 @@ private
    type Object is new Alice.IFace.Progress_Tracker.Object with record
       Ongoing : Ongoing_Access := null;
    end record
-   with Put_Image => Progress_Image;
+   with Put_Image => Progress_Put_Image;
 
-   procedure Progress_Image
+   procedure Progress_Put_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object);
 

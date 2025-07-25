@@ -115,11 +115,11 @@ package body Alice.Std.Error_Handler is
    -- Error_Handler_Image --
    -------------------------
 
-   procedure Error_Handler_Image
+   procedure Error_Handler_Put_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object) is
    begin
       Output.Put ("([" & Self'Address'Image & " ])");
-   end Error_Handler_Image;
+   end Error_Handler_Put_Image;
 
 end Alice.Std.Error_Handler;

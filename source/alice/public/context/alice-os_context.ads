@@ -29,9 +29,9 @@ package Alice.OS_Context is
       --  The logger for the OS commands. It is used to log messages related
       --  to the execution of external OS commands.
    end record
-   with Put_Image => OS_Context_Image;
+   with Put_Image => OS_Context_Put_Image;
 
-   procedure OS_Context_Image
+   procedure OS_Context_Put_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self  : Object);
 

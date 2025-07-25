@@ -93,9 +93,9 @@ private
       Email      : Alice.UString := Alice.Null_UString;
       SPDX_Id    : Alice.UString := Alice.Null_UString;
    end record
-   with Put_Image => Profile_Image;
+   with Put_Image => Profile_Put_Image;
 
-   procedure Profile_Image
+   procedure Profile_Put_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object);
 
