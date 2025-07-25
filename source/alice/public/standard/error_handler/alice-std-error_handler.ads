@@ -33,8 +33,15 @@ package Alice.Std.Error_Handler is
    overriding
    procedure Exit_Application
      (Self    : in out Object;
+      Level   : Alice.Result.Error_Level;
+      Explain : Alice.UString := Alice.Null_UString)
+   with No_Return;
+
+   overriding
+   procedure Exit_Application
+     (Self    : in out Object;
       Result  : Alice.Result.Object'Class;
-      Explain : Alice.UString := Alice.UStr (""))
+      Explain : Alice.UString := Alice.Null_UString)
    with No_Return;
 
 end Alice.Std.Error_Handler;

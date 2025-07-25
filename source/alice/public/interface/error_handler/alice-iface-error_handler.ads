@@ -58,6 +58,28 @@ package Alice.IFace.Error_Handler is
    --  exit codes when exiting the application or when reporting an error to
    --  the user.
 
+   package Hint is
+      --  Hint messages to provide additional context or suggestions for
+      --  resolving common issues encountered by users. These hints can be
+      --  used to guide users in troubleshooting problems or understanding the
+      --  expected usage of the application. They are not intended to be
+      --  exhaustive but rather to provide helpful suggestions for common
+      --  scenarios.
+
+      File_Write_Error : constant String :=
+        "Check if the file is writeable or if you have sufficient permissions";
+
+      File_Read_Error : constant String :=
+        "Check if the file is readable or if you have sufficient permissions";
+
+      File_Not_Found : constant String := "Check the file path";
+
+      File_Permission : constant String :=
+        "Check if you have the sufficient permissions";
+
+      Invalid_Args : constant String := "Invalid number of arguments";
+   end Hint;
+
    procedure Log
      (Self     : in out Object;
       Message  : String;
@@ -96,8 +118,21 @@ package Alice.IFace.Error_Handler is
 
    procedure Exit_Application
      (Self    : in out Object;
+      Level   : Alice.Result.Error_Level;
+      Explain : Alice.UString := Alice.Null_UString)
+   is abstract;
+   --  Exit the application with the provided error level. This procedure is
+   --  called when the application determines that it should be terminated due
+   --  to a non-recoverable error. It allows the application to perform any
+   --  necessary cleanup or logging before exiting. Implementations of this
+   --  procedure should use the appropriate exit code based on the error
+   --  level, such as Bug for bugs, Domain for domain errors, System for
+   --  system errors, and External for external errors.
+
+   procedure Exit_Application
+     (Self    : in out Object;
       Result  : Alice.Result.Object'Class;
-      Explain : Alice.UString := Alice.UStr (""))
+      Explain : Alice.UString := Alice.Null_UString)
    is abstract;
    --  Exit the application with the provided result. This procedure is called
    --  when the application determines that should be terminated due to a

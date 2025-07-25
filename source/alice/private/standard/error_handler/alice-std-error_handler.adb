@@ -62,35 +62,53 @@ package body Alice.Std.Error_Handler is
    overriding
    procedure Exit_Application
      (Self    : in out Object;
-      Result  : Alice.Result.Object'Class;
-      Explain : Alice.UString := Alice.UStr (""))
+      Level   : Alice.Result.Error_Level;
+      Explain : Alice.UString := Alice.Null_UString)
    is
       use Alice.IFace.Error_Handler;
       Exit_Code : Exit_Code_Value;
    begin
+      case Level is
+         when Alice.Result.Bug =>
+            Exit_Code := Bug;
+
+         when Alice.Result.Domain =>
+            Exit_Code := Error;
+
+         when Alice.Result.Timeout | Alice.Result.System =>
+            Exit_Code := System;
+
+         when Alice.Result.External =>
+            Exit_Code := External;
+      end case;
+
+      if Explain /= Alice.Null_UString then
+         Simple_Logging.Error (Alice.Str (Explain));
+      end if;
+
+      GNAT.OS_Lib.OS_Exit (Exit_Code_Value'Enum_Rep (Exit_Code));
+   end Exit_Application;
+
+   ----------------------
+   -- Exit_Application --
+   ----------------------
+
+   overriding
+   procedure Exit_Application
+     (Self    : in out Object;
+      Result  : Alice.Result.Object'Class;
+      Explain : Alice.UString := Alice.Null_UString)
+   is
+      use Alice.IFace.Error_Handler;
+   begin
       case Result.Status is
          when Alice.Result.Success =>
-            Exit_Code := Success;
+            GNAT.OS_Lib.OS_Exit (Exit_Code_Value'Enum_Rep (Success));
 
          when Alice.Result.Error =>
             Simple_Logging.Error (Alice.Str (Result.Message));
-            Simple_Logging.Error (Alice.Str (Explain));
-            case Result.Level is
-               when Alice.Result.Bug =>
-                  Exit_Code := Bug;
-
-               when Alice.Result.Domain =>
-                  Exit_Code := Error;
-
-               when Alice.Result.Timeout | Alice.Result.System =>
-                  Exit_Code := System;
-
-               when Alice.Result.External =>
-                  Exit_Code := External;
-            end case;
+            Self.Exit_Application (Result.Level, Explain);
       end case;
-
-      GNAT.OS_Lib.OS_Exit (Exit_Code_Value'Enum_Rep (Exit_Code));
    end Exit_Application;
 
 end Alice.Std.Error_Handler;
