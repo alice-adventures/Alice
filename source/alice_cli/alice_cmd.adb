@@ -8,14 +8,15 @@
 
 with Alice.CLI;
 with Alice.Context;
+with Alice.Env;
 with Alice.Std;
 
 procedure Alice_Cmd is
-      Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
+   Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
 begin
    Alice.CLI.Initialize;
    Alice.CLI.Execute;
 
-   Context.Log.Info ("Context = " & Context'Image);
+   Context.Log.Debug (Alice.Env.New_Line & "Context => " & Context.all'Image);
    Context.Log.Trace ("Finalization of controlled object");
 end Alice_Cmd;

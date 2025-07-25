@@ -8,6 +8,7 @@
 
 with GNAT.Source_Info;
 
+with Alice.Env;
 with Alice.Result;
 with Alice.VCS.Profile;
 with Alice.VCS.Service;
@@ -42,7 +43,7 @@ package body Test.VCS.Profile is
 
       case Result.Status is
          when Alice.Result.Success =>
-            Ctx.Log.Info (Profile'Image);
+            Ctx.Log.Info (Alice.Env.New_Line & "Profile => " & Profile'Image);
             if Profile = P.all then
                Pass;
             else

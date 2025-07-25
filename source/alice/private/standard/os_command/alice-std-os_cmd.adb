@@ -9,6 +9,8 @@
 with Ada.Directories;
 with Ada.Text_IO;
 
+with Alice.Env;
+
 package body Alice.Std.OS_Cmd is
 
    use all type Ada.Directories.File_Size;
@@ -463,5 +465,31 @@ package body Alice.Std.OS_Cmd is
          end if;
       end if;
    end Debug_Output_Result;
+
+   ------------------
+   -- OS_Cmd_Image --
+   ------------------
+
+   procedure OS_Cmd_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object) is
+   begin
+      Output.Put ("([" & Self'Address'Image & " ] with");
+      Alice.Env.Increase_Indent (Output);
+
+      Output.New_Line;
+      Output.Put ("Name       => " & Alice.Str (Self.Name));
+      Output.New_Line;
+      Output.Put
+        ("Path       => "
+         & (if Self.Path /= null then Self.Path.all else "<null>"));
+      Output.New_Line;
+      Output.Put ("OS_Context => ");
+      Output.Put (Self.OS_Context.all'Image);
+      Output.New_Line;
+
+      Alice.Env.Decrease_Indent (Output);
+      Output.Put (")");
+   end OS_Cmd_Image;
 
 end Alice.Std.OS_Cmd;

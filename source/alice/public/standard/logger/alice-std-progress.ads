@@ -10,6 +10,8 @@
 --  Logger interface, which  is enough for the CLI and other simple
 --  applications.
 
+with Ada.Strings.Text_Buffers;
+
 with Simple_Logging;
 
 with Alice.IFace.Progress_Tracker;
@@ -46,6 +48,11 @@ private
 
    type Object is new Alice.IFace.Progress_Tracker.Object with record
       Ongoing : Ongoing_Access := null;
-   end record;
+   end record
+   with Put_Image => Progress_Image;
+
+   procedure Progress_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object);
 
 end Alice.Std.Progress;

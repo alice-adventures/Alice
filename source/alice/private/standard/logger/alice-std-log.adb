@@ -13,6 +13,7 @@ with Simple_Logging;
 with Simple_Logging.Decorators;
 
 with Alice_Config;
+with Alice.Env;
 
 package body Alice.Std.Log is
 
@@ -26,9 +27,6 @@ package body Alice.Std.Log is
    --  This is set to True when the logging is optimized for GUI applications.
    --  It is used to determine whether to redirect the output to the standard
    --  error or the standard output.
-
-   pragma Unreferenced (Is_Optimized_For_GUI);
-   --  #FIXME - Remove this pragma once the GUI spinner is implemented.
 
    --  #TODO - Add a variable to access the instance of the busy status
    --  spinner used in GUI applications. More or less like this:
@@ -344,5 +342,26 @@ package body Alice.Std.Log is
       Simple_Logging.Decorators.Level_Decorator := Saved_Level_Decorator;
       Simple_Logging.Decorators.Location_Decorator := Saved_Location_Decorator;
    end Restore_State;
+
+   ------------------
+   -- Logger_Image --
+   ------------------
+
+   procedure Logger_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object) is
+   begin
+      Output.Put ("([" & Self'Address'Image & " ] with");
+      Alice.Env.Increase_Indent (Output);
+      Output.New_Line;
+
+      Output.Put ("Level                => " & Simple_Logging.Level'Image);
+      Output.New_Line;
+      Output.Put ("Is_Optimized_For_GUI => " & Is_Optimized_For_GUI'Image);
+
+      Output.New_Line;
+      Alice.Env.Decrease_Indent (Output);
+      Output.Put (")");
+   end Logger_Image;
 
 end Alice.Std.Log;

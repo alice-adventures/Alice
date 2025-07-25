@@ -8,6 +8,8 @@
 
 with Ada.Unchecked_Deallocation;
 
+with Alice.Env;
+
 package body Alice.Std.Progress is
 
    ------------------
@@ -81,5 +83,31 @@ package body Alice.Std.Progress is
       end if;
       Self.Ongoing := null;
    end Stop;
+
+   --------------------
+   -- Progress_Image --
+   --------------------
+
+   procedure Progress_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object) is
+   begin
+      Output.Put ("([" & Self'Address'Image & " ] with");
+      Alice.Env.Increase_Indent (Output);
+
+      Output.New_Line;
+      if Self.Ongoing /= null then
+         Output.Put ("Ongoing => ");
+         Output.Increase_Indent;
+         Output.Put (Self.Ongoing.all'Image);
+         Output.Decrease_Indent;
+      else
+         Output.Put ("Ongoing => null");
+      end if;
+      Output.New_Line;
+
+      Alice.Env.Decrease_Indent (Output);
+      Output.Put (")");
+   end Progress_Image;
 
 end Alice.Std.Progress;

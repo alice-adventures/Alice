@@ -9,6 +9,7 @@
 --  This package implements the standard error handler for the Alice
 --  application.
 
+with Ada.Strings.Text_Buffers;
 with GNAT.Source_Info;
 
 with Alice.IFace.Error_Handler;
@@ -16,7 +17,8 @@ with Alice.Result;
 
 package Alice.Std.Error_Handler is
 
-   type Object is new Alice.IFace.Error_Handler.Object with null record;
+   type Object is new Alice.IFace.Error_Handler.Object with null record
+   with Put_Image => Error_Handler_Image;
 
    overriding
    procedure Log
@@ -43,5 +45,9 @@ package Alice.Std.Error_Handler is
       Result  : Alice.Result.Object'Class;
       Explain : Alice.UString := Alice.Null_UString)
    with No_Return;
+
+   procedure Error_Handler_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object);
 
 end Alice.Std.Error_Handler;

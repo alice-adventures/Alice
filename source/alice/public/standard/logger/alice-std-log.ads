@@ -10,13 +10,15 @@
 --  application, which is enough for the CLI. It is implemented on top of
 --  Simple_Logging.
 
+with Ada.Strings.Text_Buffers;
 with GNAT.Source_Info;
 
 with Alice.IFace.Logger;
 
 package Alice.Std.Log is
 
-   type Object is new Alice.IFace.Logger.Object with null record;
+   type Object is new Alice.IFace.Logger.Object with null record
+   with Put_Image => Logger_Image;
 
    overriding
    procedure Initialize (Self : in out Object);
@@ -133,5 +135,9 @@ package Alice.Std.Log is
    --  Restore the state of the logger to the last saved state. This is useful
    --  for reverting changes made to the logger, such as changing the logging
    --  level or optimization.
+
+   procedure Logger_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object);
 
 end Alice.Std.Log;

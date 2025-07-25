@@ -10,7 +10,7 @@
 
 package body Alice.Env is
 
-   --  Alice_Root_Dir : Alice.UString := Alice.Null_UString;
+   use all type Ada.Strings.Text_Buffers.Text_Buffer_Count;
 
    -------------------------
    -- Is_Alice_Repository --
@@ -53,5 +53,31 @@ package body Alice.Env is
    --  various purposes such as loading configuration files, accessing
    --  resources, or performing operations that require knowledge of the
    --  repository structure.
+
+   ---------------------
+   -- Increase_Indent --
+   ---------------------
+
+   procedure Increase_Indent
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Amount : Ada.Strings.Text_Buffers.Text_Buffer_Count := 3) is
+   begin
+      Alice.Env.Current_Indent := Alice.Env.Current_Indent + Amount;
+      Output.Increase_Indent (Alice.Env.Current_Indent);
+   end Increase_Indent;
+
+   ---------------------
+   -- Decrease_Indent --
+   ---------------------
+
+   procedure Decrease_Indent
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Amount : Ada.Strings.Text_Buffers.Text_Buffer_Count := 3) is
+   begin
+      if Alice.Env.Current_Indent >= Amount then
+         Output.Decrease_Indent (Amount);
+         Alice.Env.Current_Indent := Alice.Env.Current_Indent - Amount;
+      end if;
+   end Decrease_Indent;
 
 end Alice.Env;

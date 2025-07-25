@@ -9,10 +9,11 @@
 with Ada.Directories;
 with Ada.Text_IO;
 
-with Alice.Env;
 with SPDX;
 with TOML;
 with TOML.File_IO;
+
+with Alice.Env;
 
 package body Alice.VCS.Profile is
 
@@ -102,7 +103,7 @@ package body Alice.VCS.Profile is
    -----------------
 
    procedure Set_SPDX_Id (Self : in out Object; SPDX_Id : String) is
-      Expression      : constant SPDX.Expression := SPDX.Parse (SPDX_Id);
+      Expression : constant SPDX.Expression := SPDX.Parse (SPDX_Id);
    begin
       if Expression.Valid then
          Self.SPDX_Id := Alice.UStr (SPDX_Id);
@@ -251,28 +252,30 @@ package body Alice.VCS.Profile is
 
    procedure Profile_Image
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Value  : Object) is
+      Self   : Object) is
    begin
+      Output.Put
+        ("ALICE.VCS.PROFILE.OBJECT'([" & Self'Address'Image & " ] with");
+      Alice.Env.Increase_Indent (Output);
+
       Output.New_Line;
-      Output.Put ("(Alice.VCS.Profile.Object with");
+      Output.Put (Key_Service & "    => " & Alice.Str (Self.Service));
       Output.New_Line;
-      Output.Increase_Indent;
-      Output.Put (Key_Service & "    => " & Alice.Str (Value.Service));
+      Output.Put (Key_Token & "      => " & Alice.Str (Self.Token));
       Output.New_Line;
-      Output.Put (Key_Token & "      => " & Alice.Str (Value.Token));
+      Output.Put (Key_Login & "      => " & Alice.Str (Self.Login));
       Output.New_Line;
-      Output.Put (Key_Login & "      => " & Alice.Str (Value.Login));
+      Output.Put (Key_Avatar_URL & " => " & Alice.Str (Self.Avatar_URL));
       Output.New_Line;
-      Output.Put (Key_Avatar_URL & " => " & Alice.Str (Value.Avatar_URL));
+      Output.Put (Key_Name & "       => " & Alice.Str (Self.Name));
       Output.New_Line;
-      Output.Put (Key_Name & "       => " & Alice.Str (Value.Name));
+      Output.Put (Key_Email & "      => " & Alice.Str (Self.Email));
       Output.New_Line;
-      Output.Put (Key_Email & "      => " & Alice.Str (Value.Email));
+      Output.Put (Key_SPDX_Id & "    => " & Alice.Str (Self.SPDX_Id));
       Output.New_Line;
-      Output.Put (Key_SPDX_Id & "    => " & Alice.Str (Value.SPDX_Id));
+
+      Alice.Env.Decrease_Indent (Output);
       Output.Put (")");
-      Output.Decrease_Indent;
-      Output.New_Line;
    end Profile_Image;
 
 end Alice.VCS.Profile;

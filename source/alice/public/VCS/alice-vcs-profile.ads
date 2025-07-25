@@ -84,10 +84,6 @@ package Alice.VCS.Profile is
 
 private
 
-   procedure Profile_Image
-     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Value  : Object);
-
    type Object is new Alice.Controlled with record
       Service    : Alice.UString := Alice.Null_UString;
       Token      : Alice.UString := Alice.Null_UString;
@@ -98,5 +94,9 @@ private
       SPDX_Id    : Alice.UString := Alice.Null_UString;
    end record
    with Put_Image => Profile_Image;
+
+   procedure Profile_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object);
 
 end Alice.VCS.Profile;

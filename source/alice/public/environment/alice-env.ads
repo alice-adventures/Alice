@@ -6,6 +6,8 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Strings.Text_Buffers;
+
 with Alice_Config;
 
 package Alice.Env is
@@ -46,5 +48,24 @@ package Alice.Env is
    --  application, which can be used for various purposes such as loading
    --  configuration files, accessing resources, or performing operations that
    --  require knowledge of the repository structure.
+
+   procedure Increase_Indent
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Amount : Ada.Strings.Text_Buffers.Text_Buffer_Count := 3);
+   --  #REVIEW - Move to a new package for internal use only?
+
+   procedure Decrease_Indent
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Amount : Ada.Strings.Text_Buffers.Text_Buffer_Count := 3);
+   --  #REVIEW - Move to a new package for internal use only?
+
+   Current_Indent : Ada.Strings.Text_Buffers.Text_Buffer_Count := 0;
+   --  #REVIEW - Move to a new package for internal use only?
+   --  #NOTE - Ada.Strings.Text_Buffers.Root_Buffer_Type does not always keep
+   --  indentation when called from different objects, so we need to maintain
+   --  the current indentation level manually. This is a workaround to ensure
+   --  that the indentation is preserved when writing to the root buffer. Is
+   --  there a way to fix this in Ada.Strings.Text_Buffers or to avoid
+   --  manually managing the indentation level?
 
 end Alice.Env;

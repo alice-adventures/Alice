@@ -8,6 +8,7 @@
 
 with GNAT.Source_Info;
 
+with Alice.Env;
 with Alice.Result;
 with Alice.VCS.Profile.Result;
 with Alice.VCS.Service.GitHub;
@@ -34,7 +35,8 @@ package body Test.VCS.Service is
             when Alice.Result.Success =>
                Profile : constant Alice.VCS.Profile.Object_Access :=
                  Result.Get_Profile;
-               Ctx.Log.Info (Profile.all'Image);
+               Ctx.Log.Info
+                 (Alice.Env.New_Line & "Profile => " & Profile.all'Image);
                Pass;
 
             when Alice.Result.Error =>

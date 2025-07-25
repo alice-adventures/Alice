@@ -12,6 +12,8 @@
 --  execution of use cases. The context is used to pass information between
 --  use cases and to manage the application's state.
 
+with Ada.Strings.Text_Buffers;
+
 with Alice.IFace.Error_Handler;
 with Alice.IFace.Logger;
 
@@ -26,7 +28,12 @@ package Alice.OS_Context is
       Log : Alice.IFace.Logger.Object_Access;
       --  The logger for the OS commands. It is used to log messages related
       --  to the execution of external OS commands.
-   end record;
+   end record
+   with Put_Image => OS_Context_Image;
+
+   procedure OS_Context_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self  : Object);
 
    type Object_Access is not null access all Object'Class;
 

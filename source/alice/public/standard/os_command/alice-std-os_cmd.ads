@@ -6,6 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
+with Ada.Strings.Text_Buffers;
 with GNAT.OS_Lib;
 
 with Alice.IFace.OS_Cmd;
@@ -94,6 +95,11 @@ private
       Name       : Alice.UString := Alice.UStr ("");
       Path       : GNAT.OS_Lib.String_Access := null;
       OS_Context : Alice.OS_Context.Object_Access := Alice.Std.Get_OS_Context;
-   end record;
+   end record
+   with Put_Image => OS_Cmd_Image;
+
+   procedure OS_Cmd_Image
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self  : Object);
 
 end Alice.Std.OS_Cmd;
