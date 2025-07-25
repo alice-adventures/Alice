@@ -6,20 +6,18 @@
 --
 -------------------------------------------------------------------------------
 
+with Alice_Config;
+
 package Alice.Env is
 
    Environment_Error : exception;
 
-   Config_File : constant String := "config/alice_config.toml";
-   --  The file where the Alice configuration is stored. This file contains
-   --  various settings and parameters that define the behavior of the Alice
-   --  application, such as paths, user preferences, and other configuration
-   --  options. It is typically located in the user's home directory or a
-   --  specific configuration directory. The file is expected to be in TOML
-   --  format.
-
-   Profile_File : constant String := "config/member_profile.toml";
-   --  The file where the Alice member profile is stored.
+   New_Line : constant String :=
+     (if Alice_Config.Alire_Host_OS = "windows" then "" & ASCII.CR else "")
+     & ASCII.LF;
+   --  The newline character used in Alice environment. This is typically the
+   --  line feed character (LF) used in Unix-like systems. It is used to
+   --  separate lines in text files and output streams.
 
    function Is_Alice_Repository
      (Report_Error : Boolean := True) return Boolean;

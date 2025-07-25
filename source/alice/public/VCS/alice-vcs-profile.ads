@@ -24,6 +24,8 @@ package Alice.VCS.Profile is
 
    type Object_Access is access Object;
 
+   Default_SPDX_Id : constant String := "MIT"; --  Default SPDX license ID
+
    function Create_Profile
      (Service    : Alice.VCS.Service.Name.Enum;
       Token      : Alice.UString;
