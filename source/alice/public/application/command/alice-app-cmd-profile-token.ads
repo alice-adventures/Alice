@@ -7,14 +7,14 @@
 -------------------------------------------------------------------------------
 
 with Alice.App.Use_Case;
-with Alice.VCS.Profile.Result;
+with Alice.Result;
 
 package Alice.App.Cmd.Profile.Token is
 
    type Object is new Alice.App.Use_Case.Object with null record;
 
+   overriding
    function Run
-     (Self : in out Object; Token : String)
-      return Alice.VCS.Profile.Result.Object'Class;
+     (Self : in out Object; Token : String) return Alice.Result.Object'Class;
 
 end Alice.App.Cmd.Profile.Token;
