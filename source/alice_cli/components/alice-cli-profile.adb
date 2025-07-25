@@ -182,10 +182,13 @@ package body Alice.CLI.Profile is
       if Result.Status = Alice.Result.Success then
          Token : constant String := Profile.Get_Token;
          SPDX_Id : constant String := Profile.Get_SPDX_Id;
+
+         --  refresh the profile from the token
          Self.Execute_Token (Token);
-         if Self.Execute_SPDX (SPDX_Id)'Length > 0 then
-            null;
-         end if;
+
+         --  keep the SPDX Id
+         Ignored_String : constant String := Self.Execute_SPDX (SPDX_Id);
+         pragma Unreferenced (Ignored_String);
       else
          Self.Context.Err.Exit_Application (Result);
       end if;
@@ -224,7 +227,7 @@ package body Alice.CLI.Profile is
       elsif Self.Flag.Token then
          if Args_Count = 1 then
             Self.Execute_Token (Args.First_Element);
-            Ada.Text_IO.Put_Line
+            Self.Context.Log.Info
               ("Profile saved to " & Alice.Config.Local.Profile);
          else
             Self.Context.Err.Exit_Application
@@ -235,7 +238,7 @@ package body Alice.CLI.Profile is
             SPDX_Id : constant String :=
               Self.Execute_SPDX (Args.First_Element);
             if SPDX_Id'Length > 0 then
-               Ada.Text_IO.Put_Line ("SPDX Id updated to '" & SPDX_Id & "'");
+               Self.Context.Log.Info ("SPDX Id updated to '" & SPDX_Id & "'");
             end if;
          else
             Self.Context.Err.Exit_Application
@@ -244,7 +247,7 @@ package body Alice.CLI.Profile is
       elsif Self.Flag.Refresh then
          if Args_Count = 0 then
             Self.Execute_Refresh;
-            Ada.Text_IO.Put_Line
+            Self.Context.Log.Info
               ("New profile saved to " & Alice.Config.Local.Profile);
          else
             Self.Context.Err.Exit_Application
