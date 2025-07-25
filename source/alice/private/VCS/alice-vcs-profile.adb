@@ -9,6 +9,7 @@
 with Ada.Directories;
 with Ada.Text_IO;
 
+with Alice.Env;
 with SPDX;
 with TOML;
 with TOML.File_IO;
@@ -101,8 +102,6 @@ package body Alice.VCS.Profile is
    -----------------
 
    procedure Set_SPDX_Id (Self : in out Object; SPDX_Id : String) is
-      --  #TODO - Set the default SPDX ID in the config file.
-      Default_SPDX_Id : constant String := "MIT";
       Expression      : constant SPDX.Expression := SPDX.Parse (SPDX_Id);
    begin
       if Expression.Valid then
@@ -230,6 +229,21 @@ package body Alice.VCS.Profile is
               Alice.UStr
                 ("Unexpected error while saving profile to file: " & File));
    end Save_To_File;
+
+   ---------------
+   -- To_String --
+   ---------------
+
+   function To_String (Self : Object) return String
+   is (
+   --!pp off
+        "token  " & Alice.Str (Self.Token) & Alice.Env.New_Line
+      & "login  " & Alice.Str (Self.Login) & Alice.Env.New_Line
+      & "avatar " & Alice.Str (Self.Avatar_URL) & Alice.Env.New_Line
+      & "name   " & Alice.Str (Self.Name) & Alice.Env.New_Line
+      & "email  " & Alice.Str (Self.Email) & Alice.Env.New_Line
+      & "SPDX   " & Alice.Str (Self.SPDX_Id));
+   --!pp on
 
    -------------------
    -- Profile_Image --

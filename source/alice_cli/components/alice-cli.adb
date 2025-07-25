@@ -15,6 +15,7 @@ with CLIC.Subcommand.Instance;
 with CLIC.TTY;
 
 with Alice_Config;
+with Alice.CLI.Profile;
 with Alice.Context;
 with Alice.Std;
 
@@ -134,6 +135,7 @@ package body Alice.CLI is
    procedure Initialize is
    begin
       CLI_Command.Register ("General", new CLI_Command.Builtin_Help);
+      CLI_Command.Register ("Configuration", new Alice.CLI.Profile.Object);
    end Initialize;
 
    -------------

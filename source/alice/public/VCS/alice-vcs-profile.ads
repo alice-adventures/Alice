@@ -77,6 +77,11 @@ package Alice.VCS.Profile is
    --  profile information to the specified file in a format that can be
    --  easily read back later.
 
+   function To_String (Self : Object) return String;
+   --  Converts the VCS profile object to a string representation. This is
+   --  useful for displaying the profile information in a human-readable
+   --  format.
+
 private
 
    procedure Profile_Image
