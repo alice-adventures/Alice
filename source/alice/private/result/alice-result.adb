@@ -22,7 +22,8 @@ package body Alice.Result is
             with
               Status  => Alice.Result.Error,
               Level   => Level,
-              Message => Message);
+              Message => Message,
+              Hint    => Alice.Hint.None);
    end Create_Error;
 
 end Alice.Result;

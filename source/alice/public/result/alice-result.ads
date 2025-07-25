@@ -11,6 +11,8 @@
 --  level, and a tagged record to encapsulate the result of an operation,
 --  including success and error cases.
 
+with Alice.Hint;
+
 package Alice.Result is
 
    type Status_Type is (Success, Error);
@@ -57,6 +59,7 @@ package Alice.Result is
          when Error =>
             Level   : Error_Level;
             Message : Alice.UString;
+            Hint    : Alice.Hint.Id := Alice.Hint.None;
       end case;
    end record;
    --  If the status is Success, no additional fields are present. Alice

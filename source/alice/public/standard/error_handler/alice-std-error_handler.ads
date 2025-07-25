@@ -12,6 +12,7 @@
 with Ada.Strings.Text_Buffers;
 with GNAT.Source_Info;
 
+with Alice.Hint;
 with Alice.IFace.Error_Handler;
 with Alice.Result;
 
@@ -34,9 +35,16 @@ package Alice.Std.Error_Handler is
 
    overriding
    procedure Exit_Application
-     (Self    : in out Object;
-      Level   : Alice.Result.Error_Level;
-      Explain : Alice.UString := Alice.Null_UString)
+     (Self        : in out Object;
+      Error_Level : Alice.Result.Error_Level;
+      Hint_Id     : Alice.Hint.Id)
+   with No_Return;
+
+   overriding
+   procedure Exit_Application
+     (Self        : in out Object;
+      Error_Level : Alice.Result.Error_Level;
+      Explain     : Alice.UString := Alice.Null_UString)
    with No_Return;
 
    overriding

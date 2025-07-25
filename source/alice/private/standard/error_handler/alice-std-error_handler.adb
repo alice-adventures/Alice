@@ -12,6 +12,8 @@ with Simple_Logging;
 
 package body Alice.Std.Error_Handler is
 
+   use all type Alice.Hint.Id;
+
    ---------
    -- Log --
    ---------
@@ -55,20 +57,29 @@ package body Alice.Std.Error_Handler is
       end case;
    end Handle_Error;
 
+   overriding
+   procedure Exit_Application
+     (Self        : in out Object;
+      Error_Level : Alice.Result.Error_Level;
+      Hint_Id     : Alice.Hint.Id) is
+   begin
+      Self.Exit_Application (Error_Level, Alice.Hint.Get_Message (Hint_Id));
+   end Exit_Application;
+
    ----------------------
    -- Exit_Application --
    ----------------------
 
    overriding
    procedure Exit_Application
-     (Self    : in out Object;
-      Level   : Alice.Result.Error_Level;
-      Explain : Alice.UString := Alice.Null_UString)
+     (Self        : in out Object;
+      Error_Level : Alice.Result.Error_Level;
+      Explain     : Alice.UString := Alice.Null_UString)
    is
       use Alice.IFace.Error_Handler;
       Exit_Code : Exit_Code_Value;
    begin
-      case Level is
+      case Error_Level is
          when Alice.Result.Bug =>
             Exit_Code := Bug;
 
@@ -107,6 +118,9 @@ package body Alice.Std.Error_Handler is
 
          when Alice.Result.Error =>
             Simple_Logging.Error (Alice.Str (Result.Message));
+            if Result.Hint /= Alice.Hint.None then
+               Simple_Logging.Error (Alice.Str (Result.Hint.Get_Message));
+            end if;
             Self.Exit_Application (Result.Level, Explain);
       end case;
    end Exit_Application;

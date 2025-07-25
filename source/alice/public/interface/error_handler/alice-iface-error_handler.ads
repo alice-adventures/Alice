@@ -21,6 +21,7 @@
 
 with GNAT.Source_Info;
 
+with Alice.Hint;
 with Alice.Result;
 
 package Alice.IFace.Error_Handler is
@@ -57,28 +58,6 @@ package Alice.IFace.Error_Handler is
    --  It is expected that the Error_Handler implementation will use these
    --  exit codes when exiting the application or when reporting an error to
    --  the user.
-
-   package Hint is
-      --  Hint messages to provide additional context or suggestions for
-      --  resolving common issues encountered by users. These hints can be
-      --  used to guide users in troubleshooting problems or understanding the
-      --  expected usage of the application. They are not intended to be
-      --  exhaustive but rather to provide helpful suggestions for common
-      --  scenarios.
-
-      File_Write_Error : constant String :=
-        "Check if the file is writeable or if you have sufficient permissions";
-
-      File_Read_Error : constant String :=
-        "Check if the file is readable or if you have sufficient permissions";
-
-      File_Not_Found : constant String := "Check the file path";
-
-      File_Permission : constant String :=
-        "Check if you have the sufficient permissions";
-
-      Invalid_Args : constant String := "Invalid number of arguments";
-   end Hint;
 
    procedure Log
      (Self     : in out Object;
@@ -117,17 +96,24 @@ package Alice.IFace.Error_Handler is
    --  handler's implementation.
 
    procedure Exit_Application
-     (Self    : in out Object;
-      Level   : Alice.Result.Error_Level;
-      Explain : Alice.UString := Alice.Null_UString)
+     (Self        : in out Object;
+      Error_Level : Alice.Result.Error_Level;
+      Hint_Id     : Alice.Hint.Id)
+   is abstract;
+   --  Exit the application with the provided error level and hint. This
+   --  procedure is called when the application determines that it should be
+   --  terminated due to a non-recoverable error. It allows the application to
+   --  perform any necessary cleanup or logging before exiting.
+
+   procedure Exit_Application
+     (Self        : in out Object;
+      Error_Level : Alice.Result.Error_Level;
+      Explain     : Alice.UString := Alice.Null_UString)
    is abstract;
    --  Exit the application with the provided error level. This procedure is
    --  called when the application determines that it should be terminated due
    --  to a non-recoverable error. It allows the application to perform any
-   --  necessary cleanup or logging before exiting. Implementations of this
-   --  procedure should use the appropriate exit code based on the error
-   --  level, such as Bug for bugs, Domain for domain errors, System for
-   --  system errors, and External for external errors.
+   --  necessary cleanup or logging before exiting.
 
    procedure Exit_Application
      (Self    : in out Object;
@@ -137,9 +123,6 @@ package Alice.IFace.Error_Handler is
    --  Exit the application with the provided result. This procedure is called
    --  when the application determines that should be terminated due to a
    --  non-recoverable error. It allows the application to perform any
-   --  necessary cleanup or logging before exiting. Implementations of this
-   --  procedure should use the appropriate exit code based on the result
-   --  status, such as 0 for success or a non-zero value for errors, as
-   --  defined by Exit_Code_Value.
+   --  necessary cleanup or logging before exiting.
 
 end Alice.IFace.Error_Handler;

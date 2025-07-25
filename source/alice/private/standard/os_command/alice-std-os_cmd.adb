@@ -10,6 +10,7 @@ with Ada.Directories;
 with Ada.Text_IO;
 
 with Alice.Env;
+with Alice.Hint;
 
 package body Alice.Std.OS_Cmd is
 
@@ -33,6 +34,7 @@ package body Alice.Std.OS_Cmd is
          Message     =>
            Alice.UStr
              ("Error in command '" & Alice.Str (Self.Name) & "'': " & Message),
+         Hint        => Alice.Hint.None,
          Exit_Status => Exit_Status);
 
    -------------------------
@@ -54,6 +56,7 @@ package body Alice.Std.OS_Cmd is
          Message     =>
            Alice.UStr
              ("Error in command '" & Alice.Str (Self.Name) & "': " & Message),
+         Hint        => Alice.Hint.None,
          Exit_Status => Exit_Status,
          Temp_FD     => Temp_FD,
          Temp_File   => Temp_File);
@@ -268,6 +271,7 @@ package body Alice.Std.OS_Cmd is
                       & Returned_Code'Image
                       & ", expected "
                       & Exit_Status'Image),
+                 Hint        => Alice.Hint.None,
                  Exit_Status => Returned_Code,
                  Temp_FD     => Temp_FD,
                  Temp_File   => Temp_File)
