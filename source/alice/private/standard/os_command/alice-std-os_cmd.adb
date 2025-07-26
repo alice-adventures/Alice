@@ -474,7 +474,7 @@ package body Alice.Std.OS_Cmd is
    -- OS_Cmd_Image --
    ------------------
 
-   procedure OS_Cmd_Put_Image
+   procedure Put_Image_OS_Cmd
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object) is
    begin
@@ -494,6 +494,6 @@ package body Alice.Std.OS_Cmd is
 
       Alice.Env.Decrease_Indent (Output);
       Output.Put (")");
-   end OS_Cmd_Put_Image;
+   end Put_Image_OS_Cmd;
 
 end Alice.Std.OS_Cmd;

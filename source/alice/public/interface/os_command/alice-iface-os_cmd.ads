@@ -9,6 +9,7 @@
 --  This package provides a generic interface to run operating system
 --  commands.
 
+with Ada.Strings.Text_Buffers;
 with GNAT.OS_Lib;
 
 with Alice.OS_Context;
@@ -48,7 +49,8 @@ package Alice.IFace.OS_Cmd is
             Temp_File : GNAT.OS_Lib.String_Access := null;
             --  The temporary filename where the output is saved.
       end case;
-   end record;
+   end record
+   with Put_Image => Put_Image_Output_Result;
    --  A record to hold the exit code and the output of a command. This is
    --  used when the command output is saved to a temporary file.
 
@@ -141,5 +143,9 @@ package Alice.IFace.OS_Cmd is
    --  command to the log. It is useful for debugging purposes to see the
    --  output of the command and check if it is correct. The output is printed
    --  to the log with the debug level.
+
+   procedure Put_Image_Output_Result
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Output_Result);
 
 end Alice.IFace.OS_Cmd;

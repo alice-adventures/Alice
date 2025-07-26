@@ -96,9 +96,9 @@ private
       Path       : GNAT.OS_Lib.String_Access := null;
       OS_Context : Alice.OS_Context.Object_Access := Alice.Std.Get_OS_Context;
    end record
-   with Put_Image => OS_Cmd_Put_Image;
+   with Put_Image => Put_Image_OS_Cmd;
 
-   procedure OS_Cmd_Put_Image
+   procedure Put_Image_OS_Cmd
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self  : Object);
 

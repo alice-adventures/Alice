@@ -11,6 +11,8 @@
 --  level, and a tagged record to encapsulate the result of an operation,
 --  including success and error cases.
 
+with Ada.Strings.Text_Buffers;
+
 with Alice.Hint;
 
 package Alice.Result is
@@ -61,7 +63,8 @@ package Alice.Result is
             Message : Alice.UString;
             Hint    : Alice.Hint.Id := Alice.Hint.None;
       end case;
-   end record;
+   end record
+   with Put_Image => Put_Image_Result;
    --  If the status is Success, no additional fields are present. Alice
    --  operations can extend the record with additional result fields when
    --  Success. For example:
@@ -94,5 +97,9 @@ package Alice.Result is
    --  Convenience function to create an Error_Object with the specified error
    --  level and message. This function is useful for creating error results
    --  in a consistent manner throughout the application.
+
+   procedure Put_Image_Result
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object);
 
 end Alice.Result;

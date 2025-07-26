@@ -95,7 +95,7 @@ package body Alice.Std.Progress is
    -- Progress_Image --
    --------------------
 
-   procedure Progress_Put_Image
+   procedure Put_Image_Progress
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object) is
    begin
@@ -115,6 +115,6 @@ package body Alice.Std.Progress is
 
       Alice.Env.Decrease_Indent (Output);
       Output.Put (")");
-   end Progress_Put_Image;
+   end Put_Image_Progress;
 
 end Alice.Std.Progress;

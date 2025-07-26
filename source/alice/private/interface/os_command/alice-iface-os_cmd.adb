@@ -8,33 +8,15 @@
 
 with Alice.Env;
 
-package body Alice.Result is
+package body Alice.IFace.OS_Cmd is
 
-   ------------------
-   -- Create_Error --
-   ------------------
+   -------------------------
+   -- Output_Result_Image --
+   -------------------------
 
-   function Create_Error
-     (Level : Error_Level; Message : Alice.UString) return Error_Object'Class
-   is
-   begin
-      return
-         Result : constant Error_Object :=
-           (Alice.Controlled
-            with
-              Status  => Alice.Result.Error,
-              Level   => Level,
-              Message => Message,
-              Hint    => Alice.Hint.None);
-   end Create_Error;
-
-   ----------------------
-   -- Result_Put_Image --
-   ----------------------
-
-   procedure Put_Image_Result
+   procedure Put_Image_Output_Result
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self   : Object) is
+      Self   : Output_Result) is
    begin
       Output.Put ("([" & Self'Address'Image & " ] with");
       Alice.Env.Increase_Indent (Output);
@@ -56,8 +38,15 @@ package body Alice.Result is
             Output.New_Line;
       end case;
 
+      Output.Put ("Exit_Status => " & Self.Exit_Status'Image);
+      Output.New_Line;
+      Output.Put ("Temp_FD     => " & Self.Temp_FD'Image);
+      Output.New_Line;
+      Output.Put ("Temp_File   => " & Self.Temp_File.all'Image);
+      Output.New_Line;
+
       Alice.Env.Decrease_Indent (Output);
       Output.Put (")");
-   end Put_Image_Result;
+   end Put_Image_Output_Result;
 
-end Alice.Result;
+end Alice.IFace.OS_Cmd;

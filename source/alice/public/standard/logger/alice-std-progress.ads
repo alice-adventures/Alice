@@ -50,9 +50,9 @@ private
       Ongoing : Ongoing_Access := null;
       Message : Alice.UString := Alice.Null_UString;
    end record
-   with Put_Image => Progress_Put_Image;
+   with Put_Image => Put_Image_Progress;
 
-   procedure Progress_Put_Image
+   procedure Put_Image_Progress
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object);
 

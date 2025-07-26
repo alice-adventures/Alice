@@ -250,7 +250,7 @@ package body Alice.VCS.Profile is
    -- Profile_Image --
    -------------------
 
-   procedure Profile_Put_Image
+   procedure Put_Image_Profile
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object) is
    begin
@@ -276,6 +276,6 @@ package body Alice.VCS.Profile is
 
       Alice.Env.Decrease_Indent (Output);
       Output.Put (")");
-   end Profile_Put_Image;
+   end Put_Image_Profile;
 
 end Alice.VCS.Profile;

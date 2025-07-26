@@ -19,7 +19,7 @@ with Alice.Result;
 package Alice.Std.Error_Handler is
 
    type Object is new Alice.IFace.Error_Handler.Object with null record
-   with Put_Image => Error_Handler_Put_Image;
+   with Put_Image => Put_Image_Error_Handler;
 
    overriding
    procedure Log
@@ -54,7 +54,7 @@ package Alice.Std.Error_Handler is
       Explain : Alice.UString := Alice.Null_UString)
    with No_Return;
 
-   procedure Error_Handler_Put_Image
+   procedure Put_Image_Error_Handler
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object);
 

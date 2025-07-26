@@ -27,16 +27,16 @@ package Alice.Context is
       Curl : Alice.IFace.OS_Cmd.Object_Access;
       Git  : Alice.IFace.OS_Cmd.Object_Access;
    end record
-   with Put_Image => OS_Cmd_Put_Image;
+   with Put_Image => Put_Image_OS_Cmd;
    --  The OS_Commands record contains references to the command objects for
    --  various OS commands used in the application, such as Alr, Git, and
    --  Curl. These commands are used to interact with the operating system and
    --  perform tasks such as building the project, managing dependencies, and
    --  executing external commands.
 
-   procedure OS_Cmd_Put_Image
+   procedure Put_Image_OS_Cmd
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self  : OS_Commands);
+      Self   : OS_Commands);
 
    type Object is tagged record
       Err : Alice.IFace.Error_Handler.Object_Access;
@@ -56,11 +56,11 @@ package Alice.Context is
       --  to the command objects for various OS commands used in the
       --  application, such as Alr, Git, and Curl.
    end record
-   with Put_Image => Context_Put_Image;
+   with Put_Image => Put_Image_Context;
 
-   procedure Context_Put_Image
+   procedure Put_Image_Context
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self  : Object);
+      Self   : Object);
 
    type Object_Access is not null access all Alice.Context.Object'Class;
 
