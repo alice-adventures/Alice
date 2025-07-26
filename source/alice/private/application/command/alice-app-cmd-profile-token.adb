@@ -27,13 +27,15 @@ package body Alice.App.Cmd.Profile.Token is
       GitHub_Service : Alice.VCS.Service.GitHub.Object;
    begin
       Self.Context.Log.Trace_Begin;
-      Self.Context.Prog.Start ("Setting up profile from GitHub token");
 
+      Self.Context.Prog.Start ("Setting up profile from GitHub token");
       Profile_Result : Alice.VCS.Profile.Result.Object'Class :=
         GitHub_Service.Get_Member_Profile_From_Token (Token);
 
       case Profile_Result.Status is
          when Alice.Result.Success =>
+            Self.Context.Prog.Done;
+
             Profile : constant Alice.VCS.Profile.Object_Access :=
               Profile_Result.Get_Profile;
             Profile.Set_SPDX_Id (Alice.VCS.Profile.Default_SPDX_Id);
@@ -42,7 +44,6 @@ package body Alice.App.Cmd.Profile.Token is
               Profile.Save_To_File (Alice.Config.Local.Profile);
             case Save_Result.Status is
                when Alice.Result.Success =>
-                  Self.Context.Prog.Stop;
                   Self.Context.Log.Info ("Profile saved successfully");
                   Self.Context.Log.Trace_Return (Save_Result'Image);
                   return Save_Result;
@@ -54,6 +55,8 @@ package body Alice.App.Cmd.Profile.Token is
             end case;
 
          when Alice.Result.Error =>
+            Self.Context.Prog.Fail;
+
             Profile_Result.Hint := Alice.Hint.Invalid_GitHub_Token;
             Self.Context.Log.Trace_Return (Profile_Result'Image);
             return Profile_Result;

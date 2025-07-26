@@ -6,6 +6,11 @@
 --
 -------------------------------------------------------------------------------
 
+--  This package defines the command use case for managing the user profile
+--  token in the Alice application. It allows users to set up their profile
+--  using a GitHub token, which is essential for accessing and managing their
+--  GitHub profile information within the Alice application.
+
 with Alice.App.Use_Case;
 with Alice.Result;
 
