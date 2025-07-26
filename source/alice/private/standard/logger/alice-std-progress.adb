@@ -91,9 +91,9 @@ package body Alice.Std.Progress is
       Self.Ongoing := null;
    end Stop;
 
-   --------------------
-   -- Progress_Image --
-   --------------------
+   ------------------------
+   -- Put_Image_Progress --
+   ------------------------
 
    procedure Put_Image_Progress
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;

@@ -10,9 +10,9 @@ with Alice.Env;
 
 package body Alice.Context is
 
-   ------------------
-   -- OS_Cmd_Image --
-   ------------------
+   ----------------------
+   -- Put_Image_OS_Cmd --
+   ----------------------
 
    procedure Put_Image_OS_Cmd
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
@@ -33,9 +33,9 @@ package body Alice.Context is
       Output.Put (")");
    end Put_Image_OS_Cmd;
 
-   -------------------
-   -- Context_Image --
-   -------------------
+   -----------------------
+   -- Put_Image_Context --
+   -----------------------
 
    procedure Put_Image_Context
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;

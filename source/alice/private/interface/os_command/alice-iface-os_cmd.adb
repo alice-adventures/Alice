@@ -10,9 +10,9 @@ with Alice.Env;
 
 package body Alice.IFace.OS_Cmd is
 
-   -------------------------
-   -- Output_Result_Image --
-   -------------------------
+   -----------------------------
+   -- Put_Image_Output_Result --
+   -----------------------------
 
    procedure Put_Image_Output_Result
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;

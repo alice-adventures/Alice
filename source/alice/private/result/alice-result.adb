@@ -29,7 +29,7 @@ package body Alice.Result is
    end Create_Error;
 
    ----------------------
-   -- Result_Put_Image --
+   -- Put_Image_Result --
    ----------------------
 
    procedure Put_Image_Result

@@ -343,9 +343,9 @@ package body Alice.Std.Log is
       Simple_Logging.Decorators.Location_Decorator := Saved_Location_Decorator;
    end Restore_State;
 
-   ------------------
-   -- Logger_Image --
-   ------------------
+   ----------------------
+   -- Put_Image_Logger --
+   ----------------------
 
    procedure Put_Image_Logger
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;

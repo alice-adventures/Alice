@@ -470,9 +470,9 @@ package body Alice.Std.OS_Cmd is
       end if;
    end Debug_Output_Result;
 
-   ------------------
-   -- OS_Cmd_Image --
-   ------------------
+   ----------------------
+   -- Put_Image_OS_Cmd --
+   ----------------------
 
    procedure Put_Image_OS_Cmd
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;

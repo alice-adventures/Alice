@@ -125,9 +125,9 @@ package body Alice.Std.Error_Handler is
       end case;
    end Exit_Application;
 
-   -------------------------
-   -- Error_Handler_Image --
-   -------------------------
+   -----------------------------
+   -- Put_Image_Error_Handler --
+   -----------------------------
 
    procedure Put_Image_Error_Handler
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;

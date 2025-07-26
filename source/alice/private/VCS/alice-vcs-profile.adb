@@ -246,9 +246,9 @@ package body Alice.VCS.Profile is
       & "SPDX   " & Alice.Str (Self.SPDX_Id));
    --!pp on
 
-   -------------------
-   -- Profile_Image --
-   -------------------
+   -----------------------
+   -- Put_Image_Profile --
+   -----------------------
 
    procedure Put_Image_Profile
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
