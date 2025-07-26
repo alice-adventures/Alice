@@ -23,15 +23,23 @@ package body Test.Progress is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
+      Test.Subtitle ("Activity that ends successfully");
       Progress.Start (Title);
       for I in 1 .. Length loop
          Progress.Step
-           (Title & Integer'Image (I) & " of " & Integer'Image (Length) & " ");
-
+           (Title & Integer'Image (I) & " of " & Integer'Image (Length));
          delay 0.01;  --  doing things ...
-
       end loop;
-      Progress.Stop;
+      Progress.Done;
+
+      Test.Subtitle ("Activity that fails");
+      Progress.Start (Title);
+      for I in 1 .. Length loop
+         Progress.Step
+           (Title & Integer'Image (I) & " of " & Integer'Image (Length));
+         delay 0.01;  --  doing things ...
+      end loop;
+      Progress.Fail;
 
       Test.Pass;
 
@@ -54,17 +62,27 @@ package body Test.Progress is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
+      Test.Subtitle ("Activity that ends successfully with messages");
       Progress.Start (Title);
       for I in 1 .. Length loop
          Progress.Step
-           (Title & Integer'Image (I) & " of " & Integer'Image (Length) & " ");
-
+           (Title & Integer'Image (I) & " of " & Integer'Image (Length));
          delay 0.01;  --  doing things ...
-
          Progress.Message ("This is a message for step " & Integer'Image (I));
          Log.Info ("This is a verbose message for step " & Integer'Image (I));
       end loop;
-      Progress.Stop;
+      Progress.Done;
+
+      Test.Subtitle ("Activity that fails with messages");
+      Progress.Start (Title);
+      for I in 1 .. Length loop
+         Progress.Step
+           (Title & Integer'Image (I) & " of " & Integer'Image (Length));
+         delay 0.01;  --  doing things ...
+         Progress.Message ("This is a message for step " & Integer'Image (I));
+         Log.Info ("This is a verbose message for step " & Integer'Image (I));
+      end loop;
+      Progress.Fail;
 
       Test.Pass;
 

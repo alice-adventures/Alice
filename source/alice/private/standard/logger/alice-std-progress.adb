@@ -74,22 +74,42 @@ package body Alice.Std.Progress is
    end Message;
 
    ----------
-   -- Stop --
+   -- Done --
    ----------
 
    overriding
-   procedure Stop (Self : in out Object) is
+   procedure Done (Self : in out Object) is
    begin
       if Self.Ongoing = null then
          Bug;
       else
          Free_Ongoing (Self.Ongoing);
          if Simple_Logging.Level >= Simple_Logging.Info then
-            Simple_Logging.Always ("o " & Alice.Str (Self.Message));
+            Simple_Logging.Always
+              ("o " & Alice.Str (Self.Message) & "... done");
          end if;
+         Self.Ongoing := null;
       end if;
-      Self.Ongoing := null;
-   end Stop;
+   end Done;
+
+   ----------
+   -- Fail --
+   ----------
+
+   overriding
+   procedure Fail (Self : in out Object) is
+   begin
+      if Self.Ongoing = null then
+         Bug;
+      else
+         Free_Ongoing (Self.Ongoing);
+         if Simple_Logging.Level >= Simple_Logging.Info then
+            Simple_Logging.Always
+              ("x " & Alice.Str (Self.Message) & "... failed");
+         end if;
+         Self.Ongoing := null;
+      end if;
+   end Fail;
 
    ------------------------
    -- Put_Image_Progress --

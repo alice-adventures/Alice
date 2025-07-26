@@ -39,8 +39,12 @@ package Alice.Std.Progress is
    --  procedure.
 
    overriding
-   procedure Stop (Self : in out Object);
-   --  Stops the ongoing activity.
+   procedure Done (Self : in out Object);
+   --  Stops the ongoing activity and concludes the activity successfully.
+
+   overriding
+   procedure Fail (Self : in out Object);
+   --  Stops the ongoing activity and indicates that the activity has failed.
 
 private
 

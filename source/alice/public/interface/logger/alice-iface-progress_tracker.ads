@@ -48,7 +48,15 @@ package Alice.IFace.Progress_Tracker is
    --  specifically a step in the progress. Use it to provide additional
    --  information or context about the progress.
 
-   procedure Stop (Self : in out Object) is abstract;
-   --  Stop the current progress logging activity.
+   procedure Done (Self : in out Object) is abstract;
+   --  Stop the current progress logging activity and conclude the progress
+   --  tracking. This method should be called when the activity is completed
+   --  successfully.
+
+   procedure Fail (Self : in out Object) is abstract;
+   --  Stop the current progress logging activity and indicate that the
+   --  progress tracking has failed. This method should be called when the
+   --  activity cannot be completed successfully, allowing for proper cleanup
+   --  and error handling.
 
 end Alice.IFace.Progress_Tracker;
