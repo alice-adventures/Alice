@@ -26,8 +26,9 @@ package body Alice.App.Cmd.Profile.Token is
    is
       GitHub_Service : Alice.VCS.Service.GitHub.Object;
    begin
-
+      Self.Context.Log.Trace_Begin;
       Self.Context.Prog.Start ("Setting up profile from GitHub token");
+
       Profile_Result : Alice.VCS.Profile.Result.Object'Class :=
         GitHub_Service.Get_Member_Profile_From_Token (Token);
 
@@ -42,17 +43,19 @@ package body Alice.App.Cmd.Profile.Token is
             case Save_Result.Status is
                when Alice.Result.Success =>
                   Self.Context.Prog.Stop;
-                  Self.Context.Log.Info
-                    ("Profile saved successfully");
+                  Self.Context.Log.Info ("Profile saved successfully");
+                  Self.Context.Log.Trace_Return (Save_Result'Image);
                   return Save_Result;
 
                when Alice.Result.Error =>
                   Save_Result.Hint := Alice.Hint.File_Write_Error;
+                  Self.Context.Log.Trace_Return (Save_Result'Image);
                   return Save_Result;
             end case;
 
          when Alice.Result.Error =>
             Profile_Result.Hint := Alice.Hint.Invalid_GitHub_Token;
+            Self.Context.Log.Trace_Return (Profile_Result'Image);
             return Profile_Result;
       end case;
    end Run;
