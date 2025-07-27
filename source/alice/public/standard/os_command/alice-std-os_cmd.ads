@@ -92,7 +92,7 @@ private
 
    type Object is new Alice.Controlled and Alice.IFace.OS_Cmd.Object
    with record
-      Name       : Alice.UString := Alice.UStr ("");
+      Name       : Alice.UString := Alice.Null_UString;
       Path       : GNAT.OS_Lib.String_Access := null;
       OS_Context : Alice.OS_Context.Object_Access := Alice.Std.Get_OS_Context;
    end record
