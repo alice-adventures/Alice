@@ -14,15 +14,23 @@
 
 package Alice.Hint is
 
+   --!pp off
    type Id is
-     (None,
+   (
+      None,
+
+      Invalid_Args,
       Invalid_GitHub_Token,
       Invalid_SPDX_Id,
-      File_Write_Error,
-      File_Read_Error,
+
       File_Not_Found,
       File_Permission,
-      Invalid_Args);
+      File_Read_Error,
+      File_Write_Error,
+
+      Profile_Not_Found
+   );
+   --!pp on
 
    type String_Access is not null access constant String;
 
@@ -31,13 +39,17 @@ package Alice.Hint is
    Message : constant array (Id) of String_Access :=
    [
       None                 => new String'(""),
+
+      Invalid_Args         => new String'("Invalid number of arguments provided"),
       Invalid_GitHub_Token => new String'("Invalid GitHub token provided"),
       Invalid_SPDX_Id      => new String'("Invalid SPDX license Id provided"),
-      File_Write_Error     => new String'("Error writing to file, check permissions"),
-      File_Read_Error      => new String'("Error reading from file, check permissions"),
+
       File_Not_Found       => new String'("File not found, check the file path"),
       File_Permission      => new String'("Insufficient permissions to access the file"),
-      Invalid_Args         => new String'("Invalid number of arguments provided")
+      File_Read_Error      => new String'("Error reading from file, check permissions"),
+      File_Write_Error     => new String'("Error writing to file, check permissions"),
+
+      Profile_Not_Found    => new String'("Profile not found, please set up your profile first")
    ];
    pragma Style_Checks (on);
    --!pp on
