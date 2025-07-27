@@ -32,35 +32,31 @@ package body Alice.App.Cmd.Profile.Token is
       Profile_Result : Alice.VCS.Profile.Result.Object'Class :=
         GitHub_Service.Get_Member_Profile_From_Token (Token);
 
-      case Profile_Result.Status is
-         when Alice.Result.Success =>
-            Self.Context.Prog.Done;
+      if Profile_Result.Status = Alice.Result.Error then
+         Self.Context.Prog.Fail;
+         Profile_Result.Hint := Alice.Hint.Invalid_GitHub_Token;
+         Self.Context.Log.Trace_Return (Profile_Result'Image);
+         return Profile_Result;
+      end if;
 
-            Profile : constant Alice.VCS.Profile.Object_Access :=
-              Profile_Result.Get_Profile;
-            Profile.Set_SPDX_Id (Alice.VCS.Profile.Default_SPDX_Id);
+      Self.Context.Prog.Done;
 
-            Save_Result : Alice.Result.Object'Class :=
-              Profile.Save_To_File (Alice.Config.Local.Profile);
-            case Save_Result.Status is
-               when Alice.Result.Success =>
-                  Self.Context.Log.Info ("Profile saved successfully");
-                  Self.Context.Log.Trace_Return (Save_Result'Image);
-                  return Save_Result;
+      Profile : constant Alice.VCS.Profile.Object_Access :=
+        Profile_Result.Get_Profile;
+      Profile.Set_SPDX_Id (Alice.VCS.Profile.Default_SPDX_Id);
 
-               when Alice.Result.Error =>
-                  Save_Result.Hint := Alice.Hint.File_Write_Error;
-                  Self.Context.Log.Trace_Return (Save_Result'Image);
-                  return Save_Result;
-            end case;
+      Save_Result : Alice.Result.Object'Class :=
+        Profile.Save_To_File (Alice.Config.Local.Profile);
 
-         when Alice.Result.Error =>
-            Self.Context.Prog.Fail;
-
-            Profile_Result.Hint := Alice.Hint.Invalid_GitHub_Token;
-            Self.Context.Log.Trace_Return (Profile_Result'Image);
-            return Profile_Result;
-      end case;
+      if Save_Result.Status = Alice.Result.Success then
+         Self.Context.Log.Info ("Profile saved successfully");
+         Self.Context.Log.Trace_Return (Save_Result'Image);
+         return Save_Result;
+      else
+         Save_Result.Hint := Alice.Hint.File_Write_Error;
+         Self.Context.Log.Trace_Return (Save_Result'Image);
+         return Save_Result;
+      end if;
    end Run;
 
 end Alice.App.Cmd.Profile.Token;

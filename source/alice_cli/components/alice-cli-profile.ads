@@ -29,7 +29,7 @@ package Alice.CLI.Profile is
    function Usage_Custom_Parameters (Self : Object) return String
    is ("[ --token <GH Token> |"
        & " --spdx {<Id>|list} |"
-       & " --refresh ]");
+       & " --update ]");
 
    overriding
    function Short_Description (Self : Object) return String
@@ -49,7 +49,7 @@ package Alice.CLI.Profile is
       .New_Line
       .Append ("The SPDX license identifier is used to replace such Id in some source code templates. Work attribution is made with the member's name, SPDX license identifier and the current year. Each member is free to choose which license must apply to his/her work. By default 'MIT' license is applied. Choose any valid identifier from https://spdx.org/licenses that is compatible with software works (e.g. Creative Commons licenses are not recommended for software).")
       .New_Line
-      .Append ("If you change some settings in your GitHub account (e.g. name, email), then use '--refresh' to update these changes in your config file, provided that the current token is still valid.")
+      .Append ("If you change some settings in your GitHub account (e.g. name, email), then use '--update' to update these changes in your config file, provided that the current token is still valid.")
    );
 
    pragma Style_Checks (on);
@@ -74,7 +74,7 @@ private
       Show    : aliased Boolean := False; --  Show member configuration
       Token   : aliased Boolean := False; --  Set profile from GitHub token
       SPDX    : aliased Boolean := False; --  Set SPDX license ID
-      Refresh : aliased Boolean := False; --  Refresh member configuration
+      Update  : aliased Boolean := False; --  Update member profile
    end record;
 
    type Object is new CLIC.Subcommand.Command with record

@@ -12,6 +12,7 @@ with SPDX;
 with SPDX.Licenses;
 
 with Alice.App.Cmd.Profile.Token;
+with Alice.App.Cmd.Profile.Update;
 with Alice.Config;
 with Alice.Hint;
 with Alice.Result;
@@ -49,10 +50,10 @@ package body Alice.CLI.Profile is
 
       CLIC.Subcommand.Define_Switch
         (Config      => Config,
-         Output      => Self.Flag.Refresh'Access,
-         Switch      => "-r",
-         Long_Switch => "--refresh",
-         Help        => "Refresh member configuration");
+         Output      => Self.Flag.Update'Access,
+         Switch      => "-u",
+         Long_Switch => "--update",
+         Help        => "Update member profile");
    --!pp on
    end Setup_Switches;
 
@@ -163,30 +164,19 @@ package body Alice.CLI.Profile is
       return "";
    end Execute_SPDX;
 
-   ---------------------
-   -- Execute_Refresh --
-   ---------------------
+   --------------------
+   -- Execute_Update --
+   --------------------
 
-   --  #TODO - Refactor this to use Alice.App.Cmd.Profile.Refresh
-   procedure Execute_Refresh (Self : in out Object) is
-      Profile : Alice.VCS.Profile.Object;
-      Result  : constant Alice.Result.Object'Class :=
-        Profile.Load_From_File (Alice.Config.Local.Profile);
+   procedure Execute_Update (Self : in out Object) is
+      Cmd_Profile_Update : Alice.App.Cmd.Profile.Update.Object;
+      Result             : constant Alice.Result.Object'Class :=
+        Cmd_Profile_Update.Run ("");
    begin
-      if Result.Status = Alice.Result.Success then
-         Token : constant String := Profile.Get_Token;
-         SPDX_Id : constant String := Profile.Get_SPDX_Id;
-
-         --  refresh the profile from the token
-         Self.Execute_Token (Token);
-
-         --  keep the SPDX Id
-         Ignored_String : constant String := Self.Execute_SPDX (SPDX_Id);
-         pragma Unreferenced (Ignored_String);
-      else
+      if Result.Status = Alice.Result.Error then
          Self.Context.Err.Exit_Application (Result);
       end if;
-   end Execute_Refresh;
+   end Execute_Update;
 
    -------------
    -- Execute --
@@ -198,7 +188,7 @@ package body Alice.CLI.Profile is
       Args_Count  : constant Natural := Natural (Args.Length);
    begin
       Flags_Count :=
-        (if Self.Flag.Refresh then 1 else 0)
+        (if Self.Flag.Update then 1 else 0)
         + (if Self.Flag.Token then 1 else 0)
         + (if Self.Flag.SPDX then 1 else 0);
 
@@ -237,11 +227,9 @@ package body Alice.CLI.Profile is
             Self.Context.Err.Exit_Application
               (Invalid_Args, Alice.UStr ("--spdx requires one argument"));
          end if;
-      elsif Self.Flag.Refresh then
+      elsif Self.Flag.Update then
          if Args_Count = 0 then
-            Self.Execute_Refresh;
-            Self.Context.Log.Info
-              ("New profile saved to " & Alice.Config.Local.Profile);
+            Self.Execute_Update;
          else
             Self.Context.Err.Exit_Application
               (Invalid_Args, Alice.UStr ("--refresh requires no argument"));
