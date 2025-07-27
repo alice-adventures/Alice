@@ -79,7 +79,7 @@ package Alice.IFace.OS_Cmd is
    --  messages and handle errors that occur during the command execution.
 
    procedure Context
-     (Self : in out Object; Ctx : Alice.OS_Context.Object_Access)
+     (Self : in out Object; OS_Context : Alice.OS_Context.Object_Access)
    is abstract
    with Pre'Class => Self.Is_Valid;
    --  Set the OS context where the command is run. This is used to set the

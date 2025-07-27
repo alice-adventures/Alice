@@ -23,7 +23,7 @@ package Alice.Std.OS_Cmd is
    type Object_Access is not null access all Object'Class;
 
    function New_Object
-     (Name : String; OS_Ctx : Alice.OS_Context.Object_Access)
+     (Name : String; OS_Context : Alice.OS_Context.Object_Access)
       return Alice.IFace.OS_Cmd.Object_Access
    with Pre => Name /= "";
    --  Create a new OS command object with the given name. The OS command name
@@ -56,7 +56,7 @@ package Alice.Std.OS_Cmd is
 
    overriding
    procedure Context
-     (Self : in out Object; OS_Ctx : Alice.OS_Context.Object_Access)
+     (Self : in out Object; OS_Context : Alice.OS_Context.Object_Access)
    with Inline;
 
    overriding
@@ -100,6 +100,6 @@ private
 
    procedure Put_Image_OS_Cmd
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self  : Object);
+      Self   : Object);
 
 end Alice.Std.OS_Cmd;

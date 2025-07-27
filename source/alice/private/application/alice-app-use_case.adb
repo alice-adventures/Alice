@@ -21,10 +21,10 @@ package body Alice.App.Use_Case is
    -------------
 
    overriding
-   procedure Context (Self : in out Object; Ctx : Alice.Context.Object_Access)
-   is
+   procedure Context
+     (Self : in out Object; Context : Alice.Context.Object_Access) is
    begin
-      Self.Context := Ctx;
+      Self.Context := Context;
    end Context;
 
    ---------

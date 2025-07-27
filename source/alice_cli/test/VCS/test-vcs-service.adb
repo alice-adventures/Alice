@@ -20,7 +20,7 @@ package body Test.VCS.Service is
    ----------------------------------------------
 
    procedure Get_Profile_From_Token_Ends_With_Success
-     (Ctx : Alice.Context.Object_Access)
+     (Context : Alice.Context.Object_Access)
    is
       GitHub : Alice.VCS.Service.GitHub.Object;
       Token  : constant String := Get_Github_Token_From_Test_File;
@@ -35,12 +35,12 @@ package body Test.VCS.Service is
             when Alice.Result.Success =>
                Profile : constant Alice.VCS.Profile.Object_Access :=
                  Result.Get_Profile;
-               Ctx.Log.Info
+               Context.Log.Info
                  (Alice.Env.New_Line & "Profile => " & Profile.all'Image);
                Pass;
 
             when Alice.Result.Error =>
-               Ctx.Log.Warning (Alice.Str (Result.Message));
+               Context.Log.Warning (Alice.Str (Result.Message));
                Fail ("Failed to get member profile from token");
          end case;
       else
@@ -57,7 +57,7 @@ package body Test.VCS.Service is
    --------------------------------------------
 
    procedure Get_Profile_From_Token_Ends_With_Error
-     (Ctx : Alice.Context.Object_Access)
+     (Context : Alice.Context.Object_Access)
    is
       GitHub : Alice.VCS.Service.GitHub.Object;
    begin
@@ -71,7 +71,7 @@ package body Test.VCS.Service is
             Fail ("Expected an error, but got success");
 
          when Alice.Result.Error =>
-            Ctx.Log.Info
+            Context.Log.Info
               ("Received expected error: " & Alice.Str (Result.Message));
             Pass;
       end case;
@@ -81,12 +81,12 @@ package body Test.VCS.Service is
    -- Run --
    ---------
 
-   procedure Run (Ctx : Alice.Context.Object_Access) is
+   procedure Run (Context : Alice.Context.Object_Access) is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-      Get_Profile_From_Token_Ends_With_Error (Ctx);
-      Get_Profile_From_Token_Ends_With_Success (Ctx);
+      Get_Profile_From_Token_Ends_With_Error (Context);
+      Get_Profile_From_Token_Ends_With_Success (Context);
    end Run;
 
 end Test.VCS.Service;

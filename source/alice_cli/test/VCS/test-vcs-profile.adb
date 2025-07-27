@@ -24,7 +24,7 @@ package body Test.VCS.Profile is
    ----------------------------
 
    procedure Load_Profile_From_File_With_Success
-     (Ctx : Alice.Context.Object_Access)
+     (Context : Alice.Context.Object_Access)
    is
       Profile : Alice.VCS.Profile.Object;
       P       : constant Alice.VCS.Profile.Object_Access :=
@@ -43,7 +43,8 @@ package body Test.VCS.Profile is
 
       case Result.Status is
          when Alice.Result.Success =>
-            Ctx.Log.Info (Alice.Env.New_Line & "Profile => " & Profile'Image);
+            Context.Log.Info
+              (Alice.Env.New_Line & "Profile => " & Profile'Image);
             if Profile = P.all then
                Pass;
             else
@@ -59,7 +60,8 @@ package body Test.VCS.Profile is
    -- Load_Invalid_Profile_From_File --
    ------------------------------------
 
-   procedure Load_Invalid_Profile_From_File (Ctx : Alice.Context.Object_Access)
+   procedure Load_Invalid_Profile_From_File
+     (Context : Alice.Context.Object_Access)
    is
       Profile : Alice.VCS.Profile.Object;
    begin
@@ -72,7 +74,7 @@ package body Test.VCS.Profile is
             Error (Alice.Result.Success);
 
          when Alice.Result.Error =>
-            Ctx.Log.Info
+            Context.Log.Info
               ("Error as expected: " & Alice.Str (Result_1.Message));
       end case;
 
@@ -83,7 +85,7 @@ package body Test.VCS.Profile is
             Error (Alice.Result.Success);
 
          when Alice.Result.Error =>
-            Ctx.Log.Info
+            Context.Log.Info
               ("Error as expected: " & Alice.Str (Result_2.Message));
       end case;
 
@@ -101,7 +103,8 @@ package body Test.VCS.Profile is
    -- Load_Profile_From_File_With_Error --
    ---------------------------------------
 
-   procedure Load_Profile_From_Invalid_File (Ctx : Alice.Context.Object_Access)
+   procedure Load_Profile_From_Invalid_File
+     (Context : Alice.Context.Object_Access)
    is
       Profile : Alice.VCS.Profile.Object;
       Result  : constant Alice.Result.Object'Class :=
@@ -114,7 +117,8 @@ package body Test.VCS.Profile is
             Error (Alice.Result.Success);
 
          when Alice.Result.Error =>
-            Ctx.Log.Info ("Error as expected: " & Alice.Str (Result.Message));
+            Context.Log.Info
+              ("Error as expected: " & Alice.Str (Result.Message));
             Pass;
       end case;
    end Load_Profile_From_Invalid_File;
@@ -123,13 +127,13 @@ package body Test.VCS.Profile is
    -- Run --
    ---------
 
-   procedure Run (Ctx : Alice.Context.Object_Access) is
+   procedure Run (Context : Alice.Context.Object_Access) is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-      Load_Profile_From_File_With_Success (Ctx);
-      Load_Profile_From_Invalid_File (Ctx);
-      Load_Invalid_Profile_From_File (Ctx);
+      Load_Profile_From_File_With_Success (Context);
+      Load_Profile_From_Invalid_File (Context);
+      Load_Invalid_Profile_From_File (Context);
    end Run;
 
 end Test.VCS.Profile;

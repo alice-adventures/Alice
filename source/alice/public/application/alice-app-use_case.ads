@@ -25,7 +25,8 @@ package Alice.App.Use_Case is
    function Context (Self : in out Object) return Alice.Context.Object_Access;
 
    overriding
-   procedure Context (Self : in out Object; Ctx : Alice.Context.Object_Access);
+   procedure Context
+     (Self : in out Object; Context : Alice.Context.Object_Access);
 
    overriding
    function Run

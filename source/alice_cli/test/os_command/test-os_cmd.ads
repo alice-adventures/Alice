@@ -11,6 +11,6 @@ with Alice.Context;
 package Test.OS_Cmd is
 
    procedure Run
-     (Ctx : Alice.Context.Object_Access);
+     (Context : Alice.Context.Object_Access);
 
 end Test.OS_Cmd;

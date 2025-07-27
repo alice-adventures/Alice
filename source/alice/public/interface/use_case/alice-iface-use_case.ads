@@ -36,7 +36,8 @@ package Alice.IFace.Use_Case is
    --  be set during the initialization of the use case and can be used to
    --  retrieve information or perform actions relevant to the use case.
 
-   procedure Context (Self : in out Object; Ctx : Alice.Context.Object_Access)
+   procedure Context
+     (Self : in out Object; Context : Alice.Context.Object_Access)
    is abstract;
    --  This procedure sets the context for the use case. It allows the use
    --  case to be associated with a specific application context, which

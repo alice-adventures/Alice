@@ -240,14 +240,14 @@ package body Test.OS_Cmd is
    -- Run --
    ---------
 
-   procedure Run (Ctx : Alice.Context.Object_Access) is
+   procedure Run (Context : Alice.Context.Object_Access) is
    begin
-      Run_OS_Cmd_And_Return_Success (Ctx.OS_Cmd);
-      Run_OS_Cmd_And_Return_Error (Ctx.OS_Cmd);
-      Run_OS_Cmd_And_Output_Success (Ctx.OS_Cmd);
-      Run_OS_Cmd_And_Output_Error (Ctx.OS_Cmd);
-      Timed_Run_Os_Cmd_And_Finish_In_Time (Ctx.OS_Cmd);
-      Timed_Run_Os_Cmd_And_Timeout (Ctx.OS_Cmd);
+      Run_OS_Cmd_And_Return_Success (Context.OS_Cmd);
+      Run_OS_Cmd_And_Return_Error (Context.OS_Cmd);
+      Run_OS_Cmd_And_Output_Success (Context.OS_Cmd);
+      Run_OS_Cmd_And_Output_Error (Context.OS_Cmd);
+      Timed_Run_Os_Cmd_And_Finish_In_Time (Context.OS_Cmd);
+      Timed_Run_Os_Cmd_And_Timeout (Context.OS_Cmd);
    end Run;
 
 end Test.OS_Cmd;

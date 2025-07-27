@@ -66,7 +66,7 @@ package body Alice.Std.OS_Cmd is
    ----------------
 
    function New_Object
-     (Name : String; OS_Ctx : Alice.OS_Context.Object_Access)
+     (Name : String; OS_Context : Alice.OS_Context.Object_Access)
       return Alice.IFace.OS_Cmd.Object_Access is
    begin
       return
@@ -76,7 +76,7 @@ package body Alice.Std.OS_Cmd is
               with
                 Name       => Alice.UStr (Name),
                 Path       => null,
-                OS_Context => OS_Ctx)
+                OS_Context => OS_Context)
       do
          Instance.Initialize;
       end return;
@@ -157,9 +157,9 @@ package body Alice.Std.OS_Cmd is
 
    overriding
    procedure Context
-     (Self : in out Object; OS_Ctx : Alice.OS_Context.Object_Access) is
+     (Self : in out Object; OS_Context : Alice.OS_Context.Object_Access) is
    begin
-      Self.OS_Context := OS_Ctx;
+      Self.OS_Context := OS_Context;
    end Context;
 
    ---------

@@ -10,6 +10,6 @@ with Alice.Context;
 
 package Test.VCS.Service is
 
-   procedure Run (Ctx : Alice.Context.Object_Access);
+   procedure Run (Context : Alice.Context.Object_Access);
 
 end Test.VCS.Service;
