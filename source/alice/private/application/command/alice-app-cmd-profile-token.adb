@@ -28,18 +28,18 @@ package body Alice.App.Cmd.Profile.Token is
    begin
       Self.Context.Log.Trace_Begin;
 
-      Self.Context.Prog.Start ("Setting up profile from GitHub token");
+      Self.Context.Progress.Start ("Setting up profile from GitHub token");
       Profile_Result : Alice.VCS.Profile.Result.Object'Class :=
         GitHub_Service.Get_Member_Profile_From_Token (Token);
 
       if Profile_Result.Status = Alice.Result.Error then
-         Self.Context.Prog.Fail;
+         Self.Context.Progress.Fail;
          Profile_Result.Hint := Alice.Hint.Invalid_GitHub_Token;
          Self.Context.Log.Trace_Return (Profile_Result'Image);
          return Profile_Result;
       end if;
 
-      Self.Context.Prog.Done;
+      Self.Context.Progress.Done;
 
       Profile : constant Alice.VCS.Profile.Object_Access :=
         Profile_Result.Get_Profile;

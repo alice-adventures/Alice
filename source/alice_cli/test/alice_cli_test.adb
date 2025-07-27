@@ -62,7 +62,7 @@ begin
    Test.Log.Run (Context.Log);
    Context.Log.Restore_State;
 
-   Test.Progress.Run (Context.Log, Context.Prog);
+   Test.Progress.Run (Context.Log, Context.Progress);
    Test.OS_Cmd.Run (Context);
 
    Context.Log.Save_State;

@@ -45,13 +45,13 @@ package body Alice.Context is
       Alice.Env.Increase_Indent (Output);
 
       Output.New_Line;
-      Output.Put ("Err" & "    => " & Self.Err.all'Image);
+      Output.Put ("Err" &     "    => " & Self.Err.all'Image);
       Output.New_Line;
-      Output.Put ("Log" & "    => " & Self.Log.all'Image);
+      Output.Put ("Log" &     "    => " & Self.Log.all'Image);
       Output.New_Line;
-      Output.Put ("Prog" & "   => " & Self.Prog.all'Image);
+      Output.Put ("Progress" & "   => " & Self.Progress.all'Image);
       Output.New_Line;
-      Output.Put ("OS_Cmd" & " => " & Self.OS_Cmd'Image);
+      Output.Put ("OS_Cmd    " & " => " & Self.OS_Cmd'Image);
       Output.New_Line;
 
       Alice.Env.Decrease_Indent (Output);
