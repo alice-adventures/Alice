@@ -21,7 +21,7 @@ package Alice.IFace.OS_Cmd is
 
    type Object_Access is not null access all Object'Class;
 
-   type Exit_Result (Status : Alice.Result.Status_Type) is
+   type Result_Exit (Status : Alice.Result.Status_Type) is
      new Alice.Result.Object (Status)
    with record
       case Status is
@@ -35,7 +35,7 @@ package Alice.IFace.OS_Cmd is
    --  successfully, but in some cases other values can be considered also a
    --  success.
 
-   type Output_Result (Status : Alice.Result.Status_Type) is
+   type Result_Output (Status : Alice.Result.Status_Type) is
      new Alice.Result.Object (Status)
    with record
       case Status is
@@ -90,7 +90,7 @@ package Alice.IFace.OS_Cmd is
 
    function Run
      (Self : in out Object; Args : String; Exit_Status : Integer := 0)
-      return Exit_Result'Class
+      return Result_Exit'Class
    is abstract
    with Pre'Class => Self.Is_Valid;
    --  Run the command with the given arguments and return the command exit
@@ -107,7 +107,7 @@ package Alice.IFace.OS_Cmd is
 
    function Run
      (Self : in out Object; Args : String; Exit_Status : Integer := 0)
-      return Output_Result'Class
+      return Result_Output'Class
    is abstract
    with Pre'Class => Self.Is_Valid;
    --  Run the command with the given arguments. Return the exit code and a
@@ -117,7 +117,7 @@ package Alice.IFace.OS_Cmd is
 
    function Timed_Run
      (Self : in out Object; Args : String; Timeout : Duration)
-      return Output_Result'Class
+      return Result_Output'Class
    is abstract
    with Pre'Class => Self.Is_Valid and then Timeout > 0.0;
    --  Run the command with the given arguments and a timeout. If the command
@@ -130,14 +130,14 @@ package Alice.IFace.OS_Cmd is
    --  and blocking the application.
 
    function Cleanup
-     (Self : in out Object; Result : in out Output_Result'Class)
+     (Self : in out Object; Result : in out Result_Output'Class)
       return Alice.Result.Object'Class
    is abstract;
    --  Clean the output of a command. This is used to delete temporary files
    --  and free allocated memory by the command output.
 
    procedure Debug_Output_Result
-     (Self : in out Object; Result : in out Output_Result'Class)
+     (Self : in out Object; Result : in out Result_Output'Class)
    is abstract;
    --  Debug the output of a command. This is used to print the output of the
    --  command to the log. It is useful for debugging purposes to see the
@@ -146,6 +146,6 @@ package Alice.IFace.OS_Cmd is
 
    procedure Put_Image_Output_Result
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self   : Output_Result);
+      Self   : Result_Output);
 
 end Alice.IFace.OS_Cmd;

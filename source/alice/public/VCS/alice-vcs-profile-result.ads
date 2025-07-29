@@ -10,6 +10,7 @@
 --  profiles in the Alice application. It defines a tagged record that
 --  encapsulates the result of operations, including success and error cases.
 
+with Alice.Hint;
 with Alice.Result;
 
 package Alice.VCS.Profile.Result is
@@ -17,22 +18,20 @@ package Alice.VCS.Profile.Result is
    type Object (Status : Alice.Result.Status_Type) is
      new Alice.Result.Object with private;
 
-   function Create_Object
-     (Status        : Alice.Result.Status_Type;
-      Profile       : Alice.VCS.Profile.Object_Access := null;
-      Error_Level   : Alice.Result.Error_Level := Alice.Result.External;
-      Error_Message : Alice.UString := Alice.Null_UString)
-     --  #FIXME - Should include Level and Message parameters for detailed
-     --  error reporting?
-      return Object'Class;
-   --  Create function constructs a new Object of type
-   --  Alice.VCS.Profile.Result.Object. It takes a status indicating the
-   --  result of the operation and an optional Profile object. If the
-   --  operation was successful, the Profile parameter should contain a valid
-   --  reference to the VCS profile object. If the operation failed, the
-   --  Profile member is null. This function allows the caller to create a
-   --  result object that encapsulates the outcome of the operation, making it
-   --  easy to handle success and error cases in a consistent manner.
+   function Success
+     (Profile : Alice.VCS.Profile.Object_Access) return Object'Class;
+   --  Constructs a new Object  with a status of Success and the provided VCS
+   --  profile. This function is used when an operation related to VCS
+   --  profiles is successful and returns a valid profile object.
+
+   function Error
+     (Level   : Alice.Result.Error_Level;
+      Message : Alice.UString;
+      Hint    : Alice.Hint.Id := Alice.Hint.None) return Object'Class;
+   --  Constructs a new Object with a status of Error, providing the error
+   --  level, message, and an optional hint. This function is used when an
+   --  operation related to VCS profiles fails, allowing the caller to handle
+   --  the error appropriately.
 
    function Get_Profile
      (Self : in out Object) return Alice.VCS.Profile.Object_Access

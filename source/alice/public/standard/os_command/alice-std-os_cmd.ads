@@ -62,31 +62,31 @@ package Alice.Std.OS_Cmd is
    overriding
    function Run
      (Self : in out Object; Args : String; Exit_Status : Integer := 0)
-      return Alice.IFace.OS_Cmd.Exit_Result'Class
+      return Alice.IFace.OS_Cmd.Result_Exit'Class
    with Pre'Class => Self.Is_Valid;
 
    overriding
    function Run
      (Self : in out Object; Args : String; Exit_Status : Integer := 0)
-      return Alice.IFace.OS_Cmd.Output_Result'Class
+      return Alice.IFace.OS_Cmd.Result_Output'Class
    with Pre'Class => Self.Is_Valid;
 
    overriding
    function Timed_Run
      (Self : in out Object; Args : String; Timeout : Duration := 1.0)
-      return Alice.IFace.OS_Cmd.Output_Result'Class
+      return Alice.IFace.OS_Cmd.Result_Output'Class
    with Pre'Class => Self.Is_Valid and then Timeout >= 1.0;
 
    overriding
    function Cleanup
      (Self   : in out Object;
-      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
+      Result : in out Alice.IFace.OS_Cmd.Result_Output'Class)
       return Alice.Result.Object'Class;
 
    overriding
    procedure Debug_Output_Result
      (Self   : in out Object;
-      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class);
+      Result : in out Alice.IFace.OS_Cmd.Result_Output'Class);
 
 private
 

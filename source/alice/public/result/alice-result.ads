@@ -82,19 +82,16 @@ package Alice.Result is
    --  Developers should ensure that extensions are meaningful and consistent
    --  with the operation's outcome.
 
-   subtype Success_Object is Alice.Result.Object (Status => Success);
-   --  Success_Object is a subtype of Object that represents a successful
-   --  operation. It does not contain any additional fields, as it is used to
-   --  indicate that the operation completed successfully without any errors.
+   function Success return Object'Class;
+   --  Convenience function to create a Success Object. This function is
+   --  useful for creating successful results in a consistent manner
+   --  throughout the application.
 
-   subtype Error_Object is Alice.Result.Object (Status => Error);
-   --  Error_Object is a subtype of Object that represents an operation that
-   --  encountered an error. It contains the Level and Message fields to
-   --  provide additional information about the error that occurred.
-
-   function Create_Error
-     (Level : Error_Level; Message : Alice.UString) return Error_Object'Class;
-   --  Convenience function to create an Error_Object with the specified error
+   function Error
+     (Level   : Error_Level;
+      Message : Alice.UString;
+      Hint    : Alice.Hint.Id := Alice.Hint.None) return Object'Class;
+   --  Convenience function to create an Error Object with the specified error
    --  level and message. This function is useful for creating error results
    --  in a consistent manner throughout the application.
 

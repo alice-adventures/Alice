@@ -10,23 +10,35 @@ with Alice.Env;
 
 package body Alice.Result is
 
-   ------------------
-   -- Create_Error --
-   ------------------
+   -------------
+   -- Success --
+   -------------
 
-   function Create_Error
-     (Level : Error_Level; Message : Alice.UString) return Error_Object'Class
-   is
+   function Success return Object'Class is
    begin
       return
-         Result : constant Error_Object :=
+         Result : constant Object :=
+           (Alice.Controlled with Status => Alice.Result.Success);
+   end Success;
+
+   -----------
+   -- Error --
+   -----------
+
+   function Error
+     (Level   : Error_Level;
+      Message : Alice.UString;
+      Hint    : Alice.Hint.Id := Alice.Hint.None) return Object'Class is
+   begin
+      return
+         Result : constant Object :=
            (Alice.Controlled
             with
               Status  => Alice.Result.Error,
               Level   => Level,
               Message => Message,
-              Hint    => Alice.Hint.None);
-   end Create_Error;
+              Hint    => Hint);
+   end Error;
 
    ----------------------
    -- Put_Image_Result --

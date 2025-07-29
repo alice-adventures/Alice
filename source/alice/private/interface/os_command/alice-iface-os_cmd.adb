@@ -16,7 +16,7 @@ package body Alice.IFace.OS_Cmd is
 
    procedure Put_Image_Output_Result
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self   : Output_Result) is
+      Self   : Result_Output) is
    begin
       Output.Put ("([" & Self'Address'Image & " ] with");
       Alice.Env.Increase_Indent (Output);

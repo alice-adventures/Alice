@@ -136,7 +136,7 @@ package body Alice.VCS.Profile is
                  TOML_Result.Value.Get (Key_Service).As_Unbounded_String;
                if Self.Get_Service = Alice.VCS.Service.Name.None then
                   return
-                    Alice.Result.Create_Error
+                    Alice.Result.Error
                       (Alice.Result.Domain,
                        Alice.UStr
                          ("Invalid service name '"
@@ -158,10 +158,10 @@ package body Alice.VCS.Profile is
                  TOML_Result.Value.Get (Key_Email).As_Unbounded_String;
                Self.SPDX_Id :=
                  TOML_Result.Value.Get (Key_SPDX_Id).As_Unbounded_String;
-               return Result : Alice.Result.Success_Object;
+               return Alice.Result.Success;
             else
                return
-                 Alice.Result.Create_Error
+                 Alice.Result.Error
                    (Alice.Result.Domain,
                     Alice.UStr
                       ("Invalid profile, some keys missing in file '"
@@ -170,7 +170,7 @@ package body Alice.VCS.Profile is
             end if;
          else
             return
-              Alice.Result.Create_Error
+              Alice.Result.Error
                 (Alice.Result.Domain,
                  Alice.UStr
                    ("Error '"
@@ -181,7 +181,7 @@ package body Alice.VCS.Profile is
          end if;
       else
          return
-           Alice.Result.Create_Error
+           Alice.Result.Error
              (Alice.Result.Domain,
               Alice.UStr ("Profile file '" & File & "' does not exist"));
       end if;
@@ -189,7 +189,7 @@ package body Alice.VCS.Profile is
    exception
       when E : others =>
          return
-           Alice.Result.Create_Error
+           Alice.Result.Error
              (Alice.Result.System, Alice.UStr (E.Exception_Message));
    end Load_From_File;
 
@@ -215,17 +215,17 @@ package body Alice.VCS.Profile is
       TOML.File_IO.Dump_To_File (Table, Profile_FD);
       Profile_FD.Close;
 
-      return Result : Alice.Result.Success_Object;
+      return Alice.Result.Success;
 
    exception
       when Ada.Text_IO.Name_Error =>
          return
-           Alice.Result.Create_Error
+           Alice.Result.Error
              (Alice.Result.System,
               Alice.UStr ("Could not create profile file: " & File));
       when others =>
          return
-           Alice.Result.Create_Error
+           Alice.Result.Error
              (Alice.Result.System,
               Alice.UStr
                 ("Unexpected error while saving profile to file: " & File));

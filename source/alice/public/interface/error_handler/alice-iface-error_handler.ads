@@ -73,7 +73,7 @@ package Alice.IFace.Error_Handler is
    --  handling different types of errors.
 
    function Handle_Error
-     (Self : in out Object; Result : Alice.Result.Error_Object'Class)
+     (Self : in out Object; Result : Alice.Result.Object'Class)
       return Boolean
    is abstract;
    --  Handle the provided error and, if the error is recoverable, return True

@@ -18,15 +18,24 @@ package body Alice.Std.OS_Cmd is
    use all type GNAT.OS_Lib.File_Descriptor;
    use all type Alice.OS_Context.Object_Access;
 
+   -------------------------
+   -- Result_Exit_Success --
+   -------------------------
+
+   function Result_Exit_Success
+     (Exit_Status : Integer := 0) return Alice.IFace.OS_Cmd.Result_Exit
+   is (Alice.Controlled
+       with Status => Alice.Result.Success, Exit_Status => Exit_Status);
+
    -----------------------
-   -- Error_Exit_Result --
+   -- Result_Exit_Error --
    -----------------------
 
-   function Error_Exit_Result
+   function Result_Exit_Error
      (Self        : in out Object;
       Level       : Alice.Result.Error_Level;
       Message     : String;
-      Exit_Status : Integer) return Alice.IFace.OS_Cmd.Exit_Result
+      Exit_Status : Integer) return Alice.IFace.OS_Cmd.Result_Exit
    is (Alice.Controlled
        with
          Status      => Alice.Result.Error,
@@ -37,18 +46,34 @@ package body Alice.Std.OS_Cmd is
          Hint        => Alice.Hint.None,
          Exit_Status => Exit_Status);
 
+   ---------------------------
+   -- Result_Output_Success --
+   ---------------------------
+
+   function Result_Output_Success
+     (Exit_Status : Integer := 0;
+      Temp_FD     : GNAT.OS_Lib.File_Descriptor := GNAT.OS_Lib.Null_FD;
+      Temp_File   : GNAT.OS_Lib.String_Access := null)
+      return Alice.IFace.OS_Cmd.Result_Output
+   is (Alice.Controlled
+       with
+         Status      => Alice.Result.Success,
+         Exit_Status => Exit_Status,
+         Temp_FD     => Temp_FD,
+         Temp_File   => Temp_File);
+
    -------------------------
-   -- Error_Output_Result --
+   -- Result_Output_Error --
    -------------------------
 
-   function Error_Output_Result
+   function Result_Output_Error
      (Self        : in out Object;
       Level       : Alice.Result.Error_Level;
       Message     : String;
       Exit_Status : Integer;
       Temp_FD     : GNAT.OS_Lib.File_Descriptor := GNAT.OS_Lib.Null_FD;
       Temp_File   : GNAT.OS_Lib.String_Access := null)
-      return Alice.IFace.OS_Cmd.Output_Result
+      return Alice.IFace.OS_Cmd.Result_Output
    is (Alice.Controlled
        with
          Status      => Alice.Result.Error,
@@ -93,7 +118,7 @@ package body Alice.Std.OS_Cmd is
 
       if Self.Path = null then
          Self.OS_Context.Err.Exit_Application
-           (Alice.Result.Create_Error
+           (Alice.Result.Error
               (Alice.Result.System, Alice.UStr ("Initialization failed")),
             "Make sure the command """
             & Self.Name
@@ -169,7 +194,7 @@ package body Alice.Std.OS_Cmd is
    overriding
    function Run
      (Self : in out Object; Args : String; Exit_Status : Integer := 0)
-      return Alice.IFace.OS_Cmd.Exit_Result'Class
+      return Alice.IFace.OS_Cmd.Result_Exit'Class
    is
       Returned_Code : Integer;
       Arg_List      : GNAT.OS_Lib.Argument_List_Access :=
@@ -186,27 +211,22 @@ package body Alice.Std.OS_Cmd is
       Returned_Code := GNAT.OS_Lib.Spawn (Self.Path.all, Arg_List.all);
       GNAT.OS_Lib.Free (Arg_List);
 
-      if Returned_Code = Exit_Status then
-         return
-            Result : constant Alice.IFace.OS_Cmd.Exit_Result :=
-              (Alice.Controlled
-               with
-                 Status      => Alice.Result.Success,
-                 Exit_Status => Returned_Code)
-         do
-            Self.Context.Log.Trace_Return (Result'Image);
-         end return;
-      else
-         return
-            Result : constant Alice.IFace.OS_Cmd.Exit_Result :=
-              Self.Error_Exit_Result
-                (Alice.Result.System,
-                 "command exit status is" & Returned_Code'Image,
-                 Returned_Code)
-         do
-            Self.Context.Log.Trace_Return (Result'Image);
-         end return;
-      end if;
+      return
+         Result : constant Alice.IFace.OS_Cmd.Result_Exit :=
+           (if Returned_Code = Exit_Status
+            then Result_Exit_Success (Exit_Status => Returned_Code)
+            else
+              Self.Result_Exit_Error
+                (Level       => Alice.Result.System,
+                 Message     =>
+                   "command exit status is "
+                   & Returned_Code'Image
+                   & ", expected "
+                   & Exit_Status'Image,
+                 Exit_Status => Returned_Code))
+      do
+         Self.Context.Log.Trace_Return (Result'Image);
+      end return;
    end Run;
 
    ---------
@@ -216,7 +236,7 @@ package body Alice.Std.OS_Cmd is
    overriding
    function Run
      (Self : in out Object; Args : String; Exit_Status : Integer := 0)
-      return Alice.IFace.OS_Cmd.Output_Result'Class
+      return Alice.IFace.OS_Cmd.Result_Output'Class
    is
       Arg_List      : GNAT.OS_Lib.Argument_List_Access :=
         GNAT.OS_Lib.Argument_String_To_List (Args);
@@ -235,8 +255,8 @@ package body Alice.Std.OS_Cmd is
       GNAT.OS_Lib.Create_Temp_File (Temp_FD, Temp_File);
       if Temp_FD = GNAT.OS_Lib.Null_FD then
          return
-            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              Self.Error_Output_Result
+            Result : constant Alice.IFace.OS_Cmd.Result_Output :=
+              Self.Result_Output_Error
                 (Alice.Result.System, "failed to create temporary file", 1)
          do
             Self.Context.Log.Trace_Return (Result'Image);
@@ -246,39 +266,24 @@ package body Alice.Std.OS_Cmd is
       GNAT.OS_Lib.Spawn (Self.Path.all, Arg_List.all, Temp_FD, Returned_Code);
       GNAT.OS_Lib.Free (Arg_List);
 
-      if Returned_Code = Exit_Status then
-         return
-            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Alice.Controlled
-               with
-                 Status      => Alice.Result.Success,
-                 Exit_Status => Returned_Code,
-                 Temp_FD     => Temp_FD,
-                 Temp_File   => Temp_File)
-         do
-            Self.Context.Log.Trace_Return (Result'Image);
-         end return;
-      else
-         return
-            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Alice.Controlled
-               with
-                 Status      => Alice.Result.Error,
-                 Level       => Alice.Result.System,
+      return
+         Result : constant Alice.IFace.OS_Cmd.Result_Output :=
+           (if Returned_Code = Exit_Status
+            then Result_Output_Success (Returned_Code, Temp_FD, Temp_File)
+            else
+              Self.Result_Output_Error
+                (Level       => Alice.Result.System,
                  Message     =>
-                   Alice.UStr
-                     ("command exit status is "
-                      & Returned_Code'Image
-                      & ", expected "
-                      & Exit_Status'Image),
-                 Hint        => Alice.Hint.None,
+                   "command exit status is "
+                   & Returned_Code'Image
+                   & ", expected "
+                   & Exit_Status'Image,
                  Exit_Status => Returned_Code,
                  Temp_FD     => Temp_FD,
-                 Temp_File   => Temp_File)
-         do
-            Self.Context.Log.Trace_Return (Result'Image);
-         end return;
-      end if;
+                 Temp_File   => Temp_File))
+      do
+         Self.Context.Log.Trace_Return (Result'Image);
+      end return;
    end Run;
 
    ---------------
@@ -288,7 +293,7 @@ package body Alice.Std.OS_Cmd is
    overriding
    function Timed_Run
      (Self : in out Object; Args : String; Timeout : Duration := 1.0)
-      return Alice.IFace.OS_Cmd.Output_Result'Class
+      return Alice.IFace.OS_Cmd.Result_Output'Class
    is
       use all type GNAT.OS_Lib.Process_Id;
 
@@ -313,8 +318,8 @@ package body Alice.Std.OS_Cmd is
       GNAT.OS_Lib.Create_Temp_File (Temp_FD, Temp_File);
       if Temp_FD = GNAT.OS_Lib.Null_FD then
          return
-            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              Self.Error_Output_Result
+            Result : constant Alice.IFace.OS_Cmd.Result_Output :=
+              Self.Result_Output_Error
                 (Alice.Result.System, "failed to create temporary file", 1)
          do
             Self.Context.Log.Trace_Return (Result'Image);
@@ -349,31 +354,20 @@ package body Alice.Std.OS_Cmd is
 
       GNAT.OS_Lib.Free (Arg_List);
 
-      if Is_Timeout then
-         return
-            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              Self.Error_Output_Result
+      return
+         Result : constant Alice.IFace.OS_Cmd.Result_Output :=
+           (if Is_Timeout
+            then
+              Self.Result_Output_Error
                 (Alice.Result.Timeout,
                  "command timed out after " & Timeout'Image & " seconds",
                  1,
                  Temp_FD,
                  Temp_File)
-         do
-            Self.Context.Log.Trace_Return (Result'Image);
-         end return;
-      else
-         return
-            Result : constant Alice.IFace.OS_Cmd.Output_Result :=
-              (Alice.Controlled
-               with
-                 Status      => Alice.Result.Success,
-                 Exit_Status => 0,
-                 Temp_FD     => Temp_FD,
-                 Temp_File   => Temp_File)
-         do
-            Self.Context.Log.Trace_Return (Result'Image);
-         end return;
-      end if;
+            else Result_Output_Success (0, Temp_FD, Temp_File))
+      do
+         Self.Context.Log.Trace_Return (Result'Image);
+      end return;
    end Timed_Run;
 
    -------------
@@ -383,7 +377,7 @@ package body Alice.Std.OS_Cmd is
    overriding
    function Cleanup
      (Self   : in out Object;
-      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
+      Result : in out Alice.IFace.OS_Cmd.Result_Output'Class)
       return Alice.Result.Object'Class is
    begin
       Self.Context.Log.Trace_Begin (Result'Image);
@@ -393,7 +387,10 @@ package body Alice.Std.OS_Cmd is
             if Result.Temp_File = null
               and then Result.Temp_FD = GNAT.OS_Lib.Null_FD
             then
-               return Result : Alice.Result.Success_Object do
+               return
+                  Result : constant Alice.Result.Object'Class :=
+                    Alice.Result.Success
+               do
                   Self.Context.Log.Trace ("No temporary file to clean up");
                   Self.Context.Log.Trace_Return (Result'Image);
                end return;
@@ -408,22 +405,19 @@ package body Alice.Std.OS_Cmd is
                Result.Temp_FD := GNAT.OS_Lib.Null_FD;
                Result.Temp_File := null;
 
-               if Success then
-                  return Result : Alice.Result.Success_Object do
-                     Self.Context.Log.Trace_Return (Result'Image);
-                  end return;
-               else
-                  return
-                     Result : constant Alice.Result.Error_Object'Class :=
-                       Alice.Result.Create_Error
+               return
+                  Result_Cleanup : constant Alice.Result.Object'Class :=
+                    (if Success
+                     then Alice.Result.Success
+                     else
+                       Alice.Result.Error
                          (Alice.Result.System,
                           Alice.UStr
                             ("Failed to delete temporary file "
-                             & Alice.Str (Self.Name)))
-                  do
-                     Self.Context.Log.Trace_Return (Result'Image);
-                  end return;
-               end if;
+                             & Result.Temp_File.all)))
+               do
+                  Self.Context.Log.Trace_Return (Result_Cleanup'Image);
+               end return;
             end if;
       end case;
    end Cleanup;
@@ -435,7 +429,7 @@ package body Alice.Std.OS_Cmd is
    overriding
    procedure Debug_Output_Result
      (Self   : in out Object;
-      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class)
+      Result : in out Alice.IFace.OS_Cmd.Result_Output'Class)
    is
       use Ada.Directories;
       use Ada.Text_IO;

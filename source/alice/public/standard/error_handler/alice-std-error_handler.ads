@@ -30,7 +30,7 @@ package Alice.Std.Error_Handler is
 
    overriding
    function Handle_Error
-     (Self : in out Object; Result : Alice.Result.Error_Object'Class)
+     (Self : in out Object; Result : Alice.Result.Object'Class)
       return Boolean;
 
    overriding

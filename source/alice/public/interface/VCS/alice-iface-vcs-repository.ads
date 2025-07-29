@@ -20,8 +20,11 @@ package Alice.IFace.VCS.Repository is
    type Object_Access is not null access all Object'Class;
 
    function Create
-     (Self : in out Object; Name : String := ""; URL : String := "";
-      Provider : String := "") return Alice.Result.Object'Class is abstract;
+     (Self     : in out Object;
+      Name     : String := "";
+      URL      : String := "";
+      Provider : String := "") return Alice.Result.Object'Class
+   is abstract;
    --  Creates a new repository object with the specified name, URL, and
    --  provider. The implementation should return the created repository
    --  object or an error if the creation fails. The name is typically the
@@ -31,7 +34,8 @@ package Alice.IFace.VCS.Repository is
    --  Bitbucket).
 
    function Get_Repository_From_CWD
-     (Self : in out Object) return Alice.Result.Object'Class is abstract;
+     (Self : in out Object) return Alice.Result.Object'Class
+   is abstract;
    --  Returns the repository object for the current working directory. The
    --  implementation should return the repository object if the current
    --  working directory is a valid repository, or an error if it is not. This

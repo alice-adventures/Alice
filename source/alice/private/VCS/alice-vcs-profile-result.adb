@@ -10,33 +10,38 @@
 --  profiles in the Alice application. It defines a tagged record that
 --  encapsulates the result of operations, including success and error cases.
 
-   with Alice.Std;
+with Alice.Std;
 with Ada.Unchecked_Deallocation;
 
 package body Alice.VCS.Profile.Result is
 
-   ------------
-   -- Create --
-   ------------
+   -------------
+   -- Success --
+   -------------
 
-   function Create_Object
-     (Status        : Alice.Result.Status_Type;
-      Profile       : Alice.VCS.Profile.Object_Access := null;
-      Error_Level   : Alice.Result.Error_Level := Alice.Result.External;
-      Error_Message : Alice.UString := Alice.Null_UString) return Object'Class
-   is
+   function Success
+     (Profile : Alice.VCS.Profile.Object_Access) return Object'Class is
    begin
-      return Result : Alice.VCS.Profile.Result.Object (Status) do
-         case Status is
-            when Alice.Result.Success =>
-               Result.Profile := Profile;
-
-            when Alice.Result.Error =>
-               Result.Level := Error_Level;
-               Result.Message := Error_Message;
-         end case;
+      return Result : Alice.VCS.Profile.Result.Object (Alice.Result.Success) do
+         Result.Profile := Profile;
       end return;
-   end Create_Object;
+   end Success;
+
+   -----------
+   -- Error --
+   -----------
+
+   function Error
+     (Level   : Alice.Result.Error_Level;
+      Message : Alice.UString;
+      Hint    : Alice.Hint.Id := Alice.Hint.None) return Object'Class is
+   begin
+      return Result : Alice.VCS.Profile.Result.Object (Alice.Result.Error) do
+         Result.Level := Level;
+         Result.Message := Message;
+         Result.Hint := Hint;
+      end return;
+   end Error;
 
    -----------------
    -- Get_Profile --

@@ -202,8 +202,8 @@ package body Alice.CLI.Profile is
                & "--token, --spdx or --refresh"));
       end if;
 
-      Invalid_Args : constant Alice.Result.Error_Object'Class :=
-        Alice.Result.Create_Error
+      Invalid_Args : constant Alice.Result.Object'Class :=
+        Alice.Result.Error
           (Alice.Result.Domain,
            Alice.Hint.Get_Message (Alice.Hint.Invalid_Args));
 

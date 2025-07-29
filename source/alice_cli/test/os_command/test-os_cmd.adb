@@ -28,7 +28,7 @@ package body Test.OS_Cmd is
       Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
 
       declare
-         Result : constant Alice.IFace.OS_Cmd.Exit_Result'Class :=
+         Result : constant Alice.IFace.OS_Cmd.Result_Exit'Class :=
            OS_Cmd.Run (Args);
       begin
          if Result.Status = Expect then
@@ -51,7 +51,7 @@ package body Test.OS_Cmd is
 
    procedure Check_Result_Output
      (OS_Cmd : Alice.IFace.OS_Cmd.Object_Access;
-      Result : in out Alice.IFace.OS_Cmd.Output_Result'Class;
+      Result : in out Alice.IFace.OS_Cmd.Result_Output'Class;
       Expect : Alice.Result.Status_Type) is
    begin
       if Result.Status = Expect then
@@ -91,7 +91,7 @@ package body Test.OS_Cmd is
       Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
 
       declare
-         Result : Alice.IFace.OS_Cmd.Output_Result'Class := OS_Cmd.Run (Args);
+         Result : Alice.IFace.OS_Cmd.Result_Output'Class := OS_Cmd.Run (Args);
       begin
          Check_Result_Output (OS_Cmd, Result, Expect);
       end;
@@ -116,7 +116,7 @@ package body Test.OS_Cmd is
       Test.Subtitle ("Timed Run '" & OS_Cmd.Name & " " & Args & "'");
 
       declare
-         Result : Alice.IFace.OS_Cmd.Output_Result'Class :=
+         Result : Alice.IFace.OS_Cmd.Result_Output'Class :=
            OS_Cmd.Timed_Run (Args, Timeout);
       begin
          Check_Result_Output (OS_Cmd, Result, Expect);

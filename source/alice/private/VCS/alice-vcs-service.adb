@@ -30,7 +30,7 @@ package body Alice.VCS.Service is
         Context.OS_Cmd.Curl;
       Args       : constant String :=
         (if Contents'Length = 0 then Request else Request & " -d " & Contents);
-      Run_Output : Alice.IFace.OS_Cmd.Output_Result'Class :=
+      Run_Output : Alice.IFace.OS_Cmd.Result_Output'Class :=
         Curl_Cmd.Timed_Run (Args, Timeout);
    begin
       Context.Log.Debug (Run_Output'Image);

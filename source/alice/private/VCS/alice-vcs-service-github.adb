@@ -99,26 +99,21 @@ package body Alice.VCS.Service.GitHub is
         and then Value (Key_User_View_Type) = "public"
       then
          return
-           Alice.VCS.Profile.Result.Create_Object
-             (Status  => Alice.Result.Success,
-              Profile =>
-                Alice.VCS.Profile.Create_Profile
-                  (Service    => Alice.VCS.Service.Name.GitHub,
-                   Token      => Alice.UStr (Token),
-                   Login      => Alice.UStr (Value (Key_Login)),
-                   Avatar_URL => Alice.UStr (Value (Key_Avatar_URL)),
-                   Name       => Alice.UStr (Value (Key_Name)),
-                   Email      => Alice.UStr (Value (Key_Email))));
+           Alice.VCS.Profile.Result.Success
+             (Alice.VCS.Profile.Create_Profile
+                (Service    => Alice.VCS.Service.Name.GitHub,
+                 Token      => Alice.UStr (Token),
+                 Login      => Alice.UStr (Value (Key_Login)),
+                 Avatar_URL => Alice.UStr (Value (Key_Avatar_URL)),
+                 Name       => Alice.UStr (Value (Key_Name)),
+                 Email      => Alice.UStr (Value (Key_Email))));
       else
          return
-           Alice.VCS.Profile.Result.Create_Object
-             (Status        => Alice.Result.Error,
-              Profile       => null,
-              Error_Level   => Alice.Result.External,
-              Error_Message =>
-                Alice.UStr
-                  ("Error fetching member profile: Invalid login"
-                   & ", type or public view type."));
+           Alice.VCS.Profile.Result.Error
+             (Alice.Result.External,
+              Alice.UStr
+                ("Error fetching member profile: Invalid login"
+                 & ", type or public view type."));
       end if;
    end Get_Profile_From_Output_JSON_File;
 
@@ -138,19 +133,16 @@ package body Alice.VCS.Service.GitHub is
 
       else
          return
-           Alice.VCS.Profile.Result.Create_Object
-             (Status        => Alice.Result.Error,
-              Profile       => null,
-              Error_Level   => Alice.Result.External,
-              Error_Message =>
-                Alice.UStr
-                  ("Error fetching member profile: HTTP status code"
-                   & Natural'Image (HTTP_Code)
-                   & (case HTTP_Code is
-                        when 304 => " - Not modified.",
-                        when 401 => " - Unauthorized.",
-                        when 403 => " - Forbidden.",
-                        when others => " - Unexpected error occurred.")));
+           Alice.VCS.Profile.Result.Error
+             (Alice.Result.External,
+              Alice.UStr
+                ("Error fetching member profile: HTTP status code"
+                 & Natural'Image (HTTP_Code)
+                 & (case HTTP_Code is
+                      when 304 => " - Not modified.",
+                      when 401 => " - Unauthorized.",
+                      when 403 => " - Forbidden.",
+                      when others => " - Unexpected error occurred.")));
       end if;
    end Get_Member_Profile_From_Token;
 
@@ -163,8 +155,7 @@ package body Alice.VCS.Service.GitHub is
      (Self    : in out Object;
       Profile : Alice.VCS.Profile.Object'Class;
       Name    : String) return Alice.Result.Object'Class
-   is (Alice.Result.Success_Object'
-         (Alice.Controlled with Status => Alice.Result.Success));
+   is (Alice.Result.Success);
    --  #TODO - Provide a proper implementation
 
    ------------------------------
@@ -177,8 +168,7 @@ package body Alice.VCS.Service.GitHub is
       Profile     : Alice.VCS.Profile.Object'Class;
       Name        : String;
       Description : String) return Alice.Result.Object'Class
-   is (Alice.Result.Success_Object'
-         (Alice.Controlled with Status => Alice.Result.Success));
+   is (Alice.Result.Success);
    --  #TODO - Provide a proper implementation
 
    --------------------------------------------
@@ -192,8 +182,7 @@ package body Alice.VCS.Service.GitHub is
       Template    : String;
       Name        : String;
       Description : String) return Alice.Result.Object'Class
-   is (Alice.Result.Success_Object'
-         (Alice.Controlled with Status => Alice.Result.Success));
+   is (Alice.Result.Success);
    --  #TODO - Provide a proper implementation
 
    --------------
@@ -221,11 +210,10 @@ package body Alice.VCS.Service.GitHub is
 
       if HTTP_Code = 200 then
          return
-           Alice.Result.Success_Object'
-             (Alice.Controlled with Status => Alice.Result.Success);
+           Alice.Result.Success;
       else
          return
-           Alice.Result.Create_Error
+           Alice.Result.Error
              (Alice.Result.Timeout,
               Alice.UStr
                 ("Error fetching user profile: HTTP code "
@@ -242,8 +230,7 @@ package body Alice.VCS.Service.GitHub is
    overriding
    function Get_User_Repository
      (Self : in out Object; Token : String) return Alice.Result.Object'Class
-   is (Alice.Result.Success_Object'
-         (Alice.Controlled with Status => Alice.Result.Success));
+   is (Alice.Result.Success);
    --  #TODO - Provide a proper implementation
 
 end Alice.VCS.Service.GitHub;
