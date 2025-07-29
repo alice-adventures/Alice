@@ -11,8 +11,8 @@ with Ada.Text_IO;
 with SPDX;
 with SPDX.Licenses;
 
-with Alice.App.Cmd.Profile.Token;
-with Alice.App.Cmd.Profile.Update;
+with Alice.Use_Case.Cmd.Profile.Token;
+with Alice.Use_Case.Cmd.Profile.Update;
 with Alice.Config;
 with Alice.Hint;
 with Alice.Result;
@@ -61,7 +61,7 @@ package body Alice.CLI.Profile is
    -- Execute_Show --
    ------------------
 
-   --  #TODO - Refactor this to use Alice.App.Cmd.Profile.Show
+   --  #TODO - Refactor this to use Alice.Use_Case.Cmd.Profile.Show
    procedure Execute_Show (Self : in out Object) is
       Profile : Alice.VCS.Profile.Object;
       Result  : constant Alice.Result.Object'Class :=
@@ -79,7 +79,7 @@ package body Alice.CLI.Profile is
    -------------------
 
    procedure Execute_Token (Self : in out Object; Token : String) is
-      Cmd_Profile_Token : Alice.App.Cmd.Profile.Token.Object;
+      Cmd_Profile_Token : Alice.Use_Case.Cmd.Profile.Token.Object;
       Result            : constant Alice.Result.Object'Class :=
         Cmd_Profile_Token.Run (Token);
    begin
@@ -92,7 +92,7 @@ package body Alice.CLI.Profile is
    -- Execute_SPDX --
    ------------------
 
-   --  #TODO - Refactor this to use Alice.App.Cmd.Profile.SPDX
+   --  #TODO - Refactor this to use Alice.Use_Case.Cmd.Profile.SPDX
    function Execute_SPDX (Self : in out Object; SPDX_Id : String) return String
    is
    begin
@@ -169,7 +169,7 @@ package body Alice.CLI.Profile is
    --------------------
 
    procedure Execute_Update (Self : in out Object) is
-      Cmd_Profile_Update : Alice.App.Cmd.Profile.Update.Object;
+      Cmd_Profile_Update : Alice.Use_Case.Cmd.Profile.Update.Object;
       Result             : constant Alice.Result.Object'Class :=
         Cmd_Profile_Update.Run ("");
    begin

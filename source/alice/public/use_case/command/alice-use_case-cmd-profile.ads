@@ -6,21 +6,18 @@
 --
 -------------------------------------------------------------------------------
 
---  This package implements the version query use case for the Alice
---  application.
+--  This package defines the command use case for managing the user profile in
+--  the Alice application.
 
-with Alice.App.Query.Use_Case;
 with Alice.Result;
 
-package Alice.App.Query.Version is
+package Alice.Use_Case.Cmd.Profile is
 
-   type Object is new Alice.App.Query.Use_Case.Object with null record;
+   type Object is abstract new Alice.Use_Case.Cmd.Object with null record;
 
    overriding
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.Result.Object'Class;
-   --  This function retrieves the version of the Alice application. It
-   --  returns a result with the version information.
+      return Alice.Result.Object'Class is abstract;
 
-end Alice.App.Query.Version;
+end Alice.Use_Case.Cmd.Profile;

@@ -12,7 +12,7 @@ with Alice.VCS.Profile;
 with Alice.VCS.Profile.Result;
 with Alice.VCS.Service.GitHub;
 
-package body Alice.App.Cmd.Profile.Token is
+package body Alice.Use_Case.Cmd.Profile.Token is
 
    use all type Alice.Result.Status_Type;
 
@@ -59,4 +59,4 @@ package body Alice.App.Cmd.Profile.Token is
       end if;
    end Run;
 
-end Alice.App.Cmd.Profile.Token;
+end Alice.Use_Case.Cmd.Profile.Token;

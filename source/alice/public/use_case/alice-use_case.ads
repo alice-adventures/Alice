@@ -14,24 +14,19 @@
 
 with Alice.Context;
 with Alice.IFace.Use_Case;
-with Alice.Result;
 with Alice.Std;
 
-package Alice.App.Use_Case is
+package Alice.Use_Case is
 
    type Object is abstract new Alice.IFace.Use_Case.Object with private;
 
    overriding
-   function Context (Self : in out Object) return Alice.Context.Object_Access;
+   function Context
+     (Self : in out Object) return Alice.Context.Object_Access;
 
    overriding
    procedure Set_Context
      (Self : in out Object; Context : Alice.Context.Object_Access);
-
-   overriding
-   function Run
-     (Self : in out Object; Args : String := "")
-      return Alice.Result.Object'Class;
 
 private
 
@@ -39,4 +34,4 @@ private
       Context : Alice.Context.Object_Access := Alice.Std.Get_Context;
    end record;
 
-end Alice.App.Use_Case;
+end Alice.Use_Case;

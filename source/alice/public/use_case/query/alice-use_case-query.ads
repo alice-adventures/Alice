@@ -7,28 +7,21 @@
 -------------------------------------------------------------------------------
 
 --  This package is the top-level package for the query use cases in the Alice
---  application.
+--  application. It defines the abstract type and the Run function that all
+--  query use cases must implement.
 
-with Alice.App.Use_Case;
-with Alice.Result;
+with Alice.IFace.Use_Case.Query;
 
-package Alice.App.Query.Use_Case is
+package Alice.Use_Case.Query is
 
-   type Object is new Alice.App.Use_Case.Object with private;
-
-   function Answer (Self : Object) return String;
-
-   procedure Answer (Self : in out Object; Value : String);
+   type Object is abstract
+     new Alice.Use_Case.Object
+     and Alice.IFace.Use_Case.Query.Object
+   with null record;
 
    overriding
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.Result.Object'Class;
+      return Alice.IFace.Use_Case.Query.Result.Object'Class is abstract;
 
-private
-
-   type Object is new Alice.App.Use_Case.Object with record
-      Answer : Alice.UString := Alice.UStr ("");
-   end record;
-
-end Alice.App.Query.Use_Case;
+end Alice.Use_Case.Query;

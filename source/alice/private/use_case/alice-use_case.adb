@@ -6,7 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
-package body Alice.App.Use_Case is
+package body Alice.Use_Case is
 
    -------------
    -- Context --
@@ -27,16 +27,4 @@ package body Alice.App.Use_Case is
       Self.Context := Context;
    end Set_Context;
 
-   ---------
-   -- Run --
-   ---------
-
-   overriding
-   function Run
-     (Self : in out Object; Args : String := "")
-      return Alice.Result.Object'Class is
-   begin
-      return Result : Alice.Result.Success_Object;
-   end Run;
-
-end Alice.App.Use_Case;
+end Alice.Use_Case;

@@ -6,12 +6,12 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.App.Cmd.Profile.Token;
 with Alice.Config;
 with Alice.Hint;
+with Alice.Use_Case.Cmd.Profile.Token;
 with Alice.VCS.Profile;
 
-package body Alice.App.Cmd.Profile.Update is
+package body Alice.Use_Case.Cmd.Profile.Update is
 
    use all type Alice.Result.Status_Type;
 
@@ -38,7 +38,7 @@ package body Alice.App.Cmd.Profile.Update is
       Member_Token : constant String := Profile.Get_Token;
       Member_SPDX_Id : constant String := Profile.Get_SPDX_Id;
 
-      App_Cmd_Profile_Token : Alice.App.Cmd.Profile.Token.Object;
+      App_Cmd_Profile_Token : Alice.Use_Case.Cmd.Profile.Token.Object;
       Token_Result : Alice.Result.Object'Class :=
         App_Cmd_Profile_Token.Run (Member_Token);
 
@@ -65,4 +65,4 @@ package body Alice.App.Cmd.Profile.Update is
       end if;
    end Run;
 
-end Alice.App.Cmd.Profile.Update;
+end Alice.Use_Case.Cmd.Profile.Update;

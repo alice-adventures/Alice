@@ -6,20 +6,17 @@
 --
 -------------------------------------------------------------------------------
 
---  This package defines the command use case for managing the user profile
+--  This package defines the command use case for updating the user profile
 --  token in the Alice application. It allows users to refresh their profile
 --  in case of changes or updates, ensuring that the profile information is
 --  always up-to-date and reflects the latest state of the user's profile.
 
-with Alice.App.Use_Case;
-with Alice.Result;
+package Alice.Use_Case.Cmd.Profile.Update is
 
-package Alice.App.Cmd.Profile.Update is
-
-   type Object is new Alice.App.Use_Case.Object with null record;
+   type Object is new Alice.Use_Case.Cmd.Object with null record;
 
    overriding
    function Run
      (Self : in out Object; Args : String) return Alice.Result.Object'Class;
 
-end Alice.App.Cmd.Profile.Update;
+end Alice.Use_Case.Cmd.Profile.Update;
