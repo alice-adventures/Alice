@@ -22,13 +22,13 @@ package body Alice.Use_Case.Cmd.Profile.Token is
 
    overriding
    function Run
-     (Self : in out Object; Token : String) return Alice.Result.Object'Class
-   is
-      GitHub_Service : Alice.VCS.Service.GitHub.Object;
+     (Self : in out Object; Token : String) return Alice.Result.Object'Class is
    begin
       Self.Context.Log.Trace_Begin;
 
       Self.Context.Progress.Start ("Setting up profile from GitHub token");
+
+      GitHub_Service : Alice.VCS.Service.GitHub.Object;
       Profile_Result : Alice.VCS.Profile.Result.Object'Class :=
         GitHub_Service.Get_Member_Profile_From_Token (Token);
 
@@ -45,18 +45,17 @@ package body Alice.Use_Case.Cmd.Profile.Token is
         Profile_Result.Get_Profile;
       Profile.Set_SPDX_Id (Alice.VCS.Profile.Default_SPDX_Id);
 
-      Save_Result : Alice.Result.Object'Class :=
+      Save_Result : Result.Object'Class :=
         Profile.Save_To_File (Alice.Config.Local.Profile);
 
       if Save_Result.Status = Alice.Result.Success then
          Self.Context.Log.Info ("Profile saved successfully");
-         Self.Context.Log.Trace_Return (Save_Result'Image);
-         return Save_Result;
       else
          Save_Result.Hint := Alice.Hint.File_Write_Error;
-         Self.Context.Log.Trace_Return (Save_Result'Image);
-         return Save_Result;
       end if;
+
+      Self.Context.Log.Trace_Return (Save_Result'Image);
+      return Save_Result;
    end Run;
 
 end Alice.Use_Case.Cmd.Profile.Token;

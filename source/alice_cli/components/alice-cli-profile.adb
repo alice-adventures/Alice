@@ -8,14 +8,16 @@
 
 with Ada.Text_IO;
 
-with SPDX;
 with SPDX.Licenses;
 
-with Alice.Use_Case.Cmd.Profile.Token;
-with Alice.Use_Case.Cmd.Profile.Update;
 with Alice.Config;
 with Alice.Hint;
+with Alice.IFace.Use_Case.Query;
 with Alice.Result;
+with Alice.Use_Case.Cmd.Profile.SPDX;
+with Alice.Use_Case.Cmd.Profile.Token;
+with Alice.Use_Case.Cmd.Profile.Update;
+with Alice.Use_Case.Query.Profile.Show;
 with Alice.VCS.Profile;
 --  with Alice.VCS.Profile.Result;
 --  with Alice.VCS.Service.GitHub;
@@ -61,14 +63,13 @@ package body Alice.CLI.Profile is
    -- Execute_Show --
    ------------------
 
-   --  #TODO - Refactor this to use Alice.Use_Case.Cmd.Profile.Show
    procedure Execute_Show (Self : in out Object) is
-      Profile : Alice.VCS.Profile.Object;
-      Result  : constant Alice.Result.Object'Class :=
-        Profile.Load_From_File (Alice.Config.Local.Profile);
+      Use_Case : Alice.Use_Case.Query.Profile.Show.Object;
+      Result   : constant Alice.IFace.Use_Case.Query.Result.Object'Class :=
+        Use_Case.Run;
    begin
       if Result.Status = Alice.Result.Success then
-         Ada.Text_IO.Put_Line (Profile.To_String);
+         Ada.Text_IO.Put_Line (Alice.Str (Result.Answer));
       else
          Self.Context.Err.Exit_Application (Result);
       end if;
@@ -127,39 +128,19 @@ package body Alice.CLI.Profile is
          return "";
       end if;
 
-      Valid_SPDX_Id : constant Boolean := SPDX.Valid (SPDX.Parse (SPDX_Id));
-      if not Valid_SPDX_Id then
-         Self.Context.Log.Warning
-           ("Invalid SPDX ID '"
-            & SPDX_Id
-            & "'"
-            & ", set to default '"
-            & Alice.VCS.Profile.Default_SPDX_Id
-            & "'"
-            & " instead");
-      end if;
+      Use_Case : Alice.Use_Case.Cmd.Profile.SPDX.Object;
+      Result : constant Alice.Result.Object'Class :=
+        Use_Case.Run (SPDX_Id);
 
-      Profile : Alice.VCS.Profile.Object;
-      Load_Result : constant Alice.Result.Object'Class :=
-        Profile.Load_From_File (Alice.Config.Local.Profile);
+      if Result.Status = Alice.Result.Success then
+         Profile : Alice.VCS.Profile.Object;
+         Load_Result : constant Alice.Result.Object'Class :=
+           Profile.Load_From_File (Alice.Config.Local.Profile);
+         pragma Unreferenced (Load_Result);
 
-      if Load_Result.Status = Alice.Result.Success then
-         Real_SPDX_Id : constant String :=
-           (if Valid_SPDX_Id
-            then SPDX_Id
-            else Alice.VCS.Profile.Default_SPDX_Id);
-
-         Profile.Set_SPDX_Id (Real_SPDX_Id);
-         Save_Result : constant Alice.Result.Object'Class :=
-           Profile.Save_To_File (Alice.Config.Local.Profile);
-
-         if Save_Result.Status = Alice.Result.Success then
-            return Real_SPDX_Id;
-         else
-            Self.Context.Err.Exit_Application (Save_Result);
-         end if;
+         return Profile.Get_SPDX_Id;
       else
-         Self.Context.Err.Exit_Application (Load_Result);
+         Self.Context.Err.Exit_Application (Result);
       end if;
       return "";
    end Execute_SPDX;
