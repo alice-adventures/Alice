@@ -6,6 +6,9 @@
 --
 -------------------------------------------------------------------------------
 
+with "../../project/alice_common.gpr";
+with "../../project/alice_lib.gpr";
+
 with "../config/alice_tests_config.gpr";
 
 project Alice_Unit_Test is
@@ -13,12 +16,16 @@ project Alice_Unit_Test is
    for Main use ("alice_unit_test.adb");
 
    for Create_Missing_Dirs use "True";
-   for Source_Dirs use ("../source/unit/**");
-   for Object_Dir  use "../build/obj";
-   for Exec_Dir    use "../build/bin";
+   for Source_Dirs use (
+      "../source/common/**",
+      "../source/unit/**"
+   );
+   for Object_Dir  use Alice_Common.Object_Dir;
+   for Exec_Dir    use Alice_Common.Exec_Dir;
 
    package Compiler is
-      for Default_Switches ("Ada") use Alice_Tests_Config.Ada_Compiler_Switches;
+      for Default_Switches ("Ada")
+         use Alice_Tests_Config.Ada_Compiler_Switches;
    end Compiler;
 
    package Binder is
@@ -26,7 +33,7 @@ project Alice_Unit_Test is
    end Binder;
 
    package Builder is
-      for Executable ("alice_test") use "alice_test";
+      for Executable ("alice_unit_test") use "alice-unit-test";
    end Builder;
 
    package Install is

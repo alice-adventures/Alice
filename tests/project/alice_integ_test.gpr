@@ -6,9 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
-with "../../config/alice_config.gpr";
 with "../../project/alice_common.gpr";
 with "../../project/alice_lib.gpr";
+
+with "../config/alice_tests_config.gpr";
 
 project Alice_Integ_Test is
 
@@ -23,7 +24,8 @@ project Alice_Integ_Test is
    for Exec_Dir    use Alice_Common.Exec_Dir;
 
    package Compiler is
-      for Default_Switches ("Ada") use Alice_Config.Ada_Compiler_Switches;
+      for Default_Switches ("Ada")
+         use Alice_Tests_Config.Ada_Compiler_Switches;
    end Compiler;
 
    package Binder is

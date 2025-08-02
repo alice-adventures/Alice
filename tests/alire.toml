@@ -18,7 +18,7 @@ tags = [
 ]
 
 project-files = [
-   #TODO - "project/alice_unit_test.gpr",
+   "project/alice_unit_test.gpr",
    "project/alice_integ_test.gpr",
    "project/alice_e2e_test.gpr",
 ]
