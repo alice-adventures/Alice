@@ -22,7 +22,7 @@ with Test.Query.Version;
 with Test.VCS.Profile;
 with Test.VCS.Service;
 
-procedure Alice_CLI_Test is
+procedure Alice_Integ_Test is
 
    package ANSI renames AnsiAda;
 
@@ -78,4 +78,4 @@ begin
    New_Line;
    Context.Log.Trace ("Finalization of Controlled Objects");
    New_Line;
-end Alice_CLI_Test;
+end Alice_Integ_Test;
