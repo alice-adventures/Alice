@@ -25,7 +25,7 @@ project Alice_Unit_Test is
 
    package Compiler is
       for Default_Switches ("Ada")
-         use Alice_Tests_Config.Ada_Compiler_Switches;
+         use Alice_Common.Ada_Compiler_Switches;
    end Compiler;
 
    package Binder is
