@@ -6,16 +6,16 @@
 --
 -------------------------------------------------------------------------------
 
-with "../config/alice_config.gpr";
-with "alice_common.gpr";
-with "alice.gpr";
+with "../../config/alice_config.gpr";
+with "../../project/alice_common.gpr";
+with "../../project/alice_lib.gpr";
 
-project Alice_CLI_Test is
+project Alice_Integ_Test is
 
-   for Main use ("alice_cli_test.adb");
+   for Main use ("alice_integ_test.adb");
 
    for Create_Missing_Dirs use "True";
-   for Source_Dirs use ("../source/alice_cli/test/**");
+   for Source_Dirs use ("../source/integ/**");
    for Object_Dir  use Alice_Common.Object_Dir;
    for Exec_Dir    use Alice_Common.Exec_Dir;
 
@@ -28,11 +28,11 @@ project Alice_CLI_Test is
    end Binder;
 
    package Builder is
-      for Executable ("alice_cli_test") use "alice-test";
+      for Executable ("alice_integ_test") use "alice-integ-test";
    end Builder;
 
    package Install is
       for Artifacts (".") use ("share");
    end Install;
 
-end Alice_CLI_Test;
+end Alice_Integ_Test;

@@ -1,7 +1,8 @@
 test.log
 *.srctrace
 callgrind*
-/alire/
-/build/
-/config/
-/gnatcov_out/
+
+alire/
+build/
+config/
+gnatcov_out/

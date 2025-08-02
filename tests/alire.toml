@@ -18,7 +18,9 @@ tags = [
 ]
 
 project-files = [
-   "project/alice_unit_test.gpr",
+   #TODO - "project/alice_e2e_test.gpr",
+   "project/alice_integ_test.gpr",
+   #TODO - "project/alice_unit_test.gpr",
 ]
 
 [available.'case(os)']
@@ -34,8 +36,7 @@ Log_Level = { type = "Enum", values = ["Always", "Error", "Warning", "Info", "De
 "alice" = "development"
 
 [build-switches."*"]
-# ada_version = ["-gnat2022", "-gnatW8"]
-ada_version = ["-gnat2022"]
+ada_version = ["-gnat2022", "-gnatX0", "-gnata"]
 
 [[depends-on]]
 alice = "*"

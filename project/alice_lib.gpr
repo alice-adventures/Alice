@@ -9,7 +9,7 @@
 with "../config/alice_config.gpr";
 with "alice_common.gpr";
 
-project Alice is
+project Alice_Lib is
 
    for Library_Name use "alice";
    for Library_Version use Project'Library_Name & ".so." & Alice_Config.Crate_Version;
@@ -58,4 +58,4 @@ project Alice is
       for Artifacts (".") use ("share");
    end Install;
 
-end Alice;
+end Alice_Lib;
