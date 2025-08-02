@@ -11,8 +11,8 @@ overriding
 procedure Trace_End
   (Self     : in out Object;
    Message  : String := "";
-   Entity   : GNAT.Source_Info.String := Enclosing_Entity;
-   Location : GNAT.Source_Info.String := Source_Location) is
+   Entity   : String := GNAT.Source_Info.Enclosing_Entity;
+   Location : String := GNAT.Source_Info.Source_Location) is
 begin
    null;
 end Trace_End;
