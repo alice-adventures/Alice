@@ -15,6 +15,7 @@ with Alice;
 with Alice.Context;
 with Alice.Std;
 
+with Test;
 with Test.Log;
 with Test.OS_Cmd;
 with Test.Progress;
@@ -73,6 +74,8 @@ begin
 
    Test.Section ("APP QUERIES", ANSI.Yellow);
    Test.Query.Version.Run;
+
+   Test.Summary;
 
    Context.Log.Set_Trace_Level (With_Location_Enabled => False);
    New_Line;

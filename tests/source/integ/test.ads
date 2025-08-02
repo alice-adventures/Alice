@@ -61,4 +61,10 @@ package Test is
    --  erroneously failed when it was expected to succeed. In this case, the
    --  message should indicate that the test has succeeded unexpectedly.
 
+   procedure Summary;
+   --  Print a summary of the test results. This procedure should be called at
+   --  the end of the test code to print the number of tests that have passed,
+   --  failed, or been skipped. It should also print the total number of tests
+   --  run and the overall status of the test suite.
+
 end Test;
