@@ -64,6 +64,8 @@ begin
    Test.Progress.Run (Context.Log, Context.Progress);
    Test.OS_Cmd.Run (Context);
 
+   Test.Section ("VCS COMPONENTS", ANSI.Light_Cyan);
+
    Context.Log.Save_State;
    Context.Log.Set_Debug_Level (With_Location_Enabled => True);
    Test.VCS.Profile.Run (Context);
