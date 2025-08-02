@@ -11,17 +11,14 @@ with Ada.Text_IO; use Ada.Text_IO;
 with AnsiAda;
 
 with Alice;
+--  with Alice.App.Query.Version;
 with Alice.Context;
 with Alice.Std;
 
 with Test;
-with Test.Log;
-with Test.OS_Cmd;
-with Test.Progress;
-with Test.VCS.Profile;
-with Test.VCS.Service;
+with Test.Query.Version;
 
-procedure Alice_Integ_Test is
+procedure Alice_E2E_Test is
 
    package ANSI renames AnsiAda;
 
@@ -48,27 +45,15 @@ begin
    Put_Line
      (" --                                                                --");
    Put_Line
-     (" --                  ALICE  INTEGRATION  TESTS                     --");
+     (" --                   ALICE  END TO END  TESTS                     --");
    Put_Line
      (" --                                                                --");
    Put_Line
      (" --------------------------------------------------------------------");
    Put (ANSI.Reset);
 
-   Test.Section ("SYSTEM COMPONENTS", ANSI.Light_Cyan);
-
-   Context.Log.Save_State;
-   Test.Log.Run (Context.Log);
-   Context.Log.Restore_State;
-
-   Test.Progress.Run (Context.Log, Context.Progress);
-   Test.OS_Cmd.Run (Context);
-
-   Context.Log.Save_State;
-   Context.Log.Set_Debug_Level (With_Location_Enabled => True);
-   Test.VCS.Profile.Run (Context);
-   Test.VCS.Service.Run (Context);
-   Context.Log.Restore_State;
+   Test.Section ("USE CASE QUERIES", ANSI.Yellow);
+   Test.Query.Version.Run;
 
    Test.Summary;
 
@@ -76,4 +61,5 @@ begin
    New_Line;
    Context.Log.Trace ("Finalization of Controlled Objects");
    New_Line;
-end Alice_Integ_Test;
+
+end Alice_E2E_Test;

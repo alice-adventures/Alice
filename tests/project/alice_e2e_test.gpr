@@ -10,14 +10,14 @@ with "../../config/alice_config.gpr";
 with "../../project/alice_common.gpr";
 with "../../project/alice_lib.gpr";
 
-project Alice_Integ_Test is
+project Alice_E2E_Test is
 
-   for Main use ("alice_integ_test.adb");
+   for Main use ("alice_e2e_test.adb");
 
    for Create_Missing_Dirs use "True";
    for Source_Dirs use (
       "../source/common/**",
-      "../source/integ/**"
+      "../source/e2e/**"
    );
    for Object_Dir  use Alice_Common.Object_Dir;
    for Exec_Dir    use Alice_Common.Exec_Dir;
@@ -31,11 +31,11 @@ project Alice_Integ_Test is
    end Binder;
 
    package Builder is
-      for Executable ("alice_integ_test") use "alice-integ-test";
+      for Executable ("alice_e2e_test") use "alice-e2e-test";
    end Builder;
 
    package Install is
       for Artifacts (".") use ("share");
    end Install;
 
-end Alice_Integ_Test;
+end Alice_E2E_Test;

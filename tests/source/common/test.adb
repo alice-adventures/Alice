@@ -165,11 +165,17 @@ package body Test is
    procedure Summary is
    begin
       Ada.Text_IO.New_Line;
+      Ada.Text_IO.New_Line;
+      Section ("SUMMARY", ANSI.Light_Green);
+
+      Ada.Text_IO.New_Line;
       Ada.Text_IO.Put_Line
         (ANSI.Wrap
            ("Summary:"
             & Σ_Tests'Image
-            & " tests run,"
+            & " test"
+            & (if Σ_Tests = 1 then "" else "s")
+            & " run,"
             & Σ_Pass_Tests'Image
             & " passed,"
             & Σ_Fail_Tests'Image
@@ -182,9 +188,9 @@ package body Test is
             & " error"
             & (if Σ_Errors = 1 then "" else "s"),
             ANSI.Bright,
-            ANSI.Foreground (Main_Color)));
+            ANSI.Foreground (ANSI.Light_Green)));
       Ada.Text_IO.New_Line;
-      if Σ_Fail_Tests > 0 or Σ_Errors > 0 then
+      if Σ_Fail_Tests > 0 or else Σ_Errors > 0 then
          Ada.Text_IO.Put_Line
            (ANSI.Wrap
               ("Some tests failed or had errors, check the log for details",
@@ -197,6 +203,7 @@ package body Test is
                ANSI.Bright,
                ANSI.Foreground (ANSI.Green)));
       end if;
+      Ada.Text_IO.New_Line;
    end Summary;
 
 end Test;
