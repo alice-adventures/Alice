@@ -1,5 +1,5 @@
 name = "alice_tests"
-version = "0.3.1-dev"
+version = "0.4.2-dev"
 description = "Adventures for Learning and Inspiring Coding Excellence"
 website = "https://github.com/alice-adventures/Alice/wiki"
 
@@ -18,9 +18,9 @@ tags = [
 ]
 
 project-files = [
-   "project/alice_e2e_test.gpr",
-   "project/alice_integ_test.gpr",
    #TODO - "project/alice_unit_test.gpr",
+   "project/alice_integ_test.gpr",
+   "project/alice_e2e_test.gpr",
 ]
 
 [available.'case(os)']
@@ -28,11 +28,16 @@ project-files = [
 '...' = false
 
 [configuration.variables]
-Enable_Logs = { type = "boolean", default = false}
-Log_Level = { type = "Enum", values = ["Always", "Error", "Warning", "Info", "Detail", "Debug"], default = "Warning"}
+Log_Level = { type = "Enum", values = [
+   "Default", # warnings and errors
+   "Verbose", # more detailed logs (info)
+   "Trace",   # trace execution
+   "Debug",   # debug information
+], default = "Trace" }
 
 [build-profiles]
 # release, validation, development
+"*" = "development"
 "alice" = "development"
 
 [build-switches."*"]
