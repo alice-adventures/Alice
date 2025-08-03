@@ -16,34 +16,58 @@ package body Test.OS_Cmd is
 
    use all type Alice.Result.Status_Type;
 
-   ---------------------------------
-   -- Run_OS_Cmd_With_Exit_Status --
-   ---------------------------------
+   --  #REVIEW - Refactor this code to use a more structured approach for
+   --  running OS commands and checking results. The current implementation is
+   --  repetitive and could benefit from a more modular design based on the
+   --  example provided in the Test.VCS.Profile and Test.VCS.Service packages.
 
-   procedure Run_OS_Cmd_With_Exit_Result
+   package Run is
+
+      procedure With_Given_Args_Succeeds (OS_Cmd : Alice.Context.OS_Commands);
+
+      procedure With_Given_Args_Fails (OS_Cmd : Alice.Context.OS_Commands);
+
+      procedure With_Given_Args_Output_Succeeds
+        (OS_Cmd : Alice.Context.OS_Commands);
+
+      procedure With_Given_Args_Output_Fails
+        (OS_Cmd : Alice.Context.OS_Commands);
+
+      procedure With_Given_Args_Timed_Output_Succeeds_In_Time
+        (OS_Cmd : Alice.Context.OS_Commands);
+
+      procedure With_Given_Args_Timed_Output_Exceeds_Timeout
+        (OS_Cmd : Alice.Context.OS_Commands);
+
+   end Run;
+
+   --------------------------
+   -- Run_With_Exit_Result --
+   --------------------------
+
+   procedure Run_With_Exit_Result
      (OS_Cmd : Alice.IFace.OS_Cmd.Object_Access;
       Args   : String;
-      Expect : Alice.Result.Status_Type) is
+      Expect : Alice.Result.Status_Type)
+   is
+      Result : constant Alice.IFace.OS_Cmd.Result_Exit'Class :=
+        OS_Cmd.Run (Args);
    begin
-      Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
+      Test.Subtitle
+        ("Run '" & OS_Cmd.Name & " " & Args & "' expects " & Expect'Image);
 
-      declare
-         Result : constant Alice.IFace.OS_Cmd.Result_Exit'Class :=
-           OS_Cmd.Run (Args);
-      begin
-         if Result.Status = Expect then
-            Test.Pass;
-         else
-            Test.Fail ("Exit status:" & Result.Exit_Status'Image);
-         end if;
-      end;
+      if Result.Status = Expect then
+         Test.Pass;
+      else
+         Test.Fail ("Exit status:" & Result.Exit_Status'Image);
+      end if;
 
    exception
       when E : others =>
          OS_Cmd.Context.Log.Warning
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
          Test.Fail;
-   end Run_OS_Cmd_With_Exit_Result;
+   end Run_With_Exit_Result;
 
    -------------------------
    -- Check_Result_Output --
@@ -79,16 +103,17 @@ package body Test.OS_Cmd is
          Test.Fail;
    end Check_Result_Output;
 
-   -----------------------------------
-   -- Run_OS_Cmd_With_Output_Result --
-   -----------------------------------
+   ----------------------------
+   -- Run_With_Output_Result --
+   ----------------------------
 
-   procedure Run_OS_Cmd_With_Output_Result
+   procedure Run_With_Output_Result
      (OS_Cmd : Alice.IFace.OS_Cmd.Object_Access;
       Args   : String;
       Expect : Alice.Result.Status_Type) is
    begin
-      Test.Subtitle ("Run '" & OS_Cmd.Name & " " & Args & "'");
+      Test.Subtitle
+        ("Run '" & OS_Cmd.Name & " " & Args & "' expects " & Expect'Image);
 
       declare
          Result : Alice.IFace.OS_Cmd.Result_Output'Class := OS_Cmd.Run (Args);
@@ -101,13 +126,13 @@ package body Test.OS_Cmd is
          OS_Cmd.Context.Log.Warning
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
          Test.Fail;
-   end Run_OS_Cmd_With_Output_Result;
+   end Run_With_Output_Result;
 
-   ------------------------------------
-   -- Run_OS_Cmd_With_Timeout_Result --
-   ------------------------------------
+   ---------------------------
+   -- Run_With_Timed_Output --
+   ---------------------------
 
-   procedure Run_OS_Cmd_With_Timeout_Result
+   procedure Run_With_Timed_Output
      (OS_Cmd  : Alice.IFace.OS_Cmd.Object_Access;
       Args    : String;
       Timeout : Duration;
@@ -127,127 +152,132 @@ package body Test.OS_Cmd is
          OS_Cmd.Context.Log.Warning
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
          Test.Fail;
-   end Run_OS_Cmd_With_Timeout_Result;
+   end Run_With_Timed_Output;
 
-   -----------------------------------
-   -- Run_OS_Cmd_And_Return_Success --
-   -----------------------------------
+   package body Run is
 
-   procedure Run_OS_Cmd_And_Return_Success (OS_Cmd : Alice.Context.OS_Commands)
-   is
-      Args   : constant String := "--version";
-      Expect : constant Alice.Result.Status_Type := Alice.Result.Success;
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      ------------------------------
+      -- With_Given_Args_Succeeds --
+      ------------------------------
 
-      Run_OS_Cmd_With_Exit_Result (OS_Cmd.Alr, Args, Expect);
-      Run_OS_Cmd_With_Exit_Result (OS_Cmd.Curl, Args, Expect);
-      Run_OS_Cmd_With_Exit_Result (OS_Cmd.Git, Args, Expect);
-   end Run_OS_Cmd_And_Return_Success;
+      procedure With_Given_Args_Succeeds (OS_Cmd : Alice.Context.OS_Commands)
+      is
+         Args   : constant String := "--version";
+         Expect : constant Alice.Result.Status_Type := Alice.Result.Success;
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-   ---------------------------------
-   -- Run_OS_Cmd_And_Return_Error --
-   ---------------------------------
+         Run_With_Exit_Result (OS_Cmd.Alr, Args, Expect);
+         Run_With_Exit_Result (OS_Cmd.Curl, Args, Expect);
+         Run_With_Exit_Result (OS_Cmd.Git, Args, Expect);
+      end With_Given_Args_Succeeds;
 
-   procedure Run_OS_Cmd_And_Return_Error (OS_Cmd : Alice.Context.OS_Commands)
-   is
-      Args   : constant String := "--invalid-option";
-      Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      ---------------------------
+      -- With_Given_Args_Fails --
+      ---------------------------
 
-      Run_OS_Cmd_With_Exit_Result (OS_Cmd.Alr, Args, Expect);
-      Run_OS_Cmd_With_Exit_Result (OS_Cmd.Curl, Args, Expect);
-      Run_OS_Cmd_With_Exit_Result (OS_Cmd.Git, Args, Expect);
-   end Run_OS_Cmd_And_Return_Error;
+      procedure With_Given_Args_Fails (OS_Cmd : Alice.Context.OS_Commands) is
+         Args   : constant String := "--invalid-option";
+         Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-   -----------------------------------
-   -- Run_OS_Cmd_And_Output_Success --
-   -----------------------------------
+         Run_With_Exit_Result (OS_Cmd.Alr, Args, Expect);
+         Run_With_Exit_Result (OS_Cmd.Curl, Args, Expect);
+         Run_With_Exit_Result (OS_Cmd.Git, Args, Expect);
+      end With_Given_Args_Fails;
 
-   procedure Run_OS_Cmd_And_Output_Success (OS_Cmd : Alice.Context.OS_Commands)
-   is
-      Args   : constant String := "--version";
-      Expect : constant Alice.Result.Status_Type := Alice.Result.Success;
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      -------------------------------------
+      -- With_Given_Args_Output_Succeeds --
+      -------------------------------------
 
-      Run_OS_Cmd_With_Output_Result (OS_Cmd.Alr, Args, Expect);
-      Run_OS_Cmd_With_Output_Result (OS_Cmd.Curl, Args, Expect);
-      Run_OS_Cmd_With_Output_Result (OS_Cmd.Git, Args, Expect);
-   end Run_OS_Cmd_And_Output_Success;
+      procedure With_Given_Args_Output_Succeeds
+        (OS_Cmd : Alice.Context.OS_Commands)
+      is
+         Args   : constant String := "--version";
+         Expect : constant Alice.Result.Status_Type := Alice.Result.Success;
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-   ---------------------------------
-   -- Run_OS_Cmd_And_Output_Error --
-   ---------------------------------
+         Run_With_Output_Result (OS_Cmd.Alr, Args, Expect);
+         Run_With_Output_Result (OS_Cmd.Curl, Args, Expect);
+         Run_With_Output_Result (OS_Cmd.Git, Args, Expect);
+      end With_Given_Args_Output_Succeeds;
 
-   procedure Run_OS_Cmd_And_Output_Error (OS_Cmd : Alice.Context.OS_Commands)
-   is
-      Args   : constant String := "--invalid-option";
-      Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      ----------------------------------
+      -- With_Given_Args_Output_Fails --
+      ----------------------------------
 
-      Run_OS_Cmd_With_Output_Result (OS_Cmd.Alr, Args, Expect);
-      Run_OS_Cmd_With_Output_Result (OS_Cmd.Curl, Args, Expect);
-      Run_OS_Cmd_With_Output_Result (OS_Cmd.Git, Args, Expect);
-   end Run_OS_Cmd_And_Output_Error;
+      procedure With_Given_Args_Output_Fails
+        (OS_Cmd : Alice.Context.OS_Commands)
+      is
+         Args   : constant String := "--invalid-option";
+         Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-   -----------------------------------------
-   -- Timed_Run_Os_Cmd_And_Finish_In_Time --
-   -----------------------------------------
+         Run_With_Output_Result (OS_Cmd.Alr, Args, Expect);
+         Run_With_Output_Result (OS_Cmd.Curl, Args, Expect);
+         Run_With_Output_Result (OS_Cmd.Git, Args, Expect);
+      end With_Given_Args_Output_Fails;
 
-   procedure Timed_Run_Os_Cmd_And_Finish_In_Time
-     (OS_Cmd : Alice.Context.OS_Commands)
-   is
-      Args    : constant String := "--version";
-      Timeout : constant Duration := 1.0;
-      Expect  : constant Alice.Result.Status_Type := Alice.Result.Success;
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      ---------------------------------------------------
+      -- With_Given_Args_Timed_Output_Succeeds_In_Time --
+      ---------------------------------------------------
 
-      Run_OS_Cmd_With_Timeout_Result (OS_Cmd.Alr, Args, Timeout, Expect);
-      Run_OS_Cmd_With_Timeout_Result (OS_Cmd.Curl, Args, Timeout, Expect);
-      Run_OS_Cmd_With_Timeout_Result (OS_Cmd.Git, Args, Timeout, Expect);
-   end Timed_Run_Os_Cmd_And_Finish_In_Time;
+      procedure With_Given_Args_Timed_Output_Succeeds_In_Time
+        (OS_Cmd : Alice.Context.OS_Commands)
+      is
+         Args    : constant String := "--version";
+         Timeout : constant Duration := 1.0;
+         Expect  : constant Alice.Result.Status_Type := Alice.Result.Success;
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-   ----------------------------------
-   -- Timed_Run_Os_Cmd_And_Timeout --
-   ----------------------------------
+         Run_With_Timed_Output (OS_Cmd.Alr, Args, Timeout, Expect);
+         Run_With_Timed_Output (OS_Cmd.Curl, Args, Timeout, Expect);
+         Run_With_Timed_Output (OS_Cmd.Git, Args, Timeout, Expect);
+      end With_Given_Args_Timed_Output_Succeeds_In_Time;
 
-   procedure Timed_Run_Os_Cmd_And_Timeout (OS_Cmd : Alice.Context.OS_Commands)
-   is
-      Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      --------------------------------------------------
+      -- With_Given_Args_Timed_Output_Exceeds_Timeout --
+      --------------------------------------------------
 
-      Run_OS_Cmd_With_Timeout_Result
-        (OS_Cmd.Alr, "--no-tty init", 0.001, Expect);
+      procedure With_Given_Args_Timed_Output_Exceeds_Timeout
+        (OS_Cmd : Alice.Context.OS_Commands)
+      is
+         Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-      Run_OS_Cmd_With_Timeout_Result
-        (OS_Cmd.Curl,
-         "https://distrib-coffee.ipsl.jussieu.fr"
-         & "/pub/linux/ubuntu-releases/25.04/ubuntu-25.04-desktop-amd64.iso "
-         & "--output /dev/null",
-         0.05,
-         Expect);
+         Run_With_Timed_Output (OS_Cmd.Alr, "--no-tty init", 0.001, Expect);
 
-      Run_OS_Cmd_With_Timeout_Result
-        (OS_Cmd.Git, "remote --verbose update origin", 0.01, Expect);
-   end Timed_Run_Os_Cmd_And_Timeout;
+         Run_With_Timed_Output
+           (OS_Cmd.Curl,
+            "https://distrib-coffee.ipsl.jussieu.fr"
+            & "/pub/linux/ubuntu-releases/25.04/ubuntu-25.04-desktop-amd64.iso "
+            & "--output /dev/null",
+            0.05,
+            Expect);
 
-   ---------
-   -- Run --
-   ---------
+         Run_With_Timed_Output
+           (OS_Cmd.Git, "remote --verbose update origin", 0.01, Expect);
+      end With_Given_Args_Timed_Output_Exceeds_Timeout;
 
-   procedure Run (Context : Alice.Context.Object_Access) is
-   begin
-      Run_OS_Cmd_And_Return_Success (Context.OS_Cmd);
-      Run_OS_Cmd_And_Return_Error (Context.OS_Cmd);
-      Run_OS_Cmd_And_Output_Success (Context.OS_Cmd);
-      Run_OS_Cmd_And_Output_Error (Context.OS_Cmd);
-      Timed_Run_Os_Cmd_And_Finish_In_Time (Context.OS_Cmd);
-      Timed_Run_Os_Cmd_And_Timeout (Context.OS_Cmd);
    end Run;
+
+   -------------------
+   -- Run_All_Tests --
+   -------------------
+
+   procedure Run_All_Tests (Context : Alice.Context.Object_Access) is
+   begin
+      Run.With_Given_Args_Succeeds (Context.OS_Cmd);
+      Run.With_Given_Args_Fails (Context.OS_Cmd);
+      Run.With_Given_Args_Output_Succeeds (Context.OS_Cmd);
+      Run.With_Given_Args_Output_Fails (Context.OS_Cmd);
+      Run.With_Given_Args_Timed_Output_Succeeds_In_Time (Context.OS_Cmd);
+      Run.With_Given_Args_Timed_Output_Exceeds_Timeout (Context.OS_Cmd);
+   end Run_All_Tests;
 
 end Test.OS_Cmd;

@@ -55,22 +55,30 @@ begin
      (" --------------------------------------------------------------------");
    Put (ANSI.Reset);
 
-   Test.Section ("SYSTEM COMPONENTS", ANSI.Light_Cyan);
+   begin
+      Test.Section ("Log & Progress Components", ANSI.Light_Cyan);
 
-   Context.Log.Save_State;
-   Test.Log.Run (Context.Log);
-   Context.Log.Restore_State;
+      Context.Log.Save_State;
+      Test.Log.Run (Context.Log);
+      Context.Log.Restore_State;
 
-   Test.Progress.Run (Context.Log, Context.Progress);
-   Test.OS_Cmd.Run (Context);
+      Test.Progress.Run (Context.Log, Context.Progress);
+   end;
 
-   Test.Section ("VCS COMPONENTS", ANSI.Light_Cyan);
+   begin
+      Test.Section ("OS_Cmd Components", ANSI.Light_Cyan);
+      Test.OS_Cmd.Run_All_Tests (Context);
+   end;
 
-   Context.Log.Save_State;
-   Context.Log.Set_Debug_Level (With_Location_Enabled => True);
-   Test.VCS.Profile.Run (Context);
-   Test.VCS.Service.Run (Context);
-   Context.Log.Restore_State;
+   begin
+      Test.Section ("VCS Components", ANSI.Light_Cyan);
+
+      Context.Log.Save_State;
+      Context.Log.Set_Debug_Level (With_Location_Enabled => True);
+      Test.VCS.Profile.Run (Context);
+      Test.VCS.Service.Run (Context);
+      Context.Log.Restore_State;
+   end;
 
    Test.Summary;
 

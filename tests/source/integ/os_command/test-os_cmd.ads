@@ -10,7 +10,7 @@ with Alice.Context;
 
 package Test.OS_Cmd is
 
-   procedure Run
+   procedure Run_All_Tests
      (Context : Alice.Context.Object_Access);
 
 end Test.OS_Cmd;
