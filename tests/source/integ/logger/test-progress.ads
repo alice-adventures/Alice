@@ -11,7 +11,7 @@ with Alice.IFace.Progress_Tracker;
 
 package Test.Progress is
 
-   procedure Run
+   procedure Run_All_Tests
      (Log      : Alice.IFace.Logger.Object_Access;
       Progress : Alice.IFace.Progress_Tracker.Object_Access);
 

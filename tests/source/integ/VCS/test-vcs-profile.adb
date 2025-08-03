@@ -138,17 +138,17 @@ package body Test.VCS.Profile is
 
    end Load_From_File;
 
-   ---------
-   -- Run --
-   ---------
+   -------------------
+   -- Run_All_Tests --
+   -------------------
 
-   procedure Run (Context : Alice.Context.Object_Access) is
+   procedure Run_All_Tests (Context : Alice.Context.Object_Access) is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
       Load_From_File.Succeeds (Context);
       Load_From_File.With_Invalid_File_Fails (Context);
       Load_From_File.With_Invalid_Profile_Fails (Context);
-   end Run;
+   end Run_All_Tests;
 
 end Test.VCS.Profile;

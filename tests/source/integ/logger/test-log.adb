@@ -90,14 +90,14 @@ package body Test.Log is
       Test_All_Levels (Log);
    end Optimized_For_CLI_Without_Color;
 
-   ---------
-   -- Run --
-   ---------
+   -------------------
+   -- Run_All_Tests --
+   -------------------
 
-   procedure Run (Log : Alice.IFace.Logger.Object_Access) is
+   procedure Run_All_Tests (Log : Alice.IFace.Logger.Object_Access) is
    begin
       Optimized_For_CLI_With_Color (Log);
       Optimized_For_CLI_Without_Color (Log);
-   end Run;
+   end Run_All_Tests;
 
 end Test.Log;

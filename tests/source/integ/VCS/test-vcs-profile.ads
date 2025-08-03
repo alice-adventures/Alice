@@ -10,6 +10,6 @@ with Alice.Context;
 
 package Test.VCS.Profile is
 
-   procedure Run (Context : Alice.Context.Object_Access);
+   procedure Run_All_Tests (Context : Alice.Context.Object_Access);
 
 end Test.VCS.Profile;

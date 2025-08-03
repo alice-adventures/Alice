@@ -57,12 +57,8 @@ begin
 
    begin
       Test.Section ("Log & Progress Components", ANSI.Light_Cyan);
-
-      Context.Log.Save_State;
-      Test.Log.Run (Context.Log);
-      Context.Log.Restore_State;
-
-      Test.Progress.Run (Context.Log, Context.Progress);
+      Test.Log.Run_All_Tests (Context.Log);
+      Test.Progress.Run_All_Tests (Context.Log, Context.Progress);
    end;
 
    begin
@@ -75,8 +71,10 @@ begin
 
       Context.Log.Save_State;
       Context.Log.Set_Debug_Level (With_Location_Enabled => True);
-      Test.VCS.Profile.Run (Context);
-      Test.VCS.Service.Run (Context);
+
+      Test.VCS.Profile.Run_All_Tests (Context);
+      Test.VCS.Service.Run_All_Tests (Context);
+
       Context.Log.Restore_State;
    end;
 

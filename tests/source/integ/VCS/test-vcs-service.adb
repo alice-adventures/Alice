@@ -89,16 +89,16 @@ package body Test.VCS.Service is
 
    end Get_Member_Profile_From_Token;
 
-   ---------
-   -- Run --
-   ---------
+   -------------------
+   -- Run_All_Tests --
+   -------------------
 
-   procedure Run (Context : Alice.Context.Object_Access) is
+   procedure Run_All_Tests (Context : Alice.Context.Object_Access) is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
       Get_Member_Profile_From_Token.Succeeds (Context);
       Get_Member_Profile_From_Token.With_Invalid_Token_Fails (Context);
-   end Run;
+   end Run_All_Tests;
 
 end Test.VCS.Service;

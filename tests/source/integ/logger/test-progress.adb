@@ -116,17 +116,17 @@ package body Test.Progress is
            ("Exception caught: " & Ada.Exceptions.Exception_Information (E));
    end Bug_That_Throw_Exception;
 
-   ---------
-   -- Run --
-   ---------
+   -------------------
+   -- Run_All_Tests --
+   -------------------
 
-   procedure Run
+   procedure Run_All_Tests
      (Log      : Alice.IFace.Logger.Object_Access;
       Progress : Alice.IFace.Progress_Tracker.Object_Access) is
    begin
       Activity_With_No_Messages (Progress, 5);
       Activity_With_Messages (Log, Progress, 3);
       Bug_That_Throw_Exception (Log, Progress);
-   end Run;
+   end Run_All_Tests;
 
 end Test.Progress;

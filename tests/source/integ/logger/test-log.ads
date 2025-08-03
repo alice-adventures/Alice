@@ -10,6 +10,6 @@ with Alice.IFace.Logger;
 
 package Test.Log is
 
-   procedure Run (Log : Alice.IFace.Logger.Object_Access);
+   procedure Run_All_Tests (Log : Alice.IFace.Logger.Object_Access);
 
 end Test.Log;
