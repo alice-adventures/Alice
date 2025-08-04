@@ -36,7 +36,10 @@ abstract project Alice_Common is
             -- cannot be found.
             -- "-gnatc",        -- Enable coverage
 
-            "-gnatp",        -- Enable profiling
+            -- #FIXME - gnatp makes the cli fail with finalize/adjust
+            -- exceptions raised
+            -- "-gnatp",        -- Enable profiling
+
             "-gnatf"         -- Enable flow analysis
          );
    end case;
