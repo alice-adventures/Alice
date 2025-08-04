@@ -27,6 +27,8 @@ procedure Alice_Integ_Test is
 
    Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
 
+   Main_Color : constant ANSI.Colors := ANSI.Light_Cyan;
+
 begin
    --  SELECT LOG LEVEL -------------------------------------------------------
    --  Context.Log.Optimize_For_CLI (With_Color_Enabled => False);
@@ -56,18 +58,22 @@ begin
    Put (ANSI.Reset);
 
    begin
-      Test.Section ("Log & Progress Components", ANSI.Light_Cyan);
+      Test.Section ("Alice.IFace.Logger", Main_Color);
+      Context.Log.Save_State;
       Test.Log.Run_All_Tests (Context.Log);
+      Context.Log.Restore_State;
+
+      Test.Section ("Alice.IFace.Progress", Main_Color);
       Test.Progress.Run_All_Tests (Context.Log, Context.Progress);
    end;
 
    begin
-      Test.Section ("OS_Cmd Components", ANSI.Light_Cyan);
+      Test.Section ("OS_Cmd Components", Main_Color);
       Test.OS_Cmd.Run_All_Tests (Context);
    end;
 
    begin
-      Test.Section ("VCS Components", ANSI.Light_Cyan);
+      Test.Section ("VCS Components", Main_Color);
 
       Context.Log.Save_State;
       Context.Log.Set_Debug_Level (With_Location_Enabled => True);

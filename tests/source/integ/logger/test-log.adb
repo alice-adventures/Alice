@@ -9,6 +9,8 @@
 with Ada.Exceptions;
 with GNAT.Source_Info;
 
+with Simple_Logging.Decorators;
+
 package body Test.Log is
 
    --------------------
@@ -64,31 +66,41 @@ package body Test.Log is
       Log_All_Levels (Log);
    end Test_All_Levels;
 
-   ----------------------------------
-   -- Optimized_For_CLI_With_Color --
-   ----------------------------------
+   package Optimize_For_CLI is
 
-   procedure Optimized_For_CLI_With_Color
-     (Log : Alice.IFace.Logger.Object_Access) is
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+      procedure With_Color (Log : Alice.IFace.Logger.Object_Access);
 
-      Log.Optimize_For_CLI (With_Color_Enabled => True);
-      Test_All_Levels (Log);
-   end Optimized_For_CLI_With_Color;
+      procedure Without_Color (Log : Alice.IFace.Logger.Object_Access);
 
-   -------------------------------------
-   -- Optimized_For_CLI_Without_Color --
-   -------------------------------------
+   end Optimize_For_CLI;
 
-   procedure Optimized_For_CLI_Without_Color
-     (Log : Alice.IFace.Logger.Object_Access) is
-   begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
+   package body Optimize_For_CLI is
 
-      Log.Optimize_For_CLI (With_Color_Enabled => False);
-      Test_All_Levels (Log);
-   end Optimized_For_CLI_Without_Color;
+      ----------------
+      -- With_Color --
+      ----------------
+
+      procedure With_Color (Log : Alice.IFace.Logger.Object_Access) is
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
+
+         Log.Optimize_For_CLI (With_Color_Enabled => True);
+         Test_All_Levels (Log);
+      end With_Color;
+
+      -------------------
+      -- Without_Color --
+      -------------------
+
+      procedure Without_Color (Log : Alice.IFace.Logger.Object_Access) is
+      begin
+         Test.Title (GNAT.Source_Info.Enclosing_Entity);
+
+         Log.Optimize_For_CLI (With_Color_Enabled => False);
+         Test_All_Levels (Log);
+      end Without_Color;
+
+   end Optimize_For_CLI;
 
    -------------------
    -- Run_All_Tests --
@@ -96,8 +108,8 @@ package body Test.Log is
 
    procedure Run_All_Tests (Log : Alice.IFace.Logger.Object_Access) is
    begin
-      Optimized_For_CLI_With_Color (Log);
-      Optimized_For_CLI_Without_Color (Log);
+      Optimize_For_CLI.Without_Color (Log);
+      Optimize_For_CLI.With_Color (Log);
    end Run_All_Tests;
 
 end Test.Log;

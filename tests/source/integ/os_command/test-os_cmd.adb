@@ -138,7 +138,15 @@ package body Test.OS_Cmd is
       Timeout : Duration;
       Expect  : Alice.Result.Status_Type) is
    begin
-      Test.Subtitle ("Timed Run '" & OS_Cmd.Name & " " & Args & "'");
+      Test.Subtitle
+        ("Run '"
+         & OS_Cmd.Name
+         & " "
+         & Args
+         & "' with timeout of"
+         & Timeout'Image
+         & " seconds, expects "
+         & Expect'Image);
 
       declare
          Result : Alice.IFace.OS_Cmd.Result_Output'Class :=
@@ -261,7 +269,7 @@ package body Test.OS_Cmd is
             Expect);
 
          Run_With_Timed_Output
-           (OS_Cmd.Git, "remote --verbose update origin", 0.01, Expect);
+           (OS_Cmd.Git, "remote --verbose update origin", 0.002, Expect);
       end With_Given_Args_Timed_Output_Exceeds_Timeout;
 
    end Run;
