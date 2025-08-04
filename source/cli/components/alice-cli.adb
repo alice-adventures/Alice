@@ -159,9 +159,6 @@ package body Alice.CLI is
          Context.Log.Optimize_For_CLI (With_Color_Enabled => False);
       end if;
 
-      Context.Log.Initialize;
-      Context.Log.Set_Default_Level;
-
       if Global_Switch.Verbose then
          Context.Log.Set_Verbose_Level;
       end if;
@@ -178,6 +175,7 @@ package body Alice.CLI is
       end if;
       pragma Warnings (On);
 
+      Context.Log.Debug (Context.all'Image);
       Context.Log.Debug (Global_Switch'Image);
 
       if Global_Switch.Version then
