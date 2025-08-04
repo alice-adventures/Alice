@@ -128,6 +128,7 @@ package body Alice.Std.Log is
    overriding
    procedure Initialize (Self : in out Object) is
    begin
+      Enable_Color_Decorators (True);
       case Alice_Config.Build_Profile is
          when Alice_Config.release =>
             Self.Set_Default_Level;
@@ -177,7 +178,6 @@ package body Alice.Std.Log is
    begin
       Simple_Logging.Level := Simple_Logging.Warning;
       Enable_Location_Decorator (False);
-      Enable_Color_Decorators (True);
    end Set_Default_Level;
 
    -----------------
