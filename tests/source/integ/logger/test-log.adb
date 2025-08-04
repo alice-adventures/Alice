@@ -9,8 +9,6 @@
 with Ada.Exceptions;
 with GNAT.Source_Info;
 
-with Simple_Logging.Decorators;
-
 package body Test.Log is
 
    --------------------

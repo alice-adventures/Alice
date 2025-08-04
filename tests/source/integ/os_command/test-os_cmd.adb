@@ -263,7 +263,8 @@ package body Test.OS_Cmd is
          Run_With_Timed_Output
            (OS_Cmd.Curl,
             "https://distrib-coffee.ipsl.jussieu.fr"
-            & "/pub/linux/ubuntu-releases/25.04/ubuntu-25.04-desktop-amd64.iso "
+            & "/pub/linux/ubuntu-releases/25.04"
+            & "/ubuntu-25.04-desktop-amd64.iso "
             & "--output /dev/null",
             0.05,
             Expect);
