@@ -144,8 +144,6 @@ package body Test.VCS.Profile is
 
    procedure Run_All_Tests (Context : Alice.Context.Object_Access) is
    begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
-
       Load_From_File.Succeeds (Context);
       Load_From_File.With_Invalid_File_Fails (Context);
       Load_From_File.With_Invalid_Profile_Fails (Context);

@@ -6,6 +6,10 @@
 --
 -------------------------------------------------------------------------------
 
-package Test.VCS.Service is
+with Alice.Context;
 
-end Test.VCS.Service;
+package Test.VCS.Service.GitHub is
+
+   procedure Run_All_Tests (Context : Alice.Context.Object_Access);
+
+end Test.VCS.Service.GitHub;

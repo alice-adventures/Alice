@@ -19,7 +19,7 @@ with Test.Log;
 with Test.OS_Cmd;
 with Test.Progress;
 with Test.VCS.Profile;
-with Test.VCS.Service;
+with Test.VCS.Service.GitHub;
 
 procedure Alice_Integ_Test is
 
@@ -68,18 +68,20 @@ begin
    end;
 
    begin
-      Test.Section ("OS_Cmd Components", Main_Color);
+      Test.Section ("Alice.IFace.OS_Cmd", Main_Color);
       Test.OS_Cmd.Run_All_Tests (Context);
    end;
 
    begin
-      Test.Section ("VCS Components", Main_Color);
+      Test.Section ("Alice.VCS.Profile", Main_Color);
 
       Context.Log.Save_State;
       Context.Log.Set_Debug_Level (With_Location_Enabled => True);
 
       Test.VCS.Profile.Run_All_Tests (Context);
-      Test.VCS.Service.Run_All_Tests (Context);
+
+      Test.Section ("Alice.VCS.Service.GitHub", Main_Color);
+      Test.VCS.Service.GitHub.Run_All_Tests (Context);
 
       Context.Log.Restore_State;
    end;

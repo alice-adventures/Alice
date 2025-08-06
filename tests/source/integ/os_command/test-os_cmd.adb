@@ -16,11 +16,6 @@ package body Test.OS_Cmd is
 
    use all type Alice.Result.Status_Type;
 
-   --  #REVIEW - Refactor this code to use a more structured approach for
-   --  running OS commands and checking results. The current implementation is
-   --  repetitive and could benefit from a more modular design based on the
-   --  example provided in the Test.VCS.Profile and Test.VCS.Service packages.
-
    package Run is
 
       procedure With_Given_Args_Succeeds (OS_Cmd : Alice.Context.OS_Commands);

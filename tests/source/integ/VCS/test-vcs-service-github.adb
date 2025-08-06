@@ -15,7 +15,7 @@ with Alice.VCS.Service.GitHub;
 
 with Test.Fixtures;
 
-package body Test.VCS.Service is
+package body Test.VCS.Service.GitHub is
 
    package Get_Member_Profile_From_Token is
       procedure Succeeds (Context : Alice.Context.Object_Access);
@@ -95,10 +95,8 @@ package body Test.VCS.Service is
 
    procedure Run_All_Tests (Context : Alice.Context.Object_Access) is
    begin
-      Test.Title (GNAT.Source_Info.Enclosing_Entity);
-
       Get_Member_Profile_From_Token.Succeeds (Context);
       Get_Member_Profile_From_Token.With_Invalid_Token_Fails (Context);
    end Run_All_Tests;
 
-end Test.VCS.Service;
+end Test.VCS.Service.GitHub;
