@@ -24,9 +24,6 @@ abstract project Alice_Common is
          );
 
       when "validation" =>
-         Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches;
-
-      when "development" =>
          Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches &
          (
             "-g3",
@@ -42,6 +39,9 @@ abstract project Alice_Common is
 
             "-gnatf"         -- Enable flow analysis
          );
+
+      when "development" =>
+         Ada_Compiler_Switches := Alice_Config.Ada_Compiler_Switches;
    end case;
 
 end Alice_Common;

@@ -40,8 +40,26 @@ Log_Level = { type = "Enum", values = [
 "*" = "release"
 "alice" = "development"
 
-[build-switches."*"]
-ada_version = ["-gnat2022", "-gnatX0", "-gnata"]
+[build-switches]
+"*".Ada_Version = ["-gnat2022", "-gnatX0"]
+"*".Contracts = "Yes"
+"*".Source_Encoding = "utf_8"
+"*".Style_Checks = "Yes"
+
+"development".Compile_Checks = "Warnings"
+"development".Debug_Info = "Yes"
+"development".Optimization = "Debug"
+"development".Runtime_Checks = "Everything"
+
+"validation".Compile_Checks = "Errors"
+"validation".Debug_Info = "Yes"
+"validation".Optimization = "Debug"
+"validation".Runtime_Checks = "Everything"
+
+"release".Compile_Checks = "Errors"
+"release".Debug_Info = "No"
+"release".Optimization = "Performance"
+"release".Runtime_Checks = "Default"
 
 [[depends-on]]
 ada_toml = "*"

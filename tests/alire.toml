@@ -37,16 +37,34 @@ Log_Level = { type = "Enum", values = [
 
 [build-profiles]
 # release, validation, development
-"*" = "development"
-"alice" = "development"
+"*" = "release"
+"alice" = "validation"
 
-[build-switches."*"]
-ada_version = ["-gnat2022", "-gnatX0", "-gnata"]
+[build-switches]
+"*".Ada_Version = ["-gnat2022", "-gnatX0"]
+"*".Contracts = "Yes"
+"*".Source_Encoding = "utf_8"
+"*".Style_Checks = "Yes"
+
+"development".Compile_Checks = "Warnings"
+"development".Debug_Info = "Yes"
+"development".Optimization = "Debug"
+"development".Runtime_Checks = "Everything"
+
+"validation".Compile_Checks = "Errors"
+"validation".Debug_Info = "Yes"
+"validation".Optimization = "Debug"
+"validation".Runtime_Checks = "Everything"
+
+"release".Compile_Checks = "Errors"
+"release".Debug_Info = "No"
+"release".Optimization = "Performance"
+"release".Runtime_Checks = "Default"
 
 [[depends-on]]
 alice = "*"
 aunit = "^23.0.0"
-gnat = ">=2021 | (>=12 & <2000)"
+gnat = ">=2021 | (>=12 & <15)"
 gnatcov = "^22.0.1"
 simple_logging = "^1.2.0"
 
