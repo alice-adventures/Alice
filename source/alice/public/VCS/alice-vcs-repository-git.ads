@@ -6,6 +6,79 @@
 --
 -------------------------------------------------------------------------------
 
+with Alice.IFace.VCS.Repository;
+with Alice.Result;
+
 package Alice.VCS.Repository.Git is
+
+   type Object is new Alice.IFace.VCS.Repository.Object with null record;
+
+   overriding
+   function Create
+     (Self     : in out Object;
+      Name     : String := "";
+      URL      : String := "";
+      Provider : String := "") return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Repository_From_CWD
+     (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function CWD_Is_Clone_Of (Self : in out Object) return Boolean;
+
+   overriding
+   function Clone
+     (Self : in out Object; Directory : String := ""; Branch : String := "")
+      return Alice.Result.Object'Class;
+
+   overriding
+   function Switch
+     (Self : in out Object; Branch : String) return Alice.Result.Object'Class;
+
+   overriding
+   function Pull (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Push (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Commit
+     (Self : in out Object; Message : String) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Branches
+     (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Current_Branch
+     (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Status (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Log (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Name (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Description
+     (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Owner (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_URL (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Clone_URL
+     (Self : in out Object) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Provider
+     (Self : in out Object) return Alice.Result.Object'Class;
 
 end Alice.VCS.Repository.Git;

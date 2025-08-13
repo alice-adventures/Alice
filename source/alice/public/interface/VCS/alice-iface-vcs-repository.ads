@@ -43,7 +43,7 @@ package Alice.IFace.VCS.Repository is
    --  based on the current working directory, such as cloning, pulling, or
    --  pushing changes.
 
-   function Is_CWD_Clone_Of (Self : in out Object) return Boolean is abstract;
+   function CWD_Is_Clone_Of (Self : in out Object) return Boolean is abstract;
    --  Checks if the current working directory is a clone of the specified
    --  repository. The implementation should return True if the current
    --  working directory is a clone of the specified repository, or False if
@@ -110,6 +110,11 @@ package Alice.IFace.VCS.Repository is
    --  deleted files. The implementation should return a status object that
    --  contains information about the current state of the repository or an
    --  error if the operation fails.
+
+   function Get_Log (Self : in out Object) return Alice.Result.Object'Class
+   is abstract;
+   --  Returns the commit log of the repository. The implementation should
+   --  return a list of commit objects or an error if the operation fails.
 
    function Get_Name (Self : in out Object) return Alice.Result.Object'Class
    is abstract;
