@@ -82,10 +82,40 @@ package Alice.Result is
    --  Developers should ensure that extensions are meaningful and consistent
    --  with the operation's outcome.
 
+   procedure Put_Image_Result
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Object);
+
+   type Success_With_Data (Status : Status_Type) is new Object (Status)
+   with record
+      case Status is
+         when Success =>
+            Data : Alice.UString := Alice.Null_UString;
+            --  The data returned by the operation when it is successful.
+
+         when Error =>
+            null;
+      end case;
+   end record
+   with Put_Image => Put_Image_Result_Data;
+   --  A record to hold the data returned by an operation when it is
+   --  successful. This is used when the operation returns a value, such as a
+   --  string or an integer. The Value field contains the data returned by the
+   --  operation.
+
+   procedure Put_Image_Result_Data
+     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
+      Self   : Success_With_Data);
+
    function Success return Object'Class;
    --  Convenience function to create a Success Object. This function is
    --  useful for creating successful results in a consistent manner
    --  throughout the application.
+
+   --  function Success (Value : Alice.UString) return Success_With_Data;
+   --  Convenience function to create a Success Object with data. This
+   --  function is useful for creating successful results with additional data
+   --  in a consistent manner throughout the application.
 
    function Error
      (Level   : Error_Level;
@@ -94,9 +124,5 @@ package Alice.Result is
    --  Convenience function to create an Error Object with the specified error
    --  level and message. This function is useful for creating error results
    --  in a consistent manner throughout the application.
-
-   procedure Put_Image_Result
-     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self   : Object);
 
 end Alice.Result;
