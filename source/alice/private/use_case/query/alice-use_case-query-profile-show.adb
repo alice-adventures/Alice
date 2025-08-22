@@ -22,20 +22,19 @@ package body Alice.Use_Case.Query.Profile.Show is
    overriding
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.IFace.Use_Case.Query.Result.Object'Class
+      return Alice.Result.Object_With_Data'Class
    is
       Profile     : Alice.VCS.Profile.Object;
       Load_Result : constant Alice.Result.Object'Class :=
         Profile.Load_From_File (Alice.Config.Local.Profile);
    begin
       return
-         Result : constant Alice.IFace.Use_Case.Query.Result.Object :=
+         Result : constant Alice.Result.Object_With_Data'Class :=
            (if Load_Result.Status = Alice.Result.Success
             then
-              Alice.IFace.Use_Case.Query.Result.Success
-                (Alice.UStr (Profile.To_String))
+              Alice.Result.Success_With_Data (Alice.UStr (Profile.To_String))
             else
-              Alice.IFace.Use_Case.Query.Result.Error
+              Alice.Result.Error_With_Data
                 (Alice.Result.Domain,
                  Load_Result.Message,
                  Alice.Hint.Profile_Not_Found));

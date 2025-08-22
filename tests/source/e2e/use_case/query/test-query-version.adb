@@ -8,7 +8,6 @@
 
 with GNAT.Source_Info;
 
-with Alice.IFace.Use_Case.Query;
 with Alice.Result;
 with Alice.Use_Case.Query.Version;
 
@@ -23,11 +22,12 @@ package body Test.Query.Version is
    begin
       Test.Title (GNAT.Source_Info.Enclosing_Entity);
 
-      Result : constant Alice.IFace.Use_Case.Query.Result.Object'Class :=
+      Result : constant Alice.Result.Object_With_Data'Class :=
         Use_Case.Run;
+
       case Result.Status is
          when Alice.Result.Success =>
-            Use_Case.Context.Log.Info (Alice.Str (Result.Answer));
+            Use_Case.Context.Log.Info (Alice.Str (Result.Data));
             Test.Pass;
 
          when Alice.Result.Error =>

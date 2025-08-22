@@ -17,12 +17,12 @@ package body Alice.Use_Case.Query.Version is
    overriding
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.IFace.Use_Case.Query.Result.Object'Class is
+      return Alice.Result.Object_With_Data'Class is
    begin
       Self.Context.Log.Trace_Begin;
       return
-         Result : constant Alice.IFace.Use_Case.Query.Result.Object :=
-           Alice.IFace.Use_Case.Query.Result.Success
+         Result : constant Alice.Result.Object_With_Data'Class :=
+           Alice.Result.Success_With_Data
              (Alice.UStr ("Version: " & Alice_Config.Crate_Version))
       do
          Self.Context.Log.Trace_Return (Result'Image);

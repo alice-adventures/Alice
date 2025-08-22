@@ -12,7 +12,6 @@ with SPDX.Licenses;
 
 with Alice.Config;
 with Alice.Hint;
-with Alice.IFace.Use_Case.Query;
 with Alice.Result;
 with Alice.Use_Case.Cmd.Profile.SPDX;
 with Alice.Use_Case.Cmd.Profile.Token;
@@ -65,11 +64,10 @@ package body Alice.CLI.Profile is
 
    procedure Execute_Show (Self : in out Object) is
       Use_Case : Alice.Use_Case.Query.Profile.Show.Object;
-      Result   : constant Alice.IFace.Use_Case.Query.Result.Object'Class :=
-        Use_Case.Run;
+      Result   : constant Alice.Result.Object_With_Data'Class := Use_Case.Run;
    begin
       if Result.Status = Alice.Result.Success then
-         Ada.Text_IO.Put_Line (Alice.Str (Result.Answer));
+         Ada.Text_IO.Put_Line (Alice.Str (Result.Data));
       else
          Self.Context.Err.Exit_Application (Result);
       end if;
@@ -129,8 +127,7 @@ package body Alice.CLI.Profile is
       end if;
 
       Use_Case : Alice.Use_Case.Cmd.Profile.SPDX.Object;
-      Result : constant Alice.Result.Object'Class :=
-        Use_Case.Run (SPDX_Id);
+      Result : constant Alice.Result.Object'Class := Use_Case.Run (SPDX_Id);
 
       if Result.Status = Alice.Result.Success then
          Profile : Alice.VCS.Profile.Object;

@@ -86,7 +86,7 @@ package Alice.Result is
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
       Self   : Object);
 
-   type Success_With_Data (Status : Status_Type) is new Object (Status)
+   type Object_With_Data (Status : Status_Type) is new Object (Status)
    with record
       case Status is
          when Success =>
@@ -105,14 +105,15 @@ package Alice.Result is
 
    procedure Put_Image_Result_Data
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self   : Success_With_Data);
+      Self   : Object_With_Data);
 
    function Success return Object'Class;
    --  Convenience function to create a Success Object. This function is
    --  useful for creating successful results in a consistent manner
    --  throughout the application.
 
-   --  function Success (Value : Alice.UString) return Success_With_Data;
+   function Success_With_Data
+     (Value : Alice.UString) return Object_With_Data'Class;
    --  Convenience function to create a Success Object with data. This
    --  function is useful for creating successful results with additional data
    --  in a consistent manner throughout the application.
@@ -121,6 +122,15 @@ package Alice.Result is
      (Level   : Error_Level;
       Message : Alice.UString;
       Hint    : Alice.Hint.Id := Alice.Hint.None) return Object'Class;
+   --  Convenience function to create an Error Object with the specified error
+   --  level and message. This function is useful for creating error results
+   --  in a consistent manner throughout the application.
+
+   function Error_With_Data
+     (Level   : Error_Level;
+      Message : Alice.UString;
+      Hint    : Alice.Hint.Id := Alice.Hint.None)
+      return Object_With_Data'Class;
    --  Convenience function to create an Error Object with the specified error
    --  level and message. This function is useful for creating error results
    --  in a consistent manner throughout the application.

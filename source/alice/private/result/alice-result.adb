@@ -21,17 +21,18 @@ package body Alice.Result is
            (Alice.Controlled with Status => Alice.Result.Success);
    end Success;
 
-   -------------
-   -- Success --
-   -------------
+   -----------------------
+   -- Success_With_Data --
+   -----------------------
 
-   function Success (Value : Alice.UString) return Success_With_Data is
+   function Success_With_Data
+     (Value : Alice.UString) return Object_With_Data'Class is
    begin
       return
-         Result : constant Success_With_Data :=
+         Result : constant Object_With_Data :=
            (Alice.Controlled
             with Status => Alice.Result.Success, Data => Value);
-   end Success;
+   end Success_With_Data;
 
    -----------
    -- Error --
@@ -51,6 +52,26 @@ package body Alice.Result is
               Message => Message,
               Hint    => Hint);
    end Error;
+
+   ---------------------
+   -- Error_With_Data --
+   ---------------------
+
+   function Error_With_Data
+     (Level   : Error_Level;
+      Message : Alice.UString;
+      Hint    : Alice.Hint.Id := Alice.Hint.None) return Object_With_Data'Class
+   is
+   begin
+      return
+         Result : constant Object_With_Data :=
+           (Alice.Controlled
+            with
+              Status  => Alice.Result.Error,
+              Level   => Level,
+              Message => Message,
+              Hint    => Hint);
+   end Error_With_Data;
 
    ----------------------
    -- Put_Image_Result --
@@ -90,7 +111,7 @@ package body Alice.Result is
 
    procedure Put_Image_Result_Data
      (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self   : Success_With_Data) is
+      Self   : Object_With_Data) is
    begin
       Output.Put ("([" & Self'Address'Image & " ] with");
       Alice.Env.Increase_Indent (Output);

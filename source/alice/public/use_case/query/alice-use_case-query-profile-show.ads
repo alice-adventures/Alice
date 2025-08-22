@@ -13,6 +13,6 @@ package Alice.Use_Case.Query.Profile.Show is
    overriding
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.IFace.Use_Case.Query.Result.Object'Class;
+      return Alice.Result.Object_With_Data'Class;
 
 end Alice.Use_Case.Query.Profile.Show;

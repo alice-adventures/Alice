@@ -20,7 +20,6 @@
 
 --  with Ada.Strings.Text_Buffers;
 
-with Alice.Hint;
 with Alice.Result;
 
 package Alice.IFace.Use_Case.Query is
@@ -29,39 +28,6 @@ package Alice.IFace.Use_Case.Query is
    --  Defines the structure for all use cases in the Alice application. It is
    --  expected that use cases will extend this interface to add additional
    --  parameters as needed.
-
-   package Result is
-      type Object (Status : Alice.Result.Status_Type) is
-        new Alice.Result.Object (Status)
-      with record
-         case Status is
-            when Alice.Result.Success =>
-               Answer : Alice.UString := Alice.Null_UString;
-               --  The query was successful, and the answer is available.
-
-            when Alice.Result.Error =>
-               null;
-         end case;
-      end record;
-      --  The Result.Object type is used to encapsulate the result of a query
-      --  use case. It includes the status of the operation and any relevant
-      --  data.
-      --
-      --  #REVIEW - Improve if needed
-      --  with Put_Image => Put_Image_Use_Case_Query_Result;
-
-      function Success (Answer : Alice.UString) return Object;
-
-      function Error
-        (Level   : Alice.Result.Error_Level;
-         Message : Alice.UString;
-         Hint    : Alice.Hint.Id := Alice.Hint.None) return Object;
-
-      --  #REVIEW - Improve if needed
-      --  procedure Put_Image_Use_Case_Query_Result
-      --    (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      --     Self   : Object);
-   end Result;
 
    overriding
    function Context
@@ -73,7 +39,7 @@ package Alice.IFace.Use_Case.Query is
 
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.IFace.Use_Case.Query.Result.Object'Class
+      return Alice.Result.Object_With_Data'Class
    is abstract;
    --  This function must be implemented by any concrete use case type. It is
    --  expected to execute the use case logic and return a result of type

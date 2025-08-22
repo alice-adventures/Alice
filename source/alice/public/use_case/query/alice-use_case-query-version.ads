@@ -8,7 +8,7 @@
 
 --  This package implements the version query use case.
 
-with Alice.IFace.Use_Case.Query;
+with Alice.Result;
 
 package Alice.Use_Case.Query.Version is
 
@@ -17,7 +17,7 @@ package Alice.Use_Case.Query.Version is
    overriding
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.IFace.Use_Case.Query.Result.Object'Class;
+      return Alice.Result.Object_With_Data'Class;
    --  This function retrieves the version of the Alice application. It
    --  returns a result with the version information.
 

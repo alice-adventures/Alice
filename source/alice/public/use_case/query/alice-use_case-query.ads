@@ -11,6 +11,7 @@
 --  query use cases must implement.
 
 with Alice.IFace.Use_Case.Query;
+with Alice.Result;
 
 package Alice.Use_Case.Query is
 
@@ -22,6 +23,6 @@ package Alice.Use_Case.Query is
    overriding
    function Run
      (Self : in out Object; Args : String := "")
-      return Alice.IFace.Use_Case.Query.Result.Object'Class is abstract;
+      return Alice.Result.Object_With_Data'Class is abstract;
 
 end Alice.Use_Case.Query;
