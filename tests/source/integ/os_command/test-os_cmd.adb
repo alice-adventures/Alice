@@ -7,10 +7,11 @@
 -------------------------------------------------------------------------------
 
 with Ada.Exceptions;
+with GNAT.Source_Info;
 
 with Alice.IFace.OS_Cmd;
+with Alice.OS_Commands;
 with Alice.Result;
-with GNAT.Source_Info;
 
 package body Test.OS_Cmd is
 
@@ -18,21 +19,21 @@ package body Test.OS_Cmd is
 
    package Run is
 
-      procedure With_Given_Args_Succeeds (OS_Cmd : Alice.Context.OS_Commands);
+      procedure With_Given_Args_Succeeds (OS_Cmd : Alice.OS_Commands.Object);
 
-      procedure With_Given_Args_Fails (OS_Cmd : Alice.Context.OS_Commands);
+      procedure With_Given_Args_Fails (OS_Cmd : Alice.OS_Commands.Object);
 
       procedure With_Given_Args_Output_Succeeds
-        (OS_Cmd : Alice.Context.OS_Commands);
+        (OS_Cmd : Alice.OS_Commands.Object);
 
       procedure With_Given_Args_Output_Fails
-        (OS_Cmd : Alice.Context.OS_Commands);
+        (OS_Cmd : Alice.OS_Commands.Object);
 
       procedure With_Given_Args_Timed_Output_Succeeds_In_Time
-        (OS_Cmd : Alice.Context.OS_Commands);
+        (OS_Cmd : Alice.OS_Commands.Object);
 
       procedure With_Given_Args_Timed_Output_Exceeds_Timeout
-        (OS_Cmd : Alice.Context.OS_Commands);
+        (OS_Cmd : Alice.OS_Commands.Object);
 
    end Run;
 
@@ -163,7 +164,7 @@ package body Test.OS_Cmd is
       -- With_Given_Args_Succeeds --
       ------------------------------
 
-      procedure With_Given_Args_Succeeds (OS_Cmd : Alice.Context.OS_Commands)
+      procedure With_Given_Args_Succeeds (OS_Cmd : Alice.OS_Commands.Object)
       is
          Args   : constant String := "--version";
          Expect : constant Alice.Result.Status_Type := Alice.Result.Success;
@@ -179,7 +180,7 @@ package body Test.OS_Cmd is
       -- With_Given_Args_Fails --
       ---------------------------
 
-      procedure With_Given_Args_Fails (OS_Cmd : Alice.Context.OS_Commands) is
+      procedure With_Given_Args_Fails (OS_Cmd : Alice.OS_Commands.Object) is
          Args   : constant String := "--invalid-option";
          Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
       begin
@@ -195,7 +196,7 @@ package body Test.OS_Cmd is
       -------------------------------------
 
       procedure With_Given_Args_Output_Succeeds
-        (OS_Cmd : Alice.Context.OS_Commands)
+        (OS_Cmd : Alice.OS_Commands.Object)
       is
          Args   : constant String := "--version";
          Expect : constant Alice.Result.Status_Type := Alice.Result.Success;
@@ -212,7 +213,7 @@ package body Test.OS_Cmd is
       ----------------------------------
 
       procedure With_Given_Args_Output_Fails
-        (OS_Cmd : Alice.Context.OS_Commands)
+        (OS_Cmd : Alice.OS_Commands.Object)
       is
          Args   : constant String := "--invalid-option";
          Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
@@ -229,7 +230,7 @@ package body Test.OS_Cmd is
       ---------------------------------------------------
 
       procedure With_Given_Args_Timed_Output_Succeeds_In_Time
-        (OS_Cmd : Alice.Context.OS_Commands)
+        (OS_Cmd : Alice.OS_Commands.Object)
       is
          Args    : constant String := "--version";
          Timeout : constant Duration := 1.0;
@@ -247,7 +248,7 @@ package body Test.OS_Cmd is
       --------------------------------------------------
 
       procedure With_Given_Args_Timed_Output_Exceeds_Timeout
-        (OS_Cmd : Alice.Context.OS_Commands)
+        (OS_Cmd : Alice.OS_Commands.Object)
       is
          Expect : constant Alice.Result.Status_Type := Alice.Result.Error;
       begin

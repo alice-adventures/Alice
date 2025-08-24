@@ -18,25 +18,9 @@ with Alice.IFace;
 with Alice.IFace.Error_Handler;
 with Alice.IFace.Logger;
 with Alice.IFace.Progress_Tracker;
-with Alice.IFace.OS_Cmd;
+with Alice.OS_Commands;
 
 package Alice.Context is
-
-   type OS_Commands is tagged record
-      Alr  : Alice.IFace.OS_Cmd.Object_Access;
-      Curl : Alice.IFace.OS_Cmd.Object_Access;
-      Git  : Alice.IFace.OS_Cmd.Object_Access;
-   end record
-   with Put_Image => Put_Image_OS_Cmd;
-   --  The OS_Commands record contains references to the command objects for
-   --  various OS commands used in the application, such as Alr, Git, and
-   --  Curl. These commands are used to interact with the operating system and
-   --  perform tasks such as building the project, managing dependencies, and
-   --  executing external commands.
-
-   procedure Put_Image_OS_Cmd
-     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Self   : OS_Commands);
 
    type Object is tagged record
       Err : Alice.IFace.Error_Handler.Object_Access;
@@ -51,7 +35,7 @@ package Alice.Context is
       --  The progress logger for the application context. It is used to log
       --  progress messages related to long-running operations or tasks.
 
-      OS_Cmd : OS_Commands;
+      OS_Cmd : Alice.OS_Commands.Object;
       --  The OS commands for the application context. It contains references
       --  to the command objects for various OS commands used in the
       --  application, such as Alr, Git, and Curl.
