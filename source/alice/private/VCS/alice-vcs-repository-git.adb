@@ -6,25 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
-with Alice.OS_Cmd;
-
 package body Alice.VCS.Repository.Git is
-
-   overriding
-   function Create
-     (Self     : in out Object;
-      Name     : String := "";
-      URL      : String := "";
-      Provider : String := "") return Alice.Result.Object'Class
-   is (Alice.Result.Success);
-   --  #TODO -- Implement the creation of a Git repository object.
-
-   overriding
-   function Get_Repository_From_CWD
-     (Self : in out Object) return Alice.Result.Object'Class
-   is (Alice.Result.Success);
-   --  #TODO -- Implement the retrieval of a Git repository object from the
-   --  current working directory.
 
    overriding
    function CWD_Is_Clone_Of (Self : in out Object) return Boolean
@@ -36,6 +18,15 @@ package body Alice.VCS.Repository.Git is
    --  implementation should check the existence of a `.git` directory or
    --  similar indicators to confirm that the current working directory is
    --  indeed a clone of the specified repository.
+
+   overriding
+   function Create
+     (Self     : in out Object;
+      Name     : String := "";
+      URL      : String := "";
+      Provider : String := "") return Alice.Result.Object'Class
+   is (Alice.Result.Success);
+   --  #TODO -- Implement the creation of a Git repository object.
 
    overriding
    function Clone

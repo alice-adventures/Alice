@@ -14,18 +14,14 @@ package Alice.VCS.Repository.Git is
    type Object is new Alice.IFace.VCS.Repository.Object with null record;
 
    overriding
+   function CWD_Is_Clone_Of (Self : in out Object) return Boolean;
+
+   overriding
    function Create
      (Self     : in out Object;
       Name     : String := "";
       URL      : String := "";
       Provider : String := "") return Alice.Result.Object'Class;
-
-   overriding
-   function Get_Repository_From_CWD
-     (Self : in out Object) return Alice.Result.Object'Class;
-
-   overriding
-   function CWD_Is_Clone_Of (Self : in out Object) return Boolean;
 
    overriding
    function Clone
