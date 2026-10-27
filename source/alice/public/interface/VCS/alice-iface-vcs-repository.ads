@@ -19,7 +19,8 @@ package Alice.IFace.VCS.Repository is
 
    type Object_Access is not null access all Object'Class;
 
-   function CWD_Is_Clone_Of (Self : in out Object) return Boolean is abstract;
+   function Is_Clone_Of (Self : in out Object; Origin : String) return Boolean
+   is abstract;
    --  Checks if the current working directory is a clone of the specified
    --  repository. The implementation should return True if the current
    --  working directory is a clone of the specified repository, or False if
@@ -80,6 +81,11 @@ package Alice.IFace.VCS.Repository is
    --  should return the result of the commit operation, which may include the
    --  updated state of the repository or an error if the commit operation
    --  fails.
+
+   function Get_Toplevel (Self : in out Object) return String is abstract;
+   --  Returns the toplevel directory of the repository. The implementation
+   --  should return the absolute path of the root directory where the
+   --  repository is located on the local filesystem.
 
    function Get_Branches
      (Self : in out Object) return Alice.Result.Object'Class

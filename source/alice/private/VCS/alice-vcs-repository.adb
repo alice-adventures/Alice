@@ -56,10 +56,17 @@ package body Alice.VCS.Repository is
    -----------------------------
 
    function CWD_Is_A_Git_Repository return Boolean is
-      Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
+      Context                 : constant Alice.Context.Object_Access :=
+        Alice.Std.Get_Context;
+      CWD_Is_A_Git_Repository : Boolean := False;
    begin
       Result : constant Alice.IFace.OS_Cmd.Result_Exit'Class :=
         Context.OS_Cmd.Git.all.Run ("rev-parse --git-dir");
+
+      CWD_Is_A_Git_Repository :=
+        Result.Status = Alice.Result.Success and then Result.Exit_Status = 0;
+
+      Context.OS_Cmd.Git.Cleanup (Result);
 
       return
         Result.Status = Alice.Result.Success and then Result.Exit_Status = 0;

@@ -34,6 +34,10 @@ package Alice.VCS.Repository is
          Self   : Object);
    end Result;
 
+   function CWD_Is_A_Git_Repository return Boolean;
+   --  Returns True if the current working directory is a git repository,
+   --  False otherwise.
+
    function Get_Repository_From_CWD return Alice.VCS.Repository.Result.Object;
    --  Returns the repository object for the current working directory. The
    --  implementation should return the repository object if the current

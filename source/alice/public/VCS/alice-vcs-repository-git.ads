@@ -14,7 +14,7 @@ package Alice.VCS.Repository.Git is
    type Object is new Alice.IFace.VCS.Repository.Object with null record;
 
    overriding
-   function CWD_Is_Clone_Of (Self : in out Object) return Boolean;
+   function Is_Clone_Of (Self : in out Object; Origin : String) return Boolean;
 
    overriding
    function Create
@@ -41,6 +41,9 @@ package Alice.VCS.Repository.Git is
    overriding
    function Commit
      (Self : in out Object; Message : String) return Alice.Result.Object'Class;
+
+   overriding
+   function Get_Toplevel (Self : in out Object) return String;
 
    overriding
    function Get_Branches

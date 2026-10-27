@@ -6,23 +6,52 @@
 --
 -------------------------------------------------------------------------------
 
---  with Ada.Directories;
+with Alice.Config;
+with Alice.Context;
+with Alice.IFace.VCS.Repository;
+with Alice.Std;
+with Alice.VCS.Repository;
 
 package body Alice.Env is
 
    use all type Ada.Strings.Text_Buffers.Text_Buffer_Count;
 
-   -------------------------
-   -- Is_Alice_Repository --
-   -------------------------
+   -----------------------------
+   -- CWD_Is_Alice_Repository --
+   -----------------------------
 
-   function Is_Alice_Repository (Report_Error : Boolean := True) return Boolean
-   is (True);
-   --  #TODO - Implement the actual check to determine if the current working
-   --  directory is a clone of the Alice repository. This function should
-   --  check for the presence of a specific file or directory that indicates
-   --  the presence of the Alice repository. If Report_Error is True, it
-   --  should raise Environment_Error if the check fails.
+   function CWD_Is_Alice_Repository return Boolean is
+      Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
+   begin
+      if Alice.VCS.Repository.CWD_Is_A_Git_Repository then
+         Context.Log.Debug ("Current working directory is a git repository");
+
+         Repository : constant Alice.IFace.VCS.Repository.Object_Access :=
+           Alice.VCS.Repository.Get_Repository_From_CWD.Repository;
+
+         if Repository.all.Is_Clone_Of
+              (Alice.Config.Repository.HTTPS (Alice.Config.Repository.Alice))
+           or else Repository.all.Is_Clone_Of
+                     (Alice.Config.Repository.SSH
+                        (Alice.Config.Repository.Alice))
+         then
+            Context.Log.Debug
+              ("Current working directory is an Alice repository");
+            return True;
+         else
+            Context.Log.Debug
+              ("Current working directory is a git repository, but NOT an "
+               & "Alice repository. Expected origin: "
+               & Alice.Config.Repository.HTTPS (Alice.Config.Repository.Alice)
+               & " or "
+               & Alice.Config.Repository.SSH (Alice.Config.Repository.Alice));
+         end if;
+      else
+         Context.Log.Debug
+           ("Current working directory is NOT a git repository");
+      end if;
+      return False;
+   end CWD_Is_Alice_Repository;
 
    -----------------------
    -- Is_Alice_Root_Dir --

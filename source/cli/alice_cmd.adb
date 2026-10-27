@@ -6,6 +6,7 @@
 --
 -------------------------------------------------------------------------------
 
+with Alice.Result;
 with Alice_Config;
 with Alice.CLI;
 with Alice.Context;
@@ -31,9 +32,19 @@ begin
          Context.Log.Set_Debug_Level (With_Location_Enabled => True);
    end case;
 
-   --  #TODO - Refuse to run if not in Alice repository
-
    Alice.CLI.Initialize;
+
+   if Alice.Env.CWD_Is_Alice_Repository then
+      Context.Log.Info ("Operating inside an Alice repository");
+   else
+      Context.Log.Info ("Not operating inside an Alice repository");
+      Context.Err.Exit_Application
+        (Error_Level => Alice.Result.System,
+         Explain     =>
+           Alice.UStr
+             ("This command must be run inside an Alice repository."));
+   end if;
+
    Alice.CLI.Execute;
 
    Context.Log.Trace ("Finalization of controlled object");

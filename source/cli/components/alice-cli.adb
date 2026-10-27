@@ -133,18 +133,15 @@ package body Alice.CLI is
    ----------------
 
    procedure Initialize is
+      Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
    begin
       CLI_Command.Register ("General", new CLI_Command.Builtin_Help);
       CLI_Command.Register ("Configuration", new Alice.CLI.Profile.Object);
-   end Initialize;
 
-   -------------
-   -- Execute --
-   -------------
+      -------------
+      -- Execute --
+      -------------
 
-   procedure Execute is
-      Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
-   begin
       CLI_Command.Parse_Global_Switches;
 
       if Global_Switch.No_TTY then
@@ -185,7 +182,10 @@ package body Alice.CLI is
          Ada.Text_IO.Put_Line ("Build Host: " & Alice_Config.Alire_Host_OS);
          GNAT.OS_Lib.OS_Exit (0);
       end if;
+   end Initialize;
 
+   procedure Execute is
+   begin
       CLI_Command.Execute;
    end Execute;
 

@@ -66,7 +66,7 @@ package Alice.Config is
       Host_Name : constant String := "github.com";
       Alice_Org : constant String := "alice-adventures";
 
-      Main  : constant String := "Alice";
+      Alice : constant String := "Alice";
       Index : constant String := "alice-index";
       Log   : constant String := "alice-log";
       Test  : constant String := "alice-test";
@@ -79,6 +79,19 @@ package Alice.Config is
          Project_Euler_Share : constant String := "project_euler-share";
 
       end Platform;
+
+      function HTTPS (Repo : String) return String
+      is
+         --  Return the full URL of the main Alice repository using HTTPS
+         --  protocol.
+         ("https://" & Host_Name & "/" & Alice_Org & "/" & Repo & ".git");
+
+      function SSH (Repo : String) return String
+      is
+         --  Return the full URL of the main Alice repository using SSH
+         --  protocol.
+         ("git@" & Host_Name & ":" & Alice_Org & "/" & Repo & ".git");
+
    end Repository;
 
 end Alice.Config;

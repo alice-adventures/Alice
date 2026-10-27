@@ -21,8 +21,7 @@ package Alice.Env is
    --  line feed character (LF) used in Unix-like systems. It is used to
    --  separate lines in text files and output streams.
 
-   function Is_Alice_Repository
-     (Report_Error : Boolean := True) return Boolean;
+   function CWD_Is_Alice_Repository return Boolean;
    --  Check if the current working directory belongs to the Alice repository.
    --  This function checks if the current directory is a clone of the Alice
    --  repository by looking for a specific file or directory that indicates

@@ -6,18 +6,21 @@
 --
 -------------------------------------------------------------------------------
 
+with Alice.Context;
+with Alice.IFace.OS_Cmd;
+with Alice.Std;
+
 package body Alice.VCS.Repository.Git is
 
    overriding
-   function CWD_Is_Clone_Of (Self : in out Object) return Boolean
-   is (True);
-   --  #TODO -- Implement the check to determine if the current working
-   --  directory is a clone of the specified repository. This is a placeholder
-   --  implementation that always returns True, indicating that the current
-   --  working directory is a clone of the repository. The actual
-   --  implementation should check the existence of a `.git` directory or
-   --  similar indicators to confirm that the current working directory is
-   --  indeed a clone of the specified repository.
+   function Is_Clone_Of (Self : in out Object; Origin : String) return Boolean
+   is
+      Context : constant Alice.Context.Object_Access := Alice.Std.Get_Context;
+   begin
+      Result : constant Alice.IFace.OS_Cmd.Result_Output'Class :=
+        Context.OS_Cmd.Git.all.Run ("config --get remote.origin.url");
+      return True;
+   end Is_Clone_Of;
 
    overriding
    function Create
@@ -57,6 +60,15 @@ package body Alice.VCS.Repository.Git is
    is (Alice.Result.Success);
    --  #TODO -- Implement the committing of changes in a Git repository with a
    --  specified commit message.
+
+   overriding
+   function Get_Toplevel (Self : in out Object) return String
+   is (".");
+   --  #TODO -- Implement the retrieval of the toplevel directory of the Git
+   --  repository. This is a placeholder implementation that returns the
+   --  current directory ("."). The actual implementation should return the
+   --  absolute path of the root directory where the Git repository is
+   --  located.
 
    overriding
    function Get_Branches
